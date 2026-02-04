@@ -1059,7 +1059,6 @@
         "export_header": "📦 导出用于学习与记录",
         "export_intro": "选择你要带走的内容：学习、教学或证明。",
         "export_admin_select_label": "选择导出题库:",
-        "export_admin_select_info": "影响 Anki, Kahoot 和 ars nova。",
         "export_admin_current_set": "活动题库: **{set_name}**",
         "export_admin_no_sets": "未找到其他题库。",
         "export_anki_expander": "🧠 Anki 卡片（复习）",

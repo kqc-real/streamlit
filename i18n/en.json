@@ -1054,7 +1054,6 @@
         "export_header": "📦 Export for Learning & Records",
         "export_intro": "Pick what you want to take with you - learning, teaching, or proof.",
         "export_admin_select_label": "Select Export Set:",
-        "export_admin_select_info": "Affects Anki, Kahoot & ars nova.",
         "export_admin_current_set": "Active Set: **{set_name}**",
         "export_admin_no_sets": "No other sets found.",
         "export_anki_expander": "🧠 Anki Cards (for review)",

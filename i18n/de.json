@@ -990,7 +990,6 @@
         "export_header": "📦 Export für Lernen & Dokumentation",
         "export_intro": "Wähle, was du mitnehmen willst - Lernen, Unterricht oder Nachweis.",
         "export_admin_select_label": "Export-Set wählen:",
-        "export_admin_select_info": "Wirkt sich auf Anki, Kahoot & arsnova aus.",
         "export_admin_current_set": "Aktives Set: **{set_name}**",
         "export_admin_no_sets": "Keine weiteren Sets gefunden.",
         "export_anki_expander": "🧠 Anki-Lernkarten (für Wiederholung)",

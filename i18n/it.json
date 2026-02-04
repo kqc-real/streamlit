@@ -1056,7 +1056,6 @@
         "export_header": "📦 Export per studio e documentazione",
         "export_intro": "Scegli cosa portare con te: studio, lezione o prova.",
         "export_admin_select_label": "Set di export:",
-        "export_admin_select_info": "Influisce su Anki, Kahoot & ars nova.",
         "export_admin_current_set": "Set attivo: **{set_name}**",
         "export_admin_no_sets": "Nessun altro set.",
         "export_anki_expander": "🧠 Carte Anki (ripasso)",

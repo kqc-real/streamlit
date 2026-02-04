@@ -8137,12 +8137,6 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                     key="admin_export_qset_selector",
                 )
                 st.session_state["admin_export_selected_file"] = export_selected_file
-                st.caption(
-                    _summary_text(
-                        "export_admin_select_info",
-                        default="Affects Anki, Kahoot & ars nova.",
-                    )
-                )
 
                 if export_selected_file != selected_file:
                     try:

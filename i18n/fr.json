@@ -1056,7 +1056,6 @@
         "export_header": "📦 Exporter pour apprendre & documenter",
         "export_intro": "Choisis ce que tu veux emporter : apprentissage, cours ou preuve.",
         "export_admin_select_label": "Set d'export :",
-        "export_admin_select_info": "Impacte Anki, Kahoot & ars nova.",
         "export_admin_current_set": "Set actif : **{set_name}**",
         "export_admin_no_sets": "Aucun autre set.",
         "export_anki_expander": "🧠 Cartes Anki (révision)",

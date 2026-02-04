@@ -375,7 +375,7 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
             
             if user_to_reset:
                 user_name_plain = user_to_reset.split(" ", 1)[-1]
-                st.warning(translate_ui("admin.warnings.reset_user_results").format(user_name=user_name_plain, title=title))
+                st.warning(translate_ui("admin.warnings.reset_user_results", default="⚠️ **Achtung:** Alle Ergebnisse von **{user_name}** für das Fragenset **{title}** werden unwiderruflich gelöscht.").format(user_name=user_name_plain, title=title))
                 
                 # --- 🔒 SICHERHEIT: Admin-Key zur Bestätigung erforderlich ---
                 from auth import check_admin_key
