@@ -64,6 +64,9 @@ if not logger.handlers:
     # Basic config will be inherited by the app; keep formatting minimal
     logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s:%(name)s: %(message)s')
 
+# Suppress verbose fontTools debug logs (used by WeasyPrint)
+logging.getLogger("fontTools").setLevel(logging.WARNING)
+
 
 # Cache eviction configuration (can be overridden via env vars)
 # Reduced defaults are safer for cloud deployments (ephemeral disks)
