@@ -95,6 +95,8 @@ _STAGE_ALIAS_MAP: Dict[str, str] = {
     "analysis": "Analyse",
     "analysieren": "Analyse",
     "analyzing": "Analyse",
+    "strukturelle analyse": "Analyse",
+    "structural analysis": "Analyse",
 }
 
 BLOOM_STAGE_ORDER = ["Reproduktion", "Anwendung", "Analyse"]

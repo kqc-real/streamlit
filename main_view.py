@@ -2337,10 +2337,29 @@ def _render_pseudonym_gate_dialog(app_config: AppConfig):
                 type="password",
                 key="pseudonym_dialog_recover_secret",
             )
+            # Pre-validate the recovery inputs so we can highlight the action button
+            # when the credentials are correct (reserved pseudonym).
+            recovery_user_hash = None
+            if rec_pseudo and rec_secret:
+                try:
+                    user_name_preview = str(rec_pseudo).strip()
+                    secret_preview = str(rec_secret).strip()
+                    if not (app_config.admin_user and user_name_preview == app_config.admin_user):
+                        recovery_user_hash = verify_recovery(user_name_preview, secret_preview)
+                except Exception:
+                    recovery_user_hash = None
+            recover_btn_type = "primary" if recovery_user_hash else "secondary"
+            if recovery_user_hash:
+                st.caption(
+                    translate_ui(
+                        "welcome.pseudonym.recover_valid",
+                        default="✅ Zugang bestätigt. Du kannst jetzt starten.",
+                    )
+                )
 
             if st.button(
                 _welcome_pseudonym_recover_button(start_label),
-                type="secondary",
+                type=recover_btn_type,
                 use_container_width=True,
                 disabled=not (rec_pseudo and rec_secret),
                 key="pseudonym_dialog_recover_btn",
@@ -2351,7 +2370,7 @@ def _render_pseudonym_gate_dialog(app_config: AppConfig):
                 try:
                     user_name = str(rec_pseudo).strip()
                     secret_val = str(rec_secret).strip()
-                    user_hash = verify_recovery(user_name, secret_val)
+                    user_hash = recovery_user_hash or verify_recovery(user_name, secret_val)
                     if not user_hash:
                         st.error(_welcome_pseudonym_recover_failure())
                         return
