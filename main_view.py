@@ -2814,6 +2814,28 @@ def render_welcome_page(app_config: AppConfig):
                 label = '📘 ' + label
         except Exception:
             pass
+        # If a core set is marked as temporary (e.g., created in Streamlit Cloud),
+        # show the same temporary marker as for user uploads.
+        try:
+            meta = question_set.meta if question_set and isinstance(question_set.meta, dict) else None
+            temp_val = meta.get("temporary") if meta else None
+            if isinstance(temp_val, str):
+                is_temp = temp_val.strip().lower() in ("1", "true", "yes", "y")
+            else:
+                is_temp = bool(temp_val)
+            if is_temp:
+                marker = "🟡"
+                try:
+                    pseudo = meta.get("uploaded_by") or meta.get("user_pseudonym") if meta else None
+                    if pseudo:
+                        from database import has_recovery_secret_for_pseudonym
+                        if has_recovery_secret_for_pseudonym(pseudo):
+                            marker = "🟢"
+                except Exception:
+                    pass
+                label = f"{marker} {label}"
+        except Exception:
+            pass
         return label
 
     # Dialog: Fragenset-Auswahl (falls Flow "choose_set" gewählt wurde).

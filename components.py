@@ -1806,10 +1806,34 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
     selected_file = st.session_state.get("selected_questions_file")
     if selected_file:
         is_user_set = selected_file.startswith(USER_QUESTION_PREFIX)
+        meta_obj = None
+        try:
+            meta_obj = questions.meta if hasattr(questions, "meta") else None
+        except Exception:
+            meta_obj = None
+
+        is_temp_set = is_user_set
+        try:
+            temp_val = meta_obj.get("temporary") if isinstance(meta_obj, dict) else None
+            if isinstance(temp_val, str):
+                temp_flag = temp_val.strip().lower() in ("1", "true", "yes", "y")
+            else:
+                temp_flag = bool(temp_val)
+            if temp_flag:
+                is_temp_set = True
+        except Exception:
+            pass
+
+        temp_owner = None
+        try:
+            if isinstance(meta_obj, dict):
+                temp_owner = meta_obj.get("uploaded_by") or meta_obj.get("user_pseudonym")
+        except Exception:
+            temp_owner = None
         display_name = None
         meta_title = None
         try:
-            meta_title = questions.meta.get("title") if hasattr(questions, "meta") else None
+            meta_title = meta_obj.get("title") if isinstance(meta_obj, dict) else None
         except Exception:
             meta_title = None
 
@@ -1865,7 +1889,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         # emoji prefix so it appears inside the textual label and is compatible
         # with Streamlit's rendering of sidebar content.
         marker = ""
-        if is_user_set:
+        if is_temp_set:
             try:
                 try:
                     from database import has_recovery_secret_for_pseudonym
@@ -1875,7 +1899,11 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                 is_reserved = False
                 if callable(has_recovery_secret_for_pseudonym):
                     try:
-                        is_reserved = bool(has_recovery_secret_for_pseudonym(st.session_state.get('user_id')))
+                        pseudo = temp_owner
+                        if not pseudo and is_user_set:
+                            pseudo = st.session_state.get('user_id')
+                        if pseudo:
+                            is_reserved = bool(has_recovery_secret_for_pseudonym(pseudo))
                     except Exception:
                         is_reserved = False
             except Exception:
@@ -1905,9 +1933,11 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         # Hinweis für temporäre Fragensets: informiere die Nutzer, dass
         # diese automatisch nach 24 Stunden gelöscht werden.
         try:
-            if is_user_set:
-                user_pseudo = st.session_state.get('user_id')
-                caption_text = get_user_qset_retention_caption(is_user_set, user_pseudo, app_config)
+            if is_temp_set:
+                user_pseudo = temp_owner
+                if not user_pseudo and is_user_set:
+                    user_pseudo = st.session_state.get('user_id')
+                caption_text = get_user_qset_retention_caption(is_temp_set, user_pseudo, app_config)
                 st.sidebar.caption(caption_text)
         except Exception:
             # Sidebar-Anzeigen dürfen die Hauptanzeige nicht brechen
