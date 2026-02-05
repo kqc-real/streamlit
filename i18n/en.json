@@ -746,7 +746,9 @@
             "all_pseudonyms_taken": "All pseudonyms are already taken. New logins can be created as soon as pseudonyms become available again.",
             "select_at_least_one_pseudonym": "Please select at least one pseudonym.",
             "select_enough_pseudonyms": "Select as many pseudonyms as the desired number of logins or reduce the number.",
-            "delete_all_test_data": "⚠️ **Warning:** This action deletes all recorded answers, sessions and users (except the admin account) from the database."
+            "delete_all_test_data": "⚠️ **Warning:** This action deletes all recorded answers, sessions and users (except the admin account) from the database.",
+            "reset_user_results": "⚠️ **Warning:** All results from **{user_name}** for the question set **{title}** will be permanently deleted.",
+            "no_config": "⚠️ **Config missing!**\n\nCreate `.env` or `.streamlit/secrets.toml`.\n\n**Local:**\n1. `cp .env.example .env`\n2. Restart.\n\nSee INSTALLATION_ANLEITUNG.md"
         },
         "audit_logging": {
             "what_is_logged": "### What is logged?",
@@ -1348,9 +1350,6 @@
             "exam": "🏆 Exam Mode (Timer, Leaderboard)",
             "practice": "🧘 Practice Mode (No timer, immediate feedback)"
         }
-    },
-    "warnings": {
-        "no_config": "⚠️ **Config missing!**\n\nCreate `.env` or `.streamlit/secrets.toml`.\n\n**Local:**\n1. `cp .env.example .env`\n2. Restart.\n\nSee [INSTALLATION_ANLEITUNG.md](docs/installation/INSTALLATION_ANLEITUNG.md)"
     },
     "languages": {
         "de": "German",

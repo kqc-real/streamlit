@@ -369,7 +369,9 @@
             "all_pseudonyms_taken": "Tous les pseudonymes sont déjà pris. De nouvelles connexions peuvent être créées dès que des pseudonymes deviennent à nouveau disponibles.",
             "select_at_least_one_pseudonym": "Veuillez sélectionner au moins un pseudonyme.",
             "select_enough_pseudonyms": "Sélectionnez autant de pseudonymes que le nombre souhaité de connexions ou réduisez le nombre.",
-            "delete_all_test_data": "⚠️ **Attention :** Cette action supprime toutes les réponses enregistrées, sessions et utilisateurs (sauf le compte admin) de la base de données."
+            "delete_all_test_data": "⚠️ **Attention :** Cette action supprime toutes les réponses enregistrées, sessions et utilisateurs (sauf le compte admin) de la base de données.",
+            "reset_user_results": "⚠️ **Attention :** Tous les résultats de **{user_name}** pour le jeu de questions **{title}** seront supprimés définitivement.",
+            "no_config": "⚠️ **Config manquante !**\n\nCrée `.env` ou `.streamlit/secrets.toml`.\n\n**Local :**\n1. `cp .env.example .env`\n2. Redémarre.\n\nVoir INSTALLATION_ANLEITUNG.md"
         },
         "audit_logging": {
             "what_is_logged": "### Qu'est-ce qui est enregistré ?",
@@ -1350,10 +1352,6 @@
             "exam": "🏆 Mode Examen (Minuteur, Classement)",
             "practice": "🧘 Mode Entraînement (Pas de minuteur, feedback immédiat)"
         }
-    },
-    "warnings": {
-        "reset_user_results": "⚠️ **Attention :** Tous les résultats de **{user_name}** pour le jeu de questions **{title}** seront supprimés définitivement.",
-        "no_config": "⚠️ **Config manquante !**\n\nCrée `.env` ou `.streamlit/secrets.toml`.\n\n**Local :**\n1. `cp .env.example .env`\n2. Redémarre.\n\nVoir [INSTALLATION_ANLEITUNG.md](docs/installation/INSTALLATION_ANLEITUNG.md)"
     },
     "languages": {
         "de": "allemand",

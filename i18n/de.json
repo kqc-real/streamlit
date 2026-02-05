@@ -482,7 +482,6 @@
             "all_pseudonyms_taken": "Alle Pseudonyme sind bereits vergeben. Neue Logins können erzeugt werden, sobald wieder Pseudonyme frei werden.",
             "select_at_least_one_pseudonym": "Bitte wähle mindestens ein Pseudonym aus.",
             "select_enough_pseudonyms": "Wähle so viele Pseudonyme wie die gewünschte Login-Anzahl oder reduziere die Anzahl.",
-            "delete_all_test_data": "⚠️ **Achtung:** Diese Aktion löscht alle aufgezeichneten Antworten, Sessions und Benutzer (außer dem Admin-Account) aus der Datenbank."
             "delete_all_test_data": "⚠️ **Achtung:** Diese Aktion löscht alle aufgezeichneten Antworten, Sessions und Benutzer (außer dem Admin-Account) aus der Datenbank.",
             "reset_user_results": "⚠️ **Achtung:** Alle Ergebnisse von **{user_name}** für das Fragenset **{title}** werden unwiderruflich gelöscht.",
             "no_config": "⚠️ **Config fehlt!**\n\nErstelle `.env` oder `.streamlit/secrets.toml`.\n\n**Lokal:**\n1. `cp .env.example .env`\n2. Neustart.\n\nSiehe INSTALLATION_ANLEITUNG.md"
@@ -1295,9 +1294,6 @@
         "fr": "französisch",
         "it": "italienisch",
         "zh": "chinesisch"
-    },
-    "warnings": {
-        "no_config": "⚠️ **Config fehlt!**\n\nErstelle `.env` oder `.streamlit/secrets.toml`.\n\n**Lokal:**\n1. `cp .env.example .env`\n2. Neustart.\n\nSiehe [INSTALLATION_ANLEITUNG.md](docs/installation/INSTALLATION_ANLEITUNG.md)"
     },
     "config": {
         "error": {
