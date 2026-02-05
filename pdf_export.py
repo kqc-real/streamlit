@@ -1250,9 +1250,15 @@ def _calculate_average_stats(questions_file: str, questions: List[Dict[str, Any]
             # Gruppiere nach Schwierigkeit
             diff_stats = {"easy": [], "medium": [], "hard": []}
             for i, frage in enumerate(questions):
+                try:
+                    q_text = frage.get("question", frage.get("frage", ""))
+                    q_nr = int(str(q_text).split(".", 1)[0])
+                except (ValueError, IndexError):
+                    q_nr = i + 1
+
                 gewichtung = frage.get("gewichtung", 1)
-                if i in question_rates:
-                    rate = question_rates[i] * 100
+                if q_nr in question_rates:
+                    rate = question_rates[q_nr] * 100
                     if gewichtung == 1:
                         diff_stats["easy"].append(rate)
                     elif gewichtung == 2:
