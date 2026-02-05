@@ -150,6 +150,12 @@ def initialize_session_state(question_set: QuestionSet, app_config: AppConfig | 
     _state_set("test_time_limit", test_duration_minutes * 60)
     _state_set("test_time_expired", False)
     _state_set("question_set_meta", question_set.meta)
+    # Track the active question set source so UI can detect set changes
+    try:
+        source_name = getattr(question_set, "source_filename", None) or state.get("selected_questions_file")
+    except Exception:
+        source_name = None
+    _state_set("question_set_source", source_name)
     # Ensure pacing UI is hidden by default for a new session
     try:
         state["pacing_visible"] = False

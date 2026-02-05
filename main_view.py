@@ -5290,7 +5290,15 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     # --- Sicherheitscheck und Re-Initialisierung ---
     # Dieser Block fängt den Zustand ab, in dem ein neues Fragenset ausgewählt wurde,
     # aber der session_state (insb. optionen_shuffled) noch vom alten Set stammt.
-    if len(st.session_state.get("optionen_shuffled", [])) != len(questions):
+    set_changed = False
+    try:
+        active_source = st.session_state.get("question_set_source")
+        selected_file = st.session_state.get("selected_questions_file")
+        if active_source and selected_file and active_source != selected_file:
+            set_changed = True
+    except Exception:
+        set_changed = False
+    if set_changed or len(st.session_state.get("optionen_shuffled", [])) != len(questions):
         # Use the module-level initialize_session_state import (avoids UnboundLocalError)
         st.warning(
             translate_ui(
@@ -5747,6 +5755,35 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         # --- Optionen und Antwort-Logik ---
         is_answered = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
         optionen = st.session_state.optionen_shuffled[frage_idx]
+        # Safety: if shuffled options no longer match the current question,
+        # rebuild them to avoid mismatched options after runtime changes.
+        try:
+            orig_opts = frage_obj.get("optionen") or frage_obj.get("options") or []
+            if isinstance(orig_opts, list):
+                orig_list = [str(o) for o in orig_opts]
+                curr_list = [str(o) for o in optionen] if isinstance(optionen, list) else []
+                if sorted(curr_list) != sorted(orig_list):
+                    import random as _random
+
+                    new_opts = list(orig_list)
+                    _random.shuffle(new_opts)
+                    current_list = list(st.session_state.optionen_shuffled)
+                    if frage_idx < len(current_list):
+                        current_list[frage_idx] = new_opts
+                    else:
+                        # Ensure list length matches questions
+                        while len(current_list) < len(questions):
+                            current_list.append([])
+                        if frage_idx < len(current_list):
+                            current_list[frage_idx] = new_opts
+                    st.session_state.optionen_shuffled = current_list
+                    optionen = new_opts
+                    # Clear widget state to avoid stale selection display
+                    for key in (f"radio_{frage_idx}", f"radio_prev_{frage_idx}"):
+                        if key in st.session_state:
+                            del st.session_state[key]
+        except Exception:
+            pass
         
         # Widget-Key und gespeicherte Antwort holen
         widget_key = f"radio_{frage_idx}"
