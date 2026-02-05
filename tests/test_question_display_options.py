@@ -108,6 +108,9 @@ class _FakeStreamlit:
     def warning(self, *args, **kwargs):
         pass
 
+    def metric(self, *args, **kwargs):
+        pass
+
     def container_border(self, *args, **kwargs):
         return _FakeCtx()
 
