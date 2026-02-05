@@ -66,6 +66,8 @@ if not logger.handlers:
 
 # Suppress verbose fontTools debug logs (used by WeasyPrint)
 logging.getLogger("fontTools").setLevel(logging.WARNING)
+logging.getLogger("fontTools.subset").setLevel(logging.WARNING)
+logging.getLogger("fontTools.subset.timer").setLevel(logging.WARNING)
 
 
 # Cache eviction configuration (can be overridden via env vars)
