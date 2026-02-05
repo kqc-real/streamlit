@@ -474,7 +474,6 @@
             "no_completed_tests": "Noch keine abgeschlossenen Tests vorhanden. Statistiken werden nach den ersten Tests angezeigt."
         },
         "warnings": {
-            "reset_user_results": "⚠️ **Achtung:** Alle Ergebnisse von **{user_name}** für das Fragenset **{title}** werden unwiderruflich gelöscht.",
             "delete_multiple_feedback": "**Achtung:** Diese Aktion löscht die **{count}** aktuell sichtbaren Feedback-Meldungen unwiderruflich.",
             "confirm_delete_feedback": "⚠️ Soll dieses Feedback wirklich gelöscht werden?",
             "confirm_checkbox_required": "Bitte Checkbox zur Bestätigung aktivieren.",
@@ -484,6 +483,9 @@
             "select_at_least_one_pseudonym": "Bitte wähle mindestens ein Pseudonym aus.",
             "select_enough_pseudonyms": "Wähle so viele Pseudonyme wie die gewünschte Login-Anzahl oder reduziere die Anzahl.",
             "delete_all_test_data": "⚠️ **Achtung:** Diese Aktion löscht alle aufgezeichneten Antworten, Sessions und Benutzer (außer dem Admin-Account) aus der Datenbank."
+            "delete_all_test_data": "⚠️ **Achtung:** Diese Aktion löscht alle aufgezeichneten Antworten, Sessions und Benutzer (außer dem Admin-Account) aus der Datenbank.",
+            "reset_user_results": "⚠️ **Achtung:** Alle Ergebnisse von **{user_name}** für das Fragenset **{title}** werden unwiderruflich gelöscht.",
+            "no_config": "⚠️ **Config fehlt!**\n\nErstelle `.env` oder `.streamlit/secrets.toml`.\n\n**Lokal:**\n1. `cp .env.example .env`\n2. Neustart.\n\nSiehe INSTALLATION_ANLEITUNG.md"
         },
         "audit_logging": {
             "what_is_logged": "### Was wird protokolliert?",

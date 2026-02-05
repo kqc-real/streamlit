@@ -361,7 +361,6 @@
             }
         },
         "warnings": {
-            "reset_user_results": "⚠️ **Advertencia:** Todos los resultados de **{user_name}** para el conjunto de preguntas **{title}** serán eliminados permanentemente.",
             "delete_multiple_feedback": "**Advertencia:** Esta acción elimina permanentemente los **{count}** mensajes de feedback actualmente visibles.",
             "confirm_delete_feedback": "⚠️ ¿Debería eliminarse realmente este feedback?",
             "confirm_checkbox_required": "Por favor, active la casilla de verificación de confirmación.",
@@ -1353,6 +1352,7 @@
         }
     },
     "warnings": {
+        "reset_user_results": "⚠️ **Advertencia:** Todos los resultados de **{user_name}** para el conjunto de preguntas **{title}** serán eliminados permanentemente.",
         "no_config": "⚠️ **¡Falta Config!**\n\nCrea `.env` o `.streamlit/secrets.toml`.\n\n**Local:**\n1. `cp .env.example .env`\n2. Reinicia.\n\nVer [INSTALLATION_ANLEITUNG.md](docs/installation/INSTALLATION_ANLEITUNG.md)"
     },
     "languages": {

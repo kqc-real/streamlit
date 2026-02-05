@@ -742,7 +742,6 @@
             }
         },
         "warnings": {
-            "reset_user_results": "⚠️ **警告：** **{user_name}** 在问题集 **{title}** 中的所有结果将被永久删除。",
             "delete_multiple_feedback": "**警告：** 此操作将永久删除当前可见的 **{count}** 条反馈消息。",
             "confirm_delete_feedback": "⚠️ 真的要删除此反馈吗？",
             "confirm_checkbox_required": "请激活确认复选框。",
@@ -752,6 +751,9 @@
             "select_at_least_one_pseudonym": "请至少选择一个化名。",
             "select_enough_pseudonyms": "选择与所需登录数量一样多的化名，或减少数量。",
             "delete_all_test_data": "⚠️ **警告：** 此操作将从数据库中删除所有记录的答案、会话和用户（管理员账户除外）。"
+            "delete_all_test_data": "⚠️ **警告：** 此操作将从数据库中删除所有记录的答案、会话和用户（管理员账户除外）。",
+            "reset_user_results": "⚠️ **警告：** **{user_name}** 在问题集 **{title}** 中的所有结果将被永久删除。",
+            "no_config": "⚠️ **配置缺失！**\n\n创建 `.env` 或 `.streamlit/secrets.toml`.\n\n**本地:**\n1. `cp .env.example .env`\n2. 重启。\n\n请参阅 docs/installation/INSTALLATION_ANLEITUNG.md"
         },
         "audit_logging": {
             "what_is_logged": "### 记录了什么？",
@@ -1356,6 +1358,7 @@
         }
     },
     "warnings": {
+        "reset_user_results": "⚠️ **警告：** **{user_name}** 在问题集 **{title}** 中的所有结果将被永久删除。",
         "no_config": "⚠️ **配置缺失！**\n\n创建 `.env` 或 `.streamlit/secrets.toml`。\n\n**本地:**\n1. `cp .env.example .env`\n2. 重启。\n\n请参阅 docs/installation/INSTALLATION_ANLEITUNG.md"
     },
     "languages": {

@@ -738,7 +738,6 @@
             "no_completed_tests": "No completed tests available yet. Statistics will be displayed after the first tests."
         },
         "warnings": {
-            "reset_user_results": "⚠️ **Warning:** All results from **{user_name}** for the question set **{title}** will be permanently deleted.",
             "delete_multiple_feedback": "**Warning:** This action permanently deletes the **{count}** currently visible feedback messages.",
             "confirm_delete_feedback": "⚠️ Should this feedback really be deleted?",
             "confirm_checkbox_required": "Please activate the confirmation checkbox.",

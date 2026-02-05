@@ -361,7 +361,6 @@
             "no_completed_tests": "Aucun test terminé disponible pour le moment. Les statistiques seront affichées après les premiers tests."
         },
         "warnings": {
-            "reset_user_results": "⚠️ **Attention :** Tous les résultats de **{user_name}** pour le jeu de questions **{title}** seront supprimés définitivement.",
             "delete_multiple_feedback": "**Attention :** Cette action supprime définitivement les **{count}** messages de feedback actuellement visibles.",
             "confirm_delete_feedback": "⚠️ Ce feedback doit-il vraiment être supprimé ?",
             "confirm_checkbox_required": "Veuillez activer la case à cocher de confirmation.",
@@ -1353,6 +1352,7 @@
         }
     },
     "warnings": {
+        "reset_user_results": "⚠️ **Attention :** Tous les résultats de **{user_name}** pour le jeu de questions **{title}** seront supprimés définitivement.",
         "no_config": "⚠️ **Config manquante !**\n\nCrée `.env` ou `.streamlit/secrets.toml`.\n\n**Local :**\n1. `cp .env.example .env`\n2. Redémarre.\n\nVoir [INSTALLATION_ANLEITUNG.md](docs/installation/INSTALLATION_ANLEITUNG.md)"
     },
     "languages": {

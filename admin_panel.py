@@ -294,7 +294,7 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
 
         # Tempo‑Filter für das Leaderboard (All / Normal / Speed / Power)
         lb_tempo_options = {
-            'all': translate_ui('admin.leaderboard.tempo.options.all', default='Alle'),
+            'all': translate_ui('leaderboard.tempo.options.all', default='Alle'),
             'normal': translate_ui('tempo.normal', default='Normal'),
             'speed': translate_ui('tempo.speed', default='Speed (1/2)'),
             'power': translate_ui('tempo.power', default='Power (1/4)')
@@ -303,11 +303,11 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
         if lb_tempo_key not in st.session_state:
             st.session_state[lb_tempo_key] = 'all'
         selected_leaderboard_tempo = st.selectbox(
-            label=translate_ui('admin.leaderboard.tempo.label', default='Tempo'),
+            label=translate_ui('leaderboard.tempo.label', default='Tempo'),
             options=list(lb_tempo_options.keys()),
             format_func=lambda k: lb_tempo_options.get(k, k),
             key=lb_tempo_key,
-            help=translate_ui('admin.leaderboard.tempo.help', default='Filtere Rangliste nach Tempo-Modus')
+            help=translate_ui('leaderboard.tempo.help', default='Filtere Rangliste nach Tempo-Modus')
         )
         tempo_filter = None if selected_leaderboard_tempo == 'all' else selected_leaderboard_tempo
 
@@ -375,7 +375,7 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
         # --- Funktion zum Zurücksetzen von Benutzerergebnissen ---
         with st.expander(translate_ui("admin.expanders.reset_user_results")):
             user_to_reset = st.selectbox(
-                translate_ui("admin.leaderboard.tempo.select_user", default="Wähle einen Benutzer:"),
+                translate_ui("leaderboard.tempo.select_user", default="Wähle einen Benutzer:"),
                 options=[p for p in scores[pseudo_col]],
                 format_func=lambda x: x.split(" ", 1)[-1],  # Zeige nur den Namen ohne Rang/Icon
                 key=f"reset_user_select_{q_file}"
@@ -383,19 +383,19 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
             
             if user_to_reset:
                 user_name_plain = user_to_reset.split(" ", 1)[-1]
-                st.warning(translate_ui("admin.warnings.reset_user_results", default="⚠️ **Achtung:** Alle Ergebnisse von **{user_name}** für das Fragenset **{title}** werden unwiderruflich gelöscht.").format(user_name=user_name_plain, title=title))
+                st.warning(translate_ui("warnings.reset_user_results", default="⚠️ **Warning:** All results from **{user_name}** for the question set **{title}** will be permanently deleted.").format(user_name=user_name_plain, title=title))
                 
                 # --- 🔒 SICHERHEIT: Admin-Key zur Bestätigung erforderlich ---
                 from auth import check_admin_key
                 reauth_key = st.text_input(
-                    translate_ui("admin.leaderboard.tempo.admin_key_confirm", default="Admin-Key zur Bestätigung:"),
+                    translate_ui("leaderboard.tempo.admin_key_confirm", default="Admin-Key zur Bestätigung:"),
                     type="password",
                     key=f"delete_reauth_{q_file}",
-                    help=translate_ui("admin.leaderboard.tempo.admin_key_help", default="Zur Sicherheit muss der Admin-Key erneut eingegeben werden.")
+                    help=translate_ui("leaderboard.tempo.admin_key_help", default="Zur Sicherheit muss der Admin-Key erneut eingegeben werden.")
                 )
                 
-                if st.checkbox(translate_ui("admin.leaderboard.tempo.confirm_checkbox", default="Ja, ich bin sicher."), key=f"reset_confirm_{q_file}"):
-                    if st.button(translate_ui("admin.leaderboard.tempo.delete_button", default="Ergebnisse jetzt löschen"), type="primary", key=f"reset_btn_{q_file}"):
+                if st.checkbox(translate_ui("leaderboard.tempo.confirm_checkbox", default="Ja, ich bin sicher."), key=f"reset_confirm_{q_file}"):
+                    if st.button(translate_ui("leaderboard.tempo.delete_button", default="Ergebnisse jetzt löschen"), type="primary", key=f"reset_btn_{q_file}"):
                         # Prüfe Admin-Key (wenn gesetzt, sonst direkter Zugriff für lokale Tests)
                         if not app_config.admin_key or check_admin_key(reauth_key, app_config):
                             if delete_user_results_for_qset(user_name_plain, q_file):
@@ -1500,7 +1500,7 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
             translate_ui("admin.login_generator.admin_key", default="Admin-Key zur Bestätigung:"),
             type="password",
             key="global_delete_reauth",
-            help=translate_ui("admin.leaderboard.admin_key_help", default="Zur Sicherheit muss der Admin-Key erneut eingegeben werden.")
+            help=translate_ui("leaderboard.admin_key_help", default="Zur Sicherheit muss der Admin-Key erneut eingegeben werden.")
         )
         
         if st.checkbox(translate_ui("admin.system.delete_all_confirm", default="Ich bin mir der Konsequenzen bewusst und möchte alle Daten löschen."), key="global_delete_confirm"):
