@@ -69,6 +69,13 @@ logging.getLogger("fontTools").setLevel(logging.WARNING)
 logging.getLogger("fontTools.subset").setLevel(logging.WARNING)
 logging.getLogger("fontTools.subset.timer").setLevel(logging.WARNING)
 
+# Suppress WeasyPrint debug hints and progress logs
+logging.getLogger("weasyprint").setLevel(logging.ERROR)
+logging.getLogger("weasyprint.progress").setLevel(logging.ERROR)
+logging.getLogger("weasyprint.css").setLevel(logging.ERROR)
+logging.getLogger("weasyprint.layout").setLevel(logging.ERROR)
+logging.getLogger("weasyprint.text").setLevel(logging.ERROR)
+logging.getLogger("weasyprint.svg").setLevel(logging.ERROR)
 
 # Cache eviction configuration (can be overridden via env vars)
 # Reduced defaults are safer for cloud deployments (ephemeral disks)
