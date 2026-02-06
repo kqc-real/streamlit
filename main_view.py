@@ -2763,6 +2763,62 @@ def render_welcome_page(app_config: AppConfig):
         question_durations[info.identifier] = info.question_set.get_test_duration_minutes(default_duration)
 
     # Erstelle eine benutzerfreundlichere Anzeige für die Dateinamen
+    def _parse_meta_date(value):
+        """Parse various metadata date formats into a comparable UTC timestamp."""
+        if value is None:
+            return None
+        try:
+            if isinstance(value, pd.Timestamp):
+                if value.tzinfo is None:
+                    return value.tz_localize("UTC")
+                return value.tz_convert("UTC")
+        except Exception:
+            pass
+
+        try:
+            if isinstance(value, (int, float)) and not isinstance(value, bool):
+                if isinstance(value, float) and math.isnan(value):
+                    return None
+                abs_val = abs(float(value))
+                if abs_val >= 1e16:
+                    unit = "ns"
+                elif abs_val >= 1e14:
+                    unit = "us"
+                elif abs_val >= 1e11:
+                    unit = "ms"
+                else:
+                    unit = "s"
+                return pd.to_datetime(value, unit=unit, utc=True, errors="coerce")
+        except Exception:
+            pass
+
+        s = str(value).strip()
+        if not s:
+            return None
+        if s.endswith("Z") and "T" in s:
+            s = s[:-1] + "+00:00"
+
+        dayfirst = False
+        try:
+            if re.match(r"^\d{1,2}[./-]\d{1,2}[./-]\d{2,4}", s):
+                parts = re.split(r"[./-]", s[:10])
+                if len(parts) >= 2:
+                    day = int(parts[0])
+                    month = int(parts[1])
+                    if day > 12:
+                        dayfirst = True
+                    elif month > 12:
+                        dayfirst = False
+                    else:
+                        dayfirst = True
+        except Exception:
+            dayfirst = False
+
+        try:
+            return pd.to_datetime(s, utc=True, errors="coerce", dayfirst=dayfirst)
+        except Exception:
+            return None
+
     def format_filename(filename):
         if filename.startswith(USER_QUESTION_PREFIX) and filename in user_set_lookup:
             info = user_set_lookup[filename]
@@ -2802,8 +2858,14 @@ def render_welcome_page(app_config: AppConfig):
             meta_title = question_set.meta.get("title")
             if meta_title:
                 base_name = str(meta_title)
-            meta_date = question_set.meta.get("modified") or question_set.meta.get("created")
-            if meta_date:
+            meta_dates = []
+            for key in ("updated", "modified", "created"):
+                if key in question_set.meta:
+                    parsed = _parse_meta_date(question_set.meta.get(key))
+                    if parsed is not None and not pd.isna(parsed):
+                        meta_dates.append(parsed)
+            meta_date = max(meta_dates) if meta_dates else None
+            if meta_date is not None:
                 try:
                     from helpers.text import format_datetime_locale, FMT_DATE_SHORT
 
