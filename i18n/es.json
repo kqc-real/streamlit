@@ -630,7 +630,7 @@
         "postproduction_lo_need_save": "Guarda los objetivos de aprendizaje antes de iniciar.",
         "postproduction_lo_start_button": "🚀 Iniciar test ahora",
         "intro_info": "Resumen: **JSON** es el formato para preguntas, **Markdown** para objetivos. **Optimizar** significa revisión de calidad por IA.",
-        "ai_bias_explanation": "¿Por qué este proceso? Los modelos de IA están entrenados para ser útiles. Esto a menudo lleva a un 'sesgo de longitud' (la respuesta correcta es la más larga) y objetivos de aprendizaje vagos. Los pasos de QA 3 y 4 son necesarios para generar distractores justos y alinear los objetivos con el conjunto final.",
+        "ai_bias_explanation": "¿Por qué este proceso? Los modelos de IA están entrenados para ser útiles. Esto a menudo lleva a un «sesgo de longitud» (la respuesta correcta es la más larga) y objetivos de aprendizaje vagos. Los pasos de QA 3 y 4 son necesarios para generar distractores justos y alinear los objetivos con el conjunto final.",
         "questionset_save_success": "Conjunto guardado. Ahora puedes crear y subir los objetivos de aprendizaje en la pestaña «Objetivos de aprendizaje».",
         "questionset_save_error": "No se pudo guardar el conjunto: {error}",
         "learning_objectives_save_success": "Objetivos de aprendizaje guardados. Ahora puedes iniciar la prueba o continuar con la QA del conjunto.",

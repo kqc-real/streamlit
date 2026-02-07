@@ -630,7 +630,7 @@
         "postproduction_lo_need_save": "Bitte Lernziele speichern, bevor du startest.",
         "postproduction_lo_start_button": "🚀 Test jetzt starten",
         "intro_info": "Kurz erklärt: **JSON** ist das Format für Fragen, **Markdown** für Lernziele. **Optimieren** bedeutet Qualitätsprüfung durch die KI (z. B. ChatGPT/Gemini).",
-        "ai_bias_explanation": "Warum dieser Prozess? Generative KI-Modelle sind darauf trainiert, hilfreich zu sein. Das führt oft zu einem 'Length-Bias' (richtige Antwort ist am längsten) und zu vagen Lernzielen. Die QA-Schritte 3 und 4 sind notwendig, um faire Distraktoren zu erzeugen und die Lernziele präzise auf das finale Fragenset abzustimmen.",
+        "ai_bias_explanation": "Warum dieser Prozess? Generative KI-Modelle sind darauf trainiert, hilfreich zu sein. Das führt oft zu einem „Length-Bias“ (richtige Antwort ist am längsten) und zu vagen Lernzielen. Die QA-Schritte 3 und 4 sind notwendig, um faire Distraktoren zu erzeugen und die Lernziele präzise auf das finale Fragenset abzustimmen.",
         "questionset_save_success": "Fragenset gespeichert. Du kannst jetzt im Tab „Lernziele“ die Lernziele erstellen und hochladen.",
         "questionset_save_error": "Fragenset konnte nicht gespeichert werden: {error}",
         "learning_objectives_save_success": "Lernziele gespeichert. Du kannst jetzt den Test starten oder mit der QA des Fragensets fortfahren.",

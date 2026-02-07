@@ -630,7 +630,7 @@
         "postproduction_lo_need_save": "Salva gli obiettivi di apprendimento prima di avviare.",
         "postproduction_lo_start_button": "🚀 Avvia test ora",
         "intro_info": "In breve: **JSON** è il formato per le domande, **Markdown** per gli obiettivi. **Ottimizzare** significa revisione di qualità tramite IA.",
-        "ai_bias_explanation": "Perché questo processo? I modelli di IA sono addestrati per essere utili. Ciò porta spesso a un 'bias di lunghezza' (la risposta corretta è la più lunga) e a obiettivi di apprendimento vaghi. I passaggi QA 3 e 4 sono necessari per generare distrattori equi e allineare gli obiettivi al set finale.",
+        "ai_bias_explanation": "Perché questo processo? I modelli di IA sono addestrati per essere utili. Ciò porta spesso a un «bias di lunghezza» (la risposta corretta è la più lunga) e a obiettivi di apprendimento vaghi. I passaggi QA 3 e 4 sono necessari per generare distrattori equi e allineare gli obiettivi al set finale.",
         "questionset_save_success": "Set di domande salvato. Ora puoi creare e caricare gli obiettivi di apprendimento nella scheda «Obiettivi di apprendimento».",
         "questionset_save_error": "Impossibile salvare il set di domande: {error}",
         "learning_objectives_save_success": "Obiettivi di apprendimento salvati. Ora puoi avviare il test o continuare con la QA del set di domande.",
