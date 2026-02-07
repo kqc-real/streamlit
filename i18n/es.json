@@ -535,7 +535,7 @@
         "history_show_more": "Mostrar más"
     },
     "dialog": {
-        "title": "Crear conjunto de preguntas con IA",
+        "title": "✨ Crear conjunto de preguntas con IA",
         "intro": "Este diálogo te guía en cuatro pasos:\n1) **Crear set**: Usar prompt, generar JSON, guardar.\n2) **Definir objetivos**: Usar prompt, derivar objetivos, guardar.\n3) **Optimizar set**: Control de calidad por IA.\n4) **Optimizar objetivos**: Ajuste fino de objetivos para el set final.",
         "prompt_guide": "Si solo quieres hacer tests MC en esta app, usa el **prompt de Anki**. Está adaptado al formato JSON de la app. Los prompts de Kahoot/arsnova solo se necesitan para exportar a esas plataformas.",
         "prompt_toggle_button": "👁️ Mostrar / Ocultar",
@@ -1251,7 +1251,7 @@
             "title": "🎓 App MC-Test",
             "button": "🚀 Vamos",
             "choose_set": "📂 Elegir un set",
-            "create_ai": "🤖 Crear un set con IA"
+            "create_ai": "Crear un set con IA"
         },
         "cleanup": {
             "toast": "{removed} sets temporales limpiados.",

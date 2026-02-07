@@ -2225,9 +2225,10 @@ def _render_welcome_splash():
                 st.rerun()
         with col_right:
             if st.button(
-                translate_ui("welcome.splash.create_ai", default="🤖 Fragenset mit KI erstellen"),
+                translate_ui("welcome.splash.create_ai", default="Fragenset mit KI erstellen"),
                 type="primary",
                 use_container_width=True,
+                icon="✨",
             ):
                 st.session_state._welcome_flow = "create_ai"
                 st.session_state._flow_launched = False

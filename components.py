@@ -1699,10 +1699,10 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
 
     if force_inline:
         with st.container(border=True):
-            st.subheader(_dialog_text("title", default="Fragenset mit KI erstellen"))
+            st.subheader(_dialog_text("title", default="✨ Fragenset mit KI erstellen"))
             _render_body()
     else:
-        @st.dialog(_dialog_text("title", default="Fragenset mit KI erstellen"), width="wide")
+        @st.dialog(_dialog_text("title", default="✨ Fragenset mit KI erstellen"), width="wide")
         def _dialog() -> None:
             # Deaktiviert den Standard-Schließen-Button (X) des Dialogs, damit nur unser eigener
             # "Dialog schließen"-Button den Flow beendet.
@@ -2980,6 +2980,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         key="user_qset_open_btn",
         type="primary",
         width="stretch",
+        icon="✨",
     ):
         current_open = bool(st.session_state.get("user_qset_dialog_open"))
         active_dialog = st.session_state.get("_active_dialog")

@@ -142,7 +142,7 @@
         "history_expander": "📚 My sessions"
     },
     "dialog": {
-        "title": "Create question set with AI",
+        "title": "✨ Create question set with AI",
         "intro": "This dialog guides you in four steps:\n1) **Create Set**: Use prompt, generate JSON, save.\n2) **Define Objectives**: Use prompt, derive objectives, save.\n3) **Optimize Set**: AI quality check for questions.\n4) **Optimize Objectives**: Fine-tune objectives for the final set.",
         "prompt_guide": "If you only want to run MC tests in this app, use the **Anki prompt**. It matches the app’s JSON format. Kahoot/arsnova prompts are only needed for exports to those platforms.",
         "prompt_toggle_button": "👁️ Show / Hide",
@@ -1250,7 +1250,7 @@
             "title": "🎓 MC-Test App",
             "button": "🚀 Start",
             "choose_set": "📂 Choose a question set",
-            "create_ai": "🤖 Create a set with AI"
+            "create_ai": "Create a set with AI"
         },
         "cleanup": {
             "toast": "Cleaned up {removed} temp sets.",

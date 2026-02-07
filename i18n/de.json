@@ -535,7 +535,7 @@
         "editor_error": "Bearbeitungsfehler: {e}"
     },
     "dialog": {
-        "title": "Fragenset mit KI erstellen",
+        "title": "✨ Fragenset mit KI erstellen",
         "intro": "Dieser Dialog führt dich in vier Schritten zum Ziel:\n1) **Fragenset erstellen**: Prompt nutzen, JSON erzeugen und speichern.\n2) **Lernziele definieren**: Prompt nutzen, Lernziele ableiten und speichern.\n3) **Fragenset optimieren**: KI-Qualitätscheck für deine Fragen.\n4) **Lernziele optimieren**: Feinabstimmung der Lernziele auf das finale Set.",
         "prompt_guide": "Wenn du nur in dieser App MC‑Tests durchführen willst, nutze den **Anki‑Prompt**. Er passt zum JSON‑Format der App. Kahoot/arsnova‑Prompts brauchst du nur für Exporte in diese Plattformen.",
         "prompt_toggle_button": "👁️ Anzeigen / Verbergen",
@@ -1177,7 +1177,7 @@
             "title": "🎓 MC-Test App",
             "button": "🚀 Starten",
             "choose_set": "📂 Fragenset auswählen",
-            "create_ai": "🤖 Fragenset mit KI erstellen"
+            "create_ai": "Fragenset mit KI erstellen"
         },
         "cleanup": {
             "toast": "{removed} temporäre Sets aufgeräumt.",

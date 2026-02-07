@@ -535,7 +535,7 @@
         "title": "Navigation"
     },
     "dialog": {
-        "title": "Créer un ensemble de questions avec l’IA",
+        "title": "✨ Créer un ensemble de questions avec l’IA",
         "intro": "Ce dialogue vous guide en quatre étapes :\n1) **Créer le set** : Utiliser le prompt, générer le JSON, enregistrer.\n2) **Définir les objectifs** : Utiliser le prompt, dériver les objectifs, enregistrer.\n3) **Optimiser le set** : Contrôle qualité IA des questions.\n4) **Optimiser les objectifs** : Ajustement des objectifs pour le set final.",
         "prompt_guide": "Si tu veux seulement faire des QCM dans cette app, utilise le **prompt Anki**. Il correspond au format JSON de l’app. Les prompts Kahoot/arsnova ne sont nécessaires que pour les exports vers ces plateformes.",
         "prompt_toggle_button": "👁️ Afficher / Masquer",
@@ -1252,7 +1252,7 @@
             "title": "🎓 MC-Test App",
             "button": "🚀 Go",
             "choose_set": "📂 Choisir un set",
-            "create_ai": "🤖 Créer un set avec l’IA"
+            "create_ai": "Créer un set avec l’IA"
         },
         "cleanup": {
             "toast": "{removed} sets temporaires nettoyés.",
