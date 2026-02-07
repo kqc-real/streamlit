@@ -240,7 +240,7 @@
         "postproduction_lo_need_save": "开始前请先保存学习目标。",
         "postproduction_lo_start_button": "🚀 立即开始测试",
         "intro_info": "简述：**JSON** 是题目格式，**Markdown** 是目标格式。**优化**意味着 AI 质量审查。",
-        "ai_bias_explanation": "为什么要这个过程？生成式 AI 模型经过训练，旨在提供帮助和精确性。这通常导致正确答案的表述比错误选项（干扰项）更长、更详细。这种“长度偏差”使得答案很容易被识别。由于 AI 模型在初始生成过程中经常忽略长度限制，因此 QA 步骤 3 和 4 对于修正这种偏差并确保教学上公平的问题至关重要。",
+        "ai_bias_explanation": "为什么要这个过程？生成式 AI 模型旨在提供帮助。这通常导致“长度偏差”（正确答案最长）和模糊的学习目标。QA 步骤 3 和 4 对于生成公平的干扰项以及将学习目标与最终题库精确对齐至关重要。",
         "questionset_save_success": "题库已保存。现在可以在“学习目标”标签创建并上传学习目标。",
         "questionset_save_error": "题库保存失败：{error}",
         "learning_objectives_save_success": "学习目标已保存。现在可以开始测试或继续进行题库 QA。",

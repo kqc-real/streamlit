@@ -237,7 +237,7 @@
         "postproduction_lo_need_save": "Please save the learning objectives before starting.",
         "postproduction_lo_start_button": "🚀 Start Test Now",
         "intro_info": "Quick recap: JSON is the text format for the question set, Markdown is the text format for learning objectives. QA means quality review and improvement. The AI (e.g., ChatGPT or Gemini) generates or improves content based on the prompts.",
-        "ai_bias_explanation": "Why this process? Generative AI models are trained to be helpful and precise. This often leads to the correct answer being formulated much longer and in more detail than the incorrect options (distractors). This 'length bias' makes the solution easily recognizable. Since AI models often ignore length constraints during initial generation, QA steps 3 and 4 are crucial to correct this bias and ensure didactically fair questions.",
+        "ai_bias_explanation": "Why this process? Generative AI models are trained to be helpful. This often leads to a 'length bias' (correct answer is longest) and vague learning objectives. QA steps 3 and 4 are necessary to generate fair distractors and precisely align the learning objectives with the final question set.",
         "questionset_save_success": "Question set saved. You can now create and upload the learning objectives in the “Learning objectives” tab.",
         "questionset_save_error": "Question set could not be saved: {error}",
         "learning_objectives_save_success": "Learning objectives saved. You can now start the test or continue with QA of the question set.",
