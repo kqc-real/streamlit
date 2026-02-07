@@ -662,47 +662,38 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
         tab_postproduction = _dialog_text("tab_postproduction", default="3. QA des Fragensets")
         tab_postproduction_lo = _dialog_text("tab_postproduction_lo", default="4. QA der Lernziele")
 
-        def _strip_leading_number(label: str) -> str:
+        def _escape_radio_label(label: str) -> str:
             if not label:
                 return ""
-            return re.sub(r"^\s*\d+\.\s*", "", label).strip()
+            return re.sub(r"^(\s*\d+)\.", r"\1\.", label, count=1)
 
-        tab_display_labels = {
-            1: _strip_leading_number(tab_questionset),
-            2: _strip_leading_number(tab_learning_objectives),
-            3: _strip_leading_number(tab_postproduction),
-            4: _strip_leading_number(tab_postproduction_lo),
-        }
-        tab_options = [1, 2, 3, 4]
+        tab_options = [
+            _escape_radio_label(tab_questionset),
+            _escape_radio_label(tab_learning_objectives),
+            _escape_radio_label(tab_postproduction),
+            _escape_radio_label(tab_postproduction_lo),
+        ]
+        tab_selector_key = "user_qset_tab_selector"
         st.caption(
             _dialog_text(
                 "tab_selector_hint",
                 default="Wähle den Schritt, den du jetzt bearbeiten möchtest.",
             )
         )
-        current_tab_value = st.session_state.get("user_qset_tab_selector")
-        if isinstance(current_tab_value, str):
-            normalized = _strip_leading_number(current_tab_value)
-            mapped = None
-            for key, label in tab_display_labels.items():
-                if label == normalized:
-                    mapped = key
-                    break
-            st.session_state["user_qset_tab_selector"] = mapped or tab_options[0]
-        elif current_tab_value and current_tab_value not in tab_options:
-            st.session_state["user_qset_tab_selector"] = tab_options[0]
+        current_tab_value = st.session_state.get(tab_selector_key)
+        if current_tab_value not in tab_options:
+            st.session_state[tab_selector_key] = tab_options[0]
 
         selected_tab = st.radio(
             _dialog_text("tab_selector_label", default="Schritt auswählen"),
             options=tab_options,
-            format_func=lambda value: f"{value}. {tab_display_labels.get(value, '')}".strip(),
             horizontal=True,
-            key="user_qset_tab_selector",
+            key=tab_selector_key,
             label_visibility="collapsed",
         )
-        if isinstance(selected_tab, int):
-            tab_index = max(0, min(3, selected_tab - 1))
-        else:
+        try:
+            tab_index = tab_options.index(selected_tab)
+        except ValueError:
             tab_index = 0
 
         if tab_index == 0:
@@ -912,7 +903,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                         ),
                         key="user_qset_next_lo_btn",
                     ):
-                        st.session_state["user_qset_tab_selector"] = tab_options[1]
+                        st.session_state[tab_selector_key] = tab_options[1]
                         st.rerun()
                 else:
                     err_msg = status.get(
@@ -1197,7 +1188,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                         _dialog_text("learning_objectives_next_qa_button", default="➡️ Weiter mit QA des Sets"),
                         key="user_qset_lo_next_qa_btn",
                     ):
-                        st.session_state["user_qset_tab_selector"] = tab_options[2]
+                        st.session_state[tab_selector_key] = tab_options[2]
                         st.rerun()
 
         elif tab_index == 2:
@@ -1450,7 +1441,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 ):
                     saved = _save_postproduction_payload()
                     if saved:
-                        st.session_state["user_qset_tab_selector"] = tab_options[3]
+                        st.session_state[tab_selector_key] = tab_options[3]
                         st.rerun()
 
         elif tab_index == 3:
