@@ -142,7 +142,8 @@
         "history_expander": "📚 My sessions",
         "about_expander": "ℹ️ About MC-Test",
         "about_paper_button": "📄 Paper (EDULEARN26)",
-        "about_project_text": "A research project on formative MC practice."
+        "about_project_text": "A research project on formative MC practice.",
+        "about_paper_blocked": "Close the open dialog first to open the paper."
     },
     "dialog": {
         "title": "✨ Create question set with AI",

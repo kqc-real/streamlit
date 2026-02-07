@@ -532,7 +532,8 @@
         },
         "history_show_all": "Mostra tutto",
         "history_show_less": "Mostra meno",
-        "history_show_more": "Mostra di più"
+        "history_show_more": "Mostra di più",
+        "about_paper_blocked": "Chiudi prima il dialogo aperto per aprire il paper."
     },
     "dialog": {
         "title": "✨ Crea set di domande con l’IA",

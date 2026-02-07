@@ -142,7 +142,8 @@
         "history_show_more": "Mehr anzeigen",
         "about_expander": "ℹ️ Über MC-Test",
         "about_paper_button": "📄 Paper (EDULEARN26)",
-        "about_project_text": "Ein Forschungsprojekt zur formativen MC-Übung."
+        "about_project_text": "Ein Forschungsprojekt zur formativen MC-Übung.",
+        "about_paper_blocked": "Schließe zuerst den offenen Dialog, um das Paper zu öffnen."
     },
     "tempo": {
         "normal": "Normal",

@@ -142,7 +142,8 @@
         },
         "history_show_all": "显示全部",
         "history_show_less": "显示较少",
-        "history_show_more": "显示更多"
+        "history_show_more": "显示更多",
+        "about_paper_blocked": "请先关闭已打开的对话框，然后再打开论文。"
     },
     "dialog": {
         "title": "✨ 使用 AI 创建题库",

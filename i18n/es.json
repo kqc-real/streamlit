@@ -532,7 +532,8 @@
         },
         "history_show_all": "Mostrar todo",
         "history_show_less": "Mostrar menos",
-        "history_show_more": "Mostrar más"
+        "history_show_more": "Mostrar más",
+        "about_paper_blocked": "Cierra primero el diálogo abierto para abrir el paper."
     },
     "dialog": {
         "title": "✨ Crear conjunto de preguntas con IA",

@@ -3355,7 +3355,21 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                 rendered_md = re.sub(r"!\[([^\]]*)\]\(([^)]+)\)", _render_inline_image, raw_md)
                 st.markdown(rendered_md, unsafe_allow_html=True)
 
-            if st.button(_sidebar_text("about_paper_button", default="📄 Paper (EDULEARN26)"), key="about_paper_btn"):
+            active_dialog = st.session_state.get("_active_dialog")
+            paper_blocked = bool(active_dialog)
+            if paper_blocked:
+                st.caption(
+                    _sidebar_text(
+                        "about_paper_blocked",
+                        default="Schließe zuerst den offenen Dialog, um das Paper zu öffnen.",
+                    )
+                )
+
+            if st.button(
+                _sidebar_text("about_paper_button", default="📄 Paper (EDULEARN26)"),
+                key="about_paper_btn",
+                disabled=paper_blocked,
+            ):
                 _show_paper_dialog()
 
 def render_admin_switch(app_config: AppConfig, questions: QuestionSet):

@@ -532,7 +532,8 @@
         "history_show_all": "Tout afficher",
         "history_show_less": "Afficher moins",
         "history_show_more": "Afficher plus",
-        "title": "Navigation"
+        "title": "Navigation",
+        "about_paper_blocked": "Ferme d’abord le dialogue ouvert pour ouvrir le paper."
     },
     "dialog": {
         "title": "✨ Créer un ensemble de questions avec l’IA",
