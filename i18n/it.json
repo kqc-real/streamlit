@@ -535,7 +535,7 @@
         "history_show_more": "Mostra di più"
     },
     "dialog": {
-        "title": "Crea set di domande con l’IA (4 passaggi)",
+        "title": "Crea set di domande con l’IA",
         "intro": "Questo dialogo ti guida in quattro passaggi:\n1) **Crea set**: Usa prompt, genera JSON, salva.\n2) **Definisci obiettivi**: Usa prompt, deriva obiettivi, salva.\n3) **Ottimizza set**: Controllo qualità IA delle domande.\n4) **Ottimizza obiettivi**: Affinamento obiettivi per il set finale.",
         "prompt_guide": "Se vuoi solo fare test MC in questa app, usa il **prompt Anki**. È adattato al formato JSON dell’app. I prompt Kahoot/arsnova servono solo per esportare verso quelle piattaforme.",
         "prompt_toggle_button": "👁️ Mostra / Nascondi",
