@@ -2324,8 +2324,11 @@ def _render_pseudonym_gate_dialog(app_config: AppConfig):
 
         flow_choice_for_label = st.session_state.get("_welcome_flow") or st.session_state.get("_last_welcome_flow")
         start_label = translate_ui("welcome.pseudonym.dialog_start", default="Start")
+        start_icon = None
         if flow_choice_for_label == "choose_set":
             start_label = translate_ui("welcome.pseudonym.dialog_start_choose_set", default="Weiter zur Set-Auswahl")
+        elif flow_choice_for_label == "create_ai":
+            start_icon = "✨"
 
         # Wiederherstellung: „Ich habe bereits ein Pseudonym“
         with st.expander(_welcome_pseudonym_recover_expander(), expanded=False):
@@ -2364,6 +2367,7 @@ def _render_pseudonym_gate_dialog(app_config: AppConfig):
                 use_container_width=True,
                 disabled=not (rec_pseudo and rec_secret),
                 key="pseudonym_dialog_recover_btn",
+                icon=start_icon,
             ):
                 if app_config.admin_user and rec_pseudo == app_config.admin_user:
                     st.error(translate_ui("welcome.pseudonym.admin_recover_blocked", default="Dieses Pseudonym kann nicht über ein Secret wiederhergestellt werden. Bitte direkt auswählen."))
@@ -2394,6 +2398,7 @@ def _render_pseudonym_gate_dialog(app_config: AppConfig):
             use_container_width=True,
             disabled=disabled,
             key="pseudonym_dialog_start_btn",
+            icon=start_icon,
         ):
             try:
                 user_name = str(selected_name).strip()
