@@ -577,6 +577,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     source_name,
                 )
                 st.session_state.pop("user_qset_lo_result", None)
+                st.session_state.pop("user_qset_step4_done", None)
                 st.session_state["user_qset_last_result"] = {
                     "success": True,
                     "identifier": info.identifier,
@@ -662,12 +663,30 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
         tab_postproduction = _dialog_text("tab_postproduction", default="3. QA des Fragensets")
         tab_postproduction_lo = _dialog_text("tab_postproduction_lo", default="4. QA der Lernziele")
 
+        # Status für Fortschrittsanzeige ermitteln
+        status = st.session_state.get("user_qset_last_result")
+        lo_status = st.session_state.get("user_qset_lo_result")
+
+        step1_done = bool(status and status.get("success"))
+        step2_done = bool(lo_status and lo_status.get("success"))
+        step3_done = False
+        if step1_done:
+            try:
+                # Prüfen, ob das aktuelle Set aus der Postproduction stammt
+                info = get_user_question_set(status["identifier"])
+                if info and info.question_set and info.question_set.source_filename == "postproduction.json":
+                    step3_done = True
+            except Exception:
+                pass
+        step4_done = st.session_state.get("user_qset_step4_done", False)
+
         def _escape_radio_label(label: str) -> str:
             if not label:
                 return ""
             return re.sub(r"^(\s*\d+)\.", r"\1\.", label, count=1)
 
-        tab_options = [
+        # Basis-Optionen für die Logik (ohne Icons, damit State stabil bleibt)
+        base_tab_options = [
             _escape_radio_label(tab_questionset),
             _escape_radio_label(tab_learning_objectives),
             _escape_radio_label(tab_postproduction),
@@ -681,18 +700,28 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             )
         )
         current_tab_value = st.session_state.get(tab_selector_key)
-        if current_tab_value not in tab_options:
-            st.session_state[tab_selector_key] = tab_options[0]
+        if current_tab_value not in base_tab_options:
+            st.session_state[tab_selector_key] = base_tab_options[0]
+
+        def _format_tab_label(option: str) -> str:
+            idx = base_tab_options.index(option)
+            is_done = False
+            if idx == 0: is_done = step1_done
+            elif idx == 1: is_done = step2_done
+            elif idx == 2: is_done = step3_done
+            elif idx == 3: is_done = step4_done
+            return f"{option} ✅" if is_done else option
 
         selected_tab = st.radio(
             _dialog_text("tab_selector_label", default="Schritt auswählen"),
-            options=tab_options,
+            options=base_tab_options,
+            format_func=_format_tab_label,
             horizontal=True,
             key=tab_selector_key,
             label_visibility="collapsed",
         )
         try:
-            tab_index = tab_options.index(selected_tab)
+            tab_index = base_tab_options.index(selected_tab)
         except ValueError:
             tab_index = 0
 
@@ -903,7 +932,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                         ),
                         key="user_qset_next_lo_btn",
                     ):
-                        st.session_state[tab_selector_key] = tab_options[1]
+                        st.session_state[tab_selector_key] = base_tab_options[1]
                         st.rerun()
                 else:
                     err_msg = status.get(
@@ -1195,7 +1224,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                         _dialog_text("learning_objectives_next_qa_button", default="➡️ Weiter mit QA des Sets"),
                         key="user_qset_lo_next_qa_btn",
                     ):
-                        st.session_state[tab_selector_key] = tab_options[2]
+                        st.session_state[tab_selector_key] = base_tab_options[2]
                         st.rerun()
 
         elif tab_index == 2:
@@ -1448,7 +1477,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 ):
                     saved = _save_postproduction_payload()
                     if saved:
-                        st.session_state[tab_selector_key] = tab_options[3]
+                        st.session_state[tab_selector_key] = base_tab_options[3]
                         st.rerun()
 
         elif tab_index == 3:
@@ -1596,6 +1625,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                             default="Optimierte Lernziele gespeichert. Du kannst jetzt den Test starten.",
                         )
                     )
+                    st.session_state["user_qset_step4_done"] = True
                 else:
                     st.error(
                         _dialog_text(
