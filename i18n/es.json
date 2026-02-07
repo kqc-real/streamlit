@@ -551,7 +551,7 @@
         "prompt_expander_title": "Mostrar prompts",
         "upload_heading": "Subir set",
         "upload_warning": "⚠️ Máx 30 preguntas y 5 MB.",
-        "upload_info": "ℹ️ Tu set es público. Dura {hours}h (o {days}d si reservas alias).",
+        "upload_info": "ℹ️ Tu conjunto es público. Los conjuntos temporales duran {hours} h (o {days} días si se creó con un seudónimo reservado).",
         "uploader_mode": "¿Cómo quieres añadir tu set?",
         "uploader_mode_upload": "📁 Subir archivo",
         "uploader_mode_paste": "📋 Pegar JSON",

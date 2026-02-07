@@ -553,7 +553,7 @@
         "prompt_expander_title": "Prompts für die KI anzeigen",
         "upload_heading": "Set hochladen",
         "upload_warning": "⚠️ Max. 30 Fragen & 5 MB erlaubt.",
-        "upload_info": "Fragensets werden nach {hours} Stunden (reservierte Pseudonyme: {days} Tage) automatisch aufgeräumt.",
+        "upload_info": "Fragensets werden nach {hours} Stunden automatisch aufgeräumt (bei Erstellung mit reserviertem Pseudonym: {days} Tage).",
         "uploader_mode": "Wie möchtest du dein Fragenset hinzufügen?",
         "uploader_mode_upload": "📁 Datei hochladen",
         "uploader_mode_paste": "📋 JSON einfügen",

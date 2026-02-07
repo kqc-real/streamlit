@@ -551,7 +551,7 @@
         "prompt_expander_title": "Afficher les prompts",
         "upload_heading": "Uploader un set",
         "upload_warning": "⚠️ Max 30 questions & 5 Mo.",
-        "upload_info": "ℹ️ Ton set est public. Durée de vie : {hours}h (ou {days}j si pseudo réservé).",
+        "upload_info": "ℹ️ Ton ensemble est public. Les ensembles temporaires durent {hours} h (ou {days} jours s’il a été créé avec un pseudonyme réservé).",
         "uploader_mode": "Comment ajouter ton set ?",
         "uploader_mode_upload": "📁 Uploader un fichier",
         "uploader_mode_paste": "📋 Coller le JSON",

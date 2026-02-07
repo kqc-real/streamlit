@@ -158,7 +158,7 @@
         "prompt_expander_title": "Show prompts",
         "upload_heading": "Upload Set",
         "upload_warning": "⚠️ Max 30 questions & 5 MB allowed.",
-        "upload_info": "ℹ️ Your set is public. Temp sets last {hours} hrs (or {days} days if reserved).",
+        "upload_info": "ℹ️ Your set is public. Temp sets last {hours} hrs (or {days} days if created with a reserved pseudonym).",
         "uploader_mode": "How do you want to add your set?",
         "uploader_mode_upload": "📁 Upload file",
         "uploader_mode_paste": "📋 Paste JSON",

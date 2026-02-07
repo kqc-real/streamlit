@@ -551,7 +551,7 @@
         "prompt_expander_title": "Mostra i prompt",
         "upload_heading": "Carica set",
         "upload_warning": "⚠️ Max 30 domande & 5 MB.",
-        "upload_info": "ℹ️ Il tuo set è pubblico. Dura {hours}h (o {days}g se riservi l'alias).",
+        "upload_info": "ℹ️ Il tuo set è pubblico. I set temporanei durano {hours} h (o {days} giorni se creati con uno pseudonimo riservato).",
         "uploader_mode": "Come vuoi aggiungere il set?",
         "uploader_mode_upload": "📁 Carica file",
         "uploader_mode_paste": "📋 Incolla JSON",
