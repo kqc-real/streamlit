@@ -35,6 +35,7 @@ import os
 import time
 import json as _json
 import html
+import base64
 import logging
 import re
 from datetime import datetime
@@ -3330,7 +3331,29 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
 
             @st.dialog(_sidebar_text("about_paper_button", default="📄 Paper (EDULEARN26)"), width="medium")
             def _show_paper_dialog():
-                st.markdown(paper_path.read_text(encoding="utf-8"))
+                raw_md = paper_path.read_text(encoding="utf-8")
+                base_dir = paper_path.parent
+
+                def _render_inline_image(match: re.Match[str]) -> str:
+                    alt_text = html.escape(match.group(1) or "")
+                    rel_path = match.group(2).strip()
+                    img_path = (base_dir / rel_path).resolve()
+                    if not img_path.exists():
+                        return match.group(0)
+                    suffix = img_path.suffix.lower()
+                    mime = "image/png"
+                    if suffix in {".jpg", ".jpeg"}:
+                        mime = "image/jpeg"
+                    elif suffix == ".gif":
+                        mime = "image/gif"
+                    data = base64.b64encode(img_path.read_bytes()).decode("ascii")
+                    return (
+                        f'<img src="data:{mime};base64,{data}" alt="{alt_text}" '
+                        'style="max-width: 100%; height: auto;" loading="lazy" />'
+                    )
+
+                rendered_md = re.sub(r"!\[([^\]]*)\]\(([^)]+)\)", _render_inline_image, raw_md)
+                st.markdown(rendered_md, unsafe_allow_html=True)
 
             if st.button(_sidebar_text("about_paper_button", default="📄 Paper (EDULEARN26)"), key="about_paper_btn"):
                 _show_paper_dialog()
