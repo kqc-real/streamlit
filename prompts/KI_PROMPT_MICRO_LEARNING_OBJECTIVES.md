@@ -47,6 +47,8 @@ QUALITY CRITERIA
 3. **One Verb:** No compounds
 4. **Concise:** One line, works after "Du kannst…"/"You can…"
 
+**WHY THIS MATTERS (Step 2 of 4):** Generative AI tends to be helpful but vague. To enable the subsequent QA steps (3 & 4) to detect alignment issues, we need precise, observable verbs here, not general summaries.
+
 COMMON ERRORS
 -------------
 ❌ Wrong level verb for question type

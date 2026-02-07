@@ -558,7 +558,15 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     "für Lernziele. **QA** bedeutet Qualitätsprüfung/Überarbeitung. "
                     "Die **KI** (z. B. ChatGPT/Gemini) erzeugt oder verbessert Inhalte anhand der Prompts."
                 ),
-            )
+            ),
+            icon="ℹ️"
+        )
+        st.info(
+            _dialog_text(
+                "ai_bias_explanation",
+                default="Warum dieser Prozess? KI-Modelle sind darauf trainiert, hilfreich zu sein. Deshalb formulieren sie richtige Antworten oft länger und detaillierter als falsche (Length-Bias). Die Schritte 3 & 4 (QA) sind notwendig, um diesen Bias zu korrigieren und faire Distraktoren zu erzeugen."
+            ),
+            icon="🧠"
         )
 
         prompt_views = st.session_state.setdefault("_prompt_inline_views", {})
@@ -659,9 +667,9 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 return ""
 
         tab_questionset = _dialog_text("tab_questionset", default="1. Fragenset erstellen")
-        tab_learning_objectives = _dialog_text("tab_learning_objectives", default="2. Lernziele")
-        tab_postproduction = _dialog_text("tab_postproduction", default="3. QA des Fragensets")
-        tab_postproduction_lo = _dialog_text("tab_postproduction_lo", default="4. QA der Lernziele")
+        tab_learning_objectives = _dialog_text("tab_learning_objectives", default="2. Lernziele definieren")
+        tab_postproduction = _dialog_text("tab_postproduction", default="3. Fragenset optimieren")
+        tab_postproduction_lo = _dialog_text("tab_postproduction_lo", default="4. Lernziele optimieren")
 
         # Status für Fortschrittsanzeige ermitteln
         status = st.session_state.get("user_qset_last_result")

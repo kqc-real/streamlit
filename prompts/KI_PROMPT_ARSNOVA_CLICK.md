@@ -242,6 +242,8 @@ Beachte beim Erstellen der Fragen, Optionen und Erklärungen zwingend diese Rege
 
 2.  **Einheitliche Optionen:** Alle Antwortoptionen einer Frage müssen eine nahezu identische Länge sowie die gleiche grammatikalische Struktur besitzen. Überarbeite Optionen aktiv, bis die korrekte Antwort nicht durch Stil oder Detailgrad heraussticht.
 
+    *   *Hintergrund (Length-Bias):* KI-Modelle neigen dazu, die korrekte Antwort ausführlicher und hilfreicher zu formulieren, weil sie auf Nützlichkeit trainiert sind. Dies macht die Lösung oft durch bloße Länge erkennbar. Halte dich daher strikt an die Längenbegrenzung für alle Optionen, um diesen Bias zu minimieren (Feinjustierung erfolgt in Schritt 3).
+
 3.  **Keine Negationen:** Formuliere Fragen positiv ("Welche Aussage ist korrekt?") statt doppelt negativ oder verwirrend ("Welche Aussage ist NICHT inkorrekt?").
 
 4.  **Keine Hinweise:** Der Fragetext darf keine sprachlichen Hinweise (z.B. Genus/Numerus) enthalten, die auf die richtige Antwort schließen lassen.
