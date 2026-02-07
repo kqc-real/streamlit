@@ -569,6 +569,7 @@
         "status_unknown_error": "Error desconocido.",
         "status_error_hint": "Guardado falló. Abre los detalles.",
         "status_error_friendly_json": "No se pudo procesar el archivo. Revisa la sintaxis JSON (estructura, comillas, comas).",
+        "status_json_repair_hint": "Consejo: Copia el mensaje de error y dáselo a tu IA; normalmente puede reparar el JSON.",
         "status_error_friendly_generic": "Guardado falló. Revisa tu entrada o inténtalo de nuevo.",
         "status_error_title": "❌ Ver detalles del error",
         "lo_optional_info": "Opcional: Sube los objetivos en la pestaña «Lernziele» o confirma que quieres empezar sin ellos.",

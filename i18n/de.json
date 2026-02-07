@@ -571,6 +571,7 @@
         "status_unknown_error": "Unbekannter Fehler im Set.",
         "status_error_hint": "Speichern fehlgeschlagen. Details öffnen.",
         "status_error_friendly_json": "Die Datei konnte nicht verarbeitet werden. Bitte JSON prüfen (gültige Struktur, Anführungszeichen, Kommata).",
+        "status_json_repair_hint": "Tipp: Kopiere die Fehlermeldung und gib sie deiner KI, sie kann das JSON meistens reparieren.",
         "status_error_friendly_generic": "Speichern fehlgeschlagen. Bitte Eingabe prüfen oder erneut versuchen.",
         "status_error_title": "❌ Fehlerdetails anzeigen",
         "lo_optional_info": "Optional: Lade jetzt Lernziele im Tab \"Lernziele\" hoch oder bestätige, dass du ohne startest.",

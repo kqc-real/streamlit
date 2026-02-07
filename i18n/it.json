@@ -569,6 +569,7 @@
         "status_unknown_error": "Errore sconosciuto.",
         "status_error_hint": "Salvataggio fallito. Apri i dettagli.",
         "status_error_friendly_json": "Impossibile elaborare il file. Controlla la sintassi JSON (struttura, virgolette, virgole).",
+        "status_json_repair_hint": "Suggerimento: Copia il messaggio di errore e dallo alla tua IA; di solito può riparare il JSON.",
         "status_error_friendly_generic": "Salvataggio fallito. Controlla l’input o riprova.",
         "status_error_title": "❌ Mostra i dettagli dell'errore",
         "lo_optional_info": "Opzionale: carica gli obiettivi nell'etichetta «Lernziele» oppure conferma che parti senza.",

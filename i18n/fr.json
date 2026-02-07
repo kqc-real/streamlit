@@ -569,6 +569,7 @@
         "status_unknown_error": "Erreur inconnue.",
         "status_error_hint": "Échec de l’enregistrement. Voir les détails.",
         "status_error_friendly_json": "Impossible de traiter le fichier. Vérifie la syntaxe JSON (structure, guillemets, virgules).",
+        "status_json_repair_hint": "Astuce : Copie le message d'erreur et donne-le à ton IA ; elle peut généralement réparer le JSON.",
         "status_error_friendly_generic": "Enregistrement échoué. Vérifie ta saisie ou réessaie.",
         "status_error_title": "❌ Afficher les détails de l’erreur",
         "lo_optional_info": "Optionnel : Téléverse les objectifs dans l’onglet « Lernziele » ou confirme que tu démarres sans.",

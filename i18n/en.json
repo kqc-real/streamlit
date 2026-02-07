@@ -176,6 +176,7 @@
         "status_unknown_error": "Unknown set error.",
         "status_error_hint": "Save failed. Open details.",
         "status_error_friendly_json": "Could not process the file. Please check JSON syntax (structure, quotes, commas).",
+        "status_json_repair_hint": "Tip: Copy the error message and give it to your AI; it can usually repair the JSON.",
         "status_error_friendly_generic": "Save failed. Please check your input and try again.",
         "status_error_title": "❌ Show error details",
         "lo_optional_info": "Optional: Upload learning objectives in the \"Lernziele\" tab or confirm you want to start without them.",

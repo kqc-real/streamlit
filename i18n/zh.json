@@ -179,6 +179,7 @@
         "status_unknown_error": "未知题库错误。",
         "status_error_hint": "保存失败。展开查看详情。",
         "status_error_friendly_json": "无法处理文件。请检查 JSON 语法（结构、引号、逗号）。",
+        "status_json_repair_hint": "提示：复制错误信息并将其交给你的 AI，它通常可以修复 JSON。",
         "status_error_friendly_generic": "保存失败。请检查输入或重试。",
         "status_error_title": "❌ 查看错误详情",
         "lo_optional_info": "可选：在“Lernziele”选项卡上传学习目标，或确认直接开始。",

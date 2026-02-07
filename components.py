@@ -927,6 +927,13 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                         _dialog_text("status_error_hint", default="Speichern fehlgeschlagen. Details öffnen.")
                     )
                     st.error(friendly)
+                    if is_json_error:
+                        st.info(
+                            _dialog_text(
+                                "status_json_repair_hint",
+                                default="Tipp: Kopiere die Fehlermeldung und gib sie deiner KI, sie kann das JSON meistens reparieren.",
+                            )
+                        )
                     with st.expander(
                         _dialog_text(
                             "status_error_title",
