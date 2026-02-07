@@ -704,7 +704,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
         st.caption(
             _dialog_text(
                 "tab_selector_hint",
-                default="Wähle den Schritt, den du jetzt bearbeiten möchtest.",
+                default="Wähle den Schritt (1–4), den du jetzt bearbeiten möchtest.",
             )
         )
         current_tab_value = st.session_state.get(tab_selector_key)
@@ -734,7 +734,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             tab_index = 0
 
         if tab_index == 0:
-            st.subheader(_dialog_text("questionset_heading", default="Upload Question Set"))
+            st.subheader(_dialog_text("questionset_heading", default="Schritt 1: Fragenset erstellen"))
             st.caption(
                 _dialog_text(
                     "questionset_caption",
@@ -980,9 +980,9 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                         st.code(err_msg, language="text")
 
         elif tab_index == 1:
-            status = st.session_state.get("user_qset_last_result")
+            # status is already loaded at top scope
             lo_status = st.session_state.get("user_qset_lo_result")
-            st.subheader(_dialog_text("learning_objectives_heading", default="Lernziele erzeugen und hochladen"))
+            st.subheader(_dialog_text("learning_objectives_heading", default="Schritt 2: Lernziele definieren"))
             st.caption(
                 _dialog_text(
                     "learning_objectives_caption",
@@ -996,6 +996,13 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                         "learning_objectives_set_loaded",
                         default="Fragenset '{label}' ist aktiv.",
                         label=status.get("label", "Unbenannt")
+                    )
+                )
+            else:
+                st.info(
+                    _dialog_text(
+                        "learning_objectives_save_set_first",
+                        default="Bitte zuerst dein Fragenset im Tab „Fragenset erstellen“ speichern.",
                     )
                 )
 
@@ -1093,13 +1100,6 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 horizontal=True,
                 key="user_qset_lo_mode",
             )
-            if lo_disabled:
-                st.info(
-                    _dialog_text(
-                        "learning_objectives_hint_save_first",
-                        default="Bitte zuerst dein Fragenset speichern, dann die Lernziele hochladen.",
-                    )
-                )
             if lo_mode == "upload":
                 lo_uploader = st.file_uploader(
                     _dialog_text(
@@ -1206,51 +1206,52 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                         )
                     )
 
-            if not (status and status.get("success")):
+            can_start = bool(
+                st.session_state.get("user_id") and st.session_state.get("user_id_hash")
+            )
+            lo_uploaded = bool(lo_status and lo_status.get("success"))
+            if not can_start:
                 st.info(
                     _dialog_text(
-                        "learning_objectives_save_set_first",
-                        default="Bitte zuerst dein Fragenset im Tab \"Fragenset erstellen\" speichern.",
+                        "login_required",
+                        default="Bitte melde dich an, bevor du den Test startest.",
                     )
                 )
-            else:
-                can_start = bool(
-                    st.session_state.get("user_id") and st.session_state.get("user_id_hash")
-                )
-                lo_uploaded = bool(lo_status and lo_status.get("success"))
-                if not can_start:
-                    st.info(
-                        _dialog_text(
-                            "login_required",
-                            default="Bitte melde dich an, bevor du den Test startest.",
-                        )
-                    )
 
-                cols = st.columns(2)
-                with cols[0]:
-                    if st.button(
-                        _dialog_text("learning_objectives_start_button", default="🚀 Test starten"),
-                        key="user_qset_lo_start_btn",
-                        type="primary",
-                        disabled=not can_start or not lo_uploaded,
-                    ):
-                        _start_test_with_user_set(status["identifier"], app_config)
-                with cols[1]:
-                    if st.button(
-                        _dialog_text("learning_objectives_next_qa_button", default="➡️ Weiter mit QA des Sets"),
-                        key="user_qset_lo_next_qa_btn",
-                    ):
-                        st.session_state[tab_selector_key] = base_tab_options[2]
-                        st.rerun()
+            cols = st.columns(2)
+            with cols[0]:
+                if st.button(
+                    _dialog_text("learning_objectives_start_button", default="🚀 Test starten"),
+                    key="user_qset_lo_start_btn",
+                    type="primary",
+                    disabled=not (status and status.get("success") and can_start and lo_uploaded),
+                ):
+                    _start_test_with_user_set(status["identifier"], app_config)
+            with cols[1]:
+                if st.button(
+                    _dialog_text("learning_objectives_next_qa_button", default="➡️ Weiter mit QA des Sets"),
+                    key="user_qset_lo_next_qa_btn",
+                ):
+                    st.session_state[tab_selector_key] = base_tab_options[2]
+                    st.rerun()
 
         elif tab_index == 2:
-            st.subheader(_dialog_text("postproduction_heading", default="Postproduktion: Qualitätscheck mit externer KI"))
+            st.subheader(_dialog_text("postproduction_heading", default="Schritt 3: Fragenset optimieren"))
             st.caption(
                 _dialog_text(
                     "postproduction_caption",
                     default="Hier prüfst du dein Fragenset mit externer KI, speicherst das optimierte JSON und gehst weiter zur QA der Lernziele.",
                 )
             )
+
+            # Warnung, wenn Schritt 1 fehlt
+            if not step1_done:
+                st.info(
+                    _dialog_text(
+                        "learning_objectives_save_set_first",
+                        default="Bitte zuerst dein Fragenset im Tab „Fragenset erstellen“ speichern.",
+                    )
+                )
 
             prompt_filename = "prompts/KI_PROMPT_POSTPRODUCTION_QA.md"
             postprod_prompt = _load_local_prompt(prompt_filename)
@@ -1323,7 +1324,6 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             )
             original_set_json = ""
             original_set_filename = "questions_original.json"
-            status = st.session_state.get("user_qset_last_result")
             if status and status.get("success"):
                 try:
                     info = get_user_question_set(status["identifier"])
@@ -1496,13 +1496,29 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                         st.rerun()
 
         elif tab_index == 3:
-            st.subheader(_dialog_text("postproduction_lo_heading", default="Postproduktion: Lernziele prüfen"))
+            st.subheader(_dialog_text("postproduction_lo_heading", default="Schritt 4: Lernziele optimieren"))
             st.caption(
                 _dialog_text(
                     "postproduction_lo_caption",
                     default="Hier prüfst du die Lernziele mit externer KI, speicherst sie und startest den Test.",
                 )
             )
+
+            # UX: Klare Hinweise auf fehlende Voraussetzungen
+            if not step1_done:
+                st.info(
+                    _dialog_text(
+                        "learning_objectives_save_set_first",
+                        default="Bitte zuerst dein Fragenset im Tab „Fragenset erstellen“ speichern.",
+                    )
+                )
+            elif not step3_done:
+                st.info(
+                    _dialog_text(
+                        "postproduction_lo_need_set",
+                        default="Bitte zuerst die QA des Fragensets im Tab „QA des Fragensets“ abschließen.",
+                    )
+                )
 
             lo_prompt_filename = "prompts/KI_PROMPT_POSTPRODUCTION_QA_LEARNING_OBJECTIVES.md"
             postprod_lo_prompt = _load_local_prompt(lo_prompt_filename)
@@ -1612,20 +1628,10 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 on_change=lambda: st.session_state.pop("user_qset_lo_result", None),
             )
 
-            status = st.session_state.get("user_qset_last_result")
-            lo_disabled = not (status and status.get("success"))
-            if lo_disabled:
-                st.info(
-                    _dialog_text(
-                        "learning_objectives_hint_save_first",
-                        default="Bitte zuerst dein Fragenset speichern, dann die Lernziele hochladen.",
-                    )
-                )
-
             if st.button(
                 _dialog_text("postproduction_lo_save_button", default="💾 Lernziele speichern"),
                 key="user_qset_postprod_lo_save_btn",
-                disabled=lo_disabled or not postprod_lo_text.strip(),
+                disabled=(not step1_done) or not postprod_lo_text.strip(),
             ):
                 raw = postprod_lo_text.encode("utf-8")
                 success, detail = _save_learning_objectives_content(raw, status["identifier"])
@@ -1657,7 +1663,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             show_lo = st.toggle(
                 toggle_label,
                 key="user_qset_postprod_lo_show_toggle",
-                disabled=lo_disabled,
+                disabled=not step1_done,
             )
             if show_lo:
                 try:
@@ -1684,16 +1690,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             )
             lo_status = st.session_state.get("user_qset_lo_result")
             lo_uploaded = bool(lo_status and lo_status.get("success"))
-            status = st.session_state.get("user_qset_last_result")
-            set_ready = bool(status and status.get("success"))
-
-            if not set_ready:
-                st.info(
-                    _dialog_text(
-                        "postproduction_lo_need_set",
-                        default="Bitte zuerst die QA des Fragensets im Tab \"QA des Fragensets\" abschließen.",
-                    )
-                )
+            
             if not lo_uploaded:
                 st.info(
                     _dialog_text(
@@ -1713,7 +1710,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 _dialog_text("postproduction_lo_start_button", default="🚀 Test starten"),
                 key="user_qset_postprod_lo_start_btn",
                 type="primary",
-                disabled=not (set_ready and lo_uploaded and can_start),
+                disabled=not (step1_done and step3_done and lo_uploaded and can_start),
             ):
                 _start_test_with_user_set(status["identifier"], app_config)
 
