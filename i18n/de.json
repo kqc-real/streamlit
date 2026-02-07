@@ -139,7 +139,10 @@
         },
         "history_show_all": "Alle anzeigen",
         "history_show_less": "Weniger anzeigen",
-        "history_show_more": "Mehr anzeigen"
+        "history_show_more": "Mehr anzeigen",
+        "about_expander": "ℹ️ Über MC-Test",
+        "about_paper_button": "📄 Paper (EDULEARN26)",
+        "about_project_text": "Ein Forschungsprojekt zur formativen MC-Übung."
     },
     "tempo": {
         "normal": "Normal",

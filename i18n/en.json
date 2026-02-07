@@ -139,7 +139,10 @@
         "history_show_all": "Show all",
         "history_show_less": "Show less",
         "history_show_more": "Show more",
-        "history_expander": "📚 My sessions"
+        "history_expander": "📚 My sessions",
+        "about_expander": "ℹ️ About MC-Test",
+        "about_paper_button": "📄 Paper (EDULEARN26)",
+        "about_project_text": "A research project on formative MC practice."
     },
     "dialog": {
         "title": "✨ Create question set with AI",

@@ -1702,7 +1702,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             st.subheader(_dialog_text("title", default="✨ Fragenset mit KI erstellen"))
             _render_body()
     else:
-        @st.dialog(_dialog_text("title", default="✨ Fragenset mit KI erstellen"), width="wide")
+        @st.dialog(_dialog_text("title", default="✨ Fragenset mit KI erstellen"), width="small")
         def _dialog() -> None:
             # Deaktiviert den Standard-Schließen-Button (X) des Dialogs, damit nur unser eigener
             # "Dialog schließen"-Button den Flow beendet.
@@ -3320,6 +3320,20 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             st.session_state["aborted_user_recommended_duration"] = _captured_test_time_limit
             
             st.rerun()
+
+    # Paper download (About section)
+    paper_path = Path(get_package_dir()) / "docs" / "mc-test-paper" / "EDULEARN26.md"
+    if paper_path.exists():
+        st.sidebar.divider()
+        with st.sidebar.expander(_sidebar_text("about_expander", default="ℹ️ Über MC-Test")):
+            st.caption(_sidebar_text("about_project_text", default="Ein Forschungsprojekt zur formativen MC-Übung."))
+
+            @st.dialog(_sidebar_text("about_paper_button", default="📄 Paper (EDULEARN26)"), width="medium")
+            def _show_paper_dialog():
+                st.markdown(paper_path.read_text(encoding="utf-8"))
+
+            if st.button(_sidebar_text("about_paper_button", default="📄 Paper (EDULEARN26)"), key="about_paper_btn"):
+                _show_paper_dialog()
 
 def render_admin_switch(app_config: AppConfig, questions: QuestionSet):
     """Rendert den Umschalter für das Admin-Panel in der Sidebar."""
