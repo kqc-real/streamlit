@@ -536,8 +536,8 @@
     },
     "dialog": {
         "title": "Créer un ensemble de questions avec l’IA (4 étapes)",
-        "intro": "Ce dialogue te guide pas à pas à travers quatre onglets :\n1) Créer l’ensemble de questions : utiliser le prompt, générer le JSON et enregistrer l’ensemble.\n2) Objectifs d’apprentissage : utiliser le prompt, générer le Markdown et enregistrer les objectifs.\n3) QA de l’ensemble de questions : donner l’ensemble et le prompt à l’IA, enregistrer le JSON optimisé.\n4) QA des objectifs d’apprentissage : donner les objectifs et l’ensemble optimisé à l’IA, enregistrer les objectifs et démarrer le test.",
-        "prompt_guide": "Pour les tests QCM dans cette application, utilise le prompt Anki. Il est adapté au format JSON de l’app. Les prompts Kahoot/arsnova ne sont nécessaires que pour les exports vers ces plateformes.",
+        "intro": "Ce dialogue te guide pas à pas à travers quatre onglets (les objectifs d’apprentissage sont obligatoires) :\n1) Créer l’ensemble de questions : utiliser le prompt, générer le JSON et enregistrer l’ensemble.\n2) Objectifs d’apprentissage : utiliser le prompt, générer le Markdown et enregistrer les objectifs.\n3) QA de l’ensemble de questions : donner l’ensemble et le prompt à l’IA, enregistrer le JSON optimisé.\n4) QA des objectifs d’apprentissage : donner les objectifs et l’ensemble optimisé à l’IA, enregistrer les objectifs et démarrer le test.",
+        "prompt_guide": "Si tu veux seulement faire des QCM dans cette app, utilise le **prompt Anki**. Il correspond au format JSON de l’app. Les prompts Kahoot/arsnova ne sont nécessaires que pour les exports vers ces plateformes.",
         "prompt_toggle_button": "👁️ Afficher / Masquer",
         "prompt_download_button": "⬇️ Télécharger",
         "prompt_load_failed": "Impossible de charger {filename}.",
@@ -589,7 +589,7 @@
         "learning_objectives_error": "Les objectifs n’ont pas pu être enregistrés : {error}",
         "tab_postproduction": "3. QA de l’ensemble de questions",
         "tab_postproduction_lo": "4. QA des objectifs d’apprentissage",
-        "questionset_caption": "Ici, tu crées et enregistres ton ensemble de QCM en JSON. Sans ensemble enregistré, tu ne peux pas poursuivre avec les objectifs d’apprentissage.",
+        "questionset_caption": "Ici, tu crées et enregistres ton ensemble de QCM en JSON. Sans ensemble enregistré, tu ne peux pas poursuivre vers les objectifs d’apprentissage.",
         "questionset_next_step": "Étape suivante : créer les objectifs d’apprentissage dans l’onglet « Objectifs d’apprentissage ».",
         "questionset_next_button": "➡️ Continuer vers les objectifs d’apprentissage",
         "learning_objectives_prompt_expander": "Afficher le prompt des objectifs d’apprentissage",
@@ -638,7 +638,7 @@
         "postproduction_lo_save_success": "Objectifs d’apprentissage optimisés enregistrés. Tu peux maintenant démarrer le test.",
         "postproduction_lo_save_error": "Impossible d’enregistrer les objectifs d’apprentissage optimisés : {error}",
         "tab_selector_label": "Étape (1–4)",
-        "tab_selector_hint": "Choisis l’étape 1–4 que tu veux traiter maintenant."
+        "tab_selector_hint": "Choisis l’étape (1–4) que tu veux traiter maintenant."
     },
     "user_qset": {
         "login_required": "Connecte-toi pour commencer.",

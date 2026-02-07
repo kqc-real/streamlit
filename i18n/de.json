@@ -536,8 +536,8 @@
     },
     "dialog": {
         "title": "Fragenset mit KI erstellen (4 Schritte)",
-        "intro": "Dieser Dialog führt dich Schritt für Schritt durch vier Tabs:\n1) Fragenset erstellen: Prompt nutzen, JSON erzeugen und speichern.\n2) Lernziele: Prompt nutzen, Lernziele als Markdown erzeugen und speichern.\n3) QA des Fragensets: Set + Prompt an die KI geben, optimiertes JSON speichern.\n4) QA der Lernziele: Lernziele + optimiertes Set an die KI geben, Lernziele speichern und Test starten.",
-        "prompt_guide": "Für MC‑Tests in dieser App nutze den **Anki‑Prompt**. Er ist auf das JSON‑Format der App abgestimmt. Kahoot/arsnova‑Prompts brauchst du nur für Exporte in diese Plattformen.",
+        "intro": "Dieser Dialog führt dich Schritt für Schritt durch vier Tabs (Lernziele sind Pflicht):\n1) Fragenset erstellen: Prompt nutzen, JSON erzeugen und speichern.\n2) Lernziele: Prompt nutzen, Lernziele als Markdown erzeugen und speichern.\n3) QA des Fragensets: Set + Prompt an die KI geben, optimiertes JSON speichern.\n4) QA der Lernziele: Lernziele + optimiertes Set an die KI geben, Lernziele speichern und Test starten.",
+        "prompt_guide": "Wenn du nur in dieser App MC‑Tests durchführen willst, nutze den **Anki‑Prompt**. Er passt zum JSON‑Format der App. Kahoot/arsnova‑Prompts brauchst du nur für Exporte in diese Plattformen.",
         "prompt_toggle_button": "👁️ Anzeigen / Verbergen",
         "prompt_download_button": "⬇️ Download",
         "prompt_load_failed": "Konnte {filename} nicht laden.",
@@ -628,7 +628,7 @@
         "postproduction_lo_need_set": "Bitte zuerst die QA des Fragensets im Tab „QA des Fragensets“ abschließen.",
         "postproduction_lo_need_save": "Bitte Lernziele speichern, bevor du startest.",
         "postproduction_lo_start_button": "🚀 Test starten",
-        "intro_info": "Kurz erklärt: JSON ist das Textformat des Fragensets, Markdown das Textformat der Lernziele. QA bedeutet Qualitätsprüfung und Überarbeitung. Die KI (z. B. ChatGPT oder Gemini) erzeugt oder verbessert Inhalte anhand der Prompts.",
+        "intro_info": "Kurz erklärt: JSON ist das Textformat des Fragensets, Markdown das Textformat der Lernziele. QA heißt Qualitätsprüfung und Verbesserung. Die KI (z. B. ChatGPT oder Gemini) erzeugt oder optimiert Inhalte anhand der Prompts.",
         "questionset_save_success": "Fragenset gespeichert. Du kannst jetzt im Tab „Lernziele“ die Lernziele erstellen und hochladen.",
         "questionset_save_error": "Fragenset konnte nicht gespeichert werden: {error}",
         "learning_objectives_save_success": "Lernziele gespeichert. Du kannst jetzt den Test starten oder mit der QA des Fragensets fortfahren.",
@@ -638,7 +638,7 @@
         "postproduction_lo_save_success": "Optimierte Lernziele gespeichert. Du kannst jetzt den Test starten.",
         "postproduction_lo_save_error": "Optimierte Lernziele konnten nicht gespeichert werden: {error}",
         "tab_selector_label": "Schritt (1–4)",
-        "tab_selector_hint": "Wähle den Schritt 1–4, den du jetzt bearbeiten möchtest."
+        "tab_selector_hint": "Wähle den Schritt (1–4), den du jetzt bearbeiten möchtest."
     },
     "user_qset": {
         "login_required": "Bitte anmelden zum Starten.",

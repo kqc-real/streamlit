@@ -146,8 +146,8 @@
     },
     "dialog": {
         "title": "使用 AI 创建题库（4 步）",
-        "intro": "该对话框会引导你完成四个步骤：\n1) 创建题库：使用提示词，生成 JSON，并保存题库。\n2) 学习目标：使用提示词，生成 Markdown，并保存学习目标。\n3) 题库 QA：将题库和提示词交给 AI，保存优化后的 JSON。\n4) 学习目标 QA：将学习目标与优化题库交给 AI，保存学习目标并开始测试。",
-        "prompt_guide": "在本应用做 MC 测试请使用 Anki 提示词。它匹配本应用的 JSON 格式。Kahoot/arsnova 提示词仅用于导出到这些平台。",
+        "intro": "该对话框会引导你完成四个步骤（学习目标为必填）：\n1) 创建题库：使用提示词，生成 JSON，并保存题库。\n2) 学习目标：使用提示词，生成 Markdown，并保存学习目标。\n3) 题库 QA：将题库和提示词交给 AI，保存优化后的 JSON。\n4) 学习目标 QA：将学习目标与优化题库交给 AI，保存学习目标并开始测试。",
+        "prompt_guide": "如果你只想在本应用中进行 MC 测试，请使用 **Anki 提示词**。它匹配本应用的 JSON 格式。Kahoot/arsnova 提示词仅用于导出到这些平台。",
         "prompt_toggle_button": "👁️ 显示 / 隐藏",
         "prompt_download_button": "⬇️ 下载",
         "prompt_load_failed": "无法加载 {filename}。",
@@ -185,7 +185,7 @@
         "lo_skip_checkbox": "不上传学习目标直接开始",
         "close_button": "关闭",
         "learning_objectives_heading": "创建学习目标（Markdown）",
-        "learning_objectives_caption": "使用本标签中的提示词，将其与题库一起交给 AI，并上传或粘贴生成的学习目标（Markdown）。",
+        "learning_objectives_caption": "使用本标签中的提示词，将其与题库一起交给 AI，然后上传或粘贴学习目标（Markdown）。",
         "learning_objectives_hint_save_first": "请先保存题集，然后再上传学习目标。",
         "learning_objectives_mode": "如何添加学习目标？",
         "learning_objectives_upload_label": "📁 上传文件",
@@ -199,7 +199,7 @@
         "learning_objectives_error": "无法保存学习目标：{error}",
         "tab_postproduction": "3. 题库 QA",
         "tab_postproduction_lo": "4. 学习目标 QA",
-        "questionset_caption": "在此创建并保存你的选择题题库（JSON）。没有已保存的题库就无法继续学习目标。",
+        "questionset_caption": "在此创建并保存你的 MC 题库（JSON）。没有已保存的题库就无法继续学习目标。",
         "questionset_next_step": "下一步：在“学习目标”标签创建学习目标。",
         "questionset_next_button": "➡️ 继续到学习目标",
         "learning_objectives_prompt_expander": "显示学习目标提示词",
@@ -238,7 +238,7 @@
         "postproduction_lo_need_set": "请先在“题库 QA”标签完成题库 QA。",
         "postproduction_lo_need_save": "开始前请先保存学习目标。",
         "postproduction_lo_start_button": "🚀 开始测试",
-        "intro_info": "简要说明：JSON 是题库的文本格式，Markdown 是学习目标的文本格式。QA 表示质量检查与优化。AI（如 ChatGPT 或 Gemini）会根据提示词生成或改进内容。",
+        "intro_info": "简要说明：JSON 是题库的文本格式，Markdown 是学习目标的文本格式。QA 表示质量检查与改进。AI（如 ChatGPT 或 Gemini）会根据提示词生成或优化内容。",
         "questionset_save_success": "题库已保存。现在可以在“学习目标”标签创建并上传学习目标。",
         "questionset_save_error": "题库保存失败：{error}",
         "learning_objectives_save_success": "学习目标已保存。现在可以开始测试或继续进行题库 QA。",
@@ -248,7 +248,7 @@
         "postproduction_lo_save_success": "优化后的学习目标已保存。现在可以开始测试。",
         "postproduction_lo_save_error": "优化后的学习目标保存失败：{error}",
         "tab_selector_label": "步骤（1–4）",
-        "tab_selector_hint": "选择你现在要处理的步骤 1–4。"
+        "tab_selector_hint": "选择你现在要处理的步骤（1–4）。"
     },
     "user_qset": {
         "login_required": "登录以开始。",

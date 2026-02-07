@@ -536,8 +536,8 @@
     },
     "dialog": {
         "title": "Crear conjunto de preguntas con IA (4 pasos)",
-        "intro": "Este diálogo te guía paso a paso por cuatro pestañas:\n1) Crear conjunto de preguntas: usa el prompt, genera el JSON y guarda el conjunto.\n2) Objetivos de aprendizaje: usa el prompt, genera Markdown y guarda los objetivos.\n3) QA del conjunto de preguntas: entrega el conjunto y el prompt a la IA, guarda el JSON optimizado.\n4) QA de los objetivos de aprendizaje: entrega los objetivos y el conjunto optimizado a la IA, guarda los objetivos y empieza la prueba.",
-        "prompt_guide": "Para los tests MC de esta app usa el prompt de Anki. Está adaptado al formato JSON de la app. Los prompts de Kahoot/arsnova solo son necesarios para exportar a esas plataformas.",
+        "intro": "Este diálogo te guía paso a paso por cuatro pestañas (los objetivos de aprendizaje son obligatorios):\n1) Crear conjunto de preguntas: usa el prompt, genera el JSON y guarda el conjunto.\n2) Objetivos de aprendizaje: usa el prompt, genera Markdown y guarda los objetivos.\n3) QA del conjunto de preguntas: entrega el conjunto y el prompt a la IA, guarda el JSON optimizado.\n4) QA de los objetivos de aprendizaje: entrega los objetivos y el conjunto optimizado a la IA, guarda los objetivos y empieza la prueba.",
+        "prompt_guide": "Si solo quieres hacer tests MC en esta app, usa el **prompt de Anki**. Está adaptado al formato JSON de la app. Los prompts de Kahoot/arsnova solo se necesitan para exportar a esas plataformas.",
         "prompt_toggle_button": "👁️ Mostrar / Ocultar",
         "prompt_download_button": "⬇️ Descargar",
         "prompt_load_failed": "No cargó {filename}.",
@@ -575,7 +575,7 @@
         "lo_skip_checkbox": "Empezar sin objetivos de aprendizaje",
         "close_button": "Cerrar",
         "learning_objectives_heading": "Crear objetivos de aprendizaje (Markdown)",
-        "learning_objectives_caption": "Usa el prompt de esta pestaña, envíalo junto con el conjunto de preguntas a tu IA y sube o pega los objetivos de aprendizaje generados en Markdown.",
+        "learning_objectives_caption": "Usa el prompt de esta pestaña, envíalo junto con el conjunto de preguntas a tu IA y sube o pega los objetivos de aprendizaje en Markdown.",
         "learning_objectives_hint_save_first": "Primero guarda tu set de preguntas, luego sube los objetivos.",
         "learning_objectives_mode": "¿Cómo quieres añadir los objetivos de aprendizaje?",
         "learning_objectives_upload_label": "📁 Subir archivo",
@@ -589,7 +589,7 @@
         "learning_objectives_error": "No se pudieron guardar los objetivos: {error}",
         "tab_postproduction": "3. QA del conjunto de preguntas",
         "tab_postproduction_lo": "4. QA de los objetivos de aprendizaje",
-        "questionset_caption": "Aquí creas y guardas tu conjunto de preguntas de opción múltiple en JSON. Sin un conjunto guardado no puedes continuar con los objetivos de aprendizaje.",
+        "questionset_caption": "Aquí creas y guardas tu conjunto de preguntas MC en JSON. Sin un conjunto guardado no puedes continuar con los objetivos de aprendizaje.",
         "questionset_next_step": "Siguiente paso: crear los objetivos de aprendizaje en la pestaña «Objetivos de aprendizaje».",
         "questionset_next_button": "➡️ Continuar con objetivos de aprendizaje",
         "learning_objectives_prompt_expander": "Mostrar prompt de objetivos de aprendizaje",
@@ -628,7 +628,7 @@
         "postproduction_lo_need_set": "Primero completa la QA del conjunto de preguntas en la pestaña «QA del conjunto de preguntas».",
         "postproduction_lo_need_save": "Guarda los objetivos de aprendizaje antes de iniciar.",
         "postproduction_lo_start_button": "🚀 Iniciar prueba",
-        "intro_info": "En resumen: JSON es el formato de texto del conjunto de preguntas, Markdown es el formato de texto de los objetivos de aprendizaje. QA significa revisión y mejora de la calidad. La IA (p. ej., ChatGPT o Gemini) genera o mejora contenidos a partir de los prompts.",
+        "intro_info": "En resumen: JSON es el formato de texto del conjunto de preguntas, Markdown es el formato de texto de los objetivos de aprendizaje. QA significa revisión y mejora de la calidad. La IA (p. ej., ChatGPT o Gemini) genera o mejora contenidos según los prompts.",
         "questionset_save_success": "Conjunto guardado. Ahora puedes crear y subir los objetivos de aprendizaje en la pestaña «Objetivos de aprendizaje».",
         "questionset_save_error": "No se pudo guardar el conjunto: {error}",
         "learning_objectives_save_success": "Objetivos de aprendizaje guardados. Ahora puedes iniciar la prueba o continuar con la QA del conjunto.",
@@ -638,7 +638,7 @@
         "postproduction_lo_save_success": "Objetivos de aprendizaje optimizados guardados. Ahora puedes iniciar la prueba.",
         "postproduction_lo_save_error": "No se pudieron guardar los objetivos de aprendizaje optimizados: {error}",
         "tab_selector_label": "Paso (1–4)",
-        "tab_selector_hint": "Elige el paso 1–4 que quieres trabajar ahora."
+        "tab_selector_hint": "Elige el paso (1–4) que quieres trabajar ahora."
     },
     "user_qset": {
         "login_required": "Inicia sesión para empezar.",

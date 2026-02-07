@@ -143,8 +143,8 @@
     },
     "dialog": {
         "title": "Create question set with AI (4 steps)",
-        "intro": "This dialog guides you step by step through four tabs:\n1) Create question set: use the prompt, generate JSON, and save the set.\n2) Learning objectives: use the prompt, generate Markdown, and save the learning objectives.\n3) QA of the question set: give the set + prompt to the AI, save the optimized JSON.\n4) QA of the learning objectives: give learning objectives + optimized set to the AI, save the learning objectives, and start the test.",
-        "prompt_guide": "For MC tests in this app use the Anki prompt. It is tailored to the app’s JSON format. You only need the Kahoot/arsnova prompts for exports to those platforms.",
+        "intro": "This dialog guides you step by step through four tabs (learning objectives are required):\n1) Create question set: use the prompt, generate JSON, and save the set.\n2) Learning objectives: use the prompt, generate Markdown, and save the learning objectives.\n3) QA of the question set: give the set + prompt to the AI and save the optimized JSON.\n4) QA of the learning objectives: give learning objectives + optimized set to the AI, save the learning objectives, and start the test.",
+        "prompt_guide": "If you only want to run MC tests in this app, use the **Anki prompt**. It matches the app’s JSON format. Kahoot/arsnova prompts are only needed for exports to those platforms.",
         "prompt_toggle_button": "👁️ Show / Hide",
         "prompt_download_button": "⬇️ Download",
         "prompt_load_failed": "Couldn't load {filename}.",
@@ -196,7 +196,7 @@
         "learning_objectives_error": "Could not save learning objectives: {error}",
         "tab_postproduction": "3. QA of the question set",
         "tab_postproduction_lo": "4. QA of the learning objectives",
-        "questionset_caption": "Here you create and save your MC question set as JSON. Without a saved set, you cannot continue with learning objectives.",
+        "questionset_caption": "Create and save your MC question set as JSON. Without a saved set, you cannot continue to learning objectives.",
         "questionset_next_step": "Next step: create the learning objectives in the “Learning objectives” tab.",
         "questionset_next_button": "➡️ Continue to learning objectives",
         "learning_objectives_prompt_expander": "Show learning objectives prompt",
@@ -245,7 +245,7 @@
         "postproduction_lo_save_success": "Optimized learning objectives saved. You can now start the test.",
         "postproduction_lo_save_error": "Optimized learning objectives could not be saved: {error}",
         "tab_selector_label": "Step (1–4)",
-        "tab_selector_hint": "Choose the step 1–4 you want to work on now."
+        "tab_selector_hint": "Choose the step (1–4) you want to work on now."
     },
     "user_qset": {
         "login_required": "Log in to start.",
