@@ -361,17 +361,11 @@
             }
         },
         "warnings": {
-            "delete_multiple_feedback": "**Advertencia:** Esta acción elimina permanentemente los **{count}** mensajes de feedback actualmente visibles.",
-            "confirm_delete_feedback": "⚠️ ¿Debería eliminarse realmente este feedback?",
-            "confirm_checkbox_required": "Por favor, active la casilla de verificación de confirmación.",
-            "delete_all_used_pseudonyms": "Elimina todos los seudónimos utilizados incluyendo sesiones, respuestas y marcadores asociados. La cuenta de admin permanece intacta.",
-            "delete_all_reserved_pseudonyms": "Elimina exclusivamente seudónimos con secreto de inicio de sesión establecido (reservado) incluyendo sus datos de prueba. La cuenta de admin permanece intacta.",
-            "all_pseudonyms_taken": "Todos los seudónimos ya están ocupados. Se pueden crear nuevos inicios de sesión tan pronto como los seudónimos estén disponibles nuevamente.",
-            "select_at_least_one_pseudonym": "Por favor, seleccione al menos un seudónimo.",
-            "select_enough_pseudonyms": "Seleccione tantos seudónimos como el número deseado de inicios de sesión o reduzca el número.",
-            "delete_all_test_data": "⚠️ **Advertencia:** Esta acción elimina todas las respuestas registradas, sesiones y usuarios (excepto la cuenta de admin) de la base de datos.",
-            "reset_user_results": "⚠️ **Advertencia:** Todos los resultados de **{user_name}** para el conjunto de preguntas **{title}** serán eliminados permanentemente.",
-            "no_config": "⚠️ **¡Falta Config!**\n\nCrea `.env` o `.streamlit/secrets.toml`.\n\n**Local:**\n1. `cp .env.example .env`\n2. Reinicia.\n\nVer INSTALLATION_ANLEITUNG.md"
+            "length_bias": "Sesgo de longitud / distractores",
+            "options": "Opciones de respuesta",
+            "themes": "Distribución de temas",
+            "meta": "Advertencias de meta/campos",
+            "other": "Otras"
         },
         "audit_logging": {
             "what_is_logged": "### ¿Qué se registra?",
@@ -407,13 +401,6 @@
         "validation_failed_to_run": "No se pudo ejecutar la validación.",
         "save_validation_errors": "Errores de validación impiden guardar:",
         "save_validation_warnings": "Advertencias de validación",
-        "warnings": {
-            "length_bias": "Sesgo de longitud / distractores",
-            "options": "Opciones de respuesta",
-            "themes": "Distribución de temas",
-            "meta": "Advertencias de meta/campos",
-            "other": "Otras"
-        },
         "save_force_button": "Guardar a pesar de las advertencias",
         "promote_button": "🚀 Publicar en la colección principal",
         "promote_help": "Copia el set en la colección principal y crea primero una copia de seguridad. Esto publica el set en la colección oficial.",
@@ -548,9 +535,9 @@
         "history_show_more": "Mostrar más"
     },
     "dialog": {
-        "title": "Crear set y objetivos de aprendizaje con IA",
-        "intro": "Elige el prompt según tu objetivo (Tarjetas o Quiz) y pégalo en tu IA.",
-        "prompt_guide": "- **[Anki](https://apps.ankiweb.net/)** : La mejor opción. Ideal para fórmulas y tarjetas complejas.\n- **[Kahoot](https://kahoot.com)** : Ajustado a los límites de Kahoot (texto corto, tiempo).\n- **[arsnova.click](https://arsnova.click)** : Optimizado para la herramienta universitaria (LaTeX, Markdown).",
+        "title": "Crear conjunto de preguntas con IA (4 pasos)",
+        "intro": "Este diálogo te guía paso a paso por cuatro pestañas:\n1) Crear conjunto de preguntas: usa el prompt, genera el JSON y guarda el conjunto.\n2) Objetivos de aprendizaje: usa el prompt, genera Markdown y guarda los objetivos.\n3) QA del conjunto de preguntas: entrega el conjunto y el prompt a la IA, guarda el JSON optimizado.\n4) QA de los objetivos de aprendizaje: entrega los objetivos y el conjunto optimizado a la IA, guarda los objetivos y empieza la prueba.",
+        "prompt_guide": "Para los tests MC de esta app usa el prompt de Anki. Está adaptado al formato JSON de la app. Los prompts de Kahoot/arsnova solo son necesarios para exportar a esas plataformas.",
         "prompt_toggle_button": "👁️ Mostrar / Ocultar",
         "prompt_download_button": "⬇️ Descargar",
         "prompt_load_failed": "No cargó {filename}.",
@@ -558,9 +545,9 @@
         "prompt_copy_button": "Copiar Prompt",
         "prompt_copy_success": "¡Copiado!",
         "prompt_copy_error": "Error al copiar",
-        "tab_questionset": "Fragenset",
-        "tab_learning_objectives": "Objetivos (opcional)",
-        "questionset_heading": "Subir set de preguntas",
+        "tab_questionset": "1. Crear conjunto de preguntas",
+        "tab_learning_objectives": "2. Objetivos de aprendizaje",
+        "questionset_heading": "Crear conjunto de preguntas (JSON)",
         "prompt_expander_title": "Mostrar prompts",
         "upload_heading": "Subir set",
         "upload_warning": "⚠️ Máx 30 preguntas y 5 MB.",
@@ -587,8 +574,8 @@
         "lo_optional_info": "Opcional: Sube los objetivos en la pestaña «Lernziele» o confirma que quieres empezar sin ellos.",
         "lo_skip_checkbox": "Empezar sin objetivos de aprendizaje",
         "close_button": "Cerrar",
-        "learning_objectives_heading": "Subir objetivos de aprendizaje",
-        "learning_objectives_caption": "Usa el prompt de objetivos en la pestaña «Fragenset», mándalo a una IA externa (p. ej. ChatGPT o Gemini), genera el Markdown y súbelo aquí.",
+        "learning_objectives_heading": "Crear objetivos de aprendizaje (Markdown)",
+        "learning_objectives_caption": "Usa el prompt de esta pestaña, envíalo junto con el conjunto de preguntas a tu IA y sube o pega los objetivos de aprendizaje generados en Markdown.",
         "learning_objectives_hint_save_first": "Primero guarda tu set de preguntas, luego sube los objetivos.",
         "learning_objectives_mode": "¿Cómo quieres añadir los objetivos de aprendizaje?",
         "learning_objectives_upload_label": "📁 Subir archivo",
@@ -599,7 +586,59 @@
         "learning_objectives_clear_button": "🧹 Limpiar contenido",
         "learning_objectives_save_button": "💾 Guardar objetivos",
         "learning_objectives_success": "Objetivos guardados como {filename}. Aparecerán en el botón de objetivos de tu set.",
-        "learning_objectives_error": "No se pudieron guardar los objetivos: {error}"
+        "learning_objectives_error": "No se pudieron guardar los objetivos: {error}",
+        "tab_postproduction": "3. QA del conjunto de preguntas",
+        "tab_postproduction_lo": "4. QA de los objetivos de aprendizaje",
+        "questionset_caption": "Aquí creas y guardas tu conjunto de preguntas de opción múltiple en JSON. Sin un conjunto guardado no puedes continuar con los objetivos de aprendizaje.",
+        "questionset_next_step": "Siguiente paso: crear los objetivos de aprendizaje en la pestaña «Objetivos de aprendizaje».",
+        "questionset_next_button": "➡️ Continuar con objetivos de aprendizaje",
+        "learning_objectives_prompt_expander": "Mostrar prompt de objetivos de aprendizaje",
+        "learning_objectives_prompt_load_failed": "{filename} no se pudo cargar.",
+        "learning_objectives_original_set_download": "⬇️ Conjunto original para la IA (JSON)",
+        "learning_objectives_save_set_first": "Primero guarda tu conjunto de preguntas en la pestaña «Crear conjunto de preguntas».",
+        "learning_objectives_start_button": "🚀 Iniciar prueba",
+        "learning_objectives_next_qa_button": "➡️ Continuar con QA del conjunto de preguntas",
+        "postproduction_heading": "QA del conjunto de preguntas",
+        "postproduction_caption": "Entrega el prompt y el conjunto de preguntas a la IA, recibe un JSON optimizado, guárdalo y continúa con la QA de los objetivos de aprendizaje.",
+        "postproduction_prompt_expander": "Mostrar prompt de QA (conjunto de preguntas)",
+        "postproduction_prompt_load_failed": "{filename} no se pudo cargar.",
+        "postproduction_set_for_ai_caption": "Descarga el conjunto de preguntas y entrégalo a la IA junto con el prompt.",
+        "postproduction_set_for_ai_download": "⬇️ Conjunto para la IA (JSON)",
+        "postproduction_paste_caption": "Pega aquí el JSON optimizado de la IA y guárdalo.",
+        "postproduction_text_area_label": "📋 JSON optimizado",
+        "postproduction_json_parse_warning": "Nota: el JSON aún no es válido ({error}).",
+        "postproduction_overwrite_warning": "Ya existe un conjunto temporal con el título «{title}». ¿Sobrescribir?",
+        "postproduction_overwrite_confirm": "Sobrescribir conjunto existente",
+        "postproduction_overwrite_required": "Confirma la sobrescritura antes de guardar.",
+        "postproduction_save_button": "💾 Guardar conjunto optimizado",
+        "postproduction_next_lo_button": "➡️ Continuar con QA de los objetivos de aprendizaje",
+        "postproduction_lo_heading": "QA de los objetivos de aprendizaje",
+        "postproduction_lo_caption": "Entrega a la IA el conjunto optimizado y los objetivos de aprendizaje, guarda los objetivos optimizados e inicia la prueba.",
+        "postproduction_lo_prompt_expander": "Mostrar prompt de QA (objetivos de aprendizaje)",
+        "postproduction_lo_prompt_load_failed": "{filename} no se pudo cargar.",
+        "postproduction_lo_inputs_caption": "Descarga el conjunto optimizado y los objetivos actuales y entrégalos a la IA.",
+        "postproduction_lo_set_download": "⬇️ Conjunto optimizado para la IA (JSON)",
+        "postproduction_lo_download": "⬇️ Objetivos de aprendizaje para la IA (Markdown)",
+        "postproduction_lo_paste_caption": "Pega aquí los objetivos optimizados en Markdown.",
+        "postproduction_lo_text_area_label": "📋 Objetivos de aprendizaje optimizados (Markdown)",
+        "postproduction_lo_save_button": "💾 Guardar objetivos de aprendizaje",
+        "postproduction_lo_show_button": "👁️ Mostrar objetivos de aprendizaje",
+        "postproduction_lo_hide_button": "🚫 Cerrar la vista de objetivos de aprendizaje",
+        "postproduction_lo_not_found": "Aún no se han guardado objetivos de aprendizaje para este conjunto.",
+        "postproduction_lo_need_set": "Primero completa la QA del conjunto de preguntas en la pestaña «QA del conjunto de preguntas».",
+        "postproduction_lo_need_save": "Guarda los objetivos de aprendizaje antes de iniciar.",
+        "postproduction_lo_start_button": "🚀 Iniciar prueba",
+        "intro_info": "En resumen: JSON es el formato de texto del conjunto de preguntas, Markdown es el formato de texto de los objetivos de aprendizaje. QA significa revisión y mejora de la calidad. La IA (p. ej., ChatGPT o Gemini) genera o mejora contenidos a partir de los prompts.",
+        "questionset_save_success": "Conjunto guardado. Ahora puedes crear y subir los objetivos de aprendizaje en la pestaña «Objetivos de aprendizaje».",
+        "questionset_save_error": "No se pudo guardar el conjunto: {error}",
+        "learning_objectives_save_success": "Objetivos de aprendizaje guardados. Ahora puedes iniciar la prueba o continuar con la QA del conjunto.",
+        "learning_objectives_save_error": "No se pudieron guardar los objetivos de aprendizaje: {error}",
+        "postproduction_save_success": "Conjunto optimizado guardado. Si existía uno anterior, fue reemplazado. Ahora puedes continuar con la QA de los objetivos de aprendizaje.",
+        "postproduction_save_error": "No se pudo guardar el conjunto optimizado: {error}",
+        "postproduction_lo_save_success": "Objetivos de aprendizaje optimizados guardados. Ahora puedes iniciar la prueba.",
+        "postproduction_lo_save_error": "No se pudieron guardar los objetivos de aprendizaje optimizados: {error}",
+        "tab_selector_label": "Paso (1–4)",
+        "tab_selector_hint": "Elige el paso 1–4 que quieres trabajar ahora."
     },
     "user_qset": {
         "login_required": "Inicia sesión para empezar.",
@@ -791,7 +830,8 @@
         "topic": "Tema",
         "concept": "Concepto",
         "question_set": "Set",
-        "difficulty": "Dificultad"
+        "difficulty": "Dificultad",
+        "questionset_title": "Conjunto"
     },
     "export": {
         "musterloesung": "Solución modelo",
@@ -841,7 +881,8 @@
             "correct_answer": "Respuesta correcta",
             "explanation": "Explicación",
             "detailed_explanation": "Explicación detallada"
-        }
+        },
+        "kognitive_stufe": "Nivel cognitivo"
     },
     "pdf": {
         "status": {
@@ -880,7 +921,8 @@
             "above": "sobre media",
             "below": "bajo media",
             "neutral": "en media",
-            "footer": "Base: {n} participantes. Fecha: {date}."
+            "footer": "Base: {n} participantes. Fecha: {date}.",
+            "by_difficulty": "Por dificultad"
         },
         "question_header": "Pregunta {current} / {total}",
         "bookmarks_title": "Preguntas Marcadas",
@@ -919,7 +961,11 @@
         },
         "detailed_analysis": "Análisis Detallado",
         "header": {
-            "manual_end": "Finalizado antes"
+            "manual_end": "Finalizado antes",
+            "mode": {
+                "exam": "Informe de prueba",
+                "practice": "Informe de práctica"
+            }
         },
         "weak_topics": {
             "title": "A mejorar",
@@ -971,7 +1017,8 @@
     },
     "mini_glossary": {
         "title": "Términos: \"{name}\"",
-        "empty_error": "Sin glosario."
+        "empty_error": "Sin glosario.",
+        "expander_label": "Consultar términos"
     },
     "unnamed_set": "Set sin nombre",
     "summary": {
@@ -1385,9 +1432,8 @@
             "wrong": "Incorrecta",
             "unanswered": "Sin responder"
         }
-    }
-
-    ,"validator": {
+    },
+    "validator": {
         "errors": {
             "field_must_be_non_empty_text": "{0} debe ser un texto no vacío.",
             "unsafe_html_tags": "{0}: No se permiten etiquetas HTML inseguras.",
@@ -1416,11 +1462,11 @@
             "length_bias_short": "Sesgo de longitud: la respuesta correcta es mucho más corta (Z={0:.2f}) que los distractores; puede dar una pista.",
             "too_many_questions": "El set contiene {0} preguntas. Máximo recomendado: {1}.",
             "too_many_themes": "Se encontraron {0} temas diferentes. Máximo recomendado: {1}."
-        }
-        ,"context": {
+        },
+        "context": {
             "question": "Pregunta {0}"
-        }
-        ,"labels": {
+        },
+        "labels": {
             "field_question": "Campo 'question'",
             "field_explanation": "Campo 'explanation'",
             "field_topic": "Campo 'topic'",

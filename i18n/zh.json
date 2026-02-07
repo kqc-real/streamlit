@@ -145,9 +145,9 @@
         "history_show_more": "显示更多"
     },
     "dialog": {
-        "title": "使用 AI 创建题库与学习目标",
-        "intro": "选择符合您目标的提示词（抽认卡或测验）并将其复制到您的 AI。",
-        "prompt_guide": "- **Anki**: 首选。最适合公式和复杂卡片。\n- **Kahoot**: 针对 Kahoot 限制（文本长度、时间）进行了调整。\n- **arsnova.click**: 针对大学工具（Markdown, LaTeX）进行了优化。",
+        "title": "使用 AI 创建题库（4 步）",
+        "intro": "该对话框会引导你完成四个步骤：\n1) 创建题库：使用提示词，生成 JSON，并保存题库。\n2) 学习目标：使用提示词，生成 Markdown，并保存学习目标。\n3) 题库 QA：将题库和提示词交给 AI，保存优化后的 JSON。\n4) 学习目标 QA：将学习目标与优化题库交给 AI，保存学习目标并开始测试。",
+        "prompt_guide": "在本应用做 MC 测试请使用 Anki 提示词。它匹配本应用的 JSON 格式。Kahoot/arsnova 提示词仅用于导出到这些平台。",
         "prompt_toggle_button": "👁️ 显示 / 隐藏",
         "prompt_download_button": "⬇️ 下载",
         "prompt_load_failed": "无法加载 {filename}。",
@@ -155,9 +155,9 @@
         "prompt_copy_button": "复制提示词",
         "prompt_copy_success": "已复制！",
         "prompt_copy_error": "复制失败",
-        "tab_questionset": "Fragenset",
-        "tab_learning_objectives": "学习目标（可选）",
-        "questionset_heading": "上传题库",
+        "tab_questionset": "1. 创建题库",
+        "tab_learning_objectives": "2. 学习目标",
+        "questionset_heading": "创建题库（JSON）",
         "prompt_expander_title": "显示提示词",
         "upload_heading": "上传题库",
         "upload_warning": "⚠️ 允许最多 30 个问题和 5 MB。",
@@ -184,8 +184,8 @@
         "lo_optional_info": "可选：在“Lernziele”选项卡上传学习目标，或确认直接开始。",
         "lo_skip_checkbox": "不上传学习目标直接开始",
         "close_button": "关闭",
-        "learning_objectives_heading": "上传学习目标",
-        "learning_objectives_caption": "在“Fragenset”选项卡使用学习目标提示词，提交给外部 AI（如 ChatGPT 或 Gemini），生成 Markdown，然后在此上传。",
+        "learning_objectives_heading": "创建学习目标（Markdown）",
+        "learning_objectives_caption": "使用本标签中的提示词，将其与题库一起交给 AI，并上传或粘贴生成的学习目标（Markdown）。",
         "learning_objectives_hint_save_first": "请先保存题集，然后再上传学习目标。",
         "learning_objectives_mode": "如何添加学习目标？",
         "learning_objectives_upload_label": "📁 上传文件",
@@ -196,7 +196,59 @@
         "learning_objectives_clear_button": "🧹 清空内容",
         "learning_objectives_save_button": "💾 保存学习目标",
         "learning_objectives_success": "学习目标已保存为 {filename}。它会在题集的学习目标按钮中显示。",
-        "learning_objectives_error": "无法保存学习目标：{error}"
+        "learning_objectives_error": "无法保存学习目标：{error}",
+        "tab_postproduction": "3. 题库 QA",
+        "tab_postproduction_lo": "4. 学习目标 QA",
+        "questionset_caption": "在此创建并保存你的选择题题库（JSON）。没有已保存的题库就无法继续学习目标。",
+        "questionset_next_step": "下一步：在“学习目标”标签创建学习目标。",
+        "questionset_next_button": "➡️ 继续到学习目标",
+        "learning_objectives_prompt_expander": "显示学习目标提示词",
+        "learning_objectives_prompt_load_failed": "{filename} 无法加载。",
+        "learning_objectives_original_set_download": "⬇️ AI 用原始题库（JSON）",
+        "learning_objectives_save_set_first": "请先在“创建题库”标签保存题库。",
+        "learning_objectives_start_button": "🚀 开始测试",
+        "learning_objectives_next_qa_button": "➡️ 继续到题库 QA",
+        "postproduction_heading": "题库 QA",
+        "postproduction_caption": "将提示词和题库交给 AI，获得优化后的 JSON，保存后继续学习目标 QA。",
+        "postproduction_prompt_expander": "显示 QA 提示词（题库）",
+        "postproduction_prompt_load_failed": "{filename} 无法加载。",
+        "postproduction_set_for_ai_caption": "下载题库，并与提示词一起交给 AI。",
+        "postproduction_set_for_ai_download": "⬇️ AI 用题库（JSON）",
+        "postproduction_paste_caption": "在此粘贴 AI 优化后的 JSON 并保存。",
+        "postproduction_text_area_label": "📋 优化后的 JSON",
+        "postproduction_json_parse_warning": "提示：JSON 仍未有效（{error}）。",
+        "postproduction_overwrite_warning": "已存在标题为“{title}”的临时题库。是否覆盖？",
+        "postproduction_overwrite_confirm": "覆盖现有题库",
+        "postproduction_overwrite_required": "保存前请确认覆盖。",
+        "postproduction_save_button": "💾 保存优化题库",
+        "postproduction_next_lo_button": "➡️ 继续到学习目标 QA",
+        "postproduction_lo_heading": "学习目标 QA",
+        "postproduction_lo_caption": "将优化题库和学习目标交给 AI，保存优化后的学习目标并开始测试。",
+        "postproduction_lo_prompt_expander": "显示 QA 提示词（学习目标）",
+        "postproduction_lo_prompt_load_failed": "{filename} 无法加载。",
+        "postproduction_lo_inputs_caption": "下载优化题库和当前学习目标，并一起交给 AI。",
+        "postproduction_lo_set_download": "⬇️ AI 用优化题库（JSON）",
+        "postproduction_lo_download": "⬇️ AI 用学习目标（Markdown）",
+        "postproduction_lo_paste_caption": "在此粘贴优化后的学习目标（Markdown）。",
+        "postproduction_lo_text_area_label": "📋 优化后的学习目标（Markdown）",
+        "postproduction_lo_save_button": "💾 保存学习目标",
+        "postproduction_lo_show_button": "👁️ 显示学习目标",
+        "postproduction_lo_hide_button": "🚫 关闭学习目标显示",
+        "postproduction_lo_not_found": "该题库尚未保存学习目标。",
+        "postproduction_lo_need_set": "请先在“题库 QA”标签完成题库 QA。",
+        "postproduction_lo_need_save": "开始前请先保存学习目标。",
+        "postproduction_lo_start_button": "🚀 开始测试",
+        "intro_info": "简要说明：JSON 是题库的文本格式，Markdown 是学习目标的文本格式。QA 表示质量检查与优化。AI（如 ChatGPT 或 Gemini）会根据提示词生成或改进内容。",
+        "questionset_save_success": "题库已保存。现在可以在“学习目标”标签创建并上传学习目标。",
+        "questionset_save_error": "题库保存失败：{error}",
+        "learning_objectives_save_success": "学习目标已保存。现在可以开始测试或继续进行题库 QA。",
+        "learning_objectives_save_error": "学习目标保存失败：{error}",
+        "postproduction_save_success": "优化题库已保存。如果之前存在题库，已被替换。现在可以继续学习目标 QA。",
+        "postproduction_save_error": "优化题库保存失败：{error}",
+        "postproduction_lo_save_success": "优化后的学习目标已保存。现在可以开始测试。",
+        "postproduction_lo_save_error": "优化后的学习目标保存失败：{error}",
+        "tab_selector_label": "步骤（1–4）",
+        "tab_selector_hint": "选择你现在要处理的步骤 1–4。"
     },
     "user_qset": {
         "login_required": "登录以开始。",
@@ -388,7 +440,8 @@
         "topic": "主题",
         "concept": "概念",
         "question_set": "题库",
-        "difficulty": "难度"
+        "difficulty": "难度",
+        "questionset_title": "题库"
     },
     "export": {
         "musterloesung": "示例解答",
@@ -742,17 +795,11 @@
             }
         },
         "warnings": {
-            "delete_multiple_feedback": "**警告：** 此操作将永久删除当前可见的 **{count}** 条反馈消息。",
-            "confirm_delete_feedback": "⚠️ 真的要删除此反馈吗？",
-            "confirm_checkbox_required": "请激活确认复选框。",
-            "delete_all_used_pseudonyms": "删除所有已使用的化名，包括相关的会话、答案和书签。管理员账户保持不变。",
-            "delete_all_reserved_pseudonyms": "仅删除设置了登录密钥的化名（保留的），包括它们的测试数据。管理员账户保持不变。",
-            "all_pseudonyms_taken": "所有化名都已被占用。一旦有化名再次可用，就可以创建新的登录。",
-            "select_at_least_one_pseudonym": "请至少选择一个化名。",
-            "select_enough_pseudonyms": "选择与所需登录数量一样多的化名，或减少数量。",
-            "delete_all_test_data": "⚠️ **警告：** 此操作将从数据库中删除所有记录的答案、会话和用户（管理员账户除外）。",
-            "reset_user_results": "⚠️ **警告：** **{user_name}** 在问题集 **{title}** 中的所有结果将被永久删除。",
-            "no_config": "⚠️ **配置缺失！**\n\n创建 `.env` 或 `.streamlit/secrets.toml`.\n\n**本地:**\n1. `cp .env.example .env`\n2. 重启。\n\n请参阅 docs/installation/INSTALLATION_ANLEITUNG.md"
+            "length_bias": "长度偏差 / 干扰项",
+            "options": "答案选项",
+            "themes": "主题分布",
+            "meta": "元数据/字段警告",
+            "other": "其他"
         },
         "audit_logging": {
             "what_is_logged": "### 记录了什么？",
@@ -788,13 +835,6 @@
         "validation_failed_to_run": "无法执行验证。",
         "save_validation_errors": "验证错误，阻止保存：",
         "save_validation_warnings": "验证警告",
-        "warnings": {
-            "length_bias": "长度偏差 / 干扰项",
-            "options": "答案选项",
-            "themes": "主题分布",
-            "meta": "元数据/字段警告",
-            "other": "其他"
-        },
         "save_force_button": "忽略警告并保存",
         "promote_button": "🚀 发布到主集合",
         "promote_help": "将题库复制到主集合并先创建备份。此操作会将题库发布到官方集合。",
@@ -844,7 +884,8 @@
             "correct_answer": "正确答案",
             "explanation": "解释",
             "detailed_explanation": "详细解释"
-        }
+        },
+        "kognitive_stufe": "认知层级"
     },
     "pdf": {
         "status": {
@@ -883,7 +924,8 @@
             "above": "高于平均",
             "below": "低于平均",
             "neutral": "平均",
-            "footer": "基数: {n} 名参与者。日期: {date}。"
+            "footer": "基数: {n} 名参与者。日期: {date}。",
+            "by_difficulty": "按难度"
         },
         "question_header": "问题 {current} / {total}",
         "bookmarks_title": "已标记的问题",
@@ -922,7 +964,11 @@
         },
         "detailed_analysis": "详细分析",
         "header": {
-            "manual_end": "提前结束"
+            "manual_end": "提前结束",
+            "mode": {
+                "exam": "测试报告",
+                "practice": "练习报告"
+            }
         },
         "weak_topics": {
             "title": "发现的差距",
@@ -974,7 +1020,8 @@
     },
     "mini_glossary": {
         "title": "\"{name}\" 中的术语",
-        "empty_error": "无可用词汇表。"
+        "empty_error": "无可用词汇表。",
+        "expander_label": "查阅术语"
     },
     "unnamed_set": "未命名题库",
     "summary": {
@@ -1388,9 +1435,8 @@
             "wrong": "错误",
             "unanswered": "未答"
         }
-    }
-
-    ,"validator": {
+    },
+    "validator": {
         "errors": {
             "field_must_be_non_empty_text": "{0} 必须是非空文本。",
             "unsafe_html_tags": "{0}：不允许不安全的 HTML 标签。",
@@ -1419,23 +1465,23 @@
             "length_bias_short": "长度偏差：正确答案明显更短 (Z={0:.2f})，可能暴露线索。",
             "too_many_questions": "题库包含 {0} 道题。推荐最多 {1} 道。",
             "too_many_themes": "发现 {0} 个不同主题。推荐最多 {1} 个。"
+        },
+        "context": {
+            "question": "问题 {0}"
+        },
+        "labels": {
+            "field_question": "字段 'question'",
+            "field_explanation": "字段 'explanation'",
+            "field_topic": "字段 'topic'",
+            "field_options": "字段 'options'",
+            "option": "选项 {0}",
+            "field_answer": "字段 'answer'",
+            "field_weight": "字段 '权重'",
+            "mini_glossary_key": "词汇表键",
+            "mini_glossary_entry": "词汇表条目",
+            "field_concept": "字段 'concept'",
+            "field_cognitive_level": "字段 'cognitive_level'"
         }
-    		,"context": {
-    			"question": "问题 {0}"
-    		}
-    		,"labels": {
-    			"field_question": "字段 'question'",
-    			"field_explanation": "字段 'explanation'",
-    			"field_topic": "字段 'topic'",
-    			"field_options": "字段 'options'",
-    			"option": "选项 {0}",
-    			"field_answer": "字段 'answer'",
-    			"field_weight": "字段 '权重'",
-    			"mini_glossary_key": "词汇表键",
-    			"mini_glossary_entry": "词汇表条目",
-    			"field_concept": "字段 'concept'",
-    			"field_cognitive_level": "字段 'cognitive_level'"
-    		}
     },
     "database": {
         "overloaded": "The database is currently heavily loaded. Please try again later."

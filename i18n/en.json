@@ -138,12 +138,13 @@
         },
         "history_show_all": "Show all",
         "history_show_less": "Show less",
-        "history_show_more": "Show more"
+        "history_show_more": "Show more",
+        "history_expander": "📚 My sessions"
     },
     "dialog": {
-        "title": "Create Set & Learning Objectives with AI",
-        "intro": "Use the prompts in the \"Fragenset\" tab, send them to your AI (e.g. ChatGPT or Gemini) to create the MC set and optional learning objectives, then upload/paste the JSON and upload the Markdown in the matching tabs.",
-        "prompt_guide": "- **[Anki](https://apps.ankiweb.net/)**: Top choice. Best for formulas & complex cards.\n- **[Kahoot](https://kahoot.com)**: Tuned for Kahoot limits (text length, time).\n- **[arsnova.click](https://arsnova.click)**: Optimized for the uni tool (Markdown, LaTeX).",
+        "title": "Create question set with AI (4 steps)",
+        "intro": "This dialog guides you step by step through four tabs:\n1) Create question set: use the prompt, generate JSON, and save the set.\n2) Learning objectives: use the prompt, generate Markdown, and save the learning objectives.\n3) QA of the question set: give the set + prompt to the AI, save the optimized JSON.\n4) QA of the learning objectives: give learning objectives + optimized set to the AI, save the learning objectives, and start the test.",
+        "prompt_guide": "For MC tests in this app use the Anki prompt. It is tailored to the app’s JSON format. You only need the Kahoot/arsnova prompts for exports to those platforms.",
         "prompt_toggle_button": "👁️ Show / Hide",
         "prompt_download_button": "⬇️ Download",
         "prompt_load_failed": "Couldn't load {filename}.",
@@ -151,9 +152,9 @@
         "prompt_copy_button": "Copy Prompt",
         "prompt_copy_success": "Copied!",
         "prompt_copy_error": "Copy failed",
-        "tab_questionset": "Question set",
-        "tab_learning_objectives": "Learning objectives (optional)",
-        "questionset_heading": "Upload Question Set",
+        "tab_questionset": "1. Create question set",
+        "tab_learning_objectives": "2. Learning objectives",
+        "questionset_heading": "Create question set (JSON)",
         "prompt_expander_title": "Show prompts",
         "upload_heading": "Upload Set",
         "upload_warning": "⚠️ Max 30 questions & 5 MB allowed.",
@@ -180,8 +181,8 @@
         "lo_optional_info": "Optional: Upload learning objectives in the \"Lernziele\" tab or confirm you want to start without them.",
         "lo_skip_checkbox": "Start without learning objectives",
         "close_button": "Close",
-        "learning_objectives_heading": "Upload Learning Objectives",
-        "learning_objectives_caption": "Use the learning-objectives prompt in the \"Fragenset\" tab, send it to an external AI (e.g. ChatGPT or Gemini), generate Markdown, and upload it here.",
+        "learning_objectives_heading": "Create learning objectives (Markdown)",
+        "learning_objectives_caption": "Use the prompt on this tab, send it together with the question set to your AI, and upload or paste the generated learning objectives as Markdown.",
         "learning_objectives_hint_save_first": "Save your question set first, then upload the learning objectives.",
         "learning_objectives_mode": "How do you want to add the learning objectives?",
         "learning_objectives_upload_label": "📁 Upload file",
@@ -192,7 +193,59 @@
         "learning_objectives_clear_button": "🧹 Clear content",
         "learning_objectives_save_button": "💾 Save learning objectives",
         "learning_objectives_success": "Learning objectives saved as {filename}. They appear via the learning objectives button for your set.",
-        "learning_objectives_error": "Could not save learning objectives: {error}"
+        "learning_objectives_error": "Could not save learning objectives: {error}",
+        "tab_postproduction": "3. QA of the question set",
+        "tab_postproduction_lo": "4. QA of the learning objectives",
+        "questionset_caption": "Here you create and save your MC question set as JSON. Without a saved set, you cannot continue with learning objectives.",
+        "questionset_next_step": "Next step: create the learning objectives in the “Learning objectives” tab.",
+        "questionset_next_button": "➡️ Continue to learning objectives",
+        "learning_objectives_prompt_expander": "Show learning objectives prompt",
+        "learning_objectives_prompt_load_failed": "{filename} could not be loaded.",
+        "learning_objectives_original_set_download": "⬇️ Original set for AI (JSON)",
+        "learning_objectives_save_set_first": "Please save your question set first in the “Create question set” tab.",
+        "learning_objectives_start_button": "🚀 Start test",
+        "learning_objectives_next_qa_button": "➡️ Continue to QA of the question set",
+        "postproduction_heading": "QA of the question set",
+        "postproduction_caption": "Give the prompt and question set to the AI, receive optimized JSON, save it, and continue to QA of the learning objectives.",
+        "postproduction_prompt_expander": "Show QA prompt (question set)",
+        "postproduction_prompt_load_failed": "{filename} could not be loaded.",
+        "postproduction_set_for_ai_caption": "Download the question set and give it to the AI together with the prompt.",
+        "postproduction_set_for_ai_download": "⬇️ Set for AI (JSON)",
+        "postproduction_paste_caption": "Paste the AI’s optimized JSON here and save it.",
+        "postproduction_text_area_label": "📋 Optimized JSON",
+        "postproduction_json_parse_warning": "Note: The JSON is not valid yet ({error}).",
+        "postproduction_overwrite_warning": "A temporary question set titled “{title}” already exists. Overwrite it?",
+        "postproduction_overwrite_confirm": "Overwrite existing set",
+        "postproduction_overwrite_required": "Please confirm the overwrite before saving.",
+        "postproduction_save_button": "💾 Save optimized set",
+        "postproduction_next_lo_button": "➡️ Continue to QA of the learning objectives",
+        "postproduction_lo_heading": "QA of the learning objectives",
+        "postproduction_lo_caption": "Give the optimized set and learning objectives to the AI, save the optimized learning objectives, and start the test.",
+        "postproduction_lo_prompt_expander": "Show QA prompt (learning objectives)",
+        "postproduction_lo_prompt_load_failed": "{filename} could not be loaded.",
+        "postproduction_lo_inputs_caption": "Download the optimized set and current learning objectives and give both to the AI.",
+        "postproduction_lo_set_download": "⬇️ Optimized set for AI (JSON)",
+        "postproduction_lo_download": "⬇️ Learning objectives for AI (Markdown)",
+        "postproduction_lo_paste_caption": "Paste the optimized learning objectives as Markdown here.",
+        "postproduction_lo_text_area_label": "📋 Optimized learning objectives (Markdown)",
+        "postproduction_lo_save_button": "💾 Save learning objectives",
+        "postproduction_lo_show_button": "👁️ Show learning objectives",
+        "postproduction_lo_hide_button": "🚫 Close learning objectives view",
+        "postproduction_lo_not_found": "No learning objectives have been saved for this question set yet.",
+        "postproduction_lo_need_set": "Please complete the QA of the question set in the “QA of the question set” tab first.",
+        "postproduction_lo_need_save": "Please save the learning objectives before starting.",
+        "postproduction_lo_start_button": "🚀 Start test",
+        "intro_info": "Quick recap: JSON is the text format for the question set, Markdown is the text format for learning objectives. QA means quality review and improvement. The AI (e.g., ChatGPT or Gemini) generates or improves content based on the prompts.",
+        "questionset_save_success": "Question set saved. You can now create and upload the learning objectives in the “Learning objectives” tab.",
+        "questionset_save_error": "Question set could not be saved: {error}",
+        "learning_objectives_save_success": "Learning objectives saved. You can now start the test or continue with QA of the question set.",
+        "learning_objectives_save_error": "Learning objectives could not be saved: {error}",
+        "postproduction_save_success": "Optimized question set saved. If a previous set existed, it was replaced. You can now continue with QA of the learning objectives.",
+        "postproduction_save_error": "Optimized question set could not be saved: {error}",
+        "postproduction_lo_save_success": "Optimized learning objectives saved. You can now start the test.",
+        "postproduction_lo_save_error": "Optimized learning objectives could not be saved: {error}",
+        "tab_selector_label": "Step (1–4)",
+        "tab_selector_hint": "Choose the step 1–4 you want to work on now."
     },
     "user_qset": {
         "login_required": "Log in to start.",
@@ -384,7 +437,8 @@
         "topic": "Topic",
         "concept": "Concept",
         "question_set": "Set",
-        "difficulty": "Difficulty"
+        "difficulty": "Difficulty",
+        "questionset_title": "Set"
     },
     "export": {
         "musterloesung": "Sample Solution",
@@ -738,17 +792,11 @@
             "no_completed_tests": "No completed tests available yet. Statistics will be displayed after the first tests."
         },
         "warnings": {
-            "delete_multiple_feedback": "**Warning:** This action permanently deletes the **{count}** currently visible feedback messages.",
-            "confirm_delete_feedback": "⚠️ Should this feedback really be deleted?",
-            "confirm_checkbox_required": "Please activate the confirmation checkbox.",
-            "delete_all_used_pseudonyms": "Deletes all used pseudonyms including associated sessions, answers and bookmarks. The admin account remains intact.",
-            "delete_all_reserved_pseudonyms": "Deletes exclusively pseudonyms with set login secret (reserved) including their test data. The admin account remains intact.",
-            "all_pseudonyms_taken": "All pseudonyms are already taken. New logins can be created as soon as pseudonyms become available again.",
-            "select_at_least_one_pseudonym": "Please select at least one pseudonym.",
-            "select_enough_pseudonyms": "Select as many pseudonyms as the desired number of logins or reduce the number.",
-            "delete_all_test_data": "⚠️ **Warning:** This action deletes all recorded answers, sessions and users (except the admin account) from the database.",
-            "reset_user_results": "⚠️ **Warning:** All results from **{user_name}** for the question set **{title}** will be permanently deleted.",
-            "no_config": "⚠️ **Config missing!**\n\nCreate `.env` or `.streamlit/secrets.toml`.\n\n**Local:**\n1. `cp .env.example .env`\n2. Restart.\n\nSee INSTALLATION_ANLEITUNG.md"
+            "length_bias": "Length bias / distractors",
+            "options": "Answer options",
+            "themes": "Topic distribution",
+            "meta": "Meta/field warnings",
+            "other": "Other"
         },
         "audit_logging": {
             "what_is_logged": "### What is logged?",
@@ -784,13 +832,6 @@
         "validation_failed_to_run": "Validation could not be executed.",
         "save_validation_errors": "Validation errors prevent saving:",
         "save_validation_warnings": "Validation warnings",
-        "warnings": {
-            "length_bias": "Length bias / distractors",
-            "options": "Answer options",
-            "themes": "Topic distribution",
-            "meta": "Meta/field warnings",
-            "other": "Other"
-        },
         "save_force_button": "Save despite warnings",
         "promote_button": "🚀 Publish to main collection",
         "promote_help": "Copies the set into the main collection and creates a backup first. This publishes the set to the official collection.",
@@ -840,7 +881,8 @@
             "correct_answer": "Correct Answer",
             "explanation": "Explanation",
             "detailed_explanation": "Detailed Explanation"
-        }
+        },
+        "kognitive_stufe": "Cognitive level"
     },
     "pdf": {
         "status": {
@@ -879,7 +921,8 @@
             "above": "above avg",
             "below": "below avg",
             "neutral": "average",
-            "footer": "Base: {n} participants. Date: {date}."
+            "footer": "Base: {n} participants. Date: {date}.",
+            "by_difficulty": "By difficulty"
         },
         "question_header": "Question {current} / {total}",
         "bookmarks_title": "Bookmarked Questions",
@@ -918,7 +961,11 @@
         },
         "detailed_analysis": "Detail Analysis",
         "header": {
-            "manual_end": "Ended early"
+            "manual_end": "Ended early",
+            "mode": {
+                "exam": "Test report",
+                "practice": "Practice report"
+            }
         },
         "weak_topics": {
             "title": "Gaps identified",
@@ -970,7 +1017,8 @@
     },
     "mini_glossary": {
         "title": "Terms in \"{name}\"",
-        "empty_error": "No glossary available."
+        "empty_error": "No glossary available.",
+        "expander_label": "Look up terms"
     },
     "unnamed_set": "Unnamed Set",
     "summary": {
