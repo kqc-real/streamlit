@@ -350,6 +350,7 @@ def save_user_question_set(
     meta["uploaded_by_hash"] = user_hash
     meta["uploaded_at"] = uploaded_at.isoformat()
     meta["temporary"] = True
+    meta["original_filename"] = original_filename or "upload.json"
 
     stored_payload = {
         "questions": question_set.questions,
@@ -702,3 +703,28 @@ def pretty_label_from_identifier_string(raw: str) -> str:
         return s
     except Exception:
         return 'Ungenanntes Fragenset'
+
+
+def is_owner_of_user_qset(identifier: str, user_pseudo: str | None, user_hash: str | None) -> bool:
+    """Return True if the given pseudonym or hash owns the user-uploaded set."""
+    if not identifier or not identifier.startswith(USER_QUESTION_PREFIX):
+        return False
+    try:
+        info = get_user_question_set(identifier)
+    except Exception:
+        info = None
+
+    if not info:
+        return False
+
+    try:
+        uploaded_by = getattr(info, 'uploaded_by', None)
+        uploaded_by_hash = getattr(info, 'uploaded_by_hash', None)
+        if uploaded_by and user_pseudo and uploaded_by == user_pseudo:
+            return True
+        if uploaded_by_hash and user_hash and uploaded_by_hash == user_hash:
+            return True
+    except Exception:
+        return False
+
+    return False

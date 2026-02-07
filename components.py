@@ -57,6 +57,7 @@ from user_question_sets import (
     save_user_question_set,
     delete_user_question_set,
     delete_sets_for_user,
+    is_owner_of_user_qset,
 )
 from i18n import available_locales, translate
 from i18n.context import t as translate_ui, get_locale, set_locale
@@ -445,35 +446,6 @@ def close_user_qset_dialog(clear_results: bool = False, clear_active_toast: bool
             pass
 
 
-def is_owner_of_user_qset(identifier: str, user_pseudo: str | None, user_hash: str | None) -> bool:
-    """Return True if the given pseudonym or hash owns the user-uploaded set.
-
-    This helper centralizes the ownership check so it can be unit-tested
-    independently of the UI flow.
-    """
-    if not identifier or not identifier.startswith(USER_QUESTION_PREFIX):
-        return False
-    try:
-        info = get_user_question_set(identifier)
-    except Exception:
-        info = None
-
-    if not info:
-        return False
-
-    try:
-        uploaded_by = getattr(info, 'uploaded_by', None)
-        uploaded_by_hash = getattr(info, 'uploaded_by_hash', None)
-        if uploaded_by and user_pseudo and uploaded_by == user_pseudo:
-            return True
-        if uploaded_by_hash and user_hash and uploaded_by_hash == user_hash:
-            return True
-    except Exception:
-        return False
-
-    return False
-
-
 def _start_test_with_user_set(identifier: str, app_config: AppConfig) -> None:
     user_id = st.session_state.get("user_id")
     user_hash = st.session_state.get("user_id_hash")
@@ -682,7 +654,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             try:
                 # Prüfen, ob das aktuelle Set aus der Postproduction stammt
                 info = get_user_question_set(status["identifier"])
-                if info and info.question_set and info.question_set.source_filename == "postproduction.json":
+                if info and info.question_set and info.question_set.meta.get("original_filename") == "postproduction.json":
                     step3_done = True
             except Exception:
                 pass
