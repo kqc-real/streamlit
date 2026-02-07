@@ -53,7 +53,9 @@ from user_question_sets import (
     format_user_label,
     get_user_question_set,
     iter_prompt_resources,
+    list_user_question_sets,
     save_user_question_set,
+    delete_user_question_set,
     delete_sets_for_user,
 )
 from i18n import available_locales, translate
@@ -539,7 +541,23 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
         st.markdown(
             _dialog_text(
                 "intro",
-                default="Nutze KI-Prompts, speichere dein Fragenset und hänge bei Bedarf Lernziele als Markdown an.",
+                default=(
+                    "In diesem Dialog führst du vier Schritte aus:\n\n"
+                    "1) **Fragenset erstellen** – Prompt nutzen, JSON erzeugen, Fragenset speichern.\n"
+                    "2) **Lernziele** – Prompt nutzen, Lernziele als Markdown erzeugen und speichern (erforderlich).\n"
+                    "3) **QA des Fragensets** – Set + Prompt an die KI geben, optimiertes JSON speichern.\n"
+                    "4) **QA der Lernziele** – Lernziele + optimiertes Set an die KI geben, Lernziele speichern und Test starten."
+                ),
+            )
+        )
+        st.info(
+            _dialog_text(
+                "intro_info",
+                default=(
+                    "Kurz erklärt: **JSON** ist die Datei für dein Fragenset, **Markdown** ist das Textformat "
+                    "für Lernziele. **QA** bedeutet Qualitätsprüfung/Überarbeitung. "
+                    "Die **KI** (z. B. ChatGPT/Gemini) erzeugt oder verbessert Inhalte anhand der Prompts."
+                ),
             )
         )
 
@@ -629,13 +647,72 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
         def _save_learning_objectives(upload, identifier: str) -> tuple[bool, str]:
             return _save_learning_objectives_content(upload.getvalue(), identifier)
 
-        tabs = st.tabs([
-            _dialog_text("tab_questionset", default="Fragenset"),
-            _dialog_text("tab_learning_objectives", default="Lernziele (optional)"),
-        ])
+        def _clear_user_qset_status() -> None:
+            st.session_state.pop("user_qset_last_result", None)
+            st.session_state.pop("user_qset_last_uploaded_name", None)
 
-        with tabs[0]:
+        def _load_local_prompt(filename: str) -> str:
+            try:
+                return (Path(get_package_dir()) / filename).read_text(encoding="utf-8")
+            except Exception:
+                return ""
+
+        tab_questionset = _dialog_text("tab_questionset", default="1. Fragenset erstellen")
+        tab_learning_objectives = _dialog_text("tab_learning_objectives", default="2. Lernziele")
+        tab_postproduction = _dialog_text("tab_postproduction", default="3. QA des Fragensets")
+        tab_postproduction_lo = _dialog_text("tab_postproduction_lo", default="4. QA der Lernziele")
+
+        def _strip_leading_number(label: str) -> str:
+            if not label:
+                return ""
+            return re.sub(r"^\s*\d+\.\s*", "", label).strip()
+
+        tab_display_labels = {
+            1: _strip_leading_number(tab_questionset),
+            2: _strip_leading_number(tab_learning_objectives),
+            3: _strip_leading_number(tab_postproduction),
+            4: _strip_leading_number(tab_postproduction_lo),
+        }
+        tab_options = [1, 2, 3, 4]
+        st.caption(
+            _dialog_text(
+                "tab_selector_hint",
+                default="Wähle den Schritt, den du jetzt bearbeiten möchtest.",
+            )
+        )
+        current_tab_value = st.session_state.get("user_qset_tab_selector")
+        if isinstance(current_tab_value, str):
+            normalized = _strip_leading_number(current_tab_value)
+            mapped = None
+            for key, label in tab_display_labels.items():
+                if label == normalized:
+                    mapped = key
+                    break
+            st.session_state["user_qset_tab_selector"] = mapped or tab_options[0]
+        elif current_tab_value and current_tab_value not in tab_options:
+            st.session_state["user_qset_tab_selector"] = tab_options[0]
+
+        selected_tab = st.radio(
+            _dialog_text("tab_selector_label", default="Schritt auswählen"),
+            options=tab_options,
+            format_func=lambda value: f"{value}. {tab_display_labels.get(value, '')}".strip(),
+            horizontal=True,
+            key="user_qset_tab_selector",
+            label_visibility="collapsed",
+        )
+        if isinstance(selected_tab, int):
+            tab_index = max(0, min(3, selected_tab - 1))
+        else:
+            tab_index = 0
+
+        if tab_index == 0:
             st.subheader(_dialog_text("questionset_heading", default="Upload Question Set"))
+            st.caption(
+                _dialog_text(
+                    "questionset_caption",
+                    default="Hier erstellst und speicherst du dein Fragenset (JSON). Danach geht es mit den Lernzielen weiter.",
+                )
+            )
             with st.expander(_dialog_text("prompt_expander_title", default="Prompts anzeigen"), expanded=False):
                 st.markdown(
                     _dialog_text(
@@ -643,7 +720,11 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                         default="Wähle einen Prompt, erstelle das Fragenset in deiner KI und lade es hier hoch oder füge es ein.",
                     )
                 )
-                for prompt in prompt_resources:
+                qset_prompts = [
+                    prompt for prompt in prompt_resources
+                    if prompt.filename != "prompts/KI_PROMPT_MICRO_LEARNING_OBJECTIVES.md"
+                ]
+                for prompt in qset_prompts:
                     prompt_empty = not prompt.content.strip()
                     with st.expander(f"📄 {prompt.title}", expanded=False):
                         if prompt_empty:
@@ -738,10 +819,6 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 key="user_qset_mode",
             )
 
-            def _clear_user_qset_status() -> None:
-                st.session_state.pop("user_qset_last_result", None)
-                st.session_state.pop("user_qset_last_uploaded_name", None)
-
             if input_mode == "upload":
                 uploader = st.file_uploader(
                     _dialog_text(
@@ -816,43 +893,27 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                             count=status['question_count'],
                         )
                     )
-                    can_start = bool(
-                        st.session_state.get("user_id") and st.session_state.get("user_id_hash")
+                    st.success(
+                        _dialog_text(
+                            "questionset_save_success",
+                            default="Fragenset gespeichert. Du kannst jetzt im Tab „Lernziele“ die Lernziele erstellen und hochladen.",
+                        )
                     )
-                    lo_status = st.session_state.get("user_qset_lo_result")
-                    lo_uploaded = bool(lo_status and lo_status.get("success"))
-                    allow_without_lo = st.session_state.get("_user_qset_allow_without_lo", False)
-                    if not lo_uploaded:
-                        st.info(
-                            _dialog_text(
-                                "lo_optional_info",
-                                default="Optional: Lade jetzt Lernziele im Tab \"Lernziele\" hoch oder bestätige, dass du ohne startest.",
-                            )
+                    st.info(
+                        _dialog_text(
+                            "questionset_next_step",
+                            default="Als nächstes: Lernziele im Tab \"Lernziele erstellen\" hinzufügen.",
                         )
-                        st.checkbox(
-                            _dialog_text(
-                                "lo_skip_checkbox",
-                                default="Ohne Lernziele starten",
-                            ),
-                            key="_user_qset_allow_without_lo",
-                        )
-                        allow_without_lo = st.session_state.get("_user_qset_allow_without_lo", False)
-                    if not can_start:
-                        st.info(
-                            _dialog_text(
-                                "login_required",
-                                default="Bitte melde dich an, bevor du den Test startest.",
-                            )
-                        )
+                    )
                     if st.button(
                         _dialog_text(
-                            "start_test_button",
-                            default="🚀 Test mit diesem Fragenset starten",
+                            "questionset_next_button",
+                            default="➡️ Weiter mit Lernzielen",
                         ),
-                        key="user_qset_start_btn",
-                        disabled=not can_start or (not lo_uploaded and not allow_without_lo),
+                        key="user_qset_next_lo_btn",
                     ):
-                        _start_test_with_user_set(status["identifier"], app_config)
+                        st.session_state["user_qset_tab_selector"] = tab_options[1]
+                        st.rerun()
                 else:
                     err_msg = status.get(
                         "error",
@@ -884,15 +945,97 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     ):
                         st.code(err_msg, language="text")
 
-        with tabs[1]:
+        elif tab_index == 1:
             status = st.session_state.get("user_qset_last_result")
             lo_status = st.session_state.get("user_qset_lo_result")
             st.subheader(_dialog_text("learning_objectives_heading", default="Lernziele erzeugen und hochladen"))
             st.caption(
                 _dialog_text(
                     "learning_objectives_caption",
-                    default="Nutze im Tab 'Fragenset' den Lernziele-Prompt im Prompt-Expander, gib ihn an eine externe KI (z. B. ChatGPT oder Gemini), lass dir die Lernziele als Markdown erzeugen und lade diese Datei hier hoch.",
+                    default="Nutze den Prompt auf diesem Tab, gib ihn an eine externe KI (z. B. ChatGPT oder Gemini), lass dir die Lernziele als Markdown erzeugen und lade diese Datei hier hoch.",
                 )
+            )
+
+            lo_prompt_filename = "prompts/KI_PROMPT_MICRO_LEARNING_OBJECTIVES.md"
+            lo_prompt = _load_local_prompt(lo_prompt_filename)
+            lo_prompt_empty = not lo_prompt.strip()
+
+            with st.expander(
+                _dialog_text("learning_objectives_prompt_expander", default="Lernziele-Prompt anzeigen"),
+                expanded=False,
+            ):
+                if lo_prompt_empty:
+                    st.warning(
+                        _dialog_text(
+                            "learning_objectives_prompt_load_failed",
+                            default="{filename} konnte nicht geladen werden.",
+                            filename=lo_prompt_filename,
+                        )
+                    )
+                else:
+                    st.code(lo_prompt, language="markdown")
+
+                cols = st.columns(2)
+                with cols[0]:
+                    safe_filename = "".join(c if c.isalnum() else "_" for c in lo_prompt_filename)
+                    copy_button_id = f"copy_lo_prompt_{safe_filename}"
+                    copy_status_id = f"copy_lo_status_{safe_filename}"
+                    escaped_copy_label = html.escape(_dialog_text("prompt_copy_button", default="Prompt kopieren"))
+                    escaped_copy_success = html.escape(_dialog_text("prompt_copy_success", default="Kopiert!"))
+                    escaped_copy_error = html.escape(_dialog_text("prompt_copy_error", default="Fehler beim Kopieren"))
+                    copy_html = f"""
+<div style="display:flex; align-items:center; gap:0.5rem;">
+    <button id="{copy_button_id}" type="button" style="font:inherit; padding:0.45rem 0.8rem; border-radius:0.3rem; background:#a21313; color:#fff; border:none; cursor:pointer;" {'disabled' if lo_prompt_empty else ''}>{escaped_copy_label}</button>
+    <span id="{copy_status_id}" style="opacity:0; transition:opacity 0.3s; font-size:0.9rem; color:#0b69ff;">{escaped_copy_success}</span>
+</div>
+<script>
+(function(){{
+    const text = {_json.dumps(lo_prompt)};
+    const button = document.getElementById("{copy_button_id}");
+    const status = document.getElementById("{copy_status_id}");
+    if (!button) return;
+    button.addEventListener('click', async () => {{
+        try {{
+            await navigator.clipboard.writeText(text);
+            status.textContent = '{escaped_copy_success}';
+            status.style.opacity = '1';
+            setTimeout(() => {{ status.style.opacity = '0'; }}, 2000);
+        }} catch (e) {{
+            status.textContent = '{escaped_copy_error}';
+            status.style.opacity = '1';
+        }}
+    }});
+}})();
+</script>
+"""
+                    components.html(copy_html, height=80, scrolling=False)
+                with cols[1]:
+                    st.download_button(
+                        _dialog_text("prompt_download_button", default="⬇️ Download"),
+                        lo_prompt.encode("utf-8"),
+                        file_name=Path(lo_prompt_filename).name,
+                        mime="text/markdown",
+                        key="user_lo_prompt_download",
+                        disabled=lo_prompt_empty,
+                    )
+
+            original_set_json = ""
+            original_set_filename = "questions_original.json"
+            if status and status.get("success"):
+                try:
+                    info = get_user_question_set(status["identifier"])
+                    if info and info.path.exists():
+                        original_set_json = info.path.read_text(encoding="utf-8")
+                        original_set_filename = info.filename or original_set_filename
+                except Exception:
+                    original_set_json = ""
+            st.download_button(
+                _dialog_text("learning_objectives_original_set_download", default="⬇️ Original-Set (JSON)"),
+                original_set_json.encode("utf-8") if original_set_json else b"",
+                file_name=original_set_filename,
+                mime="application/json",
+                key="user_lo_original_set_download",
+                disabled=not bool(original_set_json),
             )
             lo_disabled = not (status and status.get("success"))
             lo_upload_label = _dialog_text("learning_objectives_upload_label", default="📁 Datei hochladen")
@@ -998,6 +1141,12 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                             filename=lo_status.get("detail"),
                         )
                     )
+                    st.success(
+                        _dialog_text(
+                            "learning_objectives_save_success",
+                            default="Lernziele gespeichert. Du kannst jetzt den Test starten oder mit der QA des Fragensets fortfahren.",
+                        )
+                    )
                 else:
                     st.error(
                         _dialog_text(
@@ -1006,6 +1155,525 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                             error=lo_status.get("detail"),
                         )
                     )
+                    st.error(
+                        _dialog_text(
+                            "learning_objectives_save_error",
+                            default="Lernziele konnten nicht gespeichert werden: {error}",
+                            error=lo_status.get("detail"),
+                        )
+                    )
+
+            if not (status and status.get("success")):
+                st.info(
+                    _dialog_text(
+                        "learning_objectives_save_set_first",
+                        default="Bitte zuerst dein Fragenset im Tab \"Fragenset erstellen\" speichern.",
+                    )
+                )
+            else:
+                can_start = bool(
+                    st.session_state.get("user_id") and st.session_state.get("user_id_hash")
+                )
+                lo_uploaded = bool(lo_status and lo_status.get("success"))
+                if not can_start:
+                    st.info(
+                        _dialog_text(
+                            "login_required",
+                            default="Bitte melde dich an, bevor du den Test startest.",
+                        )
+                    )
+
+                cols = st.columns(2)
+                with cols[0]:
+                    if st.button(
+                        _dialog_text("learning_objectives_start_button", default="🚀 Test starten"),
+                        key="user_qset_lo_start_btn",
+                        type="primary",
+                        disabled=not can_start or not lo_uploaded,
+                    ):
+                        _start_test_with_user_set(status["identifier"], app_config)
+                with cols[1]:
+                    if st.button(
+                        _dialog_text("learning_objectives_next_qa_button", default="➡️ Weiter mit QA des Sets"),
+                        key="user_qset_lo_next_qa_btn",
+                    ):
+                        st.session_state["user_qset_tab_selector"] = tab_options[2]
+                        st.rerun()
+
+        elif tab_index == 2:
+            st.subheader(_dialog_text("postproduction_heading", default="Postproduktion: Qualitätscheck mit externer KI"))
+            st.caption(
+                _dialog_text(
+                    "postproduction_caption",
+                    default="Hier prüfst du dein Fragenset mit externer KI, speicherst das optimierte JSON und gehst weiter zur QA der Lernziele.",
+                )
+            )
+
+            prompt_filename = "prompts/KI_PROMPT_POSTPRODUCTION_QA.md"
+            postprod_prompt = _load_local_prompt(prompt_filename)
+            prompt_empty = not postprod_prompt.strip()
+
+            with st.expander(
+                _dialog_text("postproduction_prompt_expander", default="QA-Postproduction-Prompt anzeigen"),
+                expanded=False,
+            ):
+                if prompt_empty:
+                    st.warning(
+                        _dialog_text(
+                            "postproduction_prompt_load_failed",
+                            default="{filename} konnte nicht geladen werden.",
+                            filename=prompt_filename,
+                        )
+                    )
+                else:
+                    st.code(postprod_prompt, language="markdown")
+
+                cols = st.columns(2)
+                with cols[0]:
+                    safe_filename = "".join(c if c.isalnum() else "_" for c in prompt_filename)
+                    copy_button_id = f"copy_postprod_prompt_{safe_filename}"
+                    copy_status_id = f"copy_postprod_status_{safe_filename}"
+                    escaped_copy_label = html.escape(_dialog_text("prompt_copy_button", default="Prompt kopieren"))
+                    escaped_copy_success = html.escape(_dialog_text("prompt_copy_success", default="Kopiert!"))
+                    escaped_copy_error = html.escape(_dialog_text("prompt_copy_error", default="Fehler beim Kopieren"))
+                    copy_html = f"""
+<div style="display:flex; align-items:center; gap:0.5rem;">
+    <button id="{copy_button_id}" type="button" style="font:inherit; padding:0.45rem 0.8rem; border-radius:0.3rem; background:#a21313; color:#fff; border:none; cursor:pointer;" {'disabled' if prompt_empty else ''}>{escaped_copy_label}</button>
+    <span id="{copy_status_id}" style="opacity:0; transition:opacity 0.3s; font-size:0.9rem; color:#0b69ff;">{escaped_copy_success}</span>
+</div>
+<script>
+(function(){{
+    const text = {_json.dumps(postprod_prompt)};
+    const button = document.getElementById("{copy_button_id}");
+    const status = document.getElementById("{copy_status_id}");
+    if (!button) return;
+    button.addEventListener('click', async () => {{
+        try {{
+            await navigator.clipboard.writeText(text);
+            status.textContent = '{escaped_copy_success}';
+            status.style.opacity = '1';
+            setTimeout(() => {{ status.style.opacity = '0'; }}, 2000);
+        }} catch (e) {{
+            status.textContent = '{escaped_copy_error}';
+            status.style.opacity = '1';
+        }}
+    }});
+}})();
+</script>
+"""
+                    components.html(copy_html, height=80, scrolling=False)
+                with cols[1]:
+                    st.download_button(
+                        _dialog_text("prompt_download_button", default="⬇️ Download"),
+                        postprod_prompt.encode("utf-8"),
+                        file_name=Path(prompt_filename).name,
+                        mime="text/markdown",
+                        key="user_postprod_prompt_download",
+                        disabled=prompt_empty,
+                    )
+
+            st.caption(
+                _dialog_text(
+                    "postproduction_set_for_ai_caption",
+                    default="Gib Prompt und Set gemeinsam an die KI, um das Fragenset zu optimieren.",
+                )
+            )
+            original_set_json = ""
+            original_set_filename = "questions_original.json"
+            status = st.session_state.get("user_qset_last_result")
+            if status and status.get("success"):
+                try:
+                    info = get_user_question_set(status["identifier"])
+                    if info and info.path.exists():
+                        original_set_json = info.path.read_text(encoding="utf-8")
+                        original_set_filename = info.filename or original_set_filename
+                except Exception:
+                    original_set_json = ""
+            st.download_button(
+                _dialog_text("postproduction_set_for_ai_download", default="⬇️ Set für KI (JSON)"),
+                original_set_json.encode("utf-8") if original_set_json else b"",
+                file_name=original_set_filename,
+                mime="application/json",
+                key="user_postprod_set_for_ai_download",
+                disabled=not bool(original_set_json),
+            )
+
+            st.caption(
+                _dialog_text(
+                    "postproduction_paste_caption",
+                    default="Füge das optimierte JSON hier ein und speichere es. Danach geht es zur QA der Lernziele.",
+                )
+            )
+            postprod_text = st.text_area(
+                _dialog_text("postproduction_text_area_label", default="📋 Optimiertes JSON"),
+                key="user_qset_postprod_json",
+                height=220,
+                placeholder=_dialog_text(
+                    "postproduction_text_area_placeholder",
+                    default='{\"meta\": {...}, \"questions\": [...]}',
+                ),
+                on_change=_clear_user_qset_status,
+            )
+
+            parsed_title = None
+            parsed_error = None
+            if postprod_text.strip():
+                try:
+                    parsed_payload = _json.loads(postprod_text)
+                    if isinstance(parsed_payload, dict):
+                        meta = parsed_payload.get("meta", {})
+                        if isinstance(meta, dict):
+                            title_val = meta.get("title")
+                            if isinstance(title_val, str) and title_val.strip():
+                                parsed_title = title_val.strip()
+                except Exception as exc:
+                    parsed_error = str(exc)
+
+            existing_matches = []
+            if parsed_title:
+                user_hash = st.session_state.get("user_id_hash") or ""
+                try:
+                    for info in list_user_question_sets():
+                        try:
+                            meta = info.question_set.meta if info.question_set else {}
+                            title = meta.get("title") if isinstance(meta, dict) else None
+                            if (
+                                isinstance(title, str)
+                                and title.strip().lower() == parsed_title.lower()
+                                and info.uploaded_by_hash == user_hash
+                            ):
+                                existing_matches.append(info)
+                        except Exception:
+                            continue
+                except Exception:
+                    existing_matches = []
+
+            if parsed_error:
+                st.warning(
+                    _dialog_text(
+                        "postproduction_json_parse_warning",
+                        default="Hinweis: Das JSON konnte noch nicht geparst werden ({error}).",
+                        error=parsed_error,
+                    )
+                )
+
+            overwrite_confirmed = False
+            if parsed_title and existing_matches:
+                st.warning(
+                    _dialog_text(
+                        "postproduction_overwrite_warning",
+                        default="Es existiert bereits ein temporäres Fragenset mit dem Titel \"{title}\" von dir. Überschreiben?",
+                        title=parsed_title,
+                    )
+                )
+                overwrite_confirmed = st.checkbox(
+                    _dialog_text("postproduction_overwrite_confirm", default="Bestehendes Set überschreiben"),
+                    key="user_qset_postprod_overwrite_confirm",
+                )
+
+            def _save_postproduction_payload() -> bool:
+                if not postprod_text.strip():
+                    return False
+                previous_identifier = None
+                try:
+                    previous_identifier = st.session_state.get("user_qset_last_result", {}).get("identifier")
+                except Exception:
+                    previous_identifier = None
+                if existing_matches and not overwrite_confirmed:
+                    st.error(
+                        _dialog_text(
+                            "postproduction_overwrite_required",
+                            default="Bitte bestätige das Überschreiben, bevor du speicherst.",
+                        )
+                    )
+                    return False
+                if existing_matches and overwrite_confirmed:
+                    for info in existing_matches:
+                        try:
+                            delete_user_question_set(info.identifier)
+                        except Exception:
+                            pass
+                _process_user_qset_payload(postprod_text.encode("utf-8"), "postproduction.json")
+                status = st.session_state.get("user_qset_last_result")
+                if status and status.get("success"):
+                    st.success(
+                        _dialog_text(
+                            "postproduction_save_success",
+                            default="Optimiertes Fragenset gespeichert. Falls ein vorheriges Set existierte, wurde es ersetzt. Du kannst jetzt mit der QA der Lernziele fortfahren.",
+                        )
+                    )
+                else:
+                    st.error(
+                        _dialog_text(
+                            "postproduction_save_error",
+                            default="Optimiertes Fragenset konnte nicht gespeichert werden: {error}",
+                            error=(status or {}).get("error", "Unbekannter Fehler"),
+                        )
+                    )
+                try:
+                    new_identifier = status.get("identifier") if status else None
+                    if previous_identifier and new_identifier and previous_identifier != new_identifier:
+                        old_lo_path = _derive_learning_objectives_filename(previous_identifier)
+                        if old_lo_path.exists():
+                            new_lo_path = _derive_learning_objectives_filename(new_identifier)
+                            new_lo_path.parent.mkdir(parents=True, exist_ok=True)
+                            try:
+                                old_lo_path.replace(new_lo_path)
+                            except Exception:
+                                try:
+                                    new_lo_path.write_text(old_lo_path.read_text(encoding="utf-8"), encoding="utf-8")
+                                    old_lo_path.unlink()
+                                except Exception:
+                                    pass
+                        try:
+                            delete_user_question_set(previous_identifier)
+                        except Exception:
+                            pass
+                except Exception:
+                    pass
+                return bool(status and status.get("success"))
+
+            cols = st.columns(2)
+            with cols[0]:
+                if st.button(
+                    _dialog_text("postproduction_save_button", default="💾 Optimiertes Set speichern"),
+                    key="user_qset_postprod_save_btn",
+                    type="primary",
+                    disabled=not postprod_text.strip(),
+                ):
+                    _save_postproduction_payload()
+            with cols[1]:
+                if st.button(
+                    _dialog_text("postproduction_next_lo_button", default="➡️ Weiter mit QA der Lernziele"),
+                    key="user_qset_postprod_next_lo_btn",
+                    disabled=not postprod_text.strip(),
+                ):
+                    saved = _save_postproduction_payload()
+                    if saved:
+                        st.session_state["user_qset_tab_selector"] = tab_options[3]
+                        st.rerun()
+
+        elif tab_index == 3:
+            st.subheader(_dialog_text("postproduction_lo_heading", default="Postproduktion: Lernziele prüfen"))
+            st.caption(
+                _dialog_text(
+                    "postproduction_lo_caption",
+                    default="Hier prüfst du die Lernziele mit externer KI, speicherst sie und startest den Test.",
+                )
+            )
+
+            lo_prompt_filename = "prompts/KI_PROMPT_POSTPRODUCTION_QA_LEARNING_OBJECTIVES.md"
+            postprod_lo_prompt = _load_local_prompt(lo_prompt_filename)
+            lo_prompt_empty = not postprod_lo_prompt.strip()
+
+            with st.expander(
+                _dialog_text("postproduction_lo_prompt_expander", default="QA-Postproduction-Prompt (Lernziele) anzeigen"),
+                expanded=False,
+            ):
+                if lo_prompt_empty:
+                    st.warning(
+                        _dialog_text(
+                            "postproduction_lo_prompt_load_failed",
+                            default="{filename} konnte nicht geladen werden.",
+                            filename=lo_prompt_filename,
+                        )
+                    )
+                else:
+                    st.code(postprod_lo_prompt, language="markdown")
+
+                cols = st.columns(2)
+                with cols[0]:
+                    safe_filename = "".join(c if c.isalnum() else "_" for c in lo_prompt_filename)
+                    copy_button_id = f"copy_postprod_lo_prompt_{safe_filename}"
+                    copy_status_id = f"copy_postprod_lo_status_{safe_filename}"
+                    escaped_copy_label = html.escape(_dialog_text("prompt_copy_button", default="Prompt kopieren"))
+                    escaped_copy_success = html.escape(_dialog_text("prompt_copy_success", default="Kopiert!"))
+                    escaped_copy_error = html.escape(_dialog_text("prompt_copy_error", default="Fehler beim Kopieren"))
+                    copy_html = f"""
+<div style="display:flex; align-items:center; gap:0.5rem;">
+    <button id="{copy_button_id}" type="button" style="font:inherit; padding:0.45rem 0.8rem; border-radius:0.3rem; background:#a21313; color:#fff; border:none; cursor:pointer;" {'disabled' if lo_prompt_empty else ''}>{escaped_copy_label}</button>
+    <span id="{copy_status_id}" style="opacity:0; transition:opacity 0.3s; font-size:0.9rem; color:#0b69ff;">{escaped_copy_success}</span>
+</div>
+<script>
+(function(){{
+    const text = {_json.dumps(postprod_lo_prompt)};
+    const button = document.getElementById("{copy_button_id}");
+    const status = document.getElementById("{copy_status_id}");
+    if (!button) return;
+    button.addEventListener('click', async () => {{
+        try {{
+            await navigator.clipboard.writeText(text);
+            status.textContent = '{escaped_copy_success}';
+            status.style.opacity = '1';
+            setTimeout(() => {{ status.style.opacity = '0'; }}, 2000);
+        }} catch (e) {{
+            status.textContent = '{escaped_copy_error}';
+            status.style.opacity = '1';
+        }}
+    }});
+}})();
+</script>
+"""
+                    components.html(copy_html, height=80, scrolling=False)
+                with cols[1]:
+                    st.download_button(
+                        _dialog_text("prompt_download_button", default="⬇️ Download"),
+                        postprod_lo_prompt.encode("utf-8"),
+                        file_name=Path(lo_prompt_filename).name,
+                        mime="text/markdown",
+                        key="user_postprod_lo_prompt_download",
+                        disabled=lo_prompt_empty,
+                    )
+
+            st.caption(
+                _dialog_text(
+                    "postproduction_lo_inputs_caption",
+                    default="Gib optimiertes Set und Lernziele gemeinsam an die KI, um die Lernziele zu prüfen.",
+                )
+            )
+            optimized_set_json = st.session_state.get("user_qset_postprod_json", "")
+            optimized_set_filename = "questions_qa.json"
+            if optimized_set_json.strip():
+                try:
+                    payload = _json.loads(optimized_set_json)
+                    meta = payload.get("meta", {}) if isinstance(payload, dict) else {}
+                    title_val = meta.get("title") if isinstance(meta, dict) else None
+                    if isinstance(title_val, str) and title_val.strip():
+                        safe = "".join(c if c.isalnum() else "_" for c in title_val.strip())
+                        if safe:
+                            optimized_set_filename = f"questions_{safe}_QA.json"
+                except Exception:
+                    pass
+            st.download_button(
+                _dialog_text("postproduction_lo_set_download", default="⬇️ Download optimiertes Set für KI"),
+                optimized_set_json.encode("utf-8") if optimized_set_json.strip() else b"",
+                file_name=optimized_set_filename,
+                mime="application/json",
+                key="user_postprod_lo_set_download",
+                disabled=not bool(optimized_set_json.strip()),
+            )
+
+            st.caption(
+                _dialog_text(
+                    "postproduction_lo_paste_caption",
+                    default="Füge die optimierten Lernziele als Markdown hier ein.",
+                )
+            )
+            postprod_lo_text = st.text_area(
+                _dialog_text("postproduction_lo_text_area_label", default="📋 Optimierte Lernziele (Markdown)"),
+                key="user_qset_postprod_lo_markdown",
+                height=220,
+                placeholder=_dialog_text(
+                    "postproduction_lo_text_area_placeholder",
+                    default="# Übergeordnete Lernziele: ...",
+                ),
+                on_change=lambda: st.session_state.pop("user_qset_lo_result", None),
+            )
+
+            status = st.session_state.get("user_qset_last_result")
+            lo_disabled = not (status and status.get("success"))
+            if lo_disabled:
+                st.info(
+                    _dialog_text(
+                        "learning_objectives_hint_save_first",
+                        default="Bitte zuerst dein Fragenset speichern, dann die Lernziele hochladen.",
+                    )
+                )
+
+            if st.button(
+                _dialog_text("postproduction_lo_save_button", default="💾 Lernziele speichern"),
+                key="user_qset_postprod_lo_save_btn",
+                disabled=lo_disabled or not postprod_lo_text.strip(),
+            ):
+                raw = postprod_lo_text.encode("utf-8")
+                success, detail = _save_learning_objectives_content(raw, status["identifier"])
+                st.session_state["user_qset_lo_result"] = {
+                    "success": success,
+                    "detail": detail,
+                }
+                if success:
+                    st.success(
+                        _dialog_text(
+                            "postproduction_lo_save_success",
+                            default="Optimierte Lernziele gespeichert. Du kannst jetzt den Test starten.",
+                        )
+                    )
+                else:
+                    st.error(
+                        _dialog_text(
+                            "postproduction_lo_save_error",
+                            default="Optimierte Lernziele konnten nicht gespeichert werden: {error}",
+                            error=detail,
+                        )
+                    )
+
+            show_label = _dialog_text("postproduction_lo_show_button", default="👁️ Lernziele anzeigen")
+            hide_label = _dialog_text("postproduction_lo_hide_button", default="🚫 Anzeige Lernziele schließen")
+            show_state = st.session_state.get("user_qset_postprod_lo_show_toggle", False)
+            toggle_label = hide_label if show_state else show_label
+            show_lo = st.toggle(
+                toggle_label,
+                key="user_qset_postprod_lo_show_toggle",
+                disabled=lo_disabled,
+            )
+            if show_lo:
+                try:
+                    lo_path = _derive_learning_objectives_filename(status["identifier"])
+                    if lo_path.exists():
+                        st.markdown(lo_path.read_text(encoding="utf-8"))
+                    else:
+                        st.info(
+                            _dialog_text(
+                                "postproduction_lo_not_found",
+                                default="Für dieses Fragenset wurden noch keine Lernziele gespeichert.",
+                            )
+                        )
+                except Exception:
+                    st.info(
+                        _dialog_text(
+                            "postproduction_lo_not_found",
+                            default="Für dieses Fragenset wurden noch keine Lernziele gespeichert.",
+                        )
+                    )
+
+            can_start = bool(
+                st.session_state.get("user_id") and st.session_state.get("user_id_hash")
+            )
+            lo_status = st.session_state.get("user_qset_lo_result")
+            lo_uploaded = bool(lo_status and lo_status.get("success"))
+            status = st.session_state.get("user_qset_last_result")
+            set_ready = bool(status and status.get("success"))
+
+            if not set_ready:
+                st.info(
+                    _dialog_text(
+                        "postproduction_lo_need_set",
+                        default="Bitte zuerst die QA des Fragensets im Tab \"QA des Fragensets\" abschließen.",
+                    )
+                )
+            if not lo_uploaded:
+                st.info(
+                    _dialog_text(
+                        "postproduction_lo_need_save",
+                        default="Bitte Lernziele speichern, bevor du startest.",
+                    )
+                )
+            if not can_start:
+                st.info(
+                    _dialog_text(
+                        "login_required",
+                        default="Bitte melde dich an, bevor du den Test startest.",
+                    )
+                )
+
+            if st.button(
+                _dialog_text("postproduction_lo_start_button", default="🚀 Test starten"),
+                key="user_qset_postprod_lo_start_btn",
+                type="primary",
+                disabled=not (set_ready and lo_uploaded and can_start),
+            ):
+                _start_test_with_user_set(status["identifier"], app_config)
+
 
         st.divider()
         if st.button(
