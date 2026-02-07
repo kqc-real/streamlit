@@ -244,6 +244,7 @@
         "questionset_save_error": "题库保存失败：{error}",
         "learning_objectives_save_success": "学习目标已保存。现在可以开始测试或继续进行题库 QA。",
         "learning_objectives_save_error": "学习目标保存失败：{error}",
+        "learning_objectives_set_loaded": "题库 '{label}' 已激活。",
         "postproduction_save_success": "优化题库已保存。如果之前存在题库，已被替换。现在可以继续学习目标 QA。",
         "postproduction_save_error": "优化题库保存失败：{error}",
         "postproduction_lo_save_success": "优化后的学习目标已保存。现在可以开始测试。",

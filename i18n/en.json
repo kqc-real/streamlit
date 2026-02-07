@@ -241,6 +241,7 @@
         "questionset_save_error": "Question set could not be saved: {error}",
         "learning_objectives_save_success": "Learning objectives saved. You can now start the test or continue with QA of the question set.",
         "learning_objectives_save_error": "Learning objectives could not be saved: {error}",
+        "learning_objectives_set_loaded": "Question set '{label}' is active.",
         "postproduction_save_success": "Optimized question set saved. If a previous set existed, it was replaced. You can now continue with QA of the learning objectives.",
         "postproduction_save_error": "Optimized question set could not be saved: {error}",
         "postproduction_lo_save_success": "Optimized learning objectives saved. You can now start the test.",

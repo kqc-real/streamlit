@@ -634,6 +634,7 @@
         "questionset_save_error": "Impossibile salvare il set di domande: {error}",
         "learning_objectives_save_success": "Obiettivi di apprendimento salvati. Ora puoi avviare il test o continuare con la QA del set di domande.",
         "learning_objectives_save_error": "Impossibile salvare gli obiettivi di apprendimento: {error}",
+        "learning_objectives_set_loaded": "Il set '{label}' è attivo.",
         "postproduction_save_success": "Set ottimizzato salvato. Se esisteva un set precedente, è stato sostituito. Ora puoi continuare con la QA degli obiettivi di apprendimento.",
         "postproduction_save_error": "Impossibile salvare il set ottimizzato: {error}",
         "postproduction_lo_save_success": "Obiettivi di apprendimento ottimizzati salvati. Ora puoi avviare il test.",

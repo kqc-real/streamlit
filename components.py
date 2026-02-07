@@ -882,7 +882,6 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                         "text_area_placeholder",
                         default='{"meta": {...}, "questions": [...]}',
                     ),
-                    on_change=_clear_user_qset_status,
                 )
                 def _clear_pasted_text() -> None:
                     st.session_state["user_qset_pasted_json"] = ""
@@ -982,6 +981,15 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     default="Nutze den Prompt auf diesem Tab, gib ihn an eine externe KI (z. B. ChatGPT oder Gemini), lass dir die Lernziele als Markdown erzeugen und lade diese Datei hier hoch.",
                 )
             )
+
+            if status and status.get("success"):
+                st.success(
+                    _dialog_text(
+                        "learning_objectives_set_loaded",
+                        default="Fragenset '{label}' ist aktiv.",
+                        label=status.get("label", "Unbenannt")
+                    )
+                )
 
             lo_prompt_filename = "prompts/KI_PROMPT_MICRO_LEARNING_OBJECTIVES.md"
             lo_prompt = _load_local_prompt(lo_prompt_filename)
@@ -1339,7 +1347,6 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     "postproduction_text_area_placeholder",
                     default='{\"meta\": {...}, \"questions\": [...]}',
                 ),
-                on_change=_clear_user_qset_status,
             )
 
             parsed_title = None

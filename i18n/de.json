@@ -634,6 +634,7 @@
         "questionset_save_error": "Fragenset konnte nicht gespeichert werden: {error}",
         "learning_objectives_save_success": "Lernziele gespeichert. Du kannst jetzt den Test starten oder mit der QA des Fragensets fortfahren.",
         "learning_objectives_save_error": "Lernziele konnten nicht gespeichert werden: {error}",
+        "learning_objectives_set_loaded": "Fragenset '{label}' ist aktiv.",
         "postproduction_save_success": "Optimiertes Fragenset gespeichert. Falls ein vorheriges Set existierte, wurde es ersetzt. Du kannst jetzt mit der QA der Lernziele fortfahren.",
         "postproduction_save_error": "Optimiertes Fragenset konnte nicht gespeichert werden: {error}",
         "postproduction_lo_save_success": "Optimierte Lernziele gespeichert. Du kannst jetzt den Test starten.",

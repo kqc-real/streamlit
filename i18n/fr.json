@@ -634,6 +634,7 @@
         "questionset_save_error": "Impossible d’enregistrer l’ensemble de questions : {error}",
         "learning_objectives_save_success": "Objectifs d’apprentissage enregistrés. Tu peux maintenant démarrer le test ou continuer avec la QA de l’ensemble de questions.",
         "learning_objectives_save_error": "Impossible d’enregistrer les objectifs d’apprentissage : {error}",
+        "learning_objectives_set_loaded": "L'ensemble '{label}' est actif.",
         "postproduction_save_success": "Ensemble optimisé enregistré. Si un ensemble existait déjà, il a été remplacé. Tu peux maintenant continuer avec la QA des objectifs d’apprentissage.",
         "postproduction_save_error": "Impossible d’enregistrer l’ensemble optimisé : {error}",
         "postproduction_lo_save_success": "Objectifs d’apprentissage optimisés enregistrés. Tu peux maintenant démarrer le test.",

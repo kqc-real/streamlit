@@ -634,6 +634,7 @@
         "questionset_save_error": "No se pudo guardar el conjunto: {error}",
         "learning_objectives_save_success": "Objetivos de aprendizaje guardados. Ahora puedes iniciar la prueba o continuar con la QA del conjunto.",
         "learning_objectives_save_error": "No se pudieron guardar los objetivos de aprendizaje: {error}",
+        "learning_objectives_set_loaded": "El conjunto '{label}' está activo.",
         "postproduction_save_success": "Conjunto optimizado guardado. Si existía uno anterior, fue reemplazado. Ahora puedes continuar con la QA de los objetivos de aprendizaje.",
         "postproduction_save_error": "No se pudo guardar el conjunto optimizado: {error}",
         "postproduction_lo_save_success": "Objetivos de aprendizaje optimizados guardados. Ahora puedes iniciar la prueba.",
