@@ -150,7 +150,7 @@ Feingranulare Konzepte werden in drei Spalten gruppiert: **verstanden**, **nicht
 
 ### 4.4 Topic×Cognitive-Heatmap
 
-Die Heatmap kombiniert Topics (Zeilen) und Bloom-Levels (Spalten). Farbcodierung zeigt Performance, Overlays die Item-Anzahl pro Zelle. Lernende sehen damit schnell, *wo* es hängt und *welche kognitive Art* von Aufgaben besonders schwierig ist.
+Die Heatmap kombiniert Topics (Zeilen) und Bloom-Levels (Spalten). Farbcodierung zeigt Performance, Overlays die Item-Anzahl pro Zelle. Lernende sehen damit schnell, *wo* es Defizite gibt und *welche kognitive Art* von Aufgaben besonders schwierig ist.
 
 
 ![](images/topic_cognition_heatmap.png)
@@ -160,7 +160,7 @@ Die Heatmap kombiniert Topics (Zeilen) und Bloom-Levels (Spalten). Farbcodierung
 
 ### 4.5 Feedback und Erklärungen
 
-Nach jeder Sitzung liefert MC-Test Rationales zu jeder Antwortoption. Lernende erhalten so nicht nur „richtig/falsch“, sondern eine Begründung, die an Lernziele und typische Misskonzepte anschließt. Zusätzlich können Lernziele, Topics und Ressourcen exportiert werden.
+Nach jeder Sitzung liefert MC-Test Erklärungen zu jeder Antwortoption. Lernende erhalten so nicht nur „richtig/falsch“, sondern eine Begründung, die an Lernziele und typische Misskonzepte anschließt. Zusätzlich können Lernziele, Topics und Ressourcen exportiert werden.
 
 ### 4.6 Pacing
 
