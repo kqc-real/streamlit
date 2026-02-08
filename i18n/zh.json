@@ -1052,7 +1052,9 @@
     },
     "summary_view": {
         "review_header": "🧐 答案检查",
-        "review_filter_label": "过滤:",
+        "review_filter_label": "按状态筛选：",
+        "review_topic_label": "按主题筛选：",
+        "review_topic_all": "所有主题",
         "review_filter_all": "全部",
         "review_filter_false": "不正确",
         "review_filter_true": "正确",

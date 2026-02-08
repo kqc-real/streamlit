@@ -979,7 +979,9 @@
     },
     "summary_view": {
         "review_header": "🧐 Deine Antworten im Check",
-        "review_filter_label": "Filter:",
+        "review_filter_label": "Filtere nach Status:",
+        "review_topic_label": "Filtere nach Thema:",
+        "review_topic_all": "Alle Themen",
         "review_filter_all": "Alle",
         "review_filter_false": "Nur Falsche",
         "review_filter_true": "Nur Richtige",

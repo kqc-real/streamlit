@@ -1050,7 +1050,9 @@
     },
     "summary_view": {
         "review_header": "🧐 Tes Réponses",
-        "review_filter_label": "Filtre :",
+        "review_filter_label": "Filtrer par statut :",
+        "review_topic_label": "Filtrer par thème :",
+        "review_topic_all": "Tous les thèmes",
         "review_filter_all": "Tout",
         "review_filter_false": "Faux",
         "review_filter_true": "Juste",

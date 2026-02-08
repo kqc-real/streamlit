@@ -1052,7 +1052,9 @@
     },
     "summary_view": {
         "review_header": "🧐 Answer Check",
-        "review_filter_label": "Filter:",
+        "review_filter_label": "Filter by status:",
+        "review_topic_label": "Filter by topic:",
+        "review_topic_all": "All topics",
         "review_filter_all": "All",
         "review_filter_false": "Incorrect",
         "review_filter_true": "Correct",

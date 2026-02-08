@@ -7989,13 +7989,13 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     # Prüfe, ob mindestens eine Frage ein 'concept' Feld hat
     has_concepts = any(frage.get("concept") for frage in questions)
     if has_concepts:
-        st.divider()
-        st.subheader(translate_ui("summary.subheader.concept_mastery", default="Konzeptverständnis"))
         # --- Performance-Column-Diagramm: MC-Test-Konzept-Beherrschung ---
         try:
             from generate_performance_column import create_performance_column
             fig_performance_column = create_performance_column(questions)
             if fig_performance_column:
+                st.divider()
+                st.subheader(translate_ui("summary.subheader.concept_mastery", default="Konzeptverständnis"))
                 st.plotly_chart(fig_performance_column, config={"responsive": True})
                 
                 # Erklärung für das Performance-Column-Diagramm
@@ -8021,12 +8021,12 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     # Prüfe, ob mindestens eine Frage ein 'cognitive_level' Feld hat
     has_cognitive_levels = any(frage.get("cognitive_level") for frage in questions)
     if has_cognitive_levels:
-        st.divider()
-        st.subheader(translate_ui("summary.subheader.difficulty_map", default="Themen × Kognitive Stufen"))
         try:
             from generate_difficulty_heatmap import create_difficulty_heatmap
             fig_heatmap = create_difficulty_heatmap(questions)
             if fig_heatmap:
+                st.divider()
+                st.subheader(translate_ui("summary.subheader.difficulty_map", default="Themen × Kognitive Stufen"))
                 st.plotly_chart(fig_heatmap, width='stretch')
                 
                 # Erklärung für die Heatmap
@@ -8114,11 +8114,64 @@ def render_review_mode(questions: QuestionSet, app_config=None):
         filter_marked,
         filter_unanswered,
     ]
-    filter_option = st.radio(
-        _summary_text("review_filter_label", default="Filtere die Fragen:"),
-        filter_choices,
-        index=3  # Standard: "Nur markierte"
-    )
+
+    # Filter-Bereich in zwei Spalten aufteilen
+    col_f1, col_f2 = st.columns(2)
+    with col_f1:
+        filter_option = st.radio(
+            _summary_text("review_filter_label", default="Filtere nach Status:"),
+            filter_choices,
+            index=0  # Standard auf "Alle" für bessere Übersicht mit Themenfilter
+        )
+    
+    with col_f2:
+        # Themen-Counts unter Berücksichtigung des Status-Filters berechnen
+        topic_counts = {}
+        total_filtered = 0
+        
+        # Alle verfügbaren Themen initialisieren
+        all_unique_topics = sorted(list(set(q.get('topic', q.get('thema', 'Allgemein')) for q in questions)))
+        for t_name in all_unique_topics:
+            topic_counts[t_name] = 0
+
+        for i, q in enumerate(questions):
+            gegebene_antwort = get_answer_for_question(i)
+            richtige_antwort_text = q["optionen"][q["loesung"]]
+            ist_richtig = gegebene_antwort == richtige_antwort_text
+            punkte = st.session_state.get(f"frage_{i}_beantwortet")
+            is_bookmarked = i in st.session_state.get("bookmarked_questions", [])
+
+            matches_status = True
+            if filter_option == filter_false:
+                matches_status = (not ist_richtig) and (punkte is not None)
+            elif filter_option == filter_true:
+                matches_status = ist_richtig
+            elif filter_option == filter_marked:
+                matches_status = is_bookmarked
+            elif filter_option == filter_unanswered:
+                matches_status = punkte is None
+            
+            if matches_status:
+                t_name = q.get('topic', q.get('thema', 'Allgemein'))
+                topic_counts[t_name] = topic_counts.get(t_name, 0) + 1
+                total_filtered += 1
+
+        topic_filter_all = _summary_text("review_topic_all", default="Alle Themen")
+
+        # Nur Themen anzeigen, die auch Fragen im aktuellen Filter-Status haben
+        active_topics = [t for t in all_unique_topics if topic_counts.get(t, 0) > 0]
+
+        def format_topic_label(option):
+            if option == topic_filter_all:
+                return f"{option} ({total_filtered})"
+            return f"{option} ({topic_counts.get(option, 0)})"
+
+        selected_topic = st.selectbox(
+            _summary_text("review_topic_label", default="Filtere nach Thema:"),
+            options=[topic_filter_all] + active_topics,
+            index=0,
+            format_func=format_topic_label
+        )
 
     # Hole app_config aus Session oder global, falls vorhanden
     app_config = globals().get("app_config")
@@ -8136,6 +8189,11 @@ def render_review_mode(questions: QuestionSet, app_config=None):
         ist_richtig = gegebene_antwort == richtige_antwort_text
         punkte = st.session_state.get(f"frage_{i}_beantwortet")
         is_bookmarked = i in st.session_state.get("bookmarked_questions", [])
+
+        # Themen-Filter anwenden
+        frage_topic = frage.get('topic', frage.get('thema', 'Allgemein'))
+        if selected_topic != topic_filter_all and frage_topic != selected_topic:
+            continue
 
         if filter_option == filter_false:
             # Zeige nur beantwortete UND falsch beantwortete Fragen

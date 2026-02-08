@@ -1049,7 +1049,9 @@
     },
     "summary_view": {
         "review_header": "🧐 Le tue Risposte",
-        "review_filter_label": "Filtro:",
+        "review_filter_label": "Filtra per stato:",
+        "review_topic_label": "Filtra per argomento:",
+        "review_topic_all": "Tutti gli argomenti",
         "review_filter_all": "Tutte",
         "review_filter_false": "Sbagliate",
         "review_filter_true": "Giuste",
