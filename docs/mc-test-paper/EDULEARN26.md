@@ -38,7 +38,7 @@ Vor diesem Hintergrund entwickeln wir **MC-Test**, eine Webplattform für format
 2. **Implementierung** einer kontext-engineerten, schema-gebundenen Generierungspipeline (Finite-State-Interaktion + JSON-Validierung/Repair) als Grundlage für nachgelagerte Qualitätschecks (RQ2).
 3. **Ableitung** von Design- und Deployment-Lessons aus der Migration zu einem lokalen, privacy-preserving LLM-Backend (Ollama) in containerisiertem On-Premises-Betrieb (RQ3).
 
-MC-Test richtet sich auf formative Übungsszenarien, insbesondere in MINT-Fächern. Wir fokussieren Bloom 1–3, da höhere Stufen im MC-Format und im Kontext aktueller LLMs weniger verlässlich abbildbar sind.
+MC-Test ist ein Tool für formative Übungsszenarien, insbesondere in den MINT-Fächern. Wir fokussieren Bloom 1–3. Höhere Stufen sind im MC-Format und im Kontext aktueller LLMs weniger verlässlich abbildbar.
 
 ## 2. Theoretischer Hintergrund und Related Work
 

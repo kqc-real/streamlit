@@ -146,7 +146,7 @@
         "about_paper_blocked": "Close the open dialog first to open the paper."
     },
     "dialog": {
-        "title": "✨ Create question set with AI",
+        "title": "✨ Create set with AI",
         "intro": "This dialog guides you in four steps:\n1) **Create Set**: Use prompt, generate JSON, save.\n2) **Define Objectives**: Use prompt, derive objectives, save.\n3) **Optimize Set**: AI quality check for questions.\n4) **Optimize Objectives**: Fine-tune objectives for the final set.",
         "prompt_guide": "If you only want to run MC tests in this app, use the **Anki prompt**. It matches the app’s JSON format. Kahoot/arsnova prompts are only needed for exports to those platforms.",
         "prompt_toggle_button": "👁️ Show / Hide",
@@ -210,7 +210,7 @@
         "learning_objectives_save_set_first": "Please save your question set first in the “Create question set” tab.",
         "learning_objectives_start_button": "🚀 Start test",
         "learning_objectives_next_qa_button": "➡️ Next: Step 3",
-        "postproduction_heading": "Step 3: Optimize Question Set",
+        "postproduction_heading": "Step 3: Optimize Set",
         "postproduction_caption": "Let the AI check and improve your question set. Save the optimized result.",
         "postproduction_prompt_expander": "Show QA prompt (question set)",
         "postproduction_prompt_load_failed": "{filename} could not be loaded.",
