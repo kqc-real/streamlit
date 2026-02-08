@@ -709,6 +709,7 @@
         "header_remaining_plural": "### {count} verbleibend",
         "header_remaining_single": "### Eine verbleibend!",
         "topic_label": "Thema",
+        "streak_label": "🔥 {count}er Streak!",
         "countdown": {
             "warning_seconds": "⚠️ Gleich vorbei!",
             "warning_minutes": "⚠️ Nur noch {minutes_text}!",
@@ -970,6 +971,7 @@
         },
         "metric_caption": "Dein Ergebnis",
         "score_display": "{current} / {max} Punkten",
+        "max_streak_display": "Beste Serie: {count} richtige Antworten in Folge",
         "subheader": {
             "topic_performance": "Wo stehst du bei welchem Thema?",
             "concept_performance": "Konzept-Check",

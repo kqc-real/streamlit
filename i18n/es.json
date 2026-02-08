@@ -706,6 +706,7 @@
         "header_remaining_plural": "### Quedan {count}",
         "header_remaining_single": "### Queda {count}",
         "topic_label": "Tema",
+        "streak_label": "🔥 ¡Racha de {count}!",
         "countdown": {
             "warning_seconds": "⚠️ ¡Casi termina!",
             "warning_minutes": "⚠️ ¡Solo {minutes_text}!",
@@ -1040,6 +1041,7 @@
         },
         "metric_caption": "Score Final",
         "score_display": "{current} / {max} puntos",
+        "max_streak_display": "Mejor racha: {count} respuestas correctas seguidas",
         "subheader": {
             "topic_performance": "¿Dónde Estás en Cada Tema?",
             "concept_performance": "Revisión de Conceptos",

@@ -5703,6 +5703,17 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     )
                 )
 
+        # Streak-Anzeige rendern
+        current_streak = st.session_state.get("current_streak", 0)
+        if current_streak >= 2:
+            st.markdown(
+                f"<div style='text-align: right; margin-top: -40px; margin-bottom: 10px;'>"
+                f"<span style='background-color: #A21313; color: white; padding: 4px 12px; border-radius: 20px; font-weight: bold;'>"
+                f"{_test_view_text('streak_label', default='🔥 {count}er Streak!').format(count=current_streak)}"
+                f"</span></div>",
+                unsafe_allow_html=True
+            )
+
         if thema:
             # Render topic in a compact inline block to reduce spacing
             topic_label = _test_view_text('topic_label', default='Thema')
@@ -6516,8 +6527,11 @@ def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_
     
     if ist_richtig:
         punkte = gewichtung
+        st.session_state.current_streak = st.session_state.get("current_streak", 0) + 1
+        st.session_state.max_streak = max(st.session_state.get("max_streak", 0), st.session_state.current_streak)
     else:
         punkte = -gewichtung if app_config.scoring_mode == "negative" else 0
+        st.session_state.current_streak = 0
 
     set_question_as_answered(frage_idx, punkte, antwort)
 
@@ -7349,6 +7363,11 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     </div>
     """, unsafe_allow_html=True)
 
+    # Beste Serie in der Zusammenfassung anzeigen
+    max_streak = st.session_state.get("max_streak", 0)
+    if max_streak >= 2:
+        st.info(translate_ui("summary.max_streak_display", default="Beste Serie: {count} richtige Antworten in Folge").format(count=max_streak))
+
     # Schreibe eine Snapshot-Zeile in die DB, damit die Historie später schnell abgefragt werden kann.
     try:
         from database import recompute_session_summary
@@ -8131,6 +8150,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
         
         # Alle verfügbaren Themen initialisieren
         all_unique_topics = sorted(list(set(q.get('topic', q.get('thema', 'Allgemein')) for q in questions)))
+        all_unique_topics = sorted(list(set(str(q.get('topic', q.get('thema', 'Allgemein'))).strip() for q in questions)))
         for t_name in all_unique_topics:
             topic_counts[t_name] = 0
 
@@ -8153,6 +8173,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
             
             if matches_status:
                 t_name = q.get('topic', q.get('thema', 'Allgemein'))
+                t_name = str(q.get('topic', q.get('thema', 'Allgemein'))).strip()
                 topic_counts[t_name] = topic_counts.get(t_name, 0) + 1
                 total_filtered += 1
 
@@ -8160,6 +8181,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
 
         # Nur Themen anzeigen, die auch Fragen im aktuellen Filter-Status haben
         active_topics = [t for t in all_unique_topics if topic_counts.get(t, 0) > 0]
+        active_topics = [t for t in all_unique_topics if topic_counts.get(t) and topic_counts[t] > 0]
 
         def format_topic_label(option):
             if option == topic_filter_all:

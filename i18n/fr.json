@@ -706,6 +706,7 @@
         "header_remaining_plural": "### Encore {count}",
         "header_remaining_single": "### Encore {count}",
         "topic_label": "Sujet",
+        "streak_label": "🔥 Série de {count} !",
         "countdown": {
             "warning_seconds": "⚠️ C'est bientôt fini !",
             "warning_minutes": "⚠️ Plus que {minutes_text} !",
@@ -1041,6 +1042,7 @@
         },
         "metric_caption": "Score Final",
         "score_display": "{current} / {max} points",
+        "max_streak_display": "Meilleure série : {count} réponses correctes consécutives",
         "subheader": {
             "topic_performance": "Où en Es-tu sur Chaque Sujet ?",
             "concept_performance": "Vérification des Concepts",

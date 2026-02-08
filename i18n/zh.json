@@ -317,6 +317,7 @@
         "header_remaining_plural": "### 剩 {count} 个",
         "header_remaining_single": "### 剩 {count} 个",
         "topic_label": "主题",
+        "streak_label": "🔥 {count} 连胜！",
         "countdown": {
             "warning_seconds": "⚠️ 快完成了！",
             "warning_minutes": "⚠️ 仅剩 {minutes_text}！",
@@ -1043,6 +1044,7 @@
         },
         "metric_caption": "最终得分",
         "score_display": "{current} / {max} 分",
+        "max_streak_display": "最佳连胜：连续答对 {count} 题",
         "subheader": {
             "topic_performance": "你在各主题上的表现如何？",
             "concept_performance": "概念检查",

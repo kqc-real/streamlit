@@ -706,6 +706,7 @@
         "header_remaining_plural": "### Ne mancano {count}",
         "header_remaining_single": "### Ne manca {count}",
         "topic_label": "Argomento",
+        "streak_label": "🔥 Serie di {count}!",
         "countdown": {
             "warning_seconds": "⚠️ Manca pochissimo!",
             "warning_minutes": "⚠️ Solo {minutes_text}!",
@@ -1040,6 +1041,7 @@
         },
         "metric_caption": "Punteggio Finale",
         "score_display": "{current} / {max} punti",
+        "max_streak_display": "Miglior serie: {count} risposte corrette di fila",
         "subheader": {
             "topic_performance": "Dove Sei su Ogni Argomento?",
             "concept_performance": "Verifica dei Concetti",

@@ -317,6 +317,7 @@
         "header_remaining_plural": "### {count} left",
         "header_remaining_single": "### {count} left",
         "topic_label": "Topic",
+        "streak_label": "🔥 {count} Streak!",
         "countdown": {
             "warning_seconds": "⚠️ Almost done!",
             "warning_minutes": "⚠️ Only {minutes_text} left!",
@@ -1043,6 +1044,7 @@
         },
         "metric_caption": "Final Score",
         "score_display": "{current} / {max} points",
+        "max_streak_display": "Best Streak: {count} correct answers in a row",
         "subheader": {
             "topic_performance": "Where Do You Stand on Each Topic?",
             "concept_performance": "Concept Check",
