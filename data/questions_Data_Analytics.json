@@ -1531,7 +1531,7 @@
       "weight": 3,
       "topic": "Datenqualität & Leakage",
       "konzept": "Data Leakage verstehen",
-      "cognitive_level": "Verstehen",
+      "cognitive_level": "Reproduktion",
       "extended_explanation": {
         "titel": "Details zu Data Leakage",
         "schritte": [
