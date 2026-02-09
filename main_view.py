@@ -2199,7 +2199,7 @@ def _render_welcome_splash():
             if st.button(
                 translate_ui("welcome.splash.choose_set", default="📂 Fragenset auswählen"),
                 type="secondary",
-                use_container_width=True,
+                width="stretch",
             ):
                 st.session_state._welcome_flow = "choose_set"
                 st.session_state._flow_launched = False
@@ -2212,7 +2212,7 @@ def _render_welcome_splash():
             if st.button(
                 translate_ui("welcome.splash.create_ai", default="Fragenset mit KI erstellen"),
                 type="primary",
-                use_container_width=True,
+                width="stretch",
                 icon="✨",
             ):
                 st.session_state._welcome_flow = "create_ai"
@@ -2424,7 +2424,7 @@ def _render_pseudonym_gate_dialog(app_config: AppConfig):
             if st.button(
                 _welcome_pseudonym_recover_button(start_label),
                 type=recover_btn_type,
-                use_container_width=True,
+                width="stretch",
                 disabled=not (rec_pseudo and rec_secret),
                 key="pseudonym_dialog_recover_btn",
                 icon=start_icon,
@@ -2455,7 +2455,7 @@ def _render_pseudonym_gate_dialog(app_config: AppConfig):
         if st.button(
             start_label,
             type="primary",
-            use_container_width=True,
+            width="stretch",
             disabled=disabled,
             key="pseudonym_dialog_start_btn",
             icon=start_icon,
@@ -3009,7 +3009,7 @@ def render_welcome_page(app_config: AppConfig):
             if st.button(
                 translate_ui("welcome.select.start_button", default="Start"),
                 type="primary",
-                use_container_width=True,
+                width="stretch",
                 disabled=not bool(selected),
                 key="question_select_dialog_start",
             ):
@@ -3833,7 +3833,7 @@ def render_welcome_page(app_config: AppConfig):
                     type="primary",
                     disabled=not bool(can_start),
                     key="welcome_start_after_select",
-                    use_container_width=True,
+                    width="stretch",
                 ):
                     try:
                         # Lokaler Import, um zyklische Abhängigkeiten zu vermeiden
@@ -6244,7 +6244,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                 xaxis=dict(title="", side="top"),
                                 yaxis=dict(title=""),
                             )
-                            st.plotly_chart(fig, use_container_width=True)
+                            st.plotly_chart(fig, width="stretch")
                         except Exception:
                             try:
                                 matrix_df = pd.DataFrame(
@@ -7626,7 +7626,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                 xaxis=dict(title="", side="top"),
                 yaxis=dict(title=""),
             )
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width="stretch")
         except Exception:
             try:
                 matrix_df = pd.DataFrame(
