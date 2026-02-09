@@ -1342,10 +1342,6 @@
             "hidden_runs_fallback": "{count} tentatives cachées : trop courtes (<{min_duration_seconds} s) ou score minimal non atteint.",
             "no_date": "inconnu"
         },
-        "language": {
-            "label": "Langue :",
-            "help": "Sauvegardé dans le navigateur."
-        },
         "pseudonym": {
             "heading": "👤 Ton Pseudo",
             "dialog_intro": "Choisis un pseudo libre. Tu peux optionnellement définir un secret de connexion pour le réserver.",

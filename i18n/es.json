@@ -1341,10 +1341,6 @@
             "hidden_runs_fallback": "{count} ejecuciones ocultas: demasiado cortas (<{min_duration_seconds} s) o sin llegar a la puntuación mínima.",
             "no_date": "desconocido"
         },
-        "language": {
-            "label": "Idioma:",
-            "help": "Guardado en navegador."
-        },
         "pseudonym": {
             "heading": "👤 Tu Alias",
             "dialog_intro": "Elige un seudónimo libre. Opcionalmente puedes establecer un secreto de inicio de sesión para reservarlo.",

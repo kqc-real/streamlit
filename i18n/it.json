@@ -1341,10 +1341,6 @@
             "hidden_runs_fallback": "{count} tentativi nascosti: troppo brevi (<{min_duration_seconds} s) o punteggio minimo non raggiunto.",
             "no_date": "sconosciuto"
         },
-        "language": {
-            "label": "Lingua:",
-            "help": "Salvato nel browser."
-        },
         "pseudonym": {
             "heading": "👤 Il tuo Alias",
             "dialog_intro": "Scegli uno pseudonimo libero. Facoltativamente puoi impostare un segreto di login per riservarlo.",

@@ -8,6 +8,7 @@ Verantwortlichkeiten:
 import streamlit as st
 import pandas as pd
 import json
+import base64
 import time
 import re
 import locale
@@ -501,17 +502,6 @@ def _welcome_session_expired_warning() -> str:
     return translate_ui(
         "welcome.warning.session_expired",
         default="⚠️ Deine letzte Sitzung ist abgelaufen. Bitte Seite neu laden oder einen neuen Test starten.",
-    )
-
-
-def _welcome_language_label() -> str:
-    return translate_ui("welcome.language.label", default="Choose language")
-
-
-def _welcome_language_help() -> str:
-    return translate_ui(
-        "welcome.language.help",
-        default="Your preference is stored in the browser for the next visit.",
     )
 
 
@@ -2204,11 +2194,6 @@ def _render_welcome_splash():
 
     with st.container(border=True):
         st.markdown(splash_content)
-        render_locale_selector(
-            label=_welcome_language_label(),
-            help_text=_welcome_language_help(),
-        )
-
         col_left, col_right = st.columns([1, 1])
         with col_left:
             if st.button(
@@ -2241,6 +2226,79 @@ def _render_welcome_splash():
                 st.session_state.pop("_active_dialog", None)
                 st.session_state._welcome_splash_dismissed = True
                 st.rerun()
+
+        paper_path = Path(get_package_dir()) / "docs" / "mc-test-paper" / "EDULEARN26.md"
+        st.divider()
+        if paper_path.exists():
+            bottom_left, bottom_right = st.columns([1, 1])
+        else:
+            bottom_left = st.container()
+            bottom_right = None
+
+        with bottom_left:
+            render_locale_selector(
+                label="",
+                help_text=None,
+                label_visibility="collapsed",
+            )
+
+        if paper_path.exists() and bottom_right is not None:
+            with bottom_right:
+                with st.expander(
+                    translate_ui("sidebar.about_expander", default="ℹ️ Über MC-Test")
+                ):
+                    st.caption(
+                        translate_ui(
+                            "sidebar.about_project_text",
+                            default="Ein Forschungsprojekt zur formativen MC-Übung.",
+                        )
+                    )
+
+                    @st.dialog(
+                        translate_ui("sidebar.about_paper_button", default="📄 Paper (EDULEARN26)"),
+                        width="medium",
+                    )
+                    def _show_paper_dialog_splash():
+                        raw_md = paper_path.read_text(encoding="utf-8")
+                        base_dir = paper_path.parent
+
+                        def _render_inline_image(match: re.Match[str]) -> str:
+                            alt_text = _html.escape(match.group(1) or "")
+                            rel_path = match.group(2).strip()
+                            img_path = (base_dir / rel_path).resolve()
+                            if not img_path.exists():
+                                return match.group(0)
+                            suffix = img_path.suffix.lower()
+                            mime = "image/png"
+                            if suffix in {".jpg", ".jpeg"}:
+                                mime = "image/jpeg"
+                            elif suffix == ".gif":
+                                mime = "image/gif"
+                            data = base64.b64encode(img_path.read_bytes()).decode("ascii")
+                            return (
+                                f'<img src="data:{mime};base64,{data}" alt="{alt_text}" '
+                                'style="max-width: 100%; height: auto;" loading="lazy" />'
+                            )
+
+                        rendered_md = re.sub(r"!\[([^\]]*)\]\(([^)]+)\)", _render_inline_image, raw_md)
+                        st.markdown(rendered_md, unsafe_allow_html=True)
+
+                    active_dialog = st.session_state.get("_active_dialog")
+                    paper_blocked = bool(active_dialog)
+                    if paper_blocked:
+                        st.caption(
+                            translate_ui(
+                                "sidebar.about_paper_blocked",
+                                default="Schließe zuerst den offenen Dialog, um das Paper zu öffnen.",
+                            )
+                        )
+
+                    if st.button(
+                        translate_ui("sidebar.about_paper_button", default="📄 Paper (EDULEARN26)"),
+                        key="splash_about_paper_btn",
+                        disabled=paper_blocked,
+                    ):
+                        _show_paper_dialog_splash()
 
         return
 

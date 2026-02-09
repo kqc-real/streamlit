@@ -1270,10 +1270,6 @@
             "hidden_runs_fallback": "{count} Durchläufe verborgen: zu kurz (<{min_duration_seconds} s) oder Mindestscore nicht erreicht.",
             "no_date": "unbekannt"
         },
-        "language": {
-            "label": "Sprache:",
-            "help": "Speichert die Wahl im Browser."
-        },
         "pseudonym": {
             "heading": "👤 Dein Pseudonym",
             "dialog_intro": "Wähle ein freies Pseudonym. Optional kannst du ein Login-Secret setzen, um es zu reservieren.",

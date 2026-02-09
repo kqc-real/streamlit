@@ -1343,10 +1343,6 @@
             "hidden_runs_fallback": "{count} runs hidden: either too short (<{min_duration_seconds} s) or minimum score not reached.",
             "no_date": "unknown"
         },
-        "language": {
-            "label": "Language:",
-            "help": "Saved in browser."
-        },
         "pseudonym": {
             "heading": "👤 Your Pseudonym",
             "dialog_intro": "Choose a free pseudonym. Optionally, you can set a login secret to reserve it.",

@@ -142,7 +142,11 @@ def _trigger_rerun() -> None:
             logging.getLogger(__name__).warning("Locale change rerun failed", exc_info=True)
 
 
-def render_locale_selector(label: str, help_text: str | None = None) -> str:
+def render_locale_selector(
+    label: str,
+    help_text: str | None = None,
+    label_visibility: str = "visible",
+) -> str:
     """Zeigt ein Sprach-Auswahlfeld, das die Auswahl im Browser speichert."""
     _ensure_locale_synced()
 
@@ -160,6 +164,7 @@ def render_locale_selector(label: str, help_text: str | None = None) -> str:
         index=default_index,
         key=_WELCOME_LOCALE_SELECTOR_KEY,
         help=help_text,
+        label_visibility=label_visibility,
     )
 
     if selected_locale != current_locale:
