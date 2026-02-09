@@ -1,0 +1,1125 @@
+{
+  "questions": [
+    {
+      "question": "1. Welcher mathematische Ansatz berechnet die Modellparameter $\\theta$ einer linearen Regression direkt in geschlossener Form, um den MSE zu minimieren? [cite: 21, 83]",
+      "options": [
+        "Die Normalengleichung",
+        "Das Gradientenverfahren",
+        "Die logistische Funktion",
+        "Das Simulated Annealing"
+      ],
+      "answer": 0,
+      "explanation": "Die Normalengleichung ermöglicht die direkte Berechnung der optimalen Parameter mittels einer mathematischen Formel ohne iterative Schritte. [cite: 21, 84] Sie minimiert die Kostenfunktion direkt über den gesamten Datensatz. [cite: 83]",
+      "weight": 1,
+      "topic": "Grundkonzepte der Linearen Regression",
+      "concept": "Normalengleichung",
+      "cognitive_level": "Reproduktion",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Normalengleichung",
+          "definition": "Mathematische Formel zur direkten Berechnung optimaler Modellparameter. [cite: 84]"
+        },
+        {
+          "term": "MSE",
+          "definition": "Mean Squared Error; Maß für die durchschnittliche quadratische Abweichung. [cite: 67]"
+        }
+      ],
+      "frage": "1. Welcher mathematische Ansatz berechnet die Modellparameter $\\theta$ einer linearen Regression direkt in geschlossener Form, um den MSE zu minimieren? [cite: 21, 83]",
+      "gewichtung": 1,
+      "thema": "Grundkonzepte der Linearen Regression",
+      "kognitive_stufe": "Reproduktion",
+      "optionen": [
+        "Die Normalengleichung",
+        "Das Gradientenverfahren",
+        "Die logistische Funktion",
+        "Das Simulated Annealing"
+      ],
+      "loesung": 0,
+      "erklaerung": "Die Normalengleichung ermöglicht die direkte Berechnung der optimalen Parameter mittels einer mathematischen Formel ohne iterative Schritte. [cite: 21, 84] Sie minimiert die Kostenfunktion direkt über den gesamten Datensatz. [cite: 83]"
+    },
+    {
+      "question": "2. Wie wird eine vollständige Iteration über den gesamten Trainingsdatensatz im Kontext von Gradientenverfahren bezeichnet? [cite: 283]",
+      "options": [
+        "Ein Batch-Lauf",
+        "Eine Epoche",
+        "Ein Lernschritt",
+        "Eine Konvergenz"
+      ],
+      "answer": 1,
+      "explanation": "Eine Epoche beschreibt den Prozess, bei dem der Algorithmus jedes Beispiel im Trainingsdatensatz genau einmal verarbeitet hat. [cite: 283] Dies ist die zentrale Maßeinheit für den Trainingsfortschritt. [cite: 365]",
+      "weight": 1,
+      "topic": "Gradientenverfahren",
+      "concept": "Epoche",
+      "cognitive_level": "Reproduktion",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Epoche",
+          "definition": "Ein vollständiger Durchlauf durch alle verfügbaren Trainingsdaten. [cite: 283]"
+        },
+        {
+          "term": "Iteration",
+          "definition": "Ein einzelner Update-Schritt der Modellparameter. [cite: 187]"
+        }
+      ],
+      "frage": "2. Wie wird eine vollständige Iteration über den gesamten Trainingsdatensatz im Kontext von Gradientenverfahren bezeichnet? [cite: 283]",
+      "gewichtung": 1,
+      "thema": "Gradientenverfahren",
+      "kognitive_stufe": "Reproduktion",
+      "optionen": [
+        "Ein Batch-Lauf",
+        "Eine Epoche",
+        "Ein Lernschritt",
+        "Eine Konvergenz"
+      ],
+      "loesung": 1,
+      "erklaerung": "Eine Epoche beschreibt den Prozess, bei dem der Algorithmus jedes Beispiel im Trainingsdatensatz genau einmal verarbeitet hat. [cite: 283] Dies ist die zentrale Maßeinheit für den Trainingsfortschritt. [cite: 365]"
+    },
+    {
+      "question": "3. Welcher Hyperparameter steuert maßgeblich die Schrittweite bei der Anpassung der Modellparameter im Gradientenverfahren? [cite: 202]",
+      "options": [
+        "Die Epochenanzahl",
+        "Der Bias-Term $\\theta_0$",
+        "Die Lernrate $\\eta$",
+        "Die Toleranz $\\epsilon$"
+      ],
+      "answer": 2,
+      "explanation": "Die Lernrate $\\eta$ bestimmt die Größe der Korrekturschritte entlang des negativen Gradienten. [cite: 202] Eine falsche Wahl kann zu langsamer Konvergenz oder Divergenz führen. [cite: 203, 210]",
+      "weight": 1,
+      "topic": "Gradientenverfahren",
+      "concept": "Lernrate",
+      "cognitive_level": "Reproduktion",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Lernrate",
+          "definition": "Skalierungsfaktor für die Parameteränderung pro Trainingsschritt. [cite: 202, 270]"
+        },
+        {
+          "term": "Hyperparameter",
+          "definition": "Vom Nutzer gesetzte Konfiguration, die nicht vom Modell gelernt wird. [cite: 16]"
+        }
+      ],
+      "frage": "3. Welcher Hyperparameter steuert maßgeblich die Schrittweite bei der Anpassung der Modellparameter im Gradientenverfahren? [cite: 202]",
+      "gewichtung": 1,
+      "thema": "Gradientenverfahren",
+      "kognitive_stufe": "Reproduktion",
+      "optionen": [
+        "Die Epochenanzahl",
+        "Der Bias-Term $\\theta_0$",
+        "Die Lernrate $\\eta$",
+        "Die Toleranz $\\epsilon$"
+      ],
+      "loesung": 2,
+      "erklaerung": "Die Lernrate $\\eta$ bestimmt die Größe der Korrekturschritte entlang des negativen Gradienten. [cite: 202] Eine falsche Wahl kann zu langsamer Konvergenz oder Divergenz führen. [cite: 203, 210]"
+    },
+    {
+      "question": "4. Sie berechnen eine Vorhersage für ein lineares Modell mit $\\theta = [4, 3]^T$ und dem Merkmalsvektor $x = [1, 2]^T$ (mit $x_0=1$). Welchen Wert liefert die Hypothese $\\hat{y} = \\theta \\cdot x$? [cite: 53, 57]",
+      "options": [
+        "Der Wert beträgt 7,0",
+        "Der Wert beträgt 10,0",
+        "Der Wert beträgt 11,0",
+        "Der Wert beträgt 12,0"
+      ],
+      "answer": 1,
+      "explanation": "Die Vorhersage wird über das Skalarprodukt berechnet: $4 \\cdot 1 + 3 \\cdot 2 = 4 + 6 = 10$. [cite: 57] Hierbei repräsentiert die 4 den Bias-Term $\\theta_0$. [cite: 42, 51]",
+      "weight": 2,
+      "topic": "Grundkonzepte der Linearen Regression",
+      "concept": "Hypothesenfunktion",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Berechnung des Skalarprodukts",
+        "content": "Das lineare Modell bildet die Vorhersage als gewichtete Summe der Merkmale ab. [cite: 42] In Vektorschreibweise entspricht dies dem Skalarprodukt. [cite: 53]",
+        "steps": [
+          "Identifikation: $\\theta_0=4, \\theta_1=3$ und $x_0=1, x_1=2$. [cite: 56]",
+          "Anwendung: $\\hat{y} = \\theta_0 x_0 + \\theta_1 x_1$. [cite: 43]",
+          "Berechnung: $4 \\cdot 1 + 3 \\cdot 2 = 10$. [cite: 57]"
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Skalarprodukt",
+          "definition": "Summe der Produkte entsprechender Komponenten zweier Vektoren. [cite: 57]"
+        },
+        {
+          "term": "Bias-Term",
+          "definition": "Konstanter Achsenabschnitt eines linearen Modells. [cite: 42]"
+        }
+      ],
+      "frage": "4. Sie berechnen eine Vorhersage für ein lineares Modell mit $\\theta = [4, 3]^T$ und dem Merkmalsvektor $x = [1, 2]^T$ (mit $x_0=1$). Welchen Wert liefert die Hypothese $\\hat{y} = \\theta \\cdot x$? [cite: 53, 57]",
+      "gewichtung": 2,
+      "thema": "Grundkonzepte der Linearen Regression",
+      "kognitive_stufe": "Anwendung",
+      "optionen": [
+        "Der Wert beträgt 7,0",
+        "Der Wert beträgt 10,0",
+        "Der Wert beträgt 11,0",
+        "Der Wert beträgt 12,0"
+      ],
+      "loesung": 1,
+      "erklaerung": "Die Vorhersage wird über das Skalarprodukt berechnet: $4 \\cdot 1 + 3 \\cdot 2 = 4 + 6 = 10$. [cite: 57] Hierbei repräsentiert die 4 den Bias-Term $\\theta_0$. [cite: 42, 51]"
+    },
+    {
+      "question": "5. Gegeben ist folgender Python-Code zur Implementierung eines Gradientenschritts [cite: 280, 281]:\n\n```python\n1: gradients = 2 / m * X_b.T @ (X_b @ theta - y)\n2: theta = theta - eta * gradients\n```\n\nWelche Variante wird hier implementiert, wenn `X_b` alle Trainingsdaten enthält? [cite: 266]",
+      "options": [
+        "Batch-Gradientenverfahren",
+        "Stochastisches Verfahren",
+        "Mini-Batch-Verfahren",
+        "Polynomielle Regression"
+      ],
+      "answer": 0,
+      "explanation": "Da der Gradient über die gesamte Matrix `X_b` (alle m Instanzen) berechnet wird, handelt es sich um das Batch-Verfahren. [cite: 266] Dies nutzt alle Daten für einen einzigen Schritt. [cite: 265]",
+      "weight": 2,
+      "topic": "Batch-Gradientenverfahren",
+      "concept": "Batch-Update",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Analyse des Matrix-Updates",
+        "content": "In dieser Implementierung wird der Gradient für alle Datenpunkte gleichzeitig bestimmt, was stabil aber speicherintensiv ist. [cite: 266]",
+        "steps": [
+          "Matrix `X_b` umfasst den gesamten Datensatz. [cite: 266]",
+          "Der Gradient wird gemittelt über alle m Instanzen berechnet. [cite: 264]",
+          "Dies charakterisiert das Batch-Verfahren gegenüber SGD. [cite: 266, 331]"
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Vektorisierung",
+          "definition": "Gleichzeitige Berechnung mehrerer Datenpunkte mittels Matrixoperationen. [cite: 409]"
+        }
+      ],
+      "frage": "5. Gegeben ist folgender Python-Code zur Implementierung eines Gradientenschritts [cite: 280, 281]:\n\n```python\n1: gradients = 2 / m * X_b.T @ (X_b @ theta - y)\n2: theta = theta - eta * gradients\n```\n\nWelche Variante wird hier implementiert, wenn `X_b` alle Trainingsdaten enthält? [cite: 266]",
+      "gewichtung": 2,
+      "thema": "Batch-Gradientenverfahren",
+      "kognitive_stufe": "Anwendung",
+      "optionen": [
+        "Batch-Gradientenverfahren",
+        "Stochastisches Verfahren",
+        "Mini-Batch-Verfahren",
+        "Polynomielle Regression"
+      ],
+      "loesung": 0,
+      "erklaerung": "Da der Gradient über die gesamte Matrix `X_b` (alle m Instanzen) berechnet wird, handelt es sich um das Batch-Verfahren. [cite: 266] Dies nutzt alle Daten für einen einzigen Schritt. [cite: 265]"
+    },
+    {
+      "question": "6. Fehlerkurven für Training und Validierung liegen nah beieinander, erreichen aber ein Plateau auf einem insgesamt hohen Fehler-Niveau. Welche Diagnose stellen Sie? [cite: 579, 580]",
+      "options": [
+        "Es liegt Overfitting vor",
+        "Es liegt Underfitting vor",
+        "Modellkomplexität ist ideal",
+        "Daten-Skalierung ist falsch"
+      ],
+      "answer": 1,
+      "explanation": "Wenn beide Fehler hoch sind und zusätzliche Daten nicht helfen, ist das Modell zu einfach für die Datenstruktur (hoher Bias/Underfitting). [cite: 581, 618]",
+      "weight": 2,
+      "topic": "Lernkurven",
+      "concept": "Underfitting",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Interpretation von Plateaus",
+        "content": "Lernkurven zeigen bei Underfitting, dass das Modell die Komplexität der Daten nicht erfassen kann, unabhängig von der Datenmenge. [cite: 581]",
+        "steps": [
+          "Beobachtung: Hoher Fehler in Training und Validierung. [cite: 580]",
+          "Analyse: Kurven haben sich bereits angenähert. [cite: 579]",
+          "Schlussfolgerung: Modellkapazität reicht nicht aus. [cite: 582]"
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Underfitting",
+          "definition": "Zustand, in dem ein Modell zu einfach ist, um Muster in den Daten zu lernen. [cite: 526, 618]"
+        }
+      ],
+      "frage": "6. Fehlerkurven für Training und Validierung liegen nah beieinander, erreichen aber ein Plateau auf einem insgesamt hohen Fehler-Niveau. Welche Diagnose stellen Sie? [cite: 579, 580]",
+      "gewichtung": 2,
+      "thema": "Lernkurven",
+      "kognitive_stufe": "Anwendung",
+      "optionen": [
+        "Es liegt Overfitting vor",
+        "Es liegt Underfitting vor",
+        "Modellkomplexität ist ideal",
+        "Daten-Skalierung ist falsch"
+      ],
+      "loesung": 1,
+      "erklaerung": "Wenn beide Fehler hoch sind und zusätzliche Daten nicht helfen, ist das Modell zu einfach für die Datenstruktur (hoher Bias/Underfitting). [cite: 581, 618]"
+    },
+    {
+      "question": "7. Warum ist die Skalierung der Merkmale beim Gradientenverfahren kritisch, wenn Features unterschiedliche Wertebereiche haben? [cite: 231, 232]",
+      "options": [
+        "Kostenfunktion wird länglich",
+        "MSE wird mathematisch komplex",
+        "Bias kann nicht gelernt werden",
+        "SVD funktioniert nur skaliert"
+      ],
+      "answer": 0,
+      "explanation": "Unterschiedliche Skalen strecken die Kostenfunktion zu einer länglichen Ellipse. [cite: 231] Der Gradient zeigt dann nicht mehr direkt zum Minimum, was die Konvergenz extrem verlangsamt. [cite: 245, 249]",
+      "weight": 2,
+      "topic": "Gradientenverfahren",
+      "concept": "Merkmalsskalierung",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Geometrie der Fehlerlandschaft",
+        "content": "Standardisierung sorgt für kreisförmige Konturen, wodurch der Gradient direkt zum Zentrum weist. [cite: 232, 238]",
+        "steps": [
+          "Skalierung beeinflusst die Form der Niveaulinien. [cite: 232]",
+          "Ungleiche Skalen führen zu schmalen Tälern. [cite: 241, 246]",
+          "Das Verfahren 'zick-zackt' zum Minimum. [cite: 245]"
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Standardisierung",
+          "definition": "Transformation von Merkmalen auf Mittelwert 0 und Varianz 1. [cite: 248]"
+        }
+      ],
+      "frage": "7. Warum ist die Skalierung der Merkmale beim Gradientenverfahren kritisch, wenn Features unterschiedliche Wertebereiche haben? [cite: 231, 232]",
+      "gewichtung": 2,
+      "thema": "Gradientenverfahren",
+      "kognitive_stufe": "Anwendung",
+      "optionen": [
+        "Kostenfunktion wird länglich",
+        "MSE wird mathematisch komplex",
+        "Bias kann nicht gelernt werden",
+        "SVD funktioniert nur skaliert"
+      ],
+      "loesung": 0,
+      "erklaerung": "Unterschiedliche Skalen strecken die Kostenfunktion zu einer länglichen Ellipse. [cite: 231] Der Gradient zeigt dann nicht mehr direkt zum Minimum, was die Konvergenz extrem verlangsamt. [cite: 245, 249]"
+    },
+    {
+      "question": "8. Welcher Regularisierungs-Term wird zur Kostenfunktion addiert, um eine Ridge-Regression (L2) durchzuführen? [cite: 637, 645]",
+      "options": [
+        "$\\frac{\\alpha}{m} \\sum_{i=1}^{n} \\theta_i^2$",
+        "$\\alpha \\sum_{i=1}^{n} |\\theta_i|$",
+        "$r \\cdot L1 + (1-r) \\cdot L2$",
+        "$\\frac{1}{m} \\sum (\\hat{y} - y)^2$"
+      ],
+      "answer": 0,
+      "explanation": "Ridge nutzt das Quadrat der Gewichte. [cite: 637] Dies bestraft besonders große Koeffizienten und führt zu einer glatteren Modellfunktion. [cite: 639, 662]",
+      "weight": 2,
+      "topic": "Regularisierte lineare Modelle",
+      "concept": "L2-Regularisierung",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "Ridge-Strafterm",
+        "content": "Die L2-Regularisierung reduziert die Varianz des Modells, indem sie extreme Parameterwerte unterdrückt. [cite: 663]",
+        "steps": [
+          "Addition der quadrierten Parameter $\\theta_i$. [cite: 637]",
+          "Wichtung durch Hyperparameter $\\alpha$. [cite: 642]",
+          "Ausschluss des Bias-Terms $\\theta_0$. [cite: 648]"
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Regularisierung",
+          "definition": "Verfahren zur Vermeidung von Overfitting durch Zusatzstrafen. [cite: 30, 632]"
+        }
+      ],
+      "frage": "8. Welcher Regularisierungs-Term wird zur Kostenfunktion addiert, um eine Ridge-Regression (L2) durchzuführen? [cite: 637, 645]",
+      "gewichtung": 2,
+      "thema": "Regularisierte lineare Modelle",
+      "kognitive_stufe": "Anwendung",
+      "optionen": [
+        "$\\frac{\\alpha}{m} \\sum_{i=1}^{n} \\theta_i^2$",
+        "$\\alpha \\sum_{i=1}^{n} |\\theta_i|$",
+        "$r \\cdot L1 + (1-r) \\cdot L2$",
+        "$\\frac{1}{m} \\sum (\\hat{y} - y)^2$"
+      ],
+      "loesung": 0,
+      "erklaerung": "Ridge nutzt das Quadrat der Gewichte. [cite: 637] Dies bestraft besonders große Koeffizienten und führt zu einer glatteren Modellfunktion. [cite: 639, 662]"
+    },
+    {
+      "question": "9. Welche spezifische Eigenschaft unterscheidet die Lasso-Regression (L1) von der Ridge-Regression? [cite: 747, 748]",
+      "options": [
+        "Automatische Merkmalsauswahl",
+        "Robustheit gegen Ausreißer",
+        "Nutzung der Pseudoinversen",
+        "Immer geschlossene Lösung"
+      ],
+      "answer": 0,
+      "explanation": "Lasso eliminiert die Gewichte der unwichtigsten Merkmale vollständig, indem es sie auf Null setzt. [cite: 747] Dadurch fungiert es gleichzeitig als Methode zur Merkmalsauswahl. [cite: 748]",
+      "weight": 2,
+      "topic": "Regularisierte lineare Modelle",
+      "concept": "Lasso-Regression",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": {
+        "title": "L1-Effekt",
+        "content": "Lasso erzeugt spärliche Modelle, was bei Datensätzen mit vielen irrelevanten Merkmalen vorteilhaft ist. [cite: 748]",
+        "steps": [
+          "L1-Norm hat Ecken auf den Achsen. [cite: 750]",
+          "Optimierung trifft oft diese Ecken. [cite: 751, 754]",
+          "Resultat: Gewichte werden exakt Null. [cite: 747]"
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Spärliches Modell",
+          "definition": "Modell, bei dem viele Parameter exakt den Wert Null haben. [cite: 748]"
+        }
+      ],
+      "frage": "9. Welche spezifische Eigenschaft unterscheidet die Lasso-Regression (L1) von der Ridge-Regression? [cite: 747, 748]",
+      "gewichtung": 2,
+      "thema": "Regularisierte lineare Modelle",
+      "kognitive_stufe": "Anwendung",
+      "optionen": [
+        "Automatische Merkmalsauswahl",
+        "Robustheit gegen Ausreißer",
+        "Nutzung der Pseudoinversen",
+        "Immer geschlossene Lösung"
+      ],
+      "loesung": 0,
+      "erklaerung": "Lasso eliminiert die Gewichte der unwichtigsten Merkmale vollständig, indem es sie auf Null setzt. [cite: 747] Dadurch fungiert es gleichzeitig als Methode zur Merkmalsauswahl. [cite: 748]"
+    },
+    {
+      "question": "10. In Scikit-Learn implementiert `SGDRegressor` das stochastische Gradientenverfahren. Welcher Parameter aktiviert Ridge-Regularisierung? [cite: 704, 708]",
+      "options": [
+        "penalty='l2'",
+        "regularization='ridge'",
+        "loss='squared_error'",
+        "alpha=0"
+      ],
+      "answer": 0,
+      "explanation": "Der Parameter `penalty` legt den Typ fest. [cite: 708] 'l2' entspricht der Ridge-Bestrafung basierend auf der quadrierten Norm. [cite: 704]",
+      "weight": 2,
+      "topic": "Regularisierte lineare Modelle",
+      "concept": "Scikit-Learn API",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Penalty",
+          "definition": "Strafterm in der Kostenfunktion zur Regularisierung. [cite: 394, 708]"
+        }
+      ],
+      "frage": "10. In Scikit-Learn implementiert `SGDRegressor` das stochastische Gradientenverfahren. Welcher Parameter aktiviert Ridge-Regularisierung? [cite: 704, 708]",
+      "gewichtung": 2,
+      "thema": "Regularisierte lineare Modelle",
+      "kognitive_stufe": "Anwendung",
+      "optionen": [
+        "penalty='l2'",
+        "regularization='ridge'",
+        "loss='squared_error'",
+        "alpha=0"
+      ],
+      "loesung": 0,
+      "erklaerung": "Der Parameter `penalty` legt den Typ fest. [cite: 708] 'l2' entspricht der Ridge-Bestrafung basierend auf der quadrierten Norm. [cite: 704]"
+    },
+    {
+      "question": "11. Wie skaliert die Berechnungs-Komplexität bezüglich der Merkmale $n$ beim SVD-Ansatz von Scikit-Learn im Vergleich zur Normalengleichung? [cite: 174, 176]",
+      "options": [
+        "SVD $O(n^2)$, Normalengl. $O(n^3)$",
+        "SVD $O(n^3)$, Normalengl. $O(n)$",
+        "Beide skalieren mit $O(n^2)$",
+        "SVD ist nur für große m gut"
+      ],
+      "answer": 0,
+      "explanation": "Die Normalengleichung erfordert eine Matrizeninversion ($O(n^3)$), während der SVD-Ansatz (Singulärwertzerlegung) etwa $O(n^2)$ benötigt und somit besser skaliert. [cite: 174, 176]",
+      "weight": 3,
+      "topic": "Komplexitätsanalyse der Algorithmen",
+      "concept": "Laufzeitkomplexität",
+      "cognitive_level": "Strukturelle Analyse",
+      "extended_explanation": {
+        "title": "Rechenaufwand",
+        "content": "SVD ist nicht nur schneller bei vielen Merkmalen, sondern auch numerisch stabiler als die direkte Inversion. [cite: 170]",
+        "steps": [
+          "Inversion skaliert kubisch mit der Merkmalszahl. [cite: 175]",
+          "SVD zerlegt die Matrix effizienter. [cite: 176]",
+          "Unterschied wird bei großen n massiv. [cite: 178]"
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "SVD",
+          "definition": "Singular Value Decomposition; Verfahren zur Matrixzerlegung. [cite: 168]"
+        }
+      ],
+      "frage": "11. Wie skaliert die Berechnungs-Komplexität bezüglich der Merkmale $n$ beim SVD-Ansatz von Scikit-Learn im Vergleich zur Normalengleichung? [cite: 174, 176]",
+      "gewichtung": 3,
+      "thema": "Komplexitätsanalyse der Algorithmen",
+      "kognitive_stufe": "Strukturelle Analyse",
+      "optionen": [
+        "SVD $O(n^2)$, Normalengl. $O(n^3)$",
+        "SVD $O(n^3)$, Normalengl. $O(n)$",
+        "Beide skalieren mit $O(n^2)$",
+        "SVD ist nur für große m gut"
+      ],
+      "loesung": 0,
+      "erklaerung": "Die Normalengleichung erfordert eine Matrizeninversion ($O(n^3)$), während der SVD-Ansatz (Singulärwertzerlegung) etwa $O(n^2)$ benötigt und somit besser skaliert. [cite: 174, 176]"
+    },
+    {
+      "question": "12. Warum konvergiert das Batch-Gradientenverfahren im Gegensatz zum stochastischen Verfahren (SGD) ohne 'Sprünge' zum Minimum? [cite: 266, 335]",
+      "options": [
+        "Exakter Gradient über alle Daten",
+        "Künstliche Glättung der Kurve",
+        "Nutzung einer geschlossenen Form",
+        "Verwendung der Pseudoinversen"
+      ],
+      "answer": 0,
+      "explanation": "Batch-GD nutzt den Mittelwert der Gradienten aller Datenpunkte. [cite: 266] Dies liefert eine stabile Richtung, während SGD pro Schritt nur einen verrauschten Schätzwert nutzt. [cite: 335, 341]",
+      "weight": 2,
+      "topic": "Gradientenverfahren",
+      "concept": "Konvergenzstabilität",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Deterministisch",
+          "definition": "Verfahren, das bei gleichen Eingaben immer das gleiche Ergebnis liefert. [cite: 1104]"
+        }
+      ],
+      "frage": "12. Warum konvergiert das Batch-Gradientenverfahren im Gegensatz zum stochastischen Verfahren (SGD) ohne 'Sprünge' zum Minimum? [cite: 266, 335]",
+      "gewichtung": 2,
+      "thema": "Gradientenverfahren",
+      "kognitive_stufe": "Anwendung",
+      "optionen": [
+        "Exakter Gradient über alle Daten",
+        "Künstliche Glättung der Kurve",
+        "Nutzung einer geschlossenen Form",
+        "Verwendung der Pseudoinversen"
+      ],
+      "loesung": 0,
+      "erklaerung": "Batch-GD nutzt den Mittelwert der Gradienten aller Datenpunkte. [cite: 266] Dies liefert eine stabile Richtung, während SGD pro Schritt nur einen verrauschten Schätzwert nutzt. [cite: 335, 341]"
+    },
+    {
+      "question": "13. Welches Problem droht bei SGD, wenn ein Datensatz nach Klassen sortiert ist (z. B. erst alle Hunde, dann Katzen)? [cite: 388]",
+      "options": [
+        "Parameter 'wandern' einseitig",
+        "MSE wird mathematisch negativ",
+        "Matrix $X^{\\top}X$ wird singulär",
+        "SGD shuffelt Daten automatisch"
+      ],
+      "answer": 0,
+      "explanation": "SGD passt die Parameter an die aktuell gesehenen Daten an. [cite: 332] Ohne Durchmischung optimiert es erst für eine Klasse und 'vergisst' das Gelernte beim Wechsel zur nächsten. [cite: 388]",
+      "weight": 3,
+      "topic": "Stochastisches Gradientenverfahren (SGD)",
+      "concept": "IID-Annahme",
+      "cognitive_level": "Strukturelle Analyse",
+      "extended_explanation": {
+        "title": "Datenverteilung",
+        "content": "Durchmischung (Shuffling) ist essenziell, damit der Gradient im Mittel in die richtige Richtung zeigt. [cite: 387]",
+        "steps": [
+          "SGD lernt lokal von einzelnen Instanzen. [cite: 332]",
+          "Sortierung verletzt die IID-Annahme. [cite: 386]",
+          "Modell findet kein globales Gleichgewicht. [cite: 389]"
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "IID",
+          "definition": "Independent and Identically Distributed; Kernannahme für stabiles Lernen. [cite: 386]"
+        }
+      ],
+      "frage": "13. Welches Problem droht bei SGD, wenn ein Datensatz nach Klassen sortiert ist (z. B. erst alle Hunde, dann Katzen)? [cite: 388]",
+      "gewichtung": 3,
+      "thema": "Stochastisches Gradientenverfahren (SGD)",
+      "kognitive_stufe": "Strukturelle Analyse",
+      "optionen": [
+        "Parameter 'wandern' einseitig",
+        "MSE wird mathematisch negativ",
+        "Matrix $X^{\\top}X$ wird singulär",
+        "SGD shuffelt Daten automatisch"
+      ],
+      "loesung": 0,
+      "erklaerung": "SGD passt die Parameter an die aktuell gesehenen Daten an. [cite: 332] Ohne Durchmischung optimiert es erst für eine Klasse und 'vergisst' das Gelernte beim Wechsel zur nächsten. [cite: 388]"
+    },
+    {
+      "question": "14. Was ist der Hauptvorteil von Mini-Batch-Verfahren gegenüber reinem SGD? [cite: 409]",
+      "options": [
+        "Hardware-Nutzung durch Matrizen",
+        "Konvergenz in nur einer Epoche",
+        "Keine Regularisierung nötig",
+        "Keine Lernrate erforderlich"
+      ],
+      "answer": 0,
+      "explanation": "Mini-Batches erlauben Vektoroperationen auf GPUs. [cite: 409] Dies ist deutlich schneller als die Einzelverarbeitung bei reinem SGD. [cite: 332, 410]",
+      "weight": 2,
+      "topic": "Mini-Batch-Gradientenverfahren",
+      "concept": "Hardware-Beschleunigung",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "GPU",
+          "definition": "Graphics Processing Unit; optimiert für parallele Matrixrechnungen. [cite: 409]"
+        }
+      ],
+      "frage": "14. Was ist der Hauptvorteil von Mini-Batch-Verfahren gegenüber reinem SGD? [cite: 409]",
+      "gewichtung": 2,
+      "thema": "Mini-Batch-Gradientenverfahren",
+      "kognitive_stufe": "Anwendung",
+      "optionen": [
+        "Hardware-Nutzung durch Matrizen",
+        "Konvergenz in nur einer Epoche",
+        "Keine Regularisierung nötig",
+        "Keine Lernrate erforderlich"
+      ],
+      "loesung": 0,
+      "erklaerung": "Mini-Batches erlauben Vektoroperationen auf GPUs. [cite: 409] Dies ist deutlich schneller als die Einzelverarbeitung bei reinem SGD. [cite: 332, 410]"
+    },
+    {
+      "question": "15. Wie verändert sich die Anzahl der Merkmale bei `PolynomialFeatures(degree=2)` mit den Basismerkmalen $x_1, x_2$? [cite: 500]",
+      "options": [
+        "Es entstehen 5 Merkmale",
+        "Es entstehen 4 Merkmale",
+        "Es entstehen 2 Merkmale",
+        "Es entstehen 6 Merkmale"
+      ],
+      "answer": 0,
+      "explanation": "Zusätzlich zu $x_1$ und $x_2$ entstehen die Quadrate $x_1^2, x_2^2$ sowie das Produkt $x_1x_2$. [cite: 500]",
+      "weight": 2,
+      "topic": "Polynomielle Regression",
+      "concept": "Feature Engineering",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Interaktionsterm",
+          "definition": "Produkt zweier Merkmale zur Modellierung von Wechselwirkungen. [cite: 498]"
+        }
+      ],
+      "frage": "15. Wie verändert sich die Anzahl der Merkmale bei `PolynomialFeatures(degree=2)` mit den Basismerkmalen $x_1, x_2$? [cite: 500]",
+      "gewichtung": 2,
+      "thema": "Polynomielle Regression",
+      "kognitive_stufe": "Anwendung",
+      "optionen": [
+        "Es entstehen 5 Merkmale",
+        "Es entstehen 4 Merkmale",
+        "Es entstehen 2 Merkmale",
+        "Es entstehen 6 Merkmale"
+      ],
+      "loesung": 0,
+      "erklaerung": "Zusätzlich zu $x_1$ und $x_2$ entstehen die Quadrate $x_1^2, x_2^2$ sowie das Produkt $x_1x_2$. [cite: 500]"
+    },
+    {
+      "question": "16. Welche Funktion transformiert bei der logistischen Regression den linearen Score in eine Wahrscheinlichkeit zwischen 0 und 1? [cite: 890, 893]",
+      "options": [
+        "Die Sigmoid-Funktion",
+        "Die Logit-Funktion",
+        "Der Mittelwert von y",
+        "Die Pseudoinverse"
+      ],
+      "answer": 0,
+      "explanation": "Die Sigmoid-Funktion (oder logistische Funktion) bildet beliebige Werte auf das Intervall (0, 1) ab, was eine Interpretation als Wahrscheinlichkeit erlaubt. [cite: 893, 894]",
+      "weight": 2,
+      "topic": "Logistische Regression",
+      "concept": "Sigmoid-Funktion",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Aktivierungsfunktion",
+          "definition": "Funktion, die den Output eines Knotens bestimmt. [cite: 893]"
+        }
+      ],
+      "frage": "16. Welche Funktion transformiert bei der logistischen Regression den linearen Score in eine Wahrscheinlichkeit zwischen 0 und 1? [cite: 890, 893]",
+      "gewichtung": 2,
+      "thema": "Logistische Regression",
+      "kognitive_stufe": "Anwendung",
+      "optionen": [
+        "Die Sigmoid-Funktion",
+        "Die Logit-Funktion",
+        "Der Mittelwert von y",
+        "Die Pseudoinverse"
+      ],
+      "loesung": 0,
+      "erklaerung": "Die Sigmoid-Funktion (oder logistische Funktion) bildet beliebige Werte auf das Intervall (0, 1) ab, was eine Interpretation als Wahrscheinlichkeit erlaubt. [cite: 893, 894]"
+    },
+    {
+      "question": "17. Was gilt für die Summe der Wahrscheinlichkeiten bei der Softmax-Regression für eine Instanz? [cite: 1102]",
+      "options": [
+        "Summe ergibt genau 1,0",
+        "Summe hängt von n ab",
+        "Summe ist immer &lt; 1,0",
+        "Summe entspricht Logits"
+      ],
+      "answer": 0,
+      "explanation": "Softmax normalisiert die Scores über alle Klassen. [cite: 1102] Dadurch entsteht eine valide Wahrscheinlichkeitsverteilung, deren Summe stets 100% (1,0) beträgt. [cite: 1102]",
+      "weight": 2,
+      "topic": "Softmax-Regression",
+      "concept": "Wahrscheinlichkeitsverteilung",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Normalisierung",
+          "definition": "Anpassung von Werten, sodass sie in einem bestimmten Verhältnis stehen. [cite: 1102]"
+        }
+      ],
+      "frage": "17. Was gilt für die Summe der Wahrscheinlichkeiten bei der Softmax-Regression für eine Instanz? [cite: 1102]",
+      "gewichtung": 2,
+      "thema": "Softmax-Regression",
+      "kognitive_stufe": "Anwendung",
+      "optionen": [
+        "Summe ergibt genau 1,0",
+        "Summe hängt von n ab",
+        "Summe ist immer &lt; 1,0",
+        "Summe entspricht Logits"
+      ],
+      "loesung": 0,
+      "erklaerung": "Softmax normalisiert die Scores über alle Klassen. [cite: 1102] Dadurch entsteht eine valide Wahrscheinlichkeitsverteilung, deren Summe stets 100% (1,0) beträgt. [cite: 1102]"
+    },
+    {
+      "question": "18. Welcher Fehlertyp entsteht durch die Annahme eines linearen Modells für eigentlich quadratische Daten? [cite: 617]",
+      "options": [
+        "Bias (Verzerrung)",
+        "Varianz",
+        "Nicht reduzierbarer Fehler",
+        "Overfitting-Fehler"
+      ],
+      "answer": 0,
+      "explanation": "Bias resultiert aus falschen Annahmen über die Datenform. [cite: 617] Ein zu einfaches Modell 'verfehlt' die wahre Struktur systematisch. [cite: 618]",
+      "weight": 2,
+      "topic": "Bias-Varianz-Gleichgewicht",
+      "concept": "Bias",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Verzerrung",
+          "definition": "Systematische Abweichung des Modellschätzwerts vom wahren Wert. [cite: 616, 628]"
+        }
+      ],
+      "frage": "18. Welcher Fehlertyp entsteht durch die Annahme eines linearen Modells für eigentlich quadratische Daten? [cite: 617]",
+      "gewichtung": 2,
+      "thema": "Bias-Varianz-Gleichgewicht",
+      "kognitive_stufe": "Anwendung",
+      "optionen": [
+        "Bias (Verzerrung)",
+        "Varianz",
+        "Nicht reduzierbarer Fehler",
+        "Overfitting-Fehler"
+      ],
+      "loesung": 0,
+      "erklaerung": "Bias resultiert aus falschen Annahmen über die Datenform. [cite: 617] Ein zu einfaches Modell 'verfehlt' die wahre Struktur systematisch. [cite: 618]"
+    },
+    {
+      "question": "19. Wann unterbricht die Technik 'Early Stopping' das Training eines iterativen Algorithmus? [cite: 826, 831]",
+      "options": [
+        "Minimum des Validierungsfehlers",
+        "Minimum des Trainingsfehlers",
+        "Nach einer festen Zeit",
+        "Wenn Gradient exakt Null ist"
+      ],
+      "answer": 0,
+      "explanation": "Das Training wird gestoppt, sobald der Fehler auf den Validierungsdaten wieder ansteigt, da dies ein Einsetzen von Overfitting signalisiert. [cite: 829, 830]",
+      "weight": 2,
+      "topic": "Early Stopping",
+      "concept": "Regularisierung",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Validierung",
+          "definition": "Testen des Modells auf Daten, die nicht zum Lernen genutzt wurden. [cite: 828]"
+        }
+      ],
+      "frage": "19. Wann unterbricht die Technik 'Early Stopping' das Training eines iterativen Algorithmus? [cite: 826, 831]",
+      "gewichtung": 2,
+      "thema": "Early Stopping",
+      "kognitive_stufe": "Anwendung",
+      "optionen": [
+        "Minimum des Validierungsfehlers",
+        "Minimum des Trainingsfehlers",
+        "Nach einer festen Zeit",
+        "Wenn Gradient exakt Null ist"
+      ],
+      "loesung": 0,
+      "erklaerung": "Das Training wird gestoppt, sobald der Fehler auf den Validierungsdaten wieder ansteigt, da dies ein Einsetzen von Overfitting signalisiert. [cite: 829, 830]"
+    },
+    {
+      "question": "20. Welche Kostenfunktion wird standardmäßig bei der logistischen Regression minimiert? [cite: 931]",
+      "options": [
+        "Log Loss (Kreuzentropie)",
+        "Mean Squared Error (MSE)",
+        "Root Mean Squared Error",
+        "Absolute Abweichung"
+      ],
+      "answer": 0,
+      "explanation": "Der Log Loss bestraft falsche Vorhersagen mit hoher Wahrscheinlichkeit extrem stark. [cite: 927] Dies ist für Klassifikationsaufgaben besser geeignet als MSE. [cite: 74, 931]",
+      "weight": 2,
+      "topic": "Logistische Regression",
+      "concept": "Log Loss",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Kreuzentropie",
+          "definition": "Maß für die Differenz zwischen zwei Wahrscheinlichkeitsverteilungen. [cite: 1131, 1140]"
+        }
+      ],
+      "frage": "20. Welche Kostenfunktion wird standardmäßig bei der logistischen Regression minimiert? [cite: 931]",
+      "gewichtung": 2,
+      "thema": "Logistische Regression",
+      "kognitive_stufe": "Anwendung",
+      "optionen": [
+        "Log Loss (Kreuzentropie)",
+        "Mean Squared Error (MSE)",
+        "Root Mean Squared Error",
+        "Absolute Abweichung"
+      ],
+      "loesung": 0,
+      "erklaerung": "Der Log Loss bestraft falsche Vorhersagen mit hoher Wahrscheinlichkeit extrem stark. [cite: 927] Dies ist für Klassifikationsaufgaben besser geeignet als MSE. [cite: 74, 931]"
+    },
+    {
+      "question": "21. Training-RMSE ist 0,1, Validierungs-RMSE ist 2,5. Welche Maßnahme ist am besten geeignet? [cite: 611, 612]",
+      "options": [
+        "Erhöhung der Regularisierung",
+        "Mehr Merkmale hinzufügen",
+        "Trainingsdaten reduzieren",
+        "Bias-Term entfernen"
+      ],
+      "answer": 0,
+      "explanation": "Die große Lücke (Gap) deutet auf Overfitting hin. [cite: 612] Stärkere Regularisierung hilft, das Modell zu vereinfachen und die Generalisierung zu verbessern. [cite: 30, 632]",
+      "weight": 3,
+      "topic": "Lernkurven",
+      "concept": "Overfitting-Korrektur",
+      "cognitive_level": "Strukturelle Analyse",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Generalisierung",
+          "definition": "Fähigkeit eines Modells, korrekte Vorhersagen für neue Daten zu treffen. [cite: 615]"
+        }
+      ],
+      "frage": "21. Training-RMSE ist 0,1, Validierungs-RMSE ist 2,5. Welche Maßnahme ist am besten geeignet? [cite: 611, 612]",
+      "gewichtung": 3,
+      "thema": "Lernkurven",
+      "kognitive_stufe": "Strukturelle Analyse",
+      "optionen": [
+        "Erhöhung der Regularisierung",
+        "Mehr Merkmale hinzufügen",
+        "Trainingsdaten reduzieren",
+        "Bias-Term entfernen"
+      ],
+      "loesung": 0,
+      "erklaerung": "Die große Lücke (Gap) deutet auf Overfitting hin. [cite: 612] Stärkere Regularisierung hilft, das Modell zu vereinfachen und die Generalisierung zu verbessern. [cite: 30, 632]"
+    },
+    {
+      "question": "22. Warum bevorzugt man oft Elastic Net gegenüber reinem Lasso bei korrelierten Merkmalen? [cite: 815, 818]",
+      "options": [
+        "Lasso eliminiert zufällig",
+        "Elastic Net ist schneller",
+        "Keine Skalierung nötig",
+        "Lasso nur für kleine n"
+      ],
+      "answer": 0,
+      "explanation": "Bei starker Korrelation wählt Lasso oft willkürlich ein Merkmal aus und setzt andere auf Null. [cite: 815] Elastic Net ist hier stabiler durch die Kombination von L1 und L2. [cite: 809, 818]",
+      "weight": 3,
+      "topic": "Regularisierte lineare Modelle",
+      "concept": "Elastic Net",
+      "cognitive_level": "Strukturelle Analyse",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Multikollinearität",
+          "definition": "Starke Korrelation zwischen mehreren erklärenden Variablen. [cite: 818]"
+        }
+      ],
+      "frage": "22. Warum bevorzugt man oft Elastic Net gegenüber reinem Lasso bei korrelierten Merkmalen? [cite: 815, 818]",
+      "gewichtung": 3,
+      "thema": "Regularisierte lineare Modelle",
+      "kognitive_stufe": "Strukturelle Analyse",
+      "optionen": [
+        "Lasso eliminiert zufällig",
+        "Elastic Net ist schneller",
+        "Keine Skalierung nötig",
+        "Lasso nur für kleine n"
+      ],
+      "loesung": 0,
+      "erklaerung": "Bei starker Korrelation wählt Lasso oft willkürlich ein Merkmal aus und setzt andere auf Null. [cite: 815] Elastic Net ist hier stabiler durch die Kombination von L1 und L2. [cite: 809, 818]"
+    },
+    {
+      "question": "23. Welchen Zweck erfüllt das Hinzufügen des künstlichen Merkmals $x_0 = 1$? [cite: 56]",
+      "options": [
+        "Integration des Bias-Terms",
+        "Vermeidung von Singularität",
+        "Voraussetzung für SVD",
+        "RMSE wird positiv"
+      ],
+      "answer": 0,
+      "explanation": "Durch $x_0=1$ wird der Achsenabschnitt $\\theta_0$ Teil des Skalarprodukts, was einheitliche Matrixberechnungen erlaubt. [cite: 56, 57]",
+      "weight": 2,
+      "topic": "Grundkonzepte der Linearen Regression",
+      "concept": "Bias-Kompensation",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Vektorisierung",
+          "definition": "Kompakte mathematische Darstellung von Datenblöcken. [cite: 52]"
+        }
+      ],
+      "frage": "23. Welchen Zweck erfüllt das Hinzufügen des künstlichen Merkmals $x_0 = 1$? [cite: 56]",
+      "gewichtung": 2,
+      "thema": "Grundkonzepte der Linearen Regression",
+      "kognitive_stufe": "Anwendung",
+      "optionen": [
+        "Integration des Bias-Terms",
+        "Vermeidung von Singularität",
+        "Voraussetzung für SVD",
+        "RMSE wird positiv"
+      ],
+      "loesung": 0,
+      "erklaerung": "Durch $x_0=1$ wird der Achsenabschnitt $\\theta_0$ Teil des Skalarprodukts, was einheitliche Matrixberechnungen erlaubt. [cite: 56, 57]"
+    },
+    {
+      "question": "24. Wie erzwingt man echte Konvergenz bei SGD, statt nur 'nahe' ans Minimum zu kommen? [cite: 346, 347]",
+      "options": [
+        "Nutze Learning Schedule",
+        "Batch-Size auf m setzen",
+        "Nutze Normalengleichung",
+        "Wechsle zu Log Loss"
+      ],
+      "answer": 0,
+      "explanation": "Durch schrittweises Senken der Lernrate werden die Sprünge zum Ende hin immer kleiner, sodass der Algorithmus am Minimum 'einfriert'. [cite: 347]",
+      "weight": 3,
+      "topic": "Stochastisches Gradientenverfahren (SGD)",
+      "concept": "Learning Schedule",
+      "cognitive_level": "Strukturelle Analyse",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Simulated Annealing",
+          "definition": "Optimierungsverfahren durch langsames Absenken der Schrittweite. [cite: 348]"
+        }
+      ],
+      "frage": "24. Wie erzwingt man echte Konvergenz bei SGD, statt nur 'nahe' ans Minimum zu kommen? [cite: 346, 347]",
+      "gewichtung": 3,
+      "thema": "Stochastisches Gradientenverfahren (SGD)",
+      "kognitive_stufe": "Strukturelle Analyse",
+      "optionen": [
+        "Nutze Learning Schedule",
+        "Batch-Size auf m setzen",
+        "Nutze Normalengleichung",
+        "Wechsle zu Log Loss"
+      ],
+      "loesung": 0,
+      "erklaerung": "Durch schrittweises Senken der Lernrate werden die Sprünge zum Ende hin immer kleiner, sodass der Algorithmus am Minimum 'einfriert'. [cite: 347]"
+    },
+    {
+      "question": "25. Welcher Zusammenhang besteht zwischen der logistischen Funktion und der Logit-Funktion? [cite: 916]",
+      "options": [
+        "Logit ist die Inverse",
+        "Logit ist die Ableitung",
+        "Kein Zusammenhang",
+        "Logit ist das Quadrat"
+      ],
+      "answer": 0,
+      "explanation": "Die Logit-Funktion transformiert Wahrscheinlichkeiten zurück in Scores und ist damit die mathematische Umkehrfunktion. [cite: 916, 917]",
+      "weight": 2,
+      "topic": "Logistische Regression",
+      "concept": "Logit vs. Sigmoid",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Inverse",
+          "definition": "Funktion, die eine andere Funktion rückgängig macht. [cite: 916]"
+        }
+      ],
+      "frage": "25. Welcher Zusammenhang besteht zwischen der logistischen Funktion und der Logit-Funktion? [cite: 916]",
+      "gewichtung": 2,
+      "thema": "Logistische Regression",
+      "kognitive_stufe": "Anwendung",
+      "optionen": [
+        "Logit ist die Inverse",
+        "Logit ist die Ableitung",
+        "Kein Zusammenhang",
+        "Logit ist das Quadrat"
+      ],
+      "loesung": 0,
+      "erklaerung": "Die Logit-Funktion transformiert Wahrscheinlichkeiten zurück in Scores und ist damit die mathematische Umkehrfunktion. [cite: 916, 917]"
+    },
+    {
+      "question": "26. Warum scheitert die Normalengleichung eventuell, wenn Merkmale $n$ zahlreicher als Instanzen $m$ sind? [cite: 170]",
+      "options": [
+        "Matrix ist singulär",
+        "MSE wird immer Null",
+        "Rechenzeit ist zu hoch",
+        "Sigmoid ist zwingend"
+      ],
+      "answer": 0,
+      "explanation": "Bei $n > m$ ist die Matrix nicht invertierbar. [cite: 170] In solchen Fällen ist das System unterbestimmt und die Normalengleichung mathematisch nicht direkt lösbar. [cite: 170]",
+      "weight": 3,
+      "topic": "Normalengleichung",
+      "concept": "Singularität",
+      "cognitive_level": "Strukturelle Analyse",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Singulär",
+          "definition": "Eigenschaft einer Matrix, die keine Inverse besitzt. [cite: 170]"
+        }
+      ],
+      "frage": "26. Warum scheitert die Normalengleichung eventuell, wenn Merkmale $n$ zahlreicher als Instanzen $m$ sind? [cite: 170]",
+      "gewichtung": 3,
+      "thema": "Normalengleichung",
+      "kognitive_stufe": "Strukturelle Analyse",
+      "optionen": [
+        "Matrix ist singulär",
+        "MSE wird immer Null",
+        "Rechenzeit ist zu hoch",
+        "Sigmoid ist zwingend"
+      ],
+      "loesung": 0,
+      "erklaerung": "Bei $n > m$ ist die Matrix nicht invertierbar. [cite: 170] In solchen Fällen ist das System unterbestimmt und die Normalengleichung mathematisch nicht direkt lösbar. [cite: 170]"
+    },
+    {
+      "question": "27. Entscheidungsgrenze liegt bei 1,65 cm. Was sagt das Modell für eine Blüte mit 1,7 cm vorher? [cite: 1041, 1042]",
+      "options": [
+        "Iris virginica (Wahr)",
+        "Nicht virginica (Falsch)",
+        "Iris versicolor",
+        "Nicht entscheidbar"
+      ],
+      "answer": 0,
+      "explanation": "Werte oberhalb der Grenze führen zu einer Wahrscheinlichkeit $> 50\\%$ für die positive Klasse. [cite: 887, 1037]",
+      "weight": 2,
+      "topic": "Logistische Regression",
+      "concept": "Entscheidungsgrenze",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Schwellenwert",
+          "definition": "Grenzwert für die Klassenzuordnung. [cite: 887, 915]"
+        }
+      ],
+      "frage": "27. Entscheidungsgrenze liegt bei 1,65 cm. Was sagt das Modell für eine Blüte mit 1,7 cm vorher? [cite: 1041, 1042]",
+      "gewichtung": 2,
+      "thema": "Logistische Regression",
+      "kognitive_stufe": "Anwendung",
+      "optionen": [
+        "Iris virginica (Wahr)",
+        "Nicht virginica (Falsch)",
+        "Iris versicolor",
+        "Nicht entscheidbar"
+      ],
+      "loesung": 0,
+      "erklaerung": "Werte oberhalb der Grenze führen zu einer Wahrscheinlichkeit $> 50\\%$ für die positive Klasse. [cite: 887, 1037]"
+    },
+    {
+      "question": "28. Einfluss einer Erhöhung von $\\alpha$ bei Ridge-Regression auf das Bias-Varianz-Gleichgewicht? [cite: 662, 663]",
+      "options": [
+        "Bias steigt, Varianz sinkt",
+        "Bias sinkt, Varianz steigt",
+        "Beide Werte sinken",
+        "Nur Bias steigt"
+      ],
+      "answer": 0,
+      "explanation": "Stärkere Regularisierung vereinfacht das Modell. [cite: 662] Das macht es robuster gegen Rauschen (weniger Varianz), aber ungenauer in der Anpassung (mehr Bias). [cite: 663]",
+      "weight": 3,
+      "topic": "Regularisierte lineare Modelle",
+      "concept": "Bias-Varianz-Tradeoff",
+      "cognitive_level": "Strukturelle Analyse",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Tradeoff",
+          "definition": "Gegensätzlicher Zusammenhang zweier erstrebenswerter Eigenschaften. [cite: 627]"
+        }
+      ],
+      "frage": "28. Einfluss einer Erhöhung von $\\alpha$ bei Ridge-Regression auf das Bias-Varianz-Gleichgewicht? [cite: 662, 663]",
+      "gewichtung": 3,
+      "thema": "Regularisierte lineare Modelle",
+      "kognitive_stufe": "Strukturelle Analyse",
+      "optionen": [
+        "Bias steigt, Varianz sinkt",
+        "Bias sinkt, Varianz steigt",
+        "Beide Werte sinken",
+        "Nur Bias steigt"
+      ],
+      "loesung": 0,
+      "erklaerung": "Stärkere Regularisierung vereinfacht das Modell. [cite: 662] Das macht es robuster gegen Rauschen (weniger Varianz), aber ungenauer in der Anpassung (mehr Bias). [cite: 663]"
+    },
+    {
+      "question": "29. Warum wird der Bias-Term $\\theta_0$ in der Kostenfunktion üblicherweise nicht mit bestraft? [cite: 648]",
+      "options": [
+        "Beeinflusst Varianz nicht",
+        "Verschiebt Daten unnötig",
+        "Technisch kein Parameter",
+        "Historisches Relikt"
+      ],
+      "answer": 0,
+      "explanation": "Der Achsenabschnitt trägt nicht zur 'Kurvigkeit' oder Komplexität bei. [cite: 648] Ihn zu bestrafen würde das Modell ohne Generalisierungsvorteil Richtung Null zwingen. [cite: 643]",
+      "weight": 3,
+      "topic": "Regularisierte lineare Modelle",
+      "concept": "Bias-Regularisierung",
+      "cognitive_level": "Strukturelle Analyse",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Generalisierung",
+          "definition": "Übertragbarkeit auf neue Daten. [cite: 615]"
+        }
+      ],
+      "frage": "29. Warum wird der Bias-Term $\\theta_0$ in der Kostenfunktion üblicherweise nicht mit bestraft? [cite: 648]",
+      "gewichtung": 3,
+      "thema": "Regularisierte lineare Modelle",
+      "kognitive_stufe": "Strukturelle Analyse",
+      "optionen": [
+        "Beeinflusst Varianz nicht",
+        "Verschiebt Daten unnötig",
+        "Technisch kein Parameter",
+        "Historisches Relikt"
+      ],
+      "loesung": 0,
+      "erklaerung": "Der Achsenabschnitt trägt nicht zur 'Kurvigkeit' oder Komplexität bei. [cite: 648] Ihn zu bestrafen würde das Modell ohne Generalisierungsvorteil Richtung Null zwingen. [cite: 643]"
+    },
+    {
+      "question": "30. Welches Gütekriterium wird häufig zur Evaluierung genutzt, obwohl zum Training MSE optimiert wurde? [cite: 65]",
+      "options": [
+        "RMSE (Root Mean Squared Error)",
+        "Log Loss (Kreuzentropie)",
+        "Precision und Recall",
+        "Singuläre Werte"
+      ],
+      "answer": 0,
+      "explanation": "RMSE hat dieselbe Einheit wie die Zielvariable y und ist daher für Menschen deutlich besser zu interpretieren. [cite: 65]",
+      "weight": 2,
+      "topic": "Grundkonzepte der Linearen Regression",
+      "concept": "Performancemetriken",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Metrik",
+          "definition": "Maßzahl zur objektiven Bewertung der Modellleistung. [cite: 72]"
+        }
+      ],
+      "frage": "30. Welches Gütekriterium wird häufig zur Evaluierung genutzt, obwohl zum Training MSE optimiert wurde? [cite: 65]",
+      "gewichtung": 2,
+      "thema": "Grundkonzepte der Linearen Regression",
+      "kognitive_stufe": "Anwendung",
+      "optionen": [
+        "RMSE (Root Mean Squared Error)",
+        "Log Loss (Kreuzentropie)",
+        "Precision und Recall",
+        "Singuläre Werte"
+      ],
+      "loesung": 0,
+      "erklaerung": "RMSE hat dieselbe Einheit wie die Zielvariable y und ist daher für Menschen deutlich besser zu interpretieren. [cite: 65]"
+    }
+  ],
+  "meta": {
+    "title": "Machine Learning: Kapitel 4",
+    "created": "09.02.2026 07:15",
+    "updated": "2026-02-09",
+    "target_audience": "Informatikstudierende",
+    "question_count": 30,
+    "difficulty_profile": {
+      "leicht": 3,
+      "mittel": 19,
+      "schwer": 8
+    },
+    "language": "de",
+    "time_per_weight_minutes": {
+      "1": 0.5,
+      "2": 0.75,
+      "3": 1.0
+    },
+    "additional_buffer_minutes": 5,
+    "test_duration_minutes": 30,
+    "computed_test_duration_minutes": 30
+  }
+}
