@@ -1,0 +1,90 @@
+@startuml
+' MC-Test LLM item-generation FSM (updated from prompts)
+
+top to bottom direction
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName "Arial"
+skinparam defaultFontSize 12
+skinparam ArrowColor #555555
+skinparam state {
+  BackgroundColor white
+  BorderColor #666666
+  RoundCorner 10
+  MinimumWidth 170
+  MinimumHeight 45
+}
+
+skinparam state<<phase1>> {
+  BackgroundColor #E8F3FF
+  BorderColor #2F6FAB
+}
+skinparam state<<phase2>> {
+  BackgroundColor #E9F7EF
+  BorderColor #2E8B57
+}
+skinparam state<<phase3>> {
+  BackgroundColor #FFF2E2
+  BorderColor #C27C2C
+}
+state "Phase 1: Interactive Configuration" as CFG <<phase1>> {
+  state "Step 1: Topic" as C1
+  state "Step 2: Target Audience & Language" as C2
+  state "Step 3: Count & Weights" as C3
+  state "Step 4: Answer Options" as C4
+  state "Step 5: Context Material" as C5
+  state "Confirmation" as C7
+
+  C1 --> C2
+  C2 --> C3
+  C3 --> C4
+  C4 --> C5
+  C5 --> C7
+  C1 --> C1 : Clarify
+  C2 --> C2 : Clarify
+  C3 --> C3 : Clarify
+  C4 --> C4 : Clarify
+  C5 --> C5 : Clarify
+
+}
+
+state "Phase 2: Generation (LLM, internal)" as GEN <<phase2>> {
+  state "Blueprinting" as G1
+  state "Item Draft" as G2
+  state "JSON Generation" as G3
+  G1 --> G2
+  G2 --> G3
+
+  note right of G1
+    Blueprinting:
+    - Compute weight counts
+    - Plan topics (max 12, min 2 each)
+    - Map weight -> Bloom level
+    - Check LaTeX/JSON escapes
+    - Compute test duration
+  end note
+}
+
+state "Phase 3: Validation & Repair" as QA <<phase3>> {
+  state "Schema & Quality Checks" as V1
+  state "Repair / QA" as V2
+  state "Approval" as V3
+
+  V1 --> V2 : Violations
+  V2 --> V1 : Re-check
+  V1 --> V3 : OK
+
+  note right of V1
+    Didactic QA:
+    - Distractors plausible
+    - Length bias check
+    - Bloom level fit
+  end note
+}
+
+[*] --> C1
+C7 --> G1
+G3 --> V1
+V3 --> [*]
+
+@enduml
