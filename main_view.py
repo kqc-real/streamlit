@@ -2237,7 +2237,7 @@ def _render_welcome_splash():
 
         with bottom_left:
             render_locale_selector(
-                label="",
+                label="Sprache",
                 help_text=None,
                 label_visibility="collapsed",
             )
