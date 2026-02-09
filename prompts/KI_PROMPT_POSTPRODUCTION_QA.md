@@ -50,9 +50,13 @@ Optimiere die **Qualität der Fragen und Antwortoptionen** und liefere ein **val
 7. **Technische Regeln**
    - **Kein LaTeX in Backticks**.
    - In Formeln **kein `<` oder `>`** (nutze `\langle`/`\rangle`).
-   - **Keine Zitationen/Quellenmarker** im Text.
+   - **Keine Quellenangaben oder Zitationsmarker** im Text (z. B. „Quelle: …“, „laut …“, `[cite: ...]`, `[1]`).
 
-8. **Meta-Aktualisierung**
+8. **Themen-Verteilung**
+   - Maximal **12** unterschiedliche `topic`-Werte.
+   - **Mindestens 2 Fragen pro Topic**; ggf. Topics zusammenlegen.
+
+9. **Meta-Aktualisierung**
    - Setze `meta.updated` auf **heutiges Datum** im Format `YYYY-MM-DD`.
 
 ## Output-Regeln (strikt!)

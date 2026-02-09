@@ -46,6 +46,7 @@ QUALITY CRITERIA
 2. **Correct Level:** Verb matches what question tests
 3. **One Verb:** No compounds
 4. **Concise:** One line, works after "Du kannst…"/"You can…"
+5. **No sources/citations:** Do not include source attributions (e.g., “Quelle: …”, “laut …”) or citation markers (e.g., `[cite: ...]`, `[1]`).
 
 **WHY THIS MATTERS (Step 2 of 4):** Generative AI tends to be helpful but vague. To enable the subsequent QA steps (3 & 4) to detect alignment issues, we need precise, observable verbs here, not general summaries.
 

@@ -30,7 +30,7 @@ Optimiere die Lernziele fachlich und didaktisch, sodass sie **vollständig, kons
 
 5. **Technische Regeln**
    - Kein LaTeX in Backticks.
-   - Keine Quellenmarker oder Zitationshinweise.
+   - Keine Quellenangaben oder Zitationshinweise (z. B. „Quelle: …“, „laut …“, `[cite: ...]`, `[1]`).
 
 ## Output-Regeln (strikt!)
 - **Nur Markdown** ausgeben. Keine JSON, keine Erklärungen.

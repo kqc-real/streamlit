@@ -113,7 +113,7 @@
       ]
     },
     {
-      "question": "5. Gegeben ist folgender Python-Code zur Implementierung eines Gradientenschritts:\n\n```python\n1: gradients = 2 / m * X_b.T @ (X_b @ theta - y)\n2: theta = theta - eta * gradients\n```\n\nWelche Variante wird hier implementiert, wenn `X_b` alle Trainingsdaten enthält?",
+      "question": "5. Gegeben ist folgender Python-Code zur Implementierung eines Gradientenschritts: ```python\n1: gradients = 2 / m * X_b.T @ (X_b @ theta - y)\n2: theta = theta - eta * gradients\n``` Welche Variante wird hier implementiert, wenn `X_b` alle Trainingsdaten enthält?",
       "options": [
         "Batch-Gradientenverfahren",
         "Stochastisches Verfahren",

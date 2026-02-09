@@ -136,7 +136,9 @@ Inside `<scratchpad>` you must:
      - `difficulty_profile.hard` = count of weight 3 questions.
 
 2. **Define coverage topics:**
-   - List the main topics/sub-concepts you will cover (max **10–15** distinct topics; do not exceed 15).
+   - List the main topics/sub-concepts you will cover (max **12** distinct topics).
+   - **Each topic must appear in at least 2 questions.**
+   - If the total question count is too small for that, reduce/merge topics until the rule is satisfied.
    - Keep them short.
    - Make sure they match the exam topic and the target audience level.
 
@@ -268,6 +270,9 @@ After the `</scratchpad>` closing tag, output the **final JSON object** in a sin
 - **Use of context material:**
   - Do not reference provided file names, slide numbers, or phrases like "as seen in the uploaded text" in the final questions or explanations.
   - Treat knowledge from context material as if it were your own understanding.
+
+- **No citations or sources:**
+  - Do **not** include any source attributions (e.g., “Quelle: …”, “laut …”, “nach …”) or citation markers (e.g., `[cite: ...]`, `[1]`, `(source: ...)`) in any field.
 
 - **Item quality:**
   - Each question should focus on **one central concept or learning objective**.

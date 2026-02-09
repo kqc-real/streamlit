@@ -24,6 +24,7 @@ Führe den folgenden Prompt schrittweise aus:
 1. Weise aktiv auf Verstöße gegen die Limits hin und verlange Anpassungen.
 1. Die Position der korrekten Antwort MUSS zufällig verteilt werden: Platziere die richtige Option nicht systematisch an derselben Indexposition (z. B. niemals immer Index 0 oder immer die letzte Option). Verteile die korrekte Antwort gleichmäßig über alle möglichen Positionen, sodass die Lösung nicht aus der Position ablesbar ist.
 1. Die Antwortoption mit der größten Zeichenanzahl darf niemals die korrekte Lösung sein, damit die richtige Antwort anhand ihrer Länge nicht erkennbar wird.
+1. Keine Quellenangaben oder Zitationsmarker in Frage- oder Antworttexten (z. B. „Quelle: …“, „laut …“, `[cite: ...]`, `[1]`, `(Quelle: ...)`).
 
 ---
 

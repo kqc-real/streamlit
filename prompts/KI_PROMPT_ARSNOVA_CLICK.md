@@ -227,7 +227,8 @@ Führe vor der finalen JSON-Ausgabe eine Selbstprüfung durch:
 5.  **Lösbarkeit:** Jede Frage hat genau eine korrekte `answer`, deren Index auf ein valides Element in `options` verweist.
 6.  **Optionalität:** Optionale Felder (`extended_explanation`, `mini_glossary`) sind nur enthalten, wenn sie in Schritt 5/6 beauftragt wurden und nicht leer sind.
 7.  **Faktentreue:** Alle Erklärungen und Definitionen basieren auf etablierten Fakten.
-8.  **Themen-Verteilung:** Jede `topic`-Angabe wird für mindestens zwei Fragen verwendet. Es gibt insgesamt höchstens zehn (10) verschiedene `topic`-Werte (Inhalte ggf. sinnvoll zusammenfassen).
+8.  **Themen-Verteilung:** Jede `topic`-Angabe wird für mindestens zwei Fragen verwendet. Es gibt insgesamt höchstens zwölf (12) verschiedene `topic`-Werte (Inhalte ggf. sinnvoll zusammenfassen).
+9.  **Keine Quellenangaben/Zitationen:** In keinem Feld dürfen Quellenangaben (z. B. „Quelle: …“, „laut …“, „nach …“) oder Zitationsmarker wie `[cite: ...]`, `[1]` oder ähnliche Hinweise vorkommen.
 9.  **Glossar-Integrität:** Mini-Glossar-Einträge enthalten eigenständige Definitionen ohne Querverweise auf andere Fragen.
 10. **arsnova.click-Konformität:** Kein Fragetext oder Option enthält `#`-Überschriftensyntax, alle Optionen bleiben ≤ 60 Zeichen, und verwendete Timerwerte entsprechen 60 Sekunden.
 11. **Optionen-Stilprüfung:** Jede Frage besitzt Antwortoptionen, die sich in Länge, Stil und Plausibilität nicht unterscheiden lassen; keine Option sticht hervor.
