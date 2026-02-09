@@ -677,7 +677,7 @@
         },
         "onboarding_tip": {
             "title": "Comment naviguer",
-            "body": "- Passer : mettre de côté, la question revient toute seule.\n- Marquer : l'épingler dans la barre latérale pour y revenir vite.\n- Panique : temps court; pas de cooldown; Passer et Valider restent disponibles.",
+            "body": "- Passer : mettre de côté, la question revient toute seule.\n- Marquer : l'épingler dans la barre latérale pour y revenir vite.\n- Panique : temps court; pas de cooldown.",
             "button": "Compris"
         },
         "correct_toast": "Correct !",

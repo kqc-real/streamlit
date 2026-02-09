@@ -677,7 +677,7 @@
         },
         "onboarding_tip": {
             "title": "Come navigare",
-            "body": "- Salta: parcheggia la domanda; torna da sola.\n- Salva: fissala nella sidebar per tornarci subito.\n- Panico: tempo agli sgoccioli; niente cooldown; Salta e Invia restano disponibili.",
+            "body": "- Salta: parcheggia la domanda; torna da sola.\n- Salva: fissala nella sidebar per tornarci subito.\n- Panico: tempo agli sgoccioli; niente cooldown.",
             "button": "Capito"
         },
         "correct_toast": "Giusto!",

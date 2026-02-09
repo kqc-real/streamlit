@@ -677,7 +677,7 @@
         },
         "onboarding_tip": {
             "title": "Cómo navegar",
-            "body": "- Saltar: aparca la pregunta; volverá sola.\n- Marcar: fíjala en la barra lateral para volver rápido.\n- Pánico: con poco tiempo, sin cooldown; Saltar y Enviar siguen disponibles.",
+            "body": "- Saltar: aparca la pregunta; volverá sola.\n- Marcar: fíjala en la barra lateral para volver rápido.\n- Pánico: con poco tiempo, sin cooldown.",
             "button": "Entendido"
         },
         "correct_toast": "¡Correcto!",

@@ -680,7 +680,7 @@
         },
         "onboarding_tip": {
             "title": "So navigierst du",
-            "body": "- Überspringen: Frage parken, sie kommt automatisch wieder.\n- Merken: In der Seitenleiste anpinnen, schnell zurückspringen.\n- Panic: Zeit knapp; Cooldowns aus; Überspringen und Abgeben bleiben aktiv.",
+            "body": "- Überspringen: Frage parken, sie kommt automatisch wieder.\n- Merken: In der Seitenleiste anpinnen, schnell zurückspringen.\n- Panic: Zeit knapp; Cooldowns aus.",
             "button": "Verstanden"
         },
         "correct_toast": "Richtig!",

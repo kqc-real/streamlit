@@ -5426,7 +5426,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             st.markdown(_test_view_text("onboarding_tip.body", default=(
                 "- Skip: moves the question to the skipped list; you'll see it again.\n"
                 "- Bookmark: keeps the question handy in the sidebar.\n"
-                "- Panic: when time is low, cooldowns are off; Skip and Submit stay active."
+                "- Panic: when time is low, cooldowns are off."
             )))
             if st.button(_test_view_text("onboarding_tip.button", default="Got it"), key="onboarding_tip_ack"):
                 st.session_state["onboarding_tip_shown"] = True
