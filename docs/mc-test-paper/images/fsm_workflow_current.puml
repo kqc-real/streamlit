@@ -79,6 +79,7 @@ state "Phase 3: Validation & Repair" as QA <<phase3>> {
     - Distractors plausible
     - Length bias check
     - Bloom level fit
+    - LO QA: 1 per item, single verb, level fit, clusters
   end note
 }
 
