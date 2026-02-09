@@ -2274,6 +2274,8 @@ def _render_welcome_splash():
                                 mime = "image/jpeg"
                             elif suffix == ".gif":
                                 mime = "image/gif"
+                            elif suffix == ".svg":
+                                mime = "image/svg+xml"
                             data = base64.b64encode(img_path.read_bytes()).decode("ascii")
                             return (
                                 f'<img src="data:{mime};base64,{data}" alt="{alt_text}" '
