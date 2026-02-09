@@ -8453,6 +8453,75 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                             key=json_dl_key,
                         )
 
+                lo_path = _find_learning_objectives_path(export_selected_file)
+                lo_content = load_markdown_file(str(lo_path)) if lo_path else None
+
+                def _looks_like_lo_prompt(text: str) -> bool:
+                    stripped = text.strip()
+                    if stripped.startswith("# QA-Postproduktion für Lernziele"):
+                        return True
+                    prompt_markers = [
+                        "Du bist ein strenger Qualitätsprüfer",
+                        "Output-Regeln (strikt!)",
+                        "Beginne jetzt mit der Optimierung",
+                    ]
+                    return any(marker in stripped for marker in prompt_markers)
+
+                if lo_path and lo_content and not _looks_like_lo_prompt(lo_content):
+                    st.markdown(
+                        _summary_text(
+                            "export_user_qset_lo_description",
+                            default="Lade die Lernziele dieses Fragensets als Markdown-Datei herunter.",
+                        )
+                    )
+                    lo_btn_key = f"download_user_qset_lo_{export_selected_file}"
+                    lo_dl_key = f"dl_user_qset_lo_{export_selected_file}"
+                    if st.button(_download_button_label(), key=lo_btn_key):
+                        try:
+                            if not lo_path.exists():
+                                raise FileNotFoundError(
+                                    _summary_text(
+                                        "export_user_qset_lo_not_found",
+                                        default="Lernziele-Datei nicht gefunden.",
+                                    )
+                                )
+                            lo_bytes = lo_path.read_bytes()
+                            lo_download_name = lo_path.name
+                            if not lo_download_name.lower().endswith(".md"):
+                                lo_download_name = f"{lo_download_name}.md"
+                        except Exception as exc:
+                            st.error(
+                                _summary_text(
+                                    "export_user_qset_lo_error",
+                                    default="Fehler beim Laden der Lernziele: {error}",
+                                ).format(error=exc)
+                            )
+                        else:
+                            st.download_button(
+                                label=_summary_text(
+                                    "export_user_qset_lo_download_label",
+                                    default="💾 Lernziele (Markdown) herunterladen",
+                                ),
+                                data=lo_bytes,
+                                file_name=lo_download_name,
+                                mime="text/markdown",
+                                key=lo_dl_key,
+                            )
+                elif lo_path and lo_content and _looks_like_lo_prompt(lo_content):
+                    st.warning(
+                        _summary_text(
+                            "export_user_qset_lo_prompt_warning",
+                            default="Es wurde eine Prompt-Datei gefunden, aber keine Lernziele. Bitte speichere zuerst die Lernziele.",
+                        )
+                    )
+                else:
+                    st.info(
+                        _summary_text(
+                            "export_user_qset_lo_missing",
+                            default="Für dieses Fragenset wurden noch keine Lernziele gespeichert.",
+                        )
+                    )
+
         with st.expander(_summary_text("export_anki_expander", default="📦 Anki-Lernkarten (empfohlen für Wiederholung)")):
             st.markdown(
                 _summary_text(

@@ -680,6 +680,9 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 default="Wähle den Schritt (1–4), den du jetzt bearbeiten möchtest.",
             )
         )
+        pending_tab = st.session_state.pop("user_qset_tab_pending", None)
+        if pending_tab in base_tab_options:
+            st.session_state[tab_selector_key] = pending_tab
         current_tab_value = st.session_state.get(tab_selector_key)
         if current_tab_value not in base_tab_options:
             st.session_state[tab_selector_key] = base_tab_options[0]
@@ -912,7 +915,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                         ),
                         key="user_qset_next_lo_btn",
                     ):
-                        st.session_state[tab_selector_key] = base_tab_options[1]
+                        st.session_state["user_qset_tab_pending"] = base_tab_options[1]
                         st.rerun()
                 else:
                     err_msg = status.get(
@@ -1205,7 +1208,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     _dialog_text("learning_objectives_next_qa_button", default="➡️ Weiter mit QA des Sets"),
                     key="user_qset_lo_next_qa_btn",
                 ):
-                    st.session_state[tab_selector_key] = base_tab_options[2]
+                    st.session_state["user_qset_tab_pending"] = base_tab_options[2]
                     st.rerun()
 
         elif tab_index == 2:
@@ -1465,7 +1468,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 ):
                     saved = _save_postproduction_payload()
                     if saved:
-                        st.session_state[tab_selector_key] = base_tab_options[3]
+                        st.session_state["user_qset_tab_pending"] = base_tab_options[3]
                         st.rerun()
 
         elif tab_index == 3:
