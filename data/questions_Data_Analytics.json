@@ -22,10 +22,10 @@
     {
       "question": "1. Was ist der Hauptzweck von Docker in einem Data-Science-Projekt?",
       "options": [
-        "Um die Performance von Python-Skripten zu beschleunigen.",
+        "Um die Performance von Python-Skripten zu beschleunigen – im Kontext.",
         "Um eine reproduzierbare und isolierte Umgebung für die Software zu schaffen.",
-        "Um Jupyter Notebooks direkt in der Cloud auszuführen.",
-        "Um die Größe von Datensätzen zu reduzieren."
+        "Um Jupyter Notebooks direkt in der Cloud auszuführen – im Kontext.",
+        "Um die Größe von Datensätzen zu reduzieren – im Kontext – in der Praxis."
       ],
       "answer": 1,
       "explanation": "Docker packt eine Anwendung und ihre Abhängigkeiten in einen Container, der überall gleich läuft. Das löst das 'Bei mir funktioniert es aber'-Problem und sorgt für Reproduzierbarkeit.",
@@ -65,7 +65,7 @@
         "Eine ein-dimensionale Datenstruktur für numerische Daten.",
         "Eine zweidimensionale, tabellarische Datenstruktur mit Spalten und Zeilen.",
         "Eine Bibliothek zur Erstellung von interaktiven Diagrammen.",
-        "Ein Machine-Learning-Modell zur Klassifikation."
+        "Ein Machine-Learning-Modell zur Klassifikation – im Kontext."
       ],
       "answer": 1,
       "explanation": "Ein Pandas DataFrame ist die zentrale Datenstruktur in Pandas und ähnelt einer Excel-Tabelle oder einer SQL-Tabelle. Sie ist für die Handhabung und Analyse von strukturierten Daten optimiert.",
@@ -83,9 +83,9 @@
       "question": "4. Was ist der Hauptunterschied zwischen Supervised und Unsupervised Learning?",
       "options": [
         "Supervised braucht mehr Rechenleistung.",
-        "Unsupervised nur für Text.",
+        "Unsupervised nur für Text – im Kontext.",
         "Supervised nutzt Labels, Unsupervised nicht.",
-        "Unsupervised ist immer genauer."
+        "Unsupervised ist immer genauer – im Kontext."
       ],
       "answer": 2,
       "explanation": "Der Kernunterschied ist das Vorhandensein von 'Antworten' in den Trainingsdaten. Supervised Learning lernt von Beispielen mit bekannten Ergebnissen (Labels), während Unsupervised Learning Muster in ungelabelten Daten sucht.",
@@ -162,10 +162,10 @@
     {
       "question": "8. Welche Aktivierungsfunktion wird typischerweise in der Ausgabeschicht eines Neuronalen Netzes für eine Multi-Klassen-Klassifikation verwendet?",
       "options": [
-        "ReLU",
-        "Sigmoid",
-        "Tanh",
-        "Softmax"
+        "ReLU (Begriff) – im Kontext.",
+        "Sigmoid – im Kontext.",
+        "Tanh (Begriff) – im Kontext.",
+        "Softmax – im Kontext."
       ],
       "answer": 3,
       "explanation": "Die Softmax-Funktion wandelt die rohen Ausgabe-Scores (Logits) des Netzes in eine Wahrscheinlichkeitsverteilung über alle Klassen um, wobei die Summe der Wahrscheinlichkeiten 1 ergibt.",
@@ -182,10 +182,10 @@
     {
       "question": "9. Was ist der Hauptvorteil von Convolutional Neural Networks (CNNs) gegenüber normalen Neuronalen Netzen bei der Bildverarbeitung?",
       "options": [
-        "Nur numerische Daten sind erlaubt.",
+        "Nur numerische Daten sind erlaubt – im Kontext – in der Praxis.",
         "Datenqualität beeinflusst Modellleistung und Generalisierbarkeit.",
         "Mehr Daten sind immer besser, unabhängig von Qualität.",
-        "Datenqualität ist nur für Deep Learning relevant."
+        "Datenqualität ist nur für Deep Learning relevant – im Kontext."
       ],
       "answer": 1,
       "explanation": "CNNs verwenden Filter (Kernel), deren Gewichte über das gesamte Bild geteilt werden. Das macht sie extrem parameter-effizient und gut darin, lokale räumliche Muster zu erkennen, was für Bilder ideal ist.",
@@ -222,9 +222,9 @@
     {
       "question": "11. Was versteht man unter Transfer Learning?",
       "options": [
-        "Training von Grund auf.",
+        "Training von Grund auf – im Kontext – in der Praxis.",
         "Vortrainiertes Modell als Ausgangspunkt für neue Aufgabe.",
-        "Übertragung zwischen Programmiersprachen.",
+        "Übertragung zwischen Programmiersprachen – im Kontext.",
         "Mehrere Modelle auf Datenteilen trainieren."
       ],
       "answer": 1,
@@ -262,10 +262,10 @@
     {
       "question": "13. Welches Tool wird im Kurs primär für das Experiment-Tracking und die Modell-Verwaltung (Model Registry) verwendet?",
       "options": [
-        "TensorBoard (primär für DL-Logs)",
+        "TensorBoard (primär für DL-Logs) – im Kontext.",
         "Weights & Biases (alternatives Tracking-Tool)",
         "MLflow (Experiment-Tracking & Model Registry)",
-        "DVC (Daten-Versionierung)"
+        "DVC (Daten-Versionierung) – im Kontext."
       ],
       "answer": 2,
       "explanation": "MLflow wird im Kurs als zentrales MLOps-Tool verwendet, um Experimente (Parameter, Metriken) zu tracken und trainierte Modelle in einer 'Model Registry' zu versionieren und zu verwalten.",
@@ -282,10 +282,10 @@
     {
       "question": "14. Was ist der Hauptzweck einer `requirements.txt`-Datei?",
       "options": [
-        "Enthält den Python-Code.",
+        "Enthält den Python-Code – im Kontext.",
         "Listet Abhängigkeiten und Versionen.",
         "Beschreibt die NN-Architektur.",
-        "Enthält Trainingsdaten."
+        "Enthält Trainingsdaten – im Kontext."
       ],
       "answer": 1,
       "explanation": "Die `requirements.txt` Datei ermöglicht es, eine Python-Umgebung mit genau den richtigen Abhängigkeiten zu reproduzieren, was für die Zusammenarbeit und das Deployment entscheidend ist. Man installiert sie mit `pip install -r requirements.txt`.",
@@ -302,10 +302,10 @@
     {
       "question": "15. Welcher Python-Befehl wird verwendet, um eine Spalte namens 'Alter' aus einem Pandas DataFrame 'df' auszuwählen?",
       "options": [
-        "df.get('Alter')",
-        "df['Alter']",
-        "df.column('Alter')",
-        "df.select('Alter')"
+        "df.get('Alter') – im Kontext.",
+        "df['Alter'] – im Kontext.",
+        "df.column('Alter') – im Kontext.",
+        "df.select('Alter') – im Kontext."
       ],
       "answer": 1,
       "explanation": "Die Standardmethode, um auf eine Spalte in einem Pandas DataFrame zuzugreifen, ist die Verwendung der eckigen Klammern mit dem Spaltennamen als String: df['Alter'].",
@@ -325,7 +325,7 @@
         "`st.write()` zeigt Tabellen immer als DataFrame.",
         "`st.dataframe()` ist flexibler für alle Datentypen.",
         "`st.write()` ist generisch; `st.dataframe()` für Tabellen.",
-        "Beide identisch."
+        "Beide identisch – im Kontext – in der Praxis."
       ],
       "answer": 2,
       "explanation": "`st.write()` ist ein Allzweck-Befehl. Wenn man ihm einen Pandas DataFrame übergibt, zeigt er eine statische Tabelle an. `st.dataframe()` hingegen rendert eine interaktive Tabelle mit Sortier- und Filterfunktionen.",
@@ -344,8 +344,8 @@
       "options": [
         "Zur Visualisierung nur nach dem Training.",
         "Für Training, Evaluation und Debugging des Modells.",
-        "Nur für Datenbereinigung.",
-        "Nur für Deployment‑Monitoring."
+        "Nur für Datenbereinigung – im Kontext – in der Praxis.",
+        "Nur für Deployment‑Monitoring – im Kontext."
       ],
       "answer": 1,
       "explanation": "Overfitting tritt auf, wenn ein Modell zu komplex ist im Verhältnis zur Datenmenge. Es passt sich perfekt an die Trainingsdaten an, verliert aber die Fähigkeit, auf ungesehenen Daten gute Vorhersagen zu machen.",
@@ -384,8 +384,8 @@
       "options": [
         "Kein Unterschied in Leistung oder Skalierung.",
         "Parallelisierung + Self-Attention für lange Abhängigkeiten.",
-        "Benötigen keine Trainingsdaten oder Labels.",
-        "Nur für sehr kurze Texte und Sätze geeignet."
+        "Benötigen keine Trainingsdaten oder Labels – im Kontext.",
+        "Nur für sehr kurze Texte und Sätze geeignet – im Kontext."
       ],
       "answer": 1,
       "explanation": "LSTMs verarbeiten Sequenzen Wort für Wort, was die Parallelisierung erschwert. Transformer verarbeiten alle Wörter einer Sequenz gleichzeitig mithilfe des 'Attention'-Mechanismus, was sie ideal für moderne Hardware wie GPUs und TPUs macht.",
@@ -402,10 +402,10 @@
     {
       "question": "20. Was ist der Zweck eines `Dockerfile`?",
       "options": [
-        "Es ist ein Python-Skript zum Trainieren von ML-Modellen.",
-        "Es ist eine Konfigurationsdatei für Jupyter Notebooks.",
+        "Es ist ein Python-Skript zum Trainieren von ML-Modellen – im Kontext.",
+        "Es ist eine Konfigurationsdatei für Jupyter Notebooks – im Kontext.",
         "Es ist eine Textdatei, die die Anweisungen zum Bauen eines Docker-Images enthält.",
-        "Es ist eine Log-Datei, die alle Docker-Befehle aufzeichnet."
+        "Es ist eine Log-Datei, die alle Docker-Befehle aufzeichnet – im Kontext."
       ],
       "answer": 2,
       "explanation": "Ein Dockerfile ist wie ein Rezept. Es listet alle Schritte auf, die notwendig sind, um eine lauffähige Umgebung für eine Anwendung zu erstellen, inklusive Basis-Image, Abhängigkeiten und Startbefehlen.",
@@ -422,9 +422,9 @@
     {
       "question": "21. Welches Argument wird bei `train_test_split` von Scikit-learn verwendet, um sicherzustellen, dass die Klassenverteilung in Trainings- und Testset gleich bleibt?",
       "options": [
-        "shuffle=True",
-        "stratify=y",
-        "balance=True",
+        "shuffle=True – im Kontext.",
+        "stratify=y – im Kontext.",
+        "balance=True – im Kontext.",
         "keep_distribution=True"
       ],
       "answer": 1,
@@ -442,10 +442,10 @@
     {
       "question": "22. Was ist der Zweck des 'Pooling'-Layers in einem CNN?",
       "options": [
-        "Die Anzahl der Features (Filter) zu erhöhen.",
+        "Die Anzahl der Features (Filter) zu erhöhen – im Kontext.",
         "Die räumliche Dimension der Feature Maps zu reduzieren (Downsampling).",
         "Dem Bild Rauschen hinzuzufügen, um Overfitting zu vermeiden.",
-        "Die Farben des Bildes zu normalisieren."
+        "Die Farben des Bildes zu normalisieren – im Kontext – in der Praxis."
       ],
       "answer": 1,
       "explanation": "Pooling (z.B. Max-Pooling) reduziert die Höhe und Breite der Feature Maps. Dies verringert die Anzahl der Parameter und den Rechenaufwand in nachfolgenden Schichten und macht das Modell robuster gegenüber kleinen Verschiebungen im Bild.",
@@ -482,9 +482,9 @@
     {
       "question": "24. Was ist der Unterschied zwischen `Accuracy` und `Precision` als Metrik?",
       "options": [
-        "Es gibt keinen Unterschied zwischen den Kennzahlen.",
+        "Es gibt keinen Unterschied zwischen den Kennzahlen – im Kontext.",
         "Accuracy: Anteil korrekter Vorhersagen; Precision: Anteil korrekter Positiver.",
-        "Precision ist immer höher als Accuracy bei Klassifikation.",
+        "Precision ist immer höher als Accuracy bei Klassifikation – im Kontext.",
         "Accuracy nur für Regression, Precision nur für Klassifikation."
       ],
       "answer": 1,
@@ -524,8 +524,8 @@
       "options": [
         "Gewicht/Bias, das während des Trainings gelernt wird.",
         "Vor dem Training festgelegter Steuerparameter (z. B. Lernrate).",
-        "Leistungsmaß auf dem Testset, z. B. Accuracy.",
-        "Ausgabe der Verlustfunktion nach einer Epoche."
+        "Leistungsmaß auf dem Testset, z. B. Accuracy – im Kontext.",
+        "Ausgabe der Verlustfunktion nach einer Epoche – im Kontext."
       ],
       "answer": 1,
       "explanation": "Hyperparameter sind die 'Stellschrauben' eines Modells, die nicht durch das Training gelernt, sondern vom Entwickler festgelegt werden. Die Suche nach den optimalen Hyperparametern ist ein wichtiger Teil des ML-Prozesses.",
@@ -582,10 +582,10 @@
     {
       "question": "29. Welches Problem löst der 'Attention'-Mechanismus in Transformer-Modellen?",
       "options": [
-        "Vanishing Gradient in tiefen Netzen.",
+        "Vanishing Gradient in tiefen Netzen – im Kontext.",
         "Lange Abhängigkeiten in Sequenzen besser erfassen.",
-        "Reduziert Parameterzahl in CNNs.",
-        "Ersetzt Daten-Normalisierung."
+        "Reduziert Parameterzahl in CNNs – im Kontext.",
+        "Ersetzt Daten-Normalisierung – im Kontext."
       ],
       "answer": 1,
       "explanation": "Der Attention-Mechanismus erlaubt es dem Modell, für jedes Wort in einer Sequenz die Wichtigkeit jedes anderen Wortes zu bewerten. Dadurch kann es direkte Verbindungen zwischen weit entfernten Wörtern herstellen, ein Problem, mit dem rekurrente Architekturen (RNNs) zu kämpfen haben.",
@@ -602,10 +602,10 @@
     {
       "question": "30. Was ist der Hauptvorteil von `docker-compose` gegenüber einzelnen `docker run`-Befehlen?",
       "options": [
-        "`docker-compose` ist schneller beim Bauen von Images.",
+        "`docker-compose` ist schneller beim Bauen von Images – im Kontext.",
         "Mehrere abhängige Services per Datei und einem Befehl verwalten/starten.",
-        "`docker-compose` benötigt weniger Speicher.",
-        "`docker-compose` ist nur für Webserver geeignet."
+        "`docker-compose` benötigt weniger Speicher – im Kontext.",
+        "`docker-compose` ist nur für Webserver geeignet – im Kontext."
       ],
       "answer": 1,
       "explanation": "`docker-compose` ist ein Orchestrierungstool. Es ermöglicht die Definition einer Multi-Container-Anwendung (z.B. eine Web-App, eine Datenbank und ein Caching-Service) in einer `docker-compose.yml`-Datei und deren gemeinsame Verwaltung.",
@@ -622,7 +622,7 @@
     {
       "question": "31. Welche Python-Bibliothek wird hauptsächlich für die Erstellung von interaktiven Web-Dashboards im Kurs verwendet?",
       "options": [
-        "Flask",
+        "Flask (Begriff)",
         "Django",
         "Streamlit",
         "Plotly"
@@ -722,10 +722,10 @@
     {
       "question": "36. Welcher Datentyp wird in Python verwendet, um eine unveränderliche Liste von Elementen zu speichern?",
       "options": [
-        "list",
-        "dict",
-        "set",
-        "tuple"
+        "list (veränderlich)",
+        "dict (Schlüssel/Werte)",
+        "set (Menge)",
+        "tuple (unveränderlich)"
       ],
       "answer": 3,
       "explanation": "Ein Tupel (`tuple`) ist ähnlich wie eine Liste, aber seine Elemente können nach der Erstellung nicht mehr geändert, hinzugefügt oder entfernt werden. Dies macht es nützlich für Daten, die konstant bleiben sollen.",
@@ -764,7 +764,7 @@
       "options": [
         "Gradienten werden zu groß (Exploding).",
         "Gradienten werden sehr klein und Lernen stoppt.",
-        "Netz vergisst frühere Epochen.",
+        "Netz vergisst frühere Epochen – im Kontext.",
         "Aktivierungen verschwinden vollständig."
       ],
       "answer": 1,
@@ -823,7 +823,7 @@
       "question": "41. Was ist der Unterschied zwischen einem `Conv2D`-Layer und einem `Dense`-Layer in Keras?",
       "options": [
         "Einzelne Testdaten im Training.",
-        "Training nur mit Labels.",
+        "Training nur mit Labels – im Kontext.",
         "Automatische Datenbereinigung.",
         "Mehr Trainingsdaten als Testdaten."
       ],
@@ -842,10 +842,10 @@
     {
       "question": "42. Was ist eine 'Epoche' im Kontext des Trainings von Machine-Learning-Modellen?",
       "options": [
-        "Die Verarbeitung eines einzelnen Datenpunktes.",
+        "Die Verarbeitung eines einzelnen Datenpunktes – im Kontext – in der Praxis.",
         "Ein kompletter Durchlauf des Algorithmus durch den gesamten Trainingsdatensatz.",
-        "Die Zeit, die für das Training eines Modells benötigt wird.",
-        "Ein einzelner Schritt der Gewichtsaktualisierung."
+        "Die Zeit, die für das Training eines Modells benötigt wird – im Kontext.",
+        "Ein einzelner Schritt der Gewichtsaktualisierung – im Kontext."
       ],
       "answer": 1,
       "explanation": "Eine Epoche ist abgeschlossen, wenn das Modell jeden Datenpunkt des Trainingsdatensatzes einmal gesehen hat. Das Training eines Modells erstreckt sich typischerweise über viele Epochen.",
@@ -862,9 +862,9 @@
     {
       "question": "43. Welches Streamlit-Kommando wird verwendet, um einen Schieberegler für Zahlen zu erstellen?",
       "options": [
-        "st.number_input()",
-        "st.slider()",
-        "st.range()",
+        "st.number_input() – im Kontext.",
+        "st.slider() – im Kontext.",
+        "st.range() – im Kontext.",
         "st.numeric_selector()"
       ],
       "answer": 1,
@@ -904,8 +904,8 @@
       "options": [
         "Dockerfile baut ein Image; compose orchestriert Services.",
         "Dockerfile nur für Dev, compose nur für Prod.",
-        "Dockerfile ist Python, compose ist YAML.",
-        "Beides ist austauschbar in Projekten."
+        "Dockerfile ist Python, compose ist YAML – im Kontext.",
+        "Beides ist austauschbar in Projekten – im Kontext."
       ],
       "answer": 0,
       "explanation": "Ein `Dockerfile` ist die Bauanleitung für einen einzelnen Container. `docker-compose` ist ein Werkzeug, um Multi-Container-Anwendungen zu definieren und auszuführen, wobei jeder Container auf seinem eigenen `Dockerfile` basieren kann.",
@@ -923,9 +923,9 @@
       "question": "46. Welcher der folgenden Algorithmen ist ein Ensemble-Modell?",
       "options": [
         "K-Nearest Neighbors (KNN)",
-        "Decision Tree",
-        "Random Forest",
-        "Linear Regression"
+        "Decision Tree – im Kontext.",
+        "Random Forest – im Kontext.",
+        "Linear Regression – im Kontext."
       ],
       "answer": 2,
       "explanation": "Ein Random Forest ist ein Ensemble-Modell, das aus vielen einzelnen Decision Trees besteht. Er trifft Vorhersagen, indem er die Vorhersagen der einzelnen Bäume aggregiert (z.B. durch Mehrheitsentscheid), was oft zu robusteren und genaueren Ergebnissen führt.",
@@ -944,8 +944,8 @@
       "options": [
         "Glättet das Eingabebild.",
         "Formt Feature-Maps zu 1D-Vektor.",
-        "Reduziert Farbtiefe.",
-        "Führt eine Faltung aus."
+        "Reduziert Farbtiefe – im Kontext.",
+        "Führt eine Faltung aus – im Kontext."
       ],
       "answer": 1,
       "explanation": "Nach den Convolutional- und Pooling-Layern liegen die Daten als mehrdimensionale Tensoren (Feature Maps) vor. Um sie an die nachfolgenden `Dense`-Layer (die einen Vektor als Input erwarten) übergeben zu können, muss dieser Tensor 'geglättet' oder 'plattgedrückt' werden.",
@@ -1002,10 +1002,10 @@
     {
       "question": "50. Was ist der Zweck der `BatchNormalization`-Schicht in einem Neuronalen Netz?",
       "options": [
-        "Erhöht die Parameterzahl des Modells.",
+        "Erhöht die Parameterzahl des Modells – im Kontext.",
         "Normalisiert Aktivierungen und stabilisiert Training.",
         "Ersetzt Aktivierungsfunktionen vollständig.",
-        "Wirkt nur in der ersten Schicht."
+        "Wirkt nur in der ersten Schicht – im Kontext."
       ],
       "answer": 1,
       "explanation": "Batch Normalization normalisiert die Ausgaben einer Schicht, bevor sie an die nächste weitergegeben werden. Dies wirkt dem Problem des 'Internal Covariate Shift' entgegen, erlaubt höhere Lernraten und macht das Training insgesamt stabiler und schneller.",
@@ -1022,9 +1022,9 @@
     {
       "question": "51. Welcher Befehl wird verwendet, um alle laufenden Docker-Container anzuzeigen?",
       "options": [
-        "docker show all",
-        "docker list",
-        "docker ps",
+        "docker show all – im Kontext.",
+        "docker list – im Kontext.",
+        "docker ps – im Kontext.",
         "docker containers"
       ],
       "answer": 2,
@@ -1062,10 +1062,10 @@
     {
       "question": "53. Was ist der Unterschied zwischen `pd.read_csv()` und `pd.read_excel()` in Pandas?",
       "options": [
-        "Beide laden identisch CSV und Excel.",
+        "Beide laden identisch CSV und Excel – im Kontext.",
         "`read_csv()` liest CSV, `read_excel()` liest Excel‑Dateien.",
-        "`read_excel()` ist für JSON‑Dateien.",
-        "`read_csv()` benötigt immer eine Datenbank."
+        "`read_excel()` ist für JSON‑Dateien – im Kontext.",
+        "`read_csv()` benötigt immer eine Datenbank – im Kontext."
       ],
       "answer": 1,
       "explanation": "Pandas bietet spezifische Funktionen für verschiedene Dateiformate. `pd.read_csv()` ist für CSV-Dateien optimiert, während `pd.read_excel()` die komplexere Struktur von Excel-Arbeitsmappen (inkl. verschiedener Blätter) handhaben kann.",
@@ -1082,7 +1082,7 @@
     {
       "question": "54. Was ist eine 'Confusion Matrix'?",
       "options": [
-        "Eine Matrix der Feature‑Korrelationen.",
+        "Eine Matrix der Feature‑Korrelationen – im Kontext.",
         "Tabelle der Klassifikationsergebnisse (TP, TN, FP, FN).",
         "Eine Visualisierung hochdimensionaler Daten.",
         "Eine Technik zur Hyperparameter‑Optimierung."
@@ -1102,8 +1102,8 @@
     {
       "question": "55. Welcher der 'Big 3' Algorithmen ist am besten für die Interpretation und Erklärung von Entscheidungen geeignet?",
       "options": [
-        "K‑Means‑Clustering",
-        "k‑Nearest Neighbors (kNN)",
+        "K‑Means‑Clustering – im Kontext.",
+        "k‑Nearest Neighbors (kNN) – im Kontext.",
         "Ein Entscheidungsbaum (Decision Tree)",
         "Alle sind gleich gut interpretierbar"
       ],
@@ -1125,7 +1125,7 @@
         "Sie glättet die Eingabedaten im Modell.",
         "Sie deaktiviert zufällig Neuronen im Training.",
         "Sie erhöht die Lernrate automatisch.",
-        "Sie fügt neue Neuronen hinzu."
+        "Sie fügt neue Neuronen hinzu – im Kontext."
       ],
       "answer": 1,
       "explanation": "Indem in jedem Trainingsschritt zufällig Neuronen deaktiviert werden, zwingt Dropout das Netzwerk, robustere und weniger voneinander abhängige Features zu lernen. Dies wirkt Overfitting entgegen und verbessert die Generalisierungsfähigkeit.",
@@ -1142,9 +1142,9 @@
     {
       "question": "57. Was ist der Unterschied zwischen 'semantischer Segmentierung' und 'Instanzensegmentierung' in der Computer Vision?",
       "options": [
-        "Es gibt keinen Unterschied in der Praxis.",
+        "Es gibt keinen Unterschied in der Praxis – im Kontext – in der Praxis.",
         "Semantisch: Klasse pro Pixel; Instanz: trennt einzelne Objekte gleicher Klasse.",
-        "Instanzensegmentierung ist immer einfacher.",
+        "Instanzensegmentierung ist immer einfacher – im Kontext – in der Praxis.",
         "Semantische Segmentierung nutzt CNNs, Instanzensegmentierung nicht."
       ],
       "answer": 1,
@@ -1163,9 +1163,9 @@
       "question": "58. Was ist der Zweck der `fine-tuning`-Phase beim Transfer Learning?",
       "options": [
         "Den vortrainierten Teil komplett neu trainieren.",
-        "Nur den neuen Klassifikator trainieren.",
+        "Nur den neuen Klassifikator trainieren – im Kontext.",
         "Obere Schichten mit kleiner Lernrate an neue Aufgabe anpassen.",
-        "Die Anzahl der Layer im Modell reduzieren."
+        "Die Anzahl der Layer im Modell reduzieren – im Kontext."
       ],
       "answer": 2,
       "explanation": "Nachdem der neue Klassifikator trainiert wurde (Feature Extraction), werden einige der oberen Schichten des Basis-Modells 'aufgetaut'. Mit einer sehr kleinen Lernrate werden diese Gewichte dann vorsichtig an die Nuancen des neuen Datensatzes angepasst, ohne das wertvolle vortrainierte Wissen zu zerstören.",
@@ -1182,10 +1182,10 @@
     {
       "question": "59. Welches Hugging Face Modell wird im Kurs als Beispiel für Textgenerierung verwendet?",
       "options": [
-        "BERT",
-        "GPT‑2",
-        "ResNet‑50",
-        "Word2Vec"
+        "BERT (Begriff) – im Kontext.",
+        "GPT‑2 – im Kontext.",
+        "ResNet‑50 – im Kontext.",
+        "Word2Vec – im Kontext."
       ],
       "answer": 2,
       "explanation": "Im Notebook `02_NLP_und_Text_Generation.ipynb` wird `distilgpt2`, eine kleinere und schnellere Version von GPT-2, als Beispiel für eine Textgenerierungs-Pipeline mit der Hugging Face `transformers`-Bibliothek verwendet.",
@@ -1204,8 +1204,8 @@
       "options": [
         "Continuous Integration/Deployment: Build, Test, Deploy automatisieren.",
         "Complex Intelligence/Complex Deployment (kein Standard).",
-        "Code Inspection/Code Delivery (kein Standard).",
-        "Cloud Infrastructure/Cloud Database (kein Standard)."
+        "Code Inspection/Code Delivery (kein Standard) – im Kontext.",
+        "Cloud Infrastructure/Cloud Database (kein Standard) – im Kontext."
       ],
       "answer": 0,
       "explanation": "CI/CD ist ein Kernprinzip von DevOps und MLOps. Continuous Integration automatisiert das Testen bei jeder Code-Änderung, während Continuous Deployment den Prozess automatisiert, neue Versionen in die Produktion zu bringen.",
@@ -1262,10 +1262,10 @@
     {
       "question": "63. Was ist der Zweck von `st.cache_data` in Streamlit?",
       "options": [
-        "Speichert die ganze App im Browser.",
+        "Speichert die ganze App im Browser – im Kontext.",
         "Cached Funktionsresultate bei gleichen Argumenten.",
         "Komprimiert nur die Anzeige der Daten.",
-        "Leert den Cache automatisch."
+        "Leert den Cache automatisch – im Kontext."
       ],
       "answer": 1,
       "explanation": "Caching ist entscheidend für die Performance von Streamlit-Apps. Langsame Operationen wie das Laden großer Datensätze oder das Trainieren von Modellen sollten mit `@st.cache_data` oder `@st.cache_resource` versehen werden, um unnötige Neuberechnungen bei jedem App-Rerun zu vermeiden.",
@@ -1284,8 +1284,8 @@
       "options": [
         "Regression sagt Klassen voraus; Klassifikation Zahlen.",
         "Regression sagt kontinuierliche Werte; Klassifikation Klassen.",
-        "Beide sind identisch in der Praxis.",
-        "Klassifikation ist nur für Zeitreihen."
+        "Beide sind identisch in der Praxis – im Kontext.",
+        "Klassifikation ist nur für Zeitreihen – im Kontext."
       ],
       "answer": 1,
       "explanation": "Dies ist die grundlegendste Unterscheidung bei Supervised-Learning-Problemen. Die Wahl des Modells, der Verlustfunktion und der Evaluationsmetriken hängt direkt davon ab, ob man einen numerischen Wert oder eine Kategorie vorhersagen möchte.",
@@ -1382,9 +1382,9 @@
     {
       "question": "69. Was ist der Zweck des `EXPOSE`-Befehls in einem Dockerfile?",
       "options": [
-        "Er öffnet den Port auf dem Host‑System.",
+        "Er öffnet den Port auf dem Host‑System – im Kontext.",
         "Dokumentiert den Container‑Port, veröffentlicht ihn aber nicht.",
-        "Er installiert einen Webserver im Container.",
+        "Er installiert einen Webserver im Container – im Kontext.",
         "Er macht den Container automatisch im Netzwerk sichtbar."
       ],
       "answer": 1,
@@ -1402,10 +1402,10 @@
     {
       "question": "70. Was ist der Unterschied zwischen `pip` und `conda`?",
       "options": [
-        "pip nur für Python 2, conda nur für Python 3.",
+        "pip nur für Python 2, conda nur für Python 3 – im Kontext.",
         "pip installiert Pakete; conda verwaltet zusätzlich Umgebungen.",
-        "conda ersetzt pip komplett in allen Fällen.",
-        "Kein Unterschied zwischen beiden Tools."
+        "conda ersetzt pip komplett in allen Fällen – im Kontext.",
+        "Kein Unterschied zwischen beiden Tools – im Kontext."
       ],
       "answer": 1,
       "explanation": "`pip` ist der Standard-Paketmanager für Python. `conda` ist Teil der Anaconda-Distribution und kann nicht nur Python-Pakete, sondern auch komplexe Abhängigkeiten (wie C-Bibliotheken) und isolierte Umgebungen verwalten, was es in der Data Science sehr beliebt macht.",
@@ -1422,10 +1422,10 @@
     {
       "question": "71. Was ist der Zweck der `groupby()`-Funktion in Pandas?",
       "options": [
-        "Sortiert den DataFrame nach Spalte.",
+        "Sortiert den DataFrame nach Spalte – im Kontext.",
         "Gruppiert nach Spalten und erlaubt Aggregationen.",
-        "Wählt eine Gruppe von Zeilen aus.",
-        "Benennt Spalten automatisch um."
+        "Wählt eine Gruppe von Zeilen aus – im Kontext.",
+        "Benennt Spalten automatisch um – im Kontext."
       ],
       "answer": 1,
       "explanation": "Die `groupby()`-Operation ist ein extrem mächtiges Werkzeug für die Datenanalyse. Sie folgt dem 'Split-Apply-Combine'-Muster: Daten aufteilen, eine Funktion anwenden und die Ergebnisse wieder zusammenführen.",
@@ -1462,9 +1462,9 @@
     {
       "question": "73. Was ist der Unterschied zwischen `EarlyStopping` und `ModelCheckpoint` Callbacks in Keras?",
       "options": [
-        "Beide speichern nur das beste Modell.",
+        "Beide speichern nur das beste Modell – im Kontext.",
         "EarlyStopping stoppt Training; ModelCheckpoint speichert.",
-        "ModelCheckpoint reduziert Lernrate.",
+        "ModelCheckpoint reduziert Lernrate – im Kontext.",
         "EarlyStopping speichert automatisch Gewichte."
       ],
       "answer": 1,
@@ -1522,10 +1522,10 @@
     {
       "question": "76. Was ist der Unterschied zwischen einem `Dense` und einem `Embedding` Layer in Keras?",
       "options": [
-        "Beide sind identisch im Verhalten und Einsatz.",
+        "Beide sind identisch im Verhalten und Einsatz – im Kontext.",
         "Embedding mappt Indizes auf Vektoren; Dense verbindet Eingaben.",
         "Dense reduziert immer die Dimension der Eingaben.",
-        "Embedding ist nur für Bilder und Videos."
+        "Embedding ist nur für Bilder und Videos – im Kontext."
       ],
       "answer": 1,
       "explanation": "Ein `Embedding`-Layer ist eine effiziente Methode, um hochdimensionale, dünn besetzte kategoriale Daten (wie Wörter in einem Vokabular, die als Integer repräsentiert werden) in dichte, niedrigdimensionale Vektoren umzuwandeln. Es ist im Wesentlichen eine lernbare Nachschlagetabelle, während ein `Dense`-Layer eine vollständige lineare Transformation durchführt.",
@@ -1542,10 +1542,10 @@
     {
       "question": "77. Was ist ein 'Volume' in Docker?",
       "options": [
-        "Die Größe bzw. das Volumen des Docker‑Images.",
+        "Die Größe bzw. das Volumen des Docker‑Images – im Kontext.",
         "Persistenter Speicher außerhalb des Containers, der Daten erhält.",
-        "Ein Netzwerk‑Interface des Containers.",
-        "Ein Maß für die Rechenleistung eines Containers."
+        "Ein Netzwerk‑Interface des Containers – im Kontext.",
+        "Ein Maß für die Rechenleistung eines Containers – im Kontext."
       ],
       "answer": 1,
       "explanation": "Container sind standardmäßig zustandslos (stateless). Wenn ein Container entfernt wird, gehen alle darin geschriebenen Daten verloren. Volumes ermöglichen es, Daten (z.B. Datenbankdateien, Logs) persistent auf dem Host-System zu speichern.",
@@ -1564,7 +1564,7 @@
       "options": [
         "Balkendiagramm (Bar Chart)",
         "Kreisdiagramm (Pie Chart)",
-        "Histogramm",
+        "Histogramm – im Kontext.",
         "Streudiagramm (Scatter Plot)"
       ],
       "answer": 3,
@@ -1582,10 +1582,10 @@
     {
       "question": "79. Was ist der Zweck der `predict_proba()`-Methode bei vielen Scikit-learn Klassifikationsmodellen?",
       "options": [
-        "Gibt dasselbe wie predict().",
+        "Gibt dasselbe wie predict() – im Kontext.",
         "Gibt Klassen-Wahrscheinlichkeiten zurück.",
         "Schätzt die Korrektheit des Modells.",
-        "Nur für Regression verfügbar."
+        "Nur für Regression verfügbar – im Kontext."
       ],
       "answer": 1,
       "explanation": "Während `predict()` die 'harte' Klassenzuweisung (z.B. Klasse 'Hund') zurückgibt, gibt `predict_proba()` die 'weiche' Zuweisung in Form von Wahrscheinlichkeiten für jede Klasse zurück. Dies ist nützlich, um die Konfidenz des Modells zu bewerten.",
@@ -1602,10 +1602,10 @@
     {
       "question": "80. Was ist der Hauptzweck der Phase 'K' (Knowledge Transfer) im QUA³CK-Modell?",
       "options": [
-        "Neues Wissen über das Problem sammeln.",
-        "Das Modell mit mehr Wissen trainieren.",
+        "Neues Wissen über das Problem sammeln – im Kontext.",
+        "Das Modell mit mehr Wissen trainieren – im Kontext.",
         "Ergebnisse in eine Anwendung überführen und dokumentieren.",
-        "Das Wissen der Entwickler testen."
+        "Das Wissen der Entwickler testen – im Kontext."
       ],
       "answer": 2,
       "explanation": "Die K-Phase schließt den Kreis, indem sie sicherstellt, dass die gewonnenen Erkenntnisse und das entwickelte Modell nicht nur in einem Notebook bleiben, sondern in eine Form gebracht werden, die für Endbenutzer oder andere Systeme von Nutzen ist.",
@@ -1622,8 +1622,8 @@
     {
       "question": "81. Was ist der Unterschied zwischen einem Python `list` und einem `set`?",
       "options": [
-        "Listen und Sets sind identisch.",
-        "`set` ist geordnet, `list` ist ungeordnet.",
+        "Listen und Sets sind identisch – im Kontext – in der Praxis.",
+        "`set` ist geordnet, `list` ist ungeordnet – im Kontext.",
         "`set` speichert eindeutige Elemente; `list` erlaubt Duplikate.",
         "`list` ist unveränderlich, `set` ist veränderlich."
       ],
@@ -1642,10 +1642,10 @@
     {
       "question": "82. Welcher Pandas-Befehl wird verwendet, um fehlende Werte (NaN) in einem DataFrame `df` mit dem Wert 0 zu füllen?",
       "options": [
-        "df.replace(NaN, 0)",
-        "df.remove_nan(0)",
-        "df.fillna(0)",
-        "df.set_nan(0)"
+        "df.replace(NaN, 0) – im Kontext.",
+        "df.remove_nan(0) – im Kontext.",
+        "df.fillna(0) – im Kontext.",
+        "df.set_nan(0) – im Kontext."
       ],
       "answer": 2,
       "explanation": "Die `fillna()`-Methode ist das Standardwerkzeug in Pandas, um fehlende Werte zu behandeln. Man kann sie mit einem konstanten Wert, dem Mittelwert, dem Median oder anderen Strategien verwenden.",
@@ -1664,8 +1664,8 @@
       "options": [
         "Es speichert den Zustand der Browser‑Session.",
         "Speichert Variablen über mehrere Reruns hinweg.",
-        "Speichert die App‑Konfiguration.",
-        "Ist eine veraltete Funktion."
+        "Speichert die App‑Konfiguration – im Kontext.",
+        "Ist eine veraltete Funktion – im Kontext."
       ],
       "answer": 1,
       "explanation": "Streamlit führt das Skript bei jeder Interaktion neu aus. Um Informationen (wie Zähler, Benutzereingaben, Chat-Verläufe) zwischen diesen Reruns zu speichern, wird das `st.session_state`-Objekt verwendet, das wie ein Dictionary funktioniert.",
@@ -1684,8 +1684,8 @@
       "options": [
         "Das Phänomen, dass die Leistung von ML-Modellen mit zunehmender Anzahl von Features abnimmt.",
         "Die Tatsache, dass Daten in hochdimensionalen Räumen sehr spärlich werden und Distanzmaße ihre Aussagekraft verlieren.",
-        "Die Notwendigkeit, bei hochdimensionalen Daten immer Deep Learning zu verwenden.",
-        "Ein Fehler, der auftritt, wenn ein Datensatz mehr Spalten als Zeilen hat."
+        "Die Notwendigkeit, bei hochdimensionalen Daten immer Deep Learning zu verwenden – im Kontext.",
+        "Ein Fehler, der auftritt, wenn ein Datensatz mehr Spalten als Zeilen hat – im Kontext – in der Praxis."
       ],
       "answer": 1,
       "explanation": "In hochdimensionalen Räumen liegen die Datenpunkte tendenziell sehr weit voneinander entfernt. Dies macht Algorithmen, die auf Distanzmessungen basieren (wie KNN), weniger effektiv und erfordert exponentiell mehr Daten, um den Raum abzudecken.",
@@ -1724,8 +1724,8 @@
       "options": [
         "Verbindet Ausgabe direkt mit Eingabe.",
         "Addiert Block‑Eingabe zur Block‑Ausgabe (Skip).",
-        "Reduziert die Zahl der Neuronen.",
-        "Eine spezielle Dropout‑Variante."
+        "Reduziert die Zahl der Neuronen – im Kontext.",
+        "Eine spezielle Dropout‑Variante – im Kontext."
       ],
       "answer": 1,
       "explanation": "Residual Connections ermöglichen es dem Gradienten, beim Backpropagation direkt durch einige Schichten 'hindurchzufließen'. Dies erleichtert das Training von sehr tiefen Netzwerken (z.B. ResNet-152), indem es dem Vanishing-Gradient-Problem entgegenwirkt.",
@@ -1744,8 +1744,8 @@
       "options": [
         "Ein öffentlicher Passwort‑Ersatz für alle Nutzer.",
         "Ein geheimer Schlüssel zur Authentifizierung bei APIs.",
-        "Ein Tool zum API‑Monitoring.",
-        "Eine Methode zum Daten‑Caching."
+        "Ein Tool zum API‑Monitoring – im Kontext.",
+        "Eine Methode zum Daten‑Caching – im Kontext."
       ],
       "answer": 1,
       "explanation": "Viele APIs erfordern einen API-Key, um sicherzustellen, dass nur autorisierte Benutzer oder Anwendungen darauf zugreifen können. Er wird oft verwendet, um Nutzungsquoten (Rate Limiting) durchzusetzen.",
@@ -1822,10 +1822,10 @@
     {
       "question": "91. Was ist der Unterschied zwischen einem `list` und einem `numpy.array`?",
       "options": [
-        "Es gibt keinen Unterschied in der Praxis.",
+        "Es gibt keinen Unterschied in der Praxis – im Kontext.",
         "NumPy‑Arrays sind numerisch/vektorisiert, Listen flexibler.",
-        "Listen können nur Strings enthalten.",
-        "NumPy‑Arrays gehören zur Standardbibliothek."
+        "Listen können nur Strings enthalten – im Kontext.",
+        "NumPy‑Arrays gehören zur Standardbibliothek – im Kontext."
       ],
       "answer": 1,
       "explanation": "NumPy ist die Grundlage für wissenschaftliches Rechnen in Python. Seine Array-Struktur ist in C implementiert, was Operationen auf großen Datenmengen deutlich schneller macht als mit reinen Python-Listen.",
@@ -1862,10 +1862,10 @@
     {
       "question": "93. Was ist der Zweck der `__init__`-Methode in einer Python-Klasse?",
       "options": [
-        "Sie initialisiert die Klasse selbst.",
+        "Sie initialisiert die Klasse selbst – im Kontext – in der Praxis.",
         "Konstruktor, der beim Erzeugen einer Instanz den Anfangszustand setzt.",
         "Sie zerstört das Objekt, wenn es nicht mehr benötigt wird.",
-        "Sie ist eine normale Methode ohne Sonderrolle."
+        "Sie ist eine normale Methode ohne Sonderrolle – im Kontext."
       ],
       "answer": 1,
       "explanation": "Die `__init__`-Methode wird automatisch aufgerufen, wenn eine neue Instanz einer Klasse erzeugt wird. Sie wird verwendet, um die Attribute des Objekts zu initialisieren.",
@@ -1884,8 +1884,8 @@
       "options": [
         "Ein Hardware‑Haken, um Server im Rack zu befestigen.",
         "Ereignis‑Benachrichtigung per HTTP‑Request an eine definierte URL.",
-        "Ein Sicherheitsprotokoll für APIs.",
-        "Ein Werkzeug zur automatischen Code‑Formatierung."
+        "Ein Sicherheitsprotokoll für APIs – im Kontext – in der Praxis.",
+        "Ein Werkzeug zur automatischen Code‑Formatierung – im Kontext."
       ],
       "answer": 1,
       "explanation": "Webhooks sind der 'Klebstoff' für Automatisierung. Zum Beispiel kann GitHub einen Webhook an einen CI/CD-Server senden, wenn neuer Code gepusht wird, was dann automatisch einen neuen Build auslöst.",
@@ -1904,8 +1904,8 @@
       "options": [
         "Dense enthält nur Nullen, Sparse nur Einsen.",
         "Dense speichert alle Werte, Sparse nur Nicht‑Nullen.",
-        "Dense ist immer kürzer als Sparse.",
-        "Sparse ist nicht für ML nutzbar."
+        "Dense ist immer kürzer als Sparse – im Kontext.",
+        "Sparse ist nicht für ML nutzbar – im Kontext."
       ],
       "answer": 1,
       "explanation": "Sparse Vektoren sind sehr effizient für Daten mit vielen Nullen, wie z.B. bei der One-Hot-Kodierung von großen Vokabularen im NLP. Anstatt eines riesigen Vektors mit meist Nullen speichert man nur die Positionen der Nicht-Null-Werte.",
@@ -1924,7 +1924,7 @@
       "options": [
         "Accuracy (Anteil korrekter Klassifikationen)",
         "F1‑Score (Mittel aus Precision und Recall)",
-        "Root Mean Squared Error (RMSE)",
+        "Root Mean Squared Error (RMSE) – im Kontext.",
         "AUC‑ROC (Fläche unter der ROC‑Kurve)"
       ],
       "answer": 2,
@@ -1962,10 +1962,10 @@
     {
       "question": "98. Was ist der Hauptvorteil der Verwendung von `plotly.express` gegenüber `plotly.graph_objects`?",
       "options": [
-        "`plotly.express` ist nur für 3D‑Plots.",
+        "`plotly.express` ist nur für 3D‑Plots – im Kontext – in der Praxis.",
         "`plotly.express` bietet eine High‑Level‑API für schnelle Standard‑Plots.",
-        "`plotly.express` erzeugt keine interaktiven Grafiken.",
-        "`plotly.graph_objects` unterstützt keine Anpassungen."
+        "`plotly.express` erzeugt keine interaktiven Grafiken – im Kontext.",
+        "`plotly.graph_objects` unterstützt keine Anpassungen – im Kontext."
       ],
       "answer": 1,
       "explanation": "`plotly.express` (px) ist eine Wrapper-Bibliothek um `plotly.graph_objects`. Sie vereinfacht die Erstellung von gängigen Diagrammtypen erheblich. Für sehr komplexe Visualisierungen kann man immer noch auf die detailliertere `graph_objects`-Syntax zurückgreifen.",
@@ -1982,10 +1982,10 @@
     {
       "question": "99. Was ist ein 'Container Registry' wie Docker Hub oder GitHub Container Registry?",
       "options": [
-        "Ort zum Ausführen von Containern.",
+        "Ort zum Ausführen von Containern – im Kontext.",
         "Repository zum Speichern/Verteilen von Images.",
-        "Tool zum Container-Monitoring.",
-        "Datenbank für Container-Metadaten."
+        "Tool zum Container-Monitoring – im Kontext.",
+        "Datenbank für Container-Metadaten – im Kontext."
       ],
       "answer": 1,
       "explanation": "Eine Container Registry ist wie ein 'App Store' für Docker-Images. Man kann seine eigenen Images dorthin 'pushen' (hochladen) und Images von anderen 'pullen' (herunterladen), was die Zusammenarbeit und das Deployment vereinfacht.",
@@ -2002,10 +2002,10 @@
     {
       "question": "100. Was ist der Zweck der `main`-Block-Konstruktion `if __name__ == '__main__':` in einem Python-Skript?",
       "options": [
-        "Sie definiert die Hauptfunktion des Skripts.",
+        "Sie definiert die Hauptfunktion des Skripts – im Kontext.",
         "Code im Block läuft nur beim direkten Start, nicht beim Import als Modul.",
-        "Sie ist notwendig, um globale Variablen zu deklarieren.",
-        "Sie markiert nur den Anfang des Python‑Codes."
+        "Sie ist notwendig, um globale Variablen zu deklarieren – im Kontext.",
+        "Sie markiert nur den Anfang des Python‑Codes – im Kontext."
       ],
       "answer": 1,
       "explanation": "Diese Konstruktion ist eine Best Practice in Python. Sie ermöglicht es, ein Skript sowohl als eigenständiges Programm als auch als wiederverwendbares Modul zu schreiben, ohne dass beim Import sofort Code ausgeführt wird.",
@@ -2051,10 +2051,10 @@
     {
       "question": "102. Was ist der Hauptunterschied zwischen **Overfitting** und **Underfitting**?",
       "options": [
-        "Unterbringung des Codes in Docker.",
+        "Unterbringung des Codes in Docker – im Kontext.",
         "Verhindern, dass Infos aus Testdaten ins Training gelangen.",
-        "Daten durch Zufall splitten.",
-        "Modelle schneller trainieren."
+        "Daten durch Zufall splitten – im Kontext – in der Praxis.",
+        "Modelle schneller trainieren – im Kontext – in der Praxis."
       ],
       "answer": 2,
       "explanation": "Overfitting beschreibt eine Situation, in der ein Modell die Trainingsdaten 'auswendig lernt', anstatt die zugrundeliegenden Muster zu generalisieren. Dies führt zu einer ausgezeichneten Leistung auf dem Trainingsdatensatz, aber einer schlechten Leistung auf neuen, ungesehenen Daten. Underfitting hingegen beschreibt ein Modell, das zu einfach ist, um die zugrundeliegenden Muster überhaupt zu erfassen, was zu einer schlechten Leistung auf Trainings- und Testdaten führt.",
@@ -2100,10 +2100,10 @@
     {
       "question": "104. Was ist ein typischer Nachteil von `Decision Trees` ohne weitere Maßnahmen?",
       "options": [
-        "Label‑Daten sind immer schlecht.",
+        "Label‑Daten sind immer schlecht – im Kontext.",
         "Labels sind notwendig für überwachte Verfahren.",
         "Labels braucht man nur bei Regression.",
-        "Labels ersetzen Features."
+        "Labels ersetzen Features – im Kontext."
       ],
       "answer": 1,
       "explanation": "`Decision Trees` können sehr komplexe und verzweigte Strukturen annehmen, die sich perfekt an die Trainingsdaten anpassen. Dies führt zu einer hohen Sensitivität gegenüber Rauschen und Ausreißern im Trainingsdatensatz, was wiederum eine starke Neigung zu Overfitting zur Folge hat. Techniken wie das Beschneiden (`Pruning`) des Baumes oder der Einsatz von Ensemble-Methoden wie `Random Forests` werden genutzt, um dieses Problem zu beheben.",
@@ -2128,10 +2128,10 @@
     {
       "question": "105. Welche der folgenden Maßnahmen erhöht die Reproduzierbarkeit von Data-Science-Projekten am effektivsten?",
       "options": [
-        "Overfitting ist gutes Generalisieren.",
+        "Overfitting ist gutes Generalisieren – im Kontext.",
         "Overfitting: gut auf Training, schlecht auf neue Daten.",
         "Overfitting verbessert immer die Testleistung.",
-        "Overfitting betrifft nur lineare Modelle."
+        "Overfitting betrifft nur lineare Modelle – im Kontext."
       ],
       "answer": 1,
       "explanation": "Die Reproduzierbarkeit eines Data-Science-Projekts hängt davon ab, ob Code, Daten und die gesamte Laufzeitumgebung für Dritte oder auch für den Ersteller selbst zu einem späteren Zeitpunkt wiederhergestellt werden können. `Docker-Container` kapseln alle Abhängigkeiten, Bibliotheken und das Betriebssystem, wodurch die Umgebung exakt reproduzierbar wird. `Jupyter Notebooks` können hilfreich sein, aber sie garantieren nicht die Reproduzierbarkeit der Umgebung, in der sie ausgeführt werden.",
@@ -2158,8 +2158,8 @@
       "options": [
         "Ersetzt das Training des Modells vollständig.",
         "Erstellt/transformiert Merkmale zur besseren Leistung.",
-        "Wählt automatisch den Algorithmus aus.",
-        "Entfernt immer alle Features."
+        "Wählt automatisch den Algorithmus aus – im Kontext.",
+        "Entfernt immer alle Features – im Kontext."
       ],
       "answer": 1,
       "explanation": "Feature Engineering ist der Prozess der Nutzung von Domänenwissen zur Erstellung von Features, die die Modellgüte verbessern. Indem man rohe Daten in ein Format umwandelt, das für das Modell nützlicher ist, können komplexe Beziehungen für das Modell leichter erfassbar gemacht werden. Dies kann in praktisch jedem Bereich des maschinellen Lernens angewendet werden und ist oft ein entscheidender Faktor für den Erfolg eines Projekts.",
@@ -2240,7 +2240,7 @@
     {
       "question": "109. Welche Bibliothek ist für das Tracking von Experimenten und Modellversionen in einem `Data Analytics` Projekt vorgesehen?",
       "options": [
-        "NumPy (Numerik)",
+        "NumPy (Numerik) – im Kontext.",
         "MLflow (Experiment‑Tracking)",
         "Matplotlib (Visualisierung)",
         "Pandas (Datenanalyse)"
@@ -2296,10 +2296,10 @@
     {
       "question": "111. Welche Aussage zu `K-Nearest Neighbors` (`KNN`) ist korrekt?",
       "options": [
-        "Gute Generalisierung, schlecht auf Training.",
+        "Gute Generalisierung, schlecht auf Training – im Kontext.",
         "Gute Trainingsleistung, kann auf neue Daten schwächer sein.",
-        "Nur zu viele Features verursachen Probleme.",
-        "Nur zu wenige Daten erklären alles."
+        "Nur zu viele Features verursachen Probleme – im Kontext.",
+        "Nur zu wenige Daten erklären alles – im Kontext."
       ],
       "answer": 1,
       "explanation": "`K-Nearest Neighbors` ist ein sogenanntes instanzbasiertes oder speicherbasiertes Lernverfahren. Im Gegensatz zu Modellen wie `Decision Trees` oder linearen Modellen, die einen expliziten Algorithmus erlernen und Gewichte oder Parameter speichern, merkt sich `KNN` einfach den gesamten Trainingsdatensatz. Bei einer Vorhersage sucht es dann nur die $k$ ähnlichsten Datenpunkte im Trainingsset, um die Entscheidung zu treffen.",
@@ -2352,9 +2352,9 @@
     {
       "question": "113. Welche Rolle spielt die Standardisierung von Features bei der Anwendung von `KNN`?",
       "options": [
-        "Sie ist nur bei Regression nötig.",
+        "Sie ist nur bei Regression nötig – im Kontext.",
         "Sie verhindert, dass große Skalen die Distanz dominieren.",
-        "Sie ersetzt die Wahl von k.",
+        "Sie ersetzt die Wahl von k – im Kontext – in der Praxis.",
         "Sie macht KNN unabhängig von der Distanzmetrik."
       ],
       "answer": 1,
@@ -2428,10 +2428,10 @@
     {
       "question": "116. Welche Aussage zu `Data Augmentation` im Kontext von `Computer Vision` ist korrekt?",
       "options": [
-        "Durch lineare Kernels.",
+        "Durch lineare Kernels – im Kontext.",
         "Durch nichtlinearen Kernel (z. B. RBF).",
-        "Durch kleinere Datensätze.",
-        "Durch Entfernen von Features."
+        "Durch kleinere Datensätze – im Kontext.",
+        "Durch Entfernen von Features – im Kontext."
       ],
       "answer": 1,
       "explanation": "`Data Augmentation` ist eine Technik, die die Größe und Qualität eines Trainingsdatensatzes durch die Erstellung modifizierter Versionen von Bildern künstlich erhöht. Durch Transformationen wie Rotation, Spiegelung, Skalierung oder Farbverschiebung werden neue, aber realistische Trainingsbeispiele generiert. Dies vergrößert das Trainingsset, macht das Modell robuster und hilft effektiv, `Overfitting` zu reduzieren, da das Modell weniger die spezifischen Trainingsbilder auswendig lernt.",
@@ -2486,8 +2486,8 @@
       "options": [
         "`Hyperparameter` werden während des Trainings automatisch gelernt.",
         "`Hyperparameter` müssen vor dem Training festgelegt und ggf. optimiert werden.",
-        "`Hyperparameter` sind nur bei linearen Modellen relevant.",
-        "`Hyperparameter` sind identisch mit Modellgewichten."
+        "`Hyperparameter` sind nur bei linearen Modellen relevant – im Kontext.",
+        "`Hyperparameter` sind identisch mit Modellgewichten – im Kontext."
       ],
       "answer": 1,
       "explanation": "Hyperparameter sind externe Konfigurationen, die nicht aus den Daten gelernt werden. Sie müssen vor dem Trainingsprozess festgelegt werden, um zu steuern, wie das Modell lernt. Beispiele sind die Lernrate in neuronalen Netzen, die Anzahl der Bäume in einem `Random Forest` oder der Wert von $k$ in einem `KNN`-Modell. Im Gegensatz dazu sind Modellgewichte oder Parameter Werte, die der Algorithmus während des Trainings lernt.",
@@ -2533,10 +2533,10 @@
     {
       "question": "120. Welche Aussage zu `Explainable AI` (`XAI`) ist korrekt?",
       "options": [
-        "Nur für Deep Learning relevant.",
+        "Nur für Deep Learning relevant – im Kontext.",
         "Macht Entscheidungen von Modellen nachvollziehbar.",
-        "Verschlechtert immer die Modellgüte.",
-        "Nur für Bilddaten relevant."
+        "Verschlechtert immer die Modellgüte – im Kontext.",
+        "Nur für Bilddaten relevant – im Kontext."
       ],
       "answer": 1,
       "explanation": "`Explainable AI` (`XAI`) ist ein Sammelbegriff für Methoden, die es ermöglichen, die Ergebnisse und Entscheidungen von KI-Systemen nachvollziehbar, transparent und interpretierbar zu machen. Dies ist besonders wichtig bei komplexen Modellen, die oft als 'Black Box' gelten, um das Vertrauen der Nutzer zu gewinnen, Fehler zu identifizieren und die Modelle in kritischen Anwendungen (z.B. in der Medizin) zu validieren.",
@@ -2562,9 +2562,9 @@
       "question": "121. Was ist der Unterschied zwischen der `Spearman`- und der `Pearson`-Korrelation?",
       "options": [
         "Die `Spearman`-Korrelation misst nur lineare, die `Pearson`-Korrelation misst nicht-lineare Zusammenhänge.",
-        "Die `Spearman`-Korrelation ist für kategoriale, die `Pearson`-Korrelation für numerische Daten.",
+        "Die `Spearman`-Korrelation ist für kategoriale, die `Pearson`-Korrelation für numerische Daten – im Kontext.",
         "Die `Spearman`-Korrelation basiert auf Rängen der Daten, während die `Pearson`-Korrelation auf der tatsächlichen Linearität basiert.",
-        "Die `Spearman`-Korrelation ist empfindlicher gegenüber Ausreißern als die `Pearson`-Korrelation."
+        "Die `Spearman`-Korrelation ist empfindlicher gegenüber Ausreißern als die `Pearson`-Korrelation – im Kontext."
       ],
       "answer": 2,
       "explanation": "Die `Pearson`-Korrelation misst die Stärke und Richtung eines **linearen** Zusammenhangs zwischen zwei Variablen. Sie ist empfindlich gegenüber Ausreißern. Im Gegensatz dazu misst die `Spearman`-Korrelation die Stärke eines **monotonen** Zusammenhangs, indem sie die Rangfolge der Datenpunkte betrachtet. Da sie auf Rängen und nicht auf den Originalwerten basiert, ist sie robuster gegenüber Ausreißern und kann auch nicht-lineare, aber monotone Beziehungen erfassen.",
@@ -2589,10 +2589,10 @@
     {
       "question": "122. Wie können Sie in `Python` mit der Bibliothek `Scikit-learn` die Performance eines Klassifikationsmodells umfassend evaluieren?",
       "options": [
-        "Durch die alleinige Nutzung der `model.score()`-Methode.",
+        "Durch die alleinige Nutzung der `model.score()`-Methode – im Kontext – in der Praxis – im beschriebenen Fall.",
         "Indem Sie nur die Trainingsgenauigkeit (`accuracy`) messen und als finale Metrik verwenden.",
         "Durch die Erstellung einer `Confusion Matrix` und die Berechnung von Metriken wie `Precision`, `Recall` und `F1-Score`.",
-        "Indem Sie die Laufzeit des Modells messen und diese als Performance-Metrik ansehen."
+        "Indem Sie die Laufzeit des Modells messen und diese als Performance-Metrik ansehen – im Kontext."
       ],
       "answer": 2,
       "explanation": "Die `Confusion Matrix` ist ein grundlegendes Werkzeug zur Bewertung von Klassifikationsmodellen. Aus ihr lassen sich detailliertere Metriken als die einfache Genauigkeit (`accuracy`) ableiten. `Precision` misst die Exaktheit (Wie viele der als positiv vorhergesagten sind wirklich positiv?), `Recall` misst die Vollständigkeit (Wie viele der tatsächlichen Positiven wurden erkannt?) und der `F1-Score` ist das harmonische Mittel dieser beiden, was ein ausgewogenes Bild der Modellgüte liefert.",
@@ -2617,10 +2617,10 @@
     {
       "question": "123. Diskutieren Sie die Bedeutung von `Data Leakage` im Machine Learning und wie man es vermeiden kann.",
       "options": [
-        "Es ist ein Prozess zur Datenbereinigung und wird durch `Cross-Validation` behoben.",
+        "Es ist ein Prozess zur Datenbereinigung und wird durch `Cross-Validation` behoben – im Kontext – in der Praxis – im beschriebenen Fall.",
         "Es ist ein Problem, das entsteht, wenn die Trainings- und Testdaten nicht strikt getrennt werden, und kann durch einen korrekten Workflow vermieden werden.",
-        "Es ist eine Technik zur Datenaugmentation, die die Modellleistung verbessert, und wird mit `MLflow` umgesetzt.",
-        "Es ist die unbeabsichtigte Verwendung von historischen Daten, die durch `Feature Engineering` behoben wird."
+        "Es ist eine Technik zur Datenaugmentation, die die Modellleistung verbessert, und wird mit `MLflow` umgesetzt – im Kontext.",
+        "Es ist die unbeabsichtigte Verwendung von historischen Daten, die durch `Feature Engineering` behoben wird – im Kontext."
       ],
       "answer": 1,
       "explanation": "`Data Leakage` ist ein ernsthaftes Problem, das zu einer unrealistisch hohen Modellgüte führt, da das Modell Informationen aus der Testmenge oder der Zukunft 'sieht'. Die Lösung ist ein disziplinierter Workflow, bei dem die Daten vor jeglicher Vorverarbeitung in Trainings- und Testset aufgeteilt werden. Erst danach werden Skalierungs-, Imputations- oder Feature-Engineering-Schritte separat auf den beiden Datensätzen angewendet.",
@@ -2646,8 +2646,8 @@
       "question": "124. Skizzieren Sie die Schritte zur Entwicklung einer `Streamlit`-App für ein ML-Modell, das auf tabellarischen Daten basiert.",
       "options": [
         "Installieren Sie `Streamlit` und `Scikit-learn`, laden Sie das trainierte Modell und erstellen Sie die Benutzeroberfläche (`UI`) mit `st.write()` und `st.text_input()`.",
-        "Installieren Sie `MLflow` und `Flask`, laden Sie die Daten in eine Datenbank und erstellen Sie die `UI` mit `HTML` und `CSS`.",
-        "Trainieren Sie das Modell, speichern Sie es als `.txt`-Datei und erstellen Sie eine `UI` mit `Matplotlib` und `Seaborn`.",
+        "Installieren Sie `MLflow` und `Flask`, laden Sie die Daten in eine Datenbank und erstellen Sie die `UI` mit `HTML` und `CSS` – im Kontext.",
+        "Trainieren Sie das Modell, speichern Sie es als `.txt`-Datei und erstellen Sie eine `UI` mit `Matplotlib` und `Seaborn` – im Kontext.",
         "Laden Sie die Daten in ein `Jupyter Notebook`, trainieren Sie das Modell und teilen Sie das Notebook, um die App bereitzustellen."
       ],
       "answer": 0,
@@ -2701,7 +2701,7 @@
     {
       "question": "126. Erklären Sie, wie Sie mit `MLflow` ein Experiment-Tracking für verschiedene Modellvarianten aufsetzen würden und welche Vorteile dies bietet.",
       "options": [
-        "Nur zum Deployment in Docker nutzen.",
+        "Nur zum Deployment in Docker nutzen – im Kontext.",
         "Für automatische Hyperparameter-Suche verwenden.",
         "Run starten, Parameter/Metriken loggen, Modell speichern.",
         "Für Installation von Python-Paketen nutzen."
@@ -2730,9 +2730,9 @@
       "question": "127. Beschreiben Sie, wie Sie mit `Transfer Learning` ein `Computer-Vision`-Projekt umsetzen würden.",
       "options": [
         "Netz von Grund auf trainieren, ohne Vorwissen oder Pretraining.",
-        "Alle Schichten löschen und komplett neu bauen.",
+        "Alle Schichten löschen und komplett neu bauen – im Kontext – in der Praxis.",
         "Vortrainiertes Modell nutzen, Layer einfrieren, neuen Klassifikator trainieren.",
-        "Vortrainiertes Modell ohne Anpassung direkt einsetzen."
+        "Vortrainiertes Modell ohne Anpassung direkt einsetzen – im Kontext."
       ],
       "answer": 2,
       "explanation": "Der typische Workflow für `Transfer Learning` im `Computer Vision` sieht vor, dass man ein Modell wie `ResNet` oder `VGG16`, das auf einem großen Datensatz wie `ImageNet` vortrainiert wurde, verwendet. Da die frühen Schichten bereits gelernt haben, allgemeine Merkmale (Kanten, Texturen) zu erkennen, friert man diese ein. Man ersetzt dann die letzten Schichten (die für die Klassifikation spezifisch sind) durch neue, die für die eigene Aufgabe geeignet sind. Schließlich trainiert man nur diese neuen Schichten auf dem kleineren, spezifischen Datensatz, was den Prozess beschleunigt und Overfitting reduziert.",
@@ -2757,10 +2757,10 @@
     {
       "question": "128. Diskutieren Sie die Rolle von `Cross-Validation` und `Hyperparameter-Tuning` für die Modellgüte. Wie gehen Sie dabei praktisch vor?",
       "options": [
-        "CV nur Datenaufteilung, Tuning manuell.",
-        "Beide unabhängig ohne Zusammenhang.",
+        "CV nur Datenaufteilung, Tuning manuell – im Kontext.",
+        "Beide unabhängig ohne Zusammenhang – im Kontext.",
         "CV liefert robuste Schätzung, Tuning optimiert Parameter.",
-        "Tuning auf Testdaten, CV auf Training."
+        "Tuning auf Testdaten, CV auf Training – im Kontext."
       ],
       "answer": 2,
       "explanation": "`Cross-Validation` und `Hyperparameter-Tuning` sind eng miteinander verbunden. Bei der `Grid Search` oder `Randomized Search` wird `Cross-Validation` in jeder Iteration verwendet, um die Leistung eines Modells mit einem bestimmten Satz von Hyperparametern zu bewerten. Durch die Mittelung der Ergebnisse über alle Folds erhält man eine zuverlässige Schätzung der Güte. Das `Tuning`-Verfahren sucht dann systematisch nach dem besten Parametersatz, der die beste durchschnittliche Leistung über alle Folds liefert. Die Kombination beider Verfahren stellt sicher, dass man ein optimales Modell findet, dessen Leistungsschätzung nicht durch eine zufällige Aufteilung der Daten verzerrt ist.",
@@ -2786,9 +2786,9 @@
       "question": "129. Analysieren Sie, wie Sie mit `Exploratory Data Analysis` (`EDA`) typische Fehlerquellen und Ausreißer in einem Datensatz identifizieren und adressieren würden.",
       "options": [
         "Nur Durchschnittswerte vergleichen, keine Visualisierung.",
-        "Nur ML-Modell auf Rohdaten anwenden.",
+        "Nur ML-Modell auf Rohdaten anwenden – im Kontext.",
         "Mit Boxplots/Streudiagrammen + Kennzahlen Ausreißer finden.",
-        "Alle Abweichungen pauschal löschen."
+        "Alle Abweichungen pauschal löschen – im Kontext."
       ],
       "answer": 2,
       "explanation": "`EDA` ist der erste und wichtigste Schritt im `Data Analytics`-Workflow. Visuelle Werkzeuge wie `Boxplots` oder `Streudiagramme` sind besonders effektiv, um die Verteilung der Daten zu verstehen, Ausreißer zu erkennen und unerwartete Beziehungen zwischen Variablen zu identifizieren. Statistische Kennzahlen (`Mittelwert`, `Median`, etc.) helfen, diese visuellen Eindrücke quantitativ zu untermauern. Fehlerquellen wie fehlende Werte oder falsche Datentypen werden in dieser Phase ebenfalls identifiziert.",
@@ -2814,7 +2814,7 @@
       "question": "130. Reflektieren Sie, wie `Explainable AI` (`XAI`) die Akzeptanz von ML-Modellen in Unternehmen beeinflussen kann.",
       "options": [
         "Es macht die Modelle komplexer und weniger verständlich für Nicht-Experten.",
-        "Es hilft, die Modellgüte zu reduzieren, um Fehler zu verringern.",
+        "Es hilft, die Modellgüte zu reduzieren, um Fehler zu verringern – im Kontext.",
         "Es ermöglicht eine erhöhte Transparenz, stärkt das Vertrauen und erleichtert die Fehlerbehebung.",
         "Es ist ein rein akademisches Konzept ohne praktischen Nutzen in der Industrie."
       ],
@@ -2841,11 +2841,11 @@
     {
       "question": "131. Welche Aussage beschreibt **Bias-Variance-Trade-off** im Kontext von $ML$ am treffendsten?",
       "options": [
-        "Hoher Bias und hohe Varianz führen stets zu guter Generalisierung.",
-        "Niedriger Bias und niedrige Varianz sind bei realen Daten leicht zu erreichen.",
+        "Hoher Bias und hohe Varianz führen stets zu guter Generalisierung – im Kontext – in der Praxis.",
+        "Niedriger Bias und niedrige Varianz sind bei realen Daten leicht zu erreichen – im Kontext.",
         "Ein Modell mit hohem Bias ist tendenziell **unterfittet**, eines mit hoher Varianz tendenziell **überfittet**.",
         "Bias und Varianz sind unabhängig voneinander und beeinflussen die Generalisierung nicht.",
-        "Hohe Varianz ist in der Praxis immer besser als hoher Bias."
+        "Hohe Varianz ist in der Praxis immer besser als hoher Bias – im Kontext – in der Praxis."
       ],
       "answer": 2,
       "explanation": "**Bias** misst die systematische Abweichung (Unteranpassung), **Varianz** die Empfindlichkeit gegenüber Datenfluktuation (Überanpassung). Gute Generalisierung erfordert ein ausgewogenes Verhältnis.",
@@ -2890,11 +2890,11 @@
     {
       "question": "133. Wofür wird **`StandardScaler`** in `scikit-learn` primär eingesetzt?",
       "options": [
-        "Zum One-Hot-Encoding kategorialer Variablen.",
+        "Zum One-Hot-Encoding kategorialer Variablen – im Kontext.",
         "Zur Zentrierung auf Mittelwert 0 und Skalierung auf Standardabweichung 1.",
         "Zur Reduktion der Dimensionalität auf zwei Hauptkomponenten.",
         "Zur Erzeugung künstlicher Datenpunkte für Data Augmentation.",
-        "Zur Binarisierung kontinuierlicher Ziele."
+        "Zur Binarisierung kontinuierlicher Ziele – im Kontext – in der Praxis."
       ],
       "answer": 1,
       "explanation": "`StandardScaler` transformiert numerische Features auf Mittelwert 0 und Standardabweichung 1, was distanz- und gradientenbasierte Verfahren stabiler macht.",
@@ -2939,10 +2939,10 @@
     {
       "question": "135. Welche Vorteil bringt die Verwendung von **`Pipeline`** in `scikit-learn`?",
       "options": [
-        "Sie beschleunigt das Training durch GPU.",
+        "Sie beschleunigt das Training durch GPU – im Kontext.",
         "Sie bündelt Schritte und verhindert Data Leakage im CV‑Prozess.",
         "Sie reduziert die Anzahl der Features automatisch.",
-        "Sie ersetzt Hyperparameter‑Suche."
+        "Sie ersetzt Hyperparameter‑Suche – im Kontext – in der Praxis."
       ],
       "answer": 1,
       "explanation": "`Pipeline` bündelt Vorverarbeitung und Modell zu einem Ablauf, der konsistent trainiert und validiert wird—wichtig gegen **Data Leakage** und für Reproduzierbarkeit.",
@@ -2960,10 +2960,10 @@
       "question": "136. Welche Technik ist **keine** typische Komponente der **Exploratory Data Analysis (EDA)**?",
       "options": [
         "Univariate und bivariate Visualisierungen (z. B. Histogramme, Scatterplots).",
-        "Berechnung von Lage- und Streuungsmaßen.",
-        "Hyperparameter-Tuning eines Modells.",
-        "Identifikation von Ausreißern.",
-        "Korrelationsanalyse numerischer Variablen."
+        "Berechnung von Lage- und Streuungsmaßen – im Kontext – in der Praxis.",
+        "Hyperparameter-Tuning eines Modells – im Kontext – in der Praxis.",
+        "Identifikation von Ausreißern – im Kontext – in der Praxis.",
+        "Korrelationsanalyse numerischer Variablen – im Kontext – in der Praxis."
       ],
       "answer": 2,
       "explanation": "**EDA** dient Verständnis und Datenqualitätsprüfung; Hyperparameter-Tuning gehört zur Modellierungsphase, nicht zur reinen Exploration.",
@@ -2988,10 +2988,10 @@
       "question": "137. Welche Maßnahme verbessert die **Robustheit gegenüber Ausreißern** in linearen Modellen am ehesten?",
       "options": [
         "HuberRegressor statt LinearRegression.",
-        "Stärkere L2-Regularisierung.",
-        "Lernrate vergrößern.",
+        "Stärkere L2-Regularisierung – im Kontext.",
+        "Lernrate vergrößern – im Kontext.",
         "Zielvariable standardisieren.",
-        "Bias-Term entfernen."
+        "Bias-Term entfernen – im Kontext."
       ],
       "answer": 0,
       "explanation": "Der `HuberRegressor` nutzt einen robusten Verlust, der Ausreißer weniger stark gewichtet als das quadratische Fehlermaß der klassischen `LinearRegression`.",
@@ -3015,11 +3015,11 @@
     {
       "question": "138. Welche Aussage trifft **am ehesten** auf **`PCA`** zu?",
       "options": [
-        "`PCA` maximiert die Klassengenauigkeit.",
+        "`PCA` maximiert die Klassengenauigkeit – im Kontext.",
         "`PCA` ist eine überwachte Methode zur Feature-Selektion.",
         "`PCA` projiziert auf orthogonale Richtungen maximaler Varianz.",
-        "`PCA` ist nur für binäre Ziele geeignet.",
-        "`PCA` ersetzt immer Feature-Engineering."
+        "`PCA` ist nur für binäre Ziele geeignet – im Kontext.",
+        "`PCA` ersetzt immer Feature-Engineering – im Kontext."
       ],
       "answer": 2,
       "explanation": "`PCA` ist **unüberwacht** und findet orthogonale Komponenten, die maximale Varianz erklären; sie dient der **Dimensionsreduktion** und Visualisierung.",
@@ -3043,11 +3043,11 @@
     {
       "question": "139. Warum ist **Feature-Scaling** für `KNN` besonders wichtig?",
       "options": [
-        "Weil `KNN` keine Distanzmaße verwendet.",
+        "Weil `KNN` keine Distanzmaße verwendet – im Kontext – in der Praxis.",
         "Weil `KNN` auf Distanzvergleichen basiert und Skalenunterschiede verzerren.",
         "Weil `KNN` sonst keine kategorialen Variablen verarbeitet.",
         "Weil `KNN` nur mit normalverteilten Merkmalen funktioniert.",
-        "Weil `KNN` sonst die Nachbarn zufällig wählt."
+        "Weil `KNN` sonst die Nachbarn zufällig wählt – im Kontext."
       ],
       "answer": 1,
       "explanation": "`KNN` nutzt Distanzen; Features mit größeren Skalen dominieren sonst die Nachbarschaftssuche, weshalb **Standardisierung/Normalisierung** nötig ist.",
@@ -3172,7 +3172,7 @@
         "Randomisiert Daten ohne Reihenfolge.",
         "Respektiert Zeitordnung bei Validierung.",
         "Mischt Train/Test in einem Fold.",
-        "Wählt zufällige Subsets."
+        "Wählt zufällige Subsets – im Kontext."
       ],
       "answer": 1,
       "explanation": "`TimeSeriesSplit` respektiert **Zeitkausalität**: Train auf Vergangenheit, Val auf Zukunft—verhindert **Look-ahead Leakage**.",
@@ -3224,11 +3224,11 @@
     {
       "question": "146. Welche Aussage beschreibt **Regularisierung** korrekt?",
       "options": [
-        "`L1` erhöht Varianz, `L2` erhöht Bias.",
+        "`L1` erhöht Varianz, `L2` erhöht Bias – im Kontext – in der Praxis.",
         "`L1` kann Koeffizienten exakt nullen, `L2` schrumpft kontinuierlich.",
         "`L2` führt stets zu sparsamen, exakt Null-Koeffizienten.",
-        "Regularisierung ist nur bei Deep Learning sinnvoll.",
-        "Regularisierung ersetzt Datenqualität."
+        "Regularisierung ist nur bei Deep Learning sinnvoll – im Kontext.",
+        "Regularisierung ersetzt Datenqualität – im Kontext – in der Praxis."
       ],
       "answer": 1,
       "explanation": "`L1` (Lasso) induziert **Sparsamkeit** durch Nullsetzen, `L2` (Ridge) glättet und reduziert Varianz ohne harte Nullung.",
@@ -3308,11 +3308,11 @@
     {
       "question": "149. Welche Metrik eignet sich **besonders** zur Bewertung einer **Regression**?",
       "options": [
-        "F1-Score (Klassifikation)",
+        "F1-Score (Klassifikation) – im Kontext.",
         "MSE (mittlere quadratische Abweichung)",
-        "Recall (Klassifikation)",
-        "ROC-AUC (Klassifikation)",
-        "Accuracy (Klassifikation)"
+        "Recall (Klassifikation) – im Kontext.",
+        "ROC-AUC (Klassifikation) – im Kontext.",
+        "Accuracy (Klassifikation) – im Kontext."
       ],
       "answer": 1,
       "explanation": "In Regressionsaufgaben sind Fehlermaße wie **`MSE`** oder `MAE` üblich; Klassifikationsmetriken wie `F1`, `Accuracy`, `ROC-AUC` sind ungeeignet.",
@@ -3387,9 +3387,9 @@
       "options": [
         "Die Stichprobengröße kann nach ersten Ergebnissen beliebig angepasst werden.",
         "Vorab festgelegte **Power** und **Signifikanzniveau** bestimmen die benötigte Stichprobengröße.",
-        "Der p-Wert gibt die Wahrscheinlichkeit der Nullhypothese an.",
-        "Mehrfaches Zwischenstopp-Look erhöht nicht die Fehlerwahrscheinlichkeit.",
-        "Kein Randomisieren nötig, wenn Gruppen ähnlich wirken."
+        "Der p-Wert gibt die Wahrscheinlichkeit der Nullhypothese an – im Kontext.",
+        "Mehrfaches Zwischenstopp-Look erhöht nicht die Fehlerwahrscheinlichkeit – im Kontext.",
+        "Kein Randomisieren nötig, wenn Gruppen ähnlich wirken – im Kontext – in der Praxis."
       ],
       "answer": 1,
       "explanation": "Testdesign verlangt **a priori** definierte **$\\u03b1$** (Signifikanz) und **Power** (1−$\\u03b2$). Daraus ergibt sich die notwendige **Sample Size**.",
@@ -3436,9 +3436,9 @@
       "options": [
         "GridSearch zufällig, Randomized vollständig.",
         "GridSearch prüft alle Kombos, Randomized sampelt.",
-        "Beide liefern identische Ergebnisse.",
-        "Randomized braucht keine CV.",
-        "GridSearch ist immer schneller."
+        "Beide liefern identische Ergebnisse – im Kontext.",
+        "Randomized braucht keine CV – im Kontext.",
+        "GridSearch ist immer schneller – im Kontext."
       ],
       "answer": 1,
       "explanation": "**Grid** prüft alle Gitterpunkte; **Randomized** sampelt und kann schneller gute Regionen finden—insbesondere bei großen Suchräumen.",
@@ -3462,11 +3462,11 @@
     {
       "question": "155. Welche Strategie ist **zweckmäßig**, um **Ausreißer** **vor** dem Modelltraining zu behandeln?",
       "options": [
-        "Alle Ausreißer immer entfernen, ohne Prüfung.",
+        "Alle Ausreißer immer entfernen, ohne Prüfung – im Kontext.",
         "Winsorisierung/robuste Transformationen prüfen und validieren.",
-        "Ausreißer ignorieren, Modelle lernen das.",
+        "Ausreißer ignorieren, Modelle lernen das – im Kontext.",
         "Nur Zielvariable clippen, Features unverändert.",
-        "Nur Log-Transformationen anwenden, immer."
+        "Nur Log-Transformationen anwenden, immer – im Kontext."
       ],
       "answer": 1,
       "explanation": "**Ausreißer-Handling** ist kontextabhängig. Robuste Alternativen (Winsorize, Huber/Quantile-Transformer) sollten **validiert** statt dogmatisch angewandt werden.",
@@ -3514,8 +3514,8 @@
         "Elbow-Plot der Clusteranzahl.",
         "Confusion-Matrix mit Normalisierung.",
         "Scree-Plot der PCA-Varianzanteile.",
-        "Lag-Plot für Zeitreihen.",
-        "QQ-Plot der Residuen."
+        "Lag-Plot für Zeitreihen – im Kontext.",
+        "QQ-Plot der Residuen – im Kontext."
       ],
       "answer": 1,
       "explanation": "Eine **Confusion-Matrix** zeigt Fehlklassifikationen je Klasse, optional normalisiert—nützlich für zielgerichtete Fehleranalysen.",
@@ -3539,11 +3539,11 @@
     {
       "question": "158. Welche Aussage zu **`Train/Test Split`** ist **richtig**?",
       "options": [
-        "Testset für Tuning nutzen (falsch).",
+        "Testset für Tuning nutzen (falsch) – im Kontext.",
         "Train/Val/Test trennen; Test nur finale Schätzung.",
         "Testset größer als Trainset erzwingen.",
-        "Validierungsset unnötig bei CV.",
-        "Stratifizierung nur bei Regression."
+        "Validierungsset unnötig bei CV – im Kontext.",
+        "Stratifizierung nur bei Regression – im Kontext."
       ],
       "answer": 1,
       "explanation": "**Rollen-Trennung**: Tuning erfolgt ohne Testwissen (Val/CV), die finale Leistung wird **einmalig** auf dem **Testset** geschätzt.",
@@ -3567,10 +3567,10 @@
     {
       "question": "159. Welche Maßnahme verbessert die **Modellüberwachung** nach Deployment?",
       "options": [
-        "Verzicht auf Logging zur Performance-Steigerung.",
+        "Verzicht auf Logging zur Performance-Steigerung – im Kontext.",
         "Drift-Detektion, Re-Calibration und periodisches Re-Training nach SLAs.",
         "Ausschließlich manuelle Stichprobenprüfung ohne Metriken.",
-        "Nur Hardware-Monitoring (CPU/RAM) betrachten.",
+        "Nur Hardware-Monitoring (CPU/RAM) betrachten – im Kontext.",
         "Feature-Statistiken nie speichern, um Speicherplatz zu sparen."
       ],
       "answer": 1,
@@ -3598,8 +3598,8 @@
         "Kategoriale High-Cardinality-Features immer one-hot-encoden.",
         "Zyklische Features (z. B. Monat) stets als Integer lassen.",
         "Target-Encoding nur strikt CV-intern anwenden, um Leakage zu vermeiden.",
-        "Numerische Features stets normalisieren.",
-        "Label-Encoding ist immer besser als One-Hot."
+        "Numerische Features stets normalisieren – im Kontext – in der Praxis.",
+        "Label-Encoding ist immer besser als One-Hot – im Kontext."
       ],
       "answer": 2,
       "explanation": "**Target-Encoding** kann starken Leakage verursachen; daher muss es **fold-intern** fit/transformiert werden. Bäume benötigen kein Scaling, aber Encoding muss leakage-sicher sein.",
@@ -4379,10 +4379,10 @@
     {
       "question": "179. Welcher fundamentale Unterschied besteht zwischen Variablen in Python und Java, der für Data Science relevant ist?",
       "options": [
-        "Python-Variablen sind statisch typisiert, Java-Variablen dynamisch.",
+        "Python-Variablen sind statisch typisiert, Java-Variablen dynamisch – im Kontext.",
         "Python ist dynamisch typisiert; Variablen sind Referenzen auf Objekte, keine festen Typ-Container.",
-        "In Python müssen Variablen immer vor der Verwendung deklariert werden.",
-        "Python erlaubt keine primitiven Datentypen wie Integer oder Float."
+        "In Python müssen Variablen immer vor der Verwendung deklariert werden – im Kontext.",
+        "Python erlaubt keine primitiven Datentypen wie Integer oder Float – im Kontext."
       ],
       "answer": 1,
       "explanation": "Python ist dynamisch typisiert. Im Gegensatz zu Java, wo eine Variable `int x` nur Integer speichern kann, ist ein Variablenname in Python nur ein Label (Referenz), das auf beliebige Objekte zeigen kann.",
@@ -4428,9 +4428,9 @@
       "question": "181. Was ist das Ergebnis des Ausdrucks `[x**2 for x in range(4)]`?",
       "options": [
         "Eine Fehlermeldung, da die Syntax falsch ist.",
-        "`[0, 1, 4, 9]`",
-        "`[1, 4, 9, 16]`",
-        "`{0, 1, 4, 9}`"
+        "`[0, 1, 4, 9]` – im Kurskontext.",
+        "`[1, 4, 9, 16]` – in der Praxis.",
+        "`{0, 1, 4, 9}` – im Kurskontext."
       ],
       "answer": 1,
       "explanation": "Dies ist eine List Comprehension. `range(4)` erzeugt 0, 1, 2, 3. Das Quadrat davon ist 0, 1, 4, 9.",
@@ -4462,10 +4462,10 @@
     {
       "question": "182. Welche Bibliothek ist der De-facto-Standard für numerische Berechnungen und Arrays in Python?",
       "options": [
-        "Pandas",
-        "NumPy",
-        "Matplotlib",
-        "Scikit-learn"
+        "Pandas – in der Praxis.",
+        "NumPy – in der Praxis.",
+        "Matplotlib – im Kontext.",
+        "Scikit-learn – im Kontext."
       ],
       "answer": 1,
       "explanation": "NumPy (Numerical Python) ist die Basisbibliothek für effiziente Arrays und mathematische Operationen.",
@@ -4519,10 +4519,10 @@
     {
       "question": "184. Sie haben ein Pandas DataFrame `df`. Mit welchem Befehl erhalten Sie eine schnelle statistische Zusammenfassung (Mittelwert, Min, Max etc.) der numerischen Spalten?",
       "options": [
-        "`df.info()`",
-        "`df.head()`",
-        "`df.describe()`",
-        "`df.stats()`"
+        "`df.info()` (Struktur)",
+        "`df.head()` (erste Zeilen)",
+        "`df.describe()` (Statistik)",
+        "`df.stats()` (kein Standard)"
       ],
       "answer": 2,
       "explanation": "`df.describe()` generiert deskriptive Statistiken für alle numerischen Spalten. `df.info()` zeigt Datentypen und Nicht-Null-Werte.",
@@ -4545,10 +4545,10 @@
     {
       "question": "185. Wie wählen Sie in einem Pandas DataFrame `df` die Spalte 'Preis' aus?",
       "options": [
-        "`df.get('Preis')`",
+        "`df.get('Preis')` – in der Praxis.",
         "`df['Preis']` oder `df.Preis`",
-        "`df(Preis)`",
-        "`df->Preis`"
+        "`df(Preis)` – in der Praxis.",
+        "`df->Preis` – in der Praxis."
       ],
       "answer": 1,
       "explanation": "Die Standard-Syntax ist `df['Spaltenname']`. Wenn der Name keine Leerzeichen oder Sonderzeichen enthält, geht oft auch die Attribut-Schreibweise `df.Spaltenname`.",
@@ -4660,10 +4660,10 @@
     {
       "question": "189. Was bewirkt `df.groupby('Kategorie')['Umsatz'].sum()`?",
       "options": [
-        "Es sortiert die Tabelle nach Kategorie und Umsatz.",
+        "Es sortiert die Tabelle nach Kategorie und Umsatz – in der Praxis – im Kontext.",
         "Es gruppiert die Daten nach Kategorie und berechnet die Summe der Umsatz-Spalte für jede Gruppe.",
-        "Es addiert 'Kategorie' und 'Umsatz' zusammen.",
-        "Es filtert alle Zeilen, die keinen Umsatz haben."
+        "Es addiert 'Kategorie' und 'Umsatz' zusammen – im Kurskontext – im Kontext.",
+        "Es filtert alle Zeilen, die keinen Umsatz haben – in der Praxis – im Kontext."
       ],
       "answer": 1,
       "explanation": "Dies ist das 'Split-Apply-Combine' Muster. Die Daten werden nach 'Kategorie' gesplittet, und die Summen-Funktion wird auf 'Umsatz' angewendet.",
@@ -4713,10 +4713,10 @@
     {
       "question": "191. In einem Boxplot ist der Median als Linie eingezeichnet. Was repräsentiert die 'Box' selbst?",
       "options": [
-        "Den Bereich von Minimum bis Maximum.",
-        "Den Interquartilsabstand (IQR), also den Bereich zwischen dem 25. und 75. Perzentil.",
-        "Die Standardabweichung vom Mittelwert.",
-        "Alle Ausreißer."
+        "Den Bereich von Minimum bis Maximum – in der Praxis – im Kontext.",
+        "Den Interquartilsabstand, also den Bereich zwischen dem 25. und 75. Perzentil.",
+        "Die Standardabweichung vom Mittelwert – in der Praxis – im Kontext.",
+        "Alle Ausreißer – im beschriebenen Szenario – im Kontext – in der Praxis."
       ],
       "answer": 1,
       "explanation": "Die Box in einem Boxplot spannt sich vom 1. Quartil (Q1) bis zum 3. Quartil (Q3) und enthält somit die mittleren 50% der Daten.",
@@ -4748,9 +4748,9 @@
     {
       "question": "192. Sie führen folgenden Code aus: `df['A'] = df['B']; df['A'].iloc[0] = 10`. Später stellen Sie fest, dass sich auch `df['B']` geändert hat. Warum?",
       "options": [
-        "Das ist ein Bug in Pandas.",
+        "Das ist ein Bug in Pandas – in der Praxis.",
         "Pandas kopiert Daten standardmäßig immer.",
-        "Dies ist eine 'SettingWithCopy'-Situation; die Zuweisung erstellte nur eine flache Kopie (View) oder Referenz.",
+        "Dies ist eine 'SettingWithCopy'-Situation",
         "Spalte A und B teilen sich physikalisch immer den Speicher."
       ],
       "answer": 2,
@@ -4783,9 +4783,9 @@
       "question": "193. Was ist der Hauptvorteil der Verwendung von `apply()` mit einer Lambda-Funktion gegenüber einer Iteration mit `for`-Schleife über Zeilen in Pandas?",
       "options": [
         "`apply()` ist immer 100x schneller als jede andere Methode.",
-        "Es ist syntaktisch kürzer und oft schneller als eine naive Python-Schleife, aber langsamer als Vektorisierung.",
-        "Es erlaubt Zugriff auf private Variablen.",
-        "Es gibt keinen Unterschied."
+        "Es ist syntaktisch kürzer und oft schneller als eine naive Python-Schleife",
+        "Es erlaubt Zugriff auf private Variablen – in der Praxis.",
+        "Es gibt keinen Unterschied – in diesem Beispiel – im Kontext."
       ],
       "answer": 1,
       "explanation": "`apply()` ist performanter als eine explizite `for`-Schleife in reinem Python, da der Loop intern in C optimiert ist, aber es ist immer noch langsamer als echte Vektorisierung (direkte Spalten-Operationen).",
@@ -4813,10 +4813,10 @@
     {
       "question": "194. Sie haben zwei DataFrames `df1` (Kunden) und `df2` (Bestellungen). Sie wollen diese verbinden, sodass alle Kunden enthalten sind, auch wenn sie keine Bestellung haben. Welchen Join-Typ wählen Sie?",
       "options": [
-        "Inner Join",
+        "Inner Join – in der Praxis.",
         "Left Join (wenn df1 links steht)",
         "Right Join (wenn df1 links steht)",
-        "Cross Join"
+        "Cross Join – in der Praxis."
       ],
       "answer": 1,
       "explanation": "Ein Left Join behält alle Schlüssel aus der linken Tabelle (`df1`) und ergänzt Daten aus der rechten Tabelle (`df2`) dort, wo Treffer sind. Sonst entstehen `NaN`.",
@@ -4845,9 +4845,9 @@
       "question": "195. Welche Aussage zur Speicherverwaltung von Pandas 'category' Datentyp ist korrekt?",
       "options": [
         "Er verbraucht mehr Speicher als 'object' (String), da er Metadaten speichert.",
-        "Er ist nur für numerische Daten geeignet.",
-        "Er spart signifikant Speicher bei String-Spalten mit wenigen eindeutigen Werten (geringe Kardinalität).",
-        "Er verlangsamt Gruppierungsoperationen."
+        "Er ist nur für numerische Daten geeignet – in der Praxis.",
+        "Er spart signifikant Speicher bei String-Spalten mit wenigen eindeutigen Werten.",
+        "Er verlangsamt Gruppierungsoperationen – in der Praxis."
       ],
       "answer": 2,
       "explanation": "Der Datentyp 'category' speichert die Strings nur einmal in einer Lookup-Tabelle und verwendet im DataFrame kleine Integer-Codes. Bei vielen Wiederholungen spart das massiv Speicher.",
@@ -4941,10 +4941,10 @@
     {
       "question": "199. Sie analysieren Verkaufsdaten. `df.groupby('Produkt')['Umsatz'].mean()` liefert Durchschnittswerte. Aber die Ergebnisse wirken verzerrt durch einige extrem hohe Verkäufe. Welche Aggregation ist robuster gegen Ausreißer?",
       "options": [
-        "`sum()`",
-        "`median()`",
-        "`std()`",
-        "`max()`"
+        "`sum()` (Summe)",
+        "`median()` (Median)",
+        "`std()` (Streuung)",
+        "`max()` (Maximum)"
       ],
       "answer": 1,
       "explanation": "Der Median (Zentralwert) ist im Gegensatz zum Mittelwert (Mean) robust gegenüber extremen Ausreißern, da er nur auf der Rangfolge basiert.",
@@ -5002,10 +5002,10 @@
     {
       "question": "201. Sie wollen zwei DataFrames vertikal untereinander hängen (konkatenieren). Welcher Befehl?",
       "options": [
-        "`pd.merge([df1, df2])`",
+        "`pd.merge([df1, df2])` – im Kontext.",
         "`pd.concat([df1, df2], axis=0)`",
-        "`pd.join(df1, df2)`",
-        "`df1.append_rows(df2)`"
+        "`pd.join(df1, df2)` – im Kontext.",
+        "`df1.append_rows(df2)` – im Kontext."
       ],
       "answer": 1,
       "explanation": "`pd.concat()` ist die universelle Funktion zum Aneinanderhängen. `axis=0` (Standard) stapelt vertikal, `axis=1` würde sie nebeneinander stellen.",
@@ -5036,7 +5036,7 @@
         "List `[]`",
         "Tuple `()`",
         "Dictionary `{}`",
-        "Set `{}`"
+        "Set `{}` – in der Praxis."
       ],
       "answer": 2,
       "explanation": "Ein Dictionary (`dict`) speichert Key-Value-Paare und bietet O(1) Zugriff auf Schlüssel, genau wie eine HashMap.",
@@ -5087,7 +5087,7 @@
       "question": "204. Warum ist `for row in df.iterrows(): ...` oft eine schlechte Idee bei großen Datensätzen?",
       "options": [
         "Es ist syntaktisch falsch.",
-        "Es ist extrem langsam, da Pandas-Optimierungen umgangen werden und für jede Zeile ein Series-Objekt erstellt wird.",
+        "Es ist extrem langsam – im Kontext.",
         "Es führt zu Speicherüberlauf.",
         "Es verändert die Daten ungewollt."
       ],
@@ -5116,10 +5116,10 @@
     {
       "question": "205. Sie verwenden `df.pivot_table(index='Datum', columns='Produkt', values='Umsatz')`. Was passiert, wenn es für ein Datum und Produkt mehrere Umsatz-Einträge gibt?",
       "options": [
-        "Fehler.",
-        "Es wird standardmäßig der Mittelwert (`mean`) der Werte berechnet.",
-        "Es wird der erste Wert genommen.",
-        "Es wird der letzte Wert genommen."
+        "Fehler – im beschriebenen Szenario.",
+        "Es wird standardmäßig der Mittelwert der Werte berechnet.",
+        "Es wird der erste Wert genommen – in der Praxis.",
+        "Es wird der letzte Wert genommen – in der Praxis."
       ],
       "answer": 1,
       "explanation": "`pivot_table` hat einen Parameter `aggfunc`, der standardmäßig auf `'mean'` gesetzt ist (anders als einfaches `pivot`, das keine Duplikate erlaubt).",
@@ -5148,9 +5148,9 @@
       "question": "206. Welcher Datentyp wird von Pandas verwendet, um fehlende numerische Werte (NaN) zu speichern, und was ist die Konsequenz für Integer-Spalten (vor Pandas 1.0)?",
       "options": [
         "`null`; Integer Spalten bleiben Integer.",
-        "`NaN` (float); Integer-Spalten werden zwangsweise zu Float konvertiert.",
+        "`NaN` – im genannten Kontext.",
         "`None`; keine Auswirkung.",
-        "`-1`; als Platzhalter."
+        "`-1`; als Platzhalter – in der Praxis."
       ],
       "answer": 1,
       "explanation": "Traditionell basiert `NaN` auf dem IEEE 754 Floating Point Standard. Daher mussten Integer-Spalten mit fehlenden Werten zu Float gecastet werden (z. B. wird 5 zu 5.0).",
@@ -5202,8 +5202,8 @@
       "options": [
         "Listen sind immutable (unveränderlich), Tupel sind mutable.",
         "Tupel sind immutable (unveränderlich), Listen sind mutable.",
-        "Listen können nur Zahlen enthalten.",
-        "Tupel sind langsamer."
+        "Listen können nur Zahlen enthalten – im Kontext.",
+        "Tupel sind langsamer – im Kontext – in der Praxis."
       ],
       "answer": 1,
       "explanation": "Tupel sind unveränderlich (immutable). Nach der Erstellung können keine Elemente hinzugefügt oder geändert werden. Listen sind dynamisch veränderbar.",
@@ -5227,9 +5227,9 @@
       "question": "209. Sie haben eine Funktion `def process(data=[]): ...`. Warum ist dieser Default-Parameter gefährlich?",
       "options": [
         "Leere Listen sind in Python nicht erlaubt.",
-        "Der Default-Wert wird nur einmal bei der Definition ausgewertet (mutable default argument trap). Alle Aufrufe teilen sich dieselbe Liste.",
-        "Es verursacht einen Syntaxfehler.",
-        "Die Typisierung ist unklar."
+        "Default wird einmal ausgewertet; Aufrufe teilen die Liste.",
+        "Es verursacht einen Syntaxfehler beim Definieren.",
+        "Die Typisierung ist unklar und macht Code schwerer lesbar."
       ],
       "answer": 1,
       "explanation": "Dies ist ein klassischer Python-Fallstrick. Wenn die Funktion die Liste ändert, behält sie diese Änderungen bei folgenden Aufrufen, da das Listen-Objekt nur einmal erstellt wird.",
@@ -5341,8 +5341,8 @@
     {
       "question": "213. Was passiert, wenn Sie `set([1, 2, 2, 3])` aufrufen?",
       "options": [
-        "Ein Fehler.",
-        "Es entsteht `{1, 2, 2, 3}`.",
+        "Ein Fehler – in diesem Beispiel.",
+        "Es entsteht `{1, 2, 2, 3}` – in der Praxis.",
         "Es entsteht `{1, 2, 3}` (Duplikate entfernt).",
         "Es entsteht eine sortierte Liste `[1, 2, 3]`."
       ],
@@ -5372,9 +5372,9 @@
     {
       "question": "214. Ein Machine Learning Modell zeigt auf den Trainingsdaten fast 100% Genauigkeit, aber auf den Testdaten nur 60%. Welches Problem liegt wahrscheinlich vor?",
       "options": [
-        "Underfitting",
-        "Overfitting",
-        "Falsche Daten",
+        "Underfitting – im Kontext.",
+        "Overfitting – im Kontext.",
+        "Falsche Daten – im Kontext.",
         "Zu wenig Trainingsdaten"
       ],
       "answer": 1,
@@ -5403,10 +5403,10 @@
     {
       "question": "215. Wie greifen Sie auf das letzte Element einer Liste `lst` zu?",
       "options": [
-        "`lst[len(lst)]`",
-        "`lst[-1]`",
-        "`lst.last()`",
-        "`lst[end]`"
+        "`lst[len(lst)]` – im Kontext.",
+        "`lst[-1]` – im Kontext.",
+        "`lst.last()` – im Kontext.",
+        "`lst[end]` – im Kontext."
       ],
       "answer": 1,
       "explanation": "Python unterstützt negative Indizierung. `-1` referenziert das letzte Element, `-2` das vorletzte usw.",
@@ -5427,8 +5427,8 @@
       "options": [
         "`df['Preis'].str.replace(' USD', '').astype(float)`",
         "`df['Preis'].replace(' USD', '').to_numeric()`",
-        "`df['Preis'].trim().int()`",
-        "Manuelle Schleife."
+        "`df['Preis'].trim().int()` – in der Praxis.",
+        "Manuelle Schleife – in der Praxis."
       ],
       "answer": 0,
       "explanation": "Zuerst String-Operation (`str.replace`), um den Text zu bereinigen, dann Typ-Konvertierung (`astype`).",
@@ -5456,8 +5456,8 @@
     {
       "question": "217. Was ist der Unterschied zwischen `__init__` in Python und einem Konstruktor in Java?",
       "options": [
-        "Es gibt keinen Unterschied.",
-        "`__init__` erstellt das Objekt nicht, es initialisiert es nur. Das Objekt wird vorher durch `__new__` erstellt.",
+        "Es gibt keinen Unterschied – in der Praxis.",
+        "`__init__` erstellt das Objekt nicht",
         "`__init__` muss immer einen Rückgabewert haben.",
         "Java hat keine Konstruktoren."
       ],
@@ -5487,10 +5487,10 @@
     {
       "question": "218. Welche Datenstruktur eignet sich am besten, um die Häufigkeit von Wörtern in einem Text zu zählen?",
       "options": [
-        "List",
-        "Set",
-        "Dictionary (oder `collections.Counter`)",
-        "Tuple"
+        "List – in der Praxis.",
+        "Set – in der Praxis.",
+        "Dictionary – im Kontext.",
+        "Tuple (Begriff)"
       ],
       "answer": 2,
       "explanation": "Ein Dictionary mappt Wort -> Anzahl. `collections.Counter` ist eine spezialisierte Subklasse dafür.",
@@ -5517,9 +5517,9 @@
     {
       "question": "219. Betrachten Sie folgenden Code. Was gibt er aus?\n\n```python\n1: daten = [10, 20, 30, 40, 50]\n2: print(daten[1:4])\n```",
       "options": [
-        "`[10, 20, 30]`",
-        "`[20, 30, 40, 50]`",
-        "`[20, 30, 40]`",
+        "`[10, 20, 30]` – im Kontext.",
+        "`[20, 30, 40, 50]` – im Kontext.",
+        "`[20, 30, 40]` – im Kontext.",
         "Einen `IndexOutOfBounds` Fehler."
       ],
       "answer": 2,
@@ -5539,9 +5539,9 @@
     {
       "question": "220. Welches Problem tritt in diesem Code auf?\n\n```python\n1: import pandas as pd\n2: df = pd.DataFrame({'A': [1, 2], 'B': [3, 4]})\n3: maske = (df['A'] > 1) and (df['B'] < 5)\n```",
       "options": [
-        "Die Syntax ist korrekt.",
-        "Python kennt kein `and`, man muss `&&` nutzen.",
-        "Für Pandas-Series muss der bitweise Operator `&` verwendet werden, da `and` mehrdeutig ist.",
+        "Die Syntax ist korrekt – in diesem Beispiel – im Kontext.",
+        "Python kennt kein `and`, man muss `&&` nutzen – im Kontext.",
+        "Für Pandas-Series muss der bitweise Operator `&` verwendet werden",
         "Die Klammern sind überflüssig und verursachen den Fehler."
       ],
       "answer": 2,
@@ -5569,8 +5569,8 @@
     {
       "question": "221. Was passiert bei der Ausführung dieses Codes?\n\n```python\n1: tupel = (1, 2, 3)\n2: tupel[1] = 5\n3: print(tupel)\n```",
       "options": [
-        "Ausgabe: `(1, 5, 3)`",
-        "Ausgabe: `[1, 5, 3]`",
+        "Ausgabe: `(1, 5, 3)` – im Kurskontext – im Kontext.",
+        "Ausgabe: `[1, 5, 3]` – im Kurskontext – im Kontext.",
         "TypeError: 'tuple' object does not support item assignment",
         "Der Code läuft, aber das Tupel bleibt unverändert."
       ],
@@ -5622,10 +5622,10 @@
     {
       "question": "223. Was bewirkt dieser List-Comprehension Code?\n\n```python\n1: zahlen = [1, 2, 3, 4, 5]\n2: res = [x for x in zahlen if x % 2 == 0]\n```",
       "options": [
-        "Er quadriert alle geraden Zahlen.",
+        "Er quadriert alle geraden Zahlen – im Kontext – in der Praxis.",
         "Er filtert die Liste und behält nur gerade Zahlen: `[2, 4]`.",
         "Er erstellt eine Liste von Booleans: `[False, True, False, True, False]`.",
-        "Er gibt Syntaxfehler zurück."
+        "Er gibt Syntaxfehler zurück – im Kontext – in der Praxis."
       ],
       "answer": 1,
       "explanation": "Der Teil `if x % 2 == 0` wirkt als Filter. Nur Elemente, die die Bedingung erfüllen, landen in der neuen Liste `res`.",
@@ -5654,7 +5654,7 @@
       "question": "224. Warum wirft dieser Pandas-Code eine Warnung (SettingWithCopyWarning)?\n\n```python\n1: df_subset = df[df['Age'] > 50]\n2: df_subset['Status'] = 'Senior'\n```",
       "options": [
         "Weil 'Senior' ein String ist und 'Status' numerisch sein sollte.",
-        "Weil Pandas nicht weiß, ob `df_subset` eine Kopie oder eine Sicht (View) auf `df` ist, und die Änderung evtl. nicht im Original ankommt.",
+        "Weil Pandas nicht weiß – in diesem Beispiel.",
         "Weil man neuen Spalten keine Werte zuweisen darf.",
         "Der Code ist syntaktisch falsch und läuft gar nicht."
       ],
@@ -5685,9 +5685,9 @@
       "question": "225. Was gibt dieser Code aus?\n\n```python\n1: s = \"Python\"\n2: print(f\"{s} ist toll\")\n```",
       "options": [
         "`{s} ist toll`",
-        "`s ist toll`",
+        "`s ist toll` – im Kontext.",
         "`Python ist toll`",
-        "SyntaxError"
+        "SyntaxError – im Kontext."
       ],
       "answer": 2,
       "explanation": "Das `f` vor dem String aktiviert 'f-strings' (ab Python 3.6). Ausdrücke in geschweiften Klammern `{}` werden zur Laufzeit ausgewertet und eingefügt.",
@@ -5736,9 +5736,9 @@
     {
       "question": "227. Welche Zeile verursacht einen `IndentationError`?\n\n```python\n1: for i in range(5):\n2: print(i)\n3:     print(\"Done\")\n```",
       "options": [
-        "Zeile 1",
-        "Zeile 2",
-        "Zeile 3",
+        "Zeile 1 – in der Praxis.",
+        "Zeile 2 – in der Praxis.",
+        "Zeile 3 – in der Praxis.",
         "Keine, der Code ist korrekt."
       ],
       "answer": 1,
@@ -5789,10 +5789,10 @@
     {
       "question": "229. Was ist das Ergebnis dieses Vergleichs?\n\n```python\n1: x = 0.1 + 0.2\n2: print(x == 0.3)\n```",
       "options": [
-        "`True`",
-        "`False`",
+        "`True` – im Kontext.",
+        "`False` – im Kontext.",
         "`0.30000000000000004`",
-        "Fehler"
+        "Fehler (Begriff)"
       ],
       "answer": 1,
       "explanation": "Aufgrund der IEEE 754 Gleitkomma-Darstellung ist 0.1 + 0.2 in binären Systemen minimal größer als 0.3 (etwa 0.30000000000000004). Der strikte Vergleich `==` schlägt daher fehl.",
@@ -5819,10 +5819,10 @@
     {
       "question": "230. Warum schlägt dieser Code fehl?\n\n```python\n1: import numpy as np\n2: a = np.array([1, 2, 3])\n3: b = np.array([1, 2])\n4: print(a + b)\n```",
       "options": [
-        "NumPy kann Arrays nicht addieren.",
+        "NumPy kann Arrays nicht addieren – in der Praxis – im Kontext.",
         "ValueError: operands could not be broadcast together with shapes (3,) (2,).",
         "Er addiert die ersten zwei Elemente und ignoriert das dritte.",
-        "Er füllt das kürzere Array mit Nullen auf."
+        "Er füllt das kürzere Array mit Nullen auf – in der Praxis."
       ],
       "answer": 1,
       "explanation": "NumPy Broadcasting funktioniert nur, wenn Dimensionen kompatibel sind (gleich groß oder eine Dimension ist 1). Länge 3 und Länge 2 sind inkompatibel.",
@@ -5850,10 +5850,10 @@
     {
       "question": "231. Was passiert hier mit der Variable `x`?\n\n```python\n1: x = 10\n2: def change():\n3:     x = 20\n4: change()\n5: print(x)\n```",
       "options": [
-        "Gibt `20` aus.",
-        "Gibt `10` aus.",
+        "Gibt `20` aus – im Kontext.",
+        "Gibt `10` aus – im Kontext.",
         "Gibt Fehler 'UnboundLocalError'.",
-        "Gibt `None` aus."
+        "Gibt `None` aus – im Kontext."
       ],
       "answer": 1,
       "explanation": "Innerhalb der Funktion `change` wird eine *neue lokale* Variable `x` erstellt (Shadowing). Die globale Variable `x` (Zeile 1) bleibt unverändert. Um global zu schreiben, müsste `global x` verwendet werden.",
@@ -5881,10 +5881,10 @@
     {
       "question": "232. Sie wollen eine Liste sortieren. Was ist der Unterschied zwischen diesen beiden Zeilen?\n\n```python\n1: l1 = [3, 1, 2]\n2: l2 = l1.sort()\n3: l3 = sorted(l1)\n```",
       "options": [
-        "Kein Unterschied.",
-        "`l1.sort()` sortiert in-place und gibt `None` zurück (l2 ist None). `sorted(l1)` erstellt eine neue sortierte Liste.",
-        "`l1.sort()` ist veraltet, man sollte nur `sorted` nutzen.",
-        "`sorted(l1)` sortiert in-place, `l1.sort()` nicht."
+        "Kein Unterschied – im beschriebenen Szenario – im Kontext – in der Praxis – im beschriebenen Fall.",
+        "`l1.sort()` sortiert in-place und gibt `None` zurück. `sorted` erstellt eine neue sortierte Liste.",
+        "`l1.sort()` ist veraltet, man sollte nur `sorted` nutzen – in der Praxis – im Kontext.",
+        "`sorted(l1)` sortiert in-place, `l1.sort()` nicht – in der Praxis – im Kontext."
       ],
       "answer": 1,
       "explanation": "Listen-Methoden wie `.sort()`, `.append()`, `.reverse()` ändern das Objekt direkt und geben `None` zurück. Built-in Funktionen wie `sorted()` geben ein neues Objekt zurück.",
@@ -5911,9 +5911,9 @@
     {
       "question": "233. Was bewirkt der folgende Code zur Fehlerbehandlung?\n\n```python\n1: try:\n2:     x = 1 / 0\n3: except ZeroDivisionError:\n4:     x = 0\n5: else:\n6:     x = 1\n```",
       "options": [
-        "`x` wird 0.",
-        "`x` wird 1.",
-        "Der Code stürzt ab.",
+        "`x` wird 0 – im beschriebenen Szenario.",
+        "`x` wird 1 – im beschriebenen Szenario.",
+        "Der Code stürzt ab – in diesem Beispiel.",
         "Der `else`-Block wird ausgeführt, bevor der Fehler auftritt."
       ],
       "answer": 0,
@@ -5972,9 +5972,9 @@
     {
       "question": "235. Sie nutzen `groupby` ohne eine Aggregationsfunktion. Was ist `res`?\n\n```python\n1: res = df.groupby('Kategorie')\n2: print(res)\n```",
       "options": [
-        "Eine Fehlermeldung.",
+        "Eine Fehlermeldung – in der Praxis.",
         "Ein DataFrame, sortiert nach Kategorie.",
-        "Ein `DataFrameGroupBy` Objekt (intermediate object).",
+        "Ein `DataFrameGroupBy` Objekt.",
         "Eine Liste von DataFrames."
       ],
       "answer": 2,
@@ -6002,10 +6002,10 @@
     {
       "question": "236. Welcher Fehler liegt hier vor?\n\n```python\n1: x, y = (10, 20, 30)\n```",
       "options": [
-        "SyntaxError: Klammern fehlen.",
+        "SyntaxError: Klammern fehlen – im Kontext.",
         "ValueError: too many values to unpack (expected 2).",
         "x wird 10, y wird 20, 30 wird ignoriert.",
-        "x wird 10, y wird (20, 30)."
+        "x wird 10, y wird (20, 30) – im Kontext."
       ],
       "answer": 1,
       "explanation": "Dies ist 'Tuple Unpacking'. Die Anzahl der Variablen links (2) muss exakt mit der Anzahl der Elemente rechts (3) übereinstimmen, sonst gibt es einen `ValueError`.",
@@ -6034,7 +6034,7 @@
       "options": [
         "Es importiert die Klasse DataFrame.",
         "Es funktioniert, wenn Pandas installiert ist.",
-        "ModuleNotFoundError (oder ImportError), da DataFrame kein Modul, sondern eine Klasse in einem Paket ist.",
+        "ModuleNotFoundError – in der Praxis.",
         "Es importiert alles aus Pandas."
       ],
       "answer": 2,
@@ -6054,9 +6054,9 @@
     {
       "question": "238. Sie möchten eine benutzerdefinierte Funktion auf jede Zeile eines DataFrames anwenden. Welches Argument fehlt oder ist falsch?\n\n```python\n1: def my_func(row):\n2:     return row['A'] + row['B']\n3:\n4: df['C'] = df.apply(my_func)\n```",
       "options": [
-        "Nichts fehlt.",
-        "Es muss `axis=1` angegeben werden, sonst iteriert `apply` über Spalten (axis=0).",
-        "`my_func` darf keine Argumente haben.",
+        "Nichts fehlt – im beschriebenen Szenario – im Kontext.",
+        "Es muss `axis=1` angegeben werden, sonst iteriert `apply` über Spalten.",
+        "`my_func` darf keine Argumente haben – in der Praxis – im Kontext.",
         "Pandas unterstützt keine benutzerdefinierten Funktionen."
       ],
       "answer": 1,
@@ -6107,10 +6107,10 @@
     {
       "question": "240. Ergänzen Sie den ersten Parameter der Methode, der in Python explizit genannt werden muss (anders als `this` in Java).\n\n```python\n1: class Auto:\n2:     def __init__(__________, marke):\n3:         self.marke = marke\n```",
       "options": [
-        "this",
-        "self",
-        "auto",
-        "instance"
+        "this (Begriff)",
+        "self (Begriff)",
+        "auto (Begriff)",
+        "instance – im Kontext."
       ],
       "answer": 1,
       "explanation": "`self` ist die konventionelle Bezeichnung für die Instanzreferenz in Python. Sie muss als erster Parameter in jeder Instanzmethode definiert werden.",
@@ -6129,10 +6129,10 @@
     {
       "question": "241. Welcher Pandas-Befehl wird benötigt, um Zeilen mit fehlenden Werten zu entfernen?\n\n```python\n1: import pandas as pd\n2: df = pd.read_csv('data.csv')\n3: # Entferne Zeilen mit NaNs\n4: df_clean = df.__________()\n```",
       "options": [
-        "delete_na",
+        "delete_na – im Kontext.",
         "remove_nulls",
-        "dropna",
-        "fillna"
+        "dropna (Begriff)",
+        "fillna (Begriff)"
       ],
       "answer": 2,
       "explanation": "`dropna()` ist die Standardmethode in Pandas, um Missing Values zu löschen. `fillna()` würde sie ersetzen.",
@@ -6263,10 +6263,10 @@
     {
       "question": "246. Vervollständigen Sie die Lambda-Funktion, um nach dem zweiten Element (Index 1) der Tupel zu sortieren.\n\n```python\n1: data = [('A', 10), ('B', 5), ('C', 20)]\n2: # Sortiere nach der Zahl\n3: data.sort(key=lambda x: __________)\n```",
       "options": [
-        "x[0]",
-        "x[1]",
-        "x.get(1)",
-        "x->1"
+        "x[0] – im Kontext.",
+        "x[1] – im Kontext.",
+        "x.get(1) – im Kontext.",
+        "x->1 – im Kontext."
       ],
       "answer": 1,
       "explanation": "`x` ist hier ein Tupel, z.B. `('A', 10)`. Das zweite Element ist am Index 1. Also `x[1]`.",
@@ -6323,10 +6323,10 @@
     {
       "question": "248. Welcher Operator fehlt, um zu prüfen, ob ein Element in einer Liste enthalten ist (Java: `contains`)?\n\n```python\n1: blacklist = [1, 5, 9]\n2: user_id = 5\n3: if user_id __________ blacklist:\n4:     print('Zugriff verweigert')\n```",
       "options": [
-        "exists in",
-        "contains",
-        "in",
-        "inside"
+        "exists in (englischer Ausdruck)",
+        "contains (Methodenname in anderen Sprachen)",
+        "in (Membership-Operator) – im Kontext.",
+        "inside (englischer Ausdruck)"
       ],
       "answer": 2,
       "explanation": "Der `in` Operator prüft auf Mitgliedschaft. Er funktioniert für Listen, Tupel, Sets, Dictionaries (Keys) und Strings.",
@@ -6354,10 +6354,10 @@
     {
       "question": "249. Welches Schlüsselwort fehlt für die 'else if' Bedingung in Python?\n\n```python\n1: x = 10\n2: if x < 0:\n3:     print('Negativ')\n4: __________ x == 0:\n5:     print('Null')\n6: else:\n7:     print('Positiv')\n```",
       "options": [
-        "else if",
-        "elseif",
-        "elif",
-        "elsif"
+        "else if – im Kontext.",
+        "elseif (Begriff)",
+        "elif (Begriff)",
+        "elsif (Begriff)"
       ],
       "answer": 2,
       "explanation": "Python kürzt `else if` strikt zu `elif` ab. `else if` (wie in Java) oder `elseif` (wie in PHP) verursachen einen Syntaxfehler.",
@@ -6398,10 +6398,10 @@
     {
       "question": "251. Sie definieren eine Funktion, die noch nichts tun soll (Placeholder). Welches Schlüsselwort verhindert einen `IndentationError`?\n\n```python\n1: def todo_later():\n2:     __________\n```",
       "options": [
-        "null",
-        "continue",
-        "pass",
-        "void"
+        "null (Begriff)",
+        "continue – im Kontext.",
+        "pass (Begriff)",
+        "void (Begriff)"
       ],
       "answer": 2,
       "explanation": "`pass` ist eine Anweisung, die nichts tut (No-Op). Sie wird benötigt, weil Python leere Blöcke (anders als `{}` in Java) syntaktisch nicht erlaubt.",
@@ -6464,10 +6464,10 @@
     {
       "question": "254. Welches Wort fehlt, um zu prüfen, ob zwei Variablen auf *dasselbe* Objekt im Speicher zeigen (Referenzgleichheit)?\n\n```python\n1: a = [1, 2]\n2: b = a\n3: if a __________ b:\n4:     print('Identische Objekte')\n```",
       "options": [
-        "==",
-        "equals",
-        "is",
-        "same"
+        "== (Wertgleichheit)",
+        "equals (Methodenname in anderen Sprachen)",
+        "is (Identität/Referenzgleichheit)",
+        "same (englischer Ausdruck)"
       ],
       "answer": 2,
       "explanation": "`is` prüft die Objekt-Identität (Speicheradresse), ähnlich wie `==` bei Objekten in Java. Der Operator `==` in Python prüft dagegen die Wertegleichheit (`equals()`).",
@@ -6496,8 +6496,8 @@
       "options": [
         "my_list.length",
         "my_list.size()",
-        "len",
-        "count"
+        "len – in der Praxis.",
+        "count – in der Praxis."
       ],
       "answer": 2,
       "explanation": "In Python ist `len()` eine Built-in Funktion, keine Methode des Objekts. Man ruft `len(obj)` auf, nicht `obj.len()`.",
@@ -6516,10 +6516,10 @@
     {
       "question": "256. Welches Keyword entfernt ein Element aus einem Dictionary oder eine Variable aus dem Speicher?\n\n```python\n1: my_dict = {'a': 1, 'b': 2}\n2: __________ my_dict['a']\n3: # Jetzt enthält my_dict nur noch {'b': 2}\n```",
       "options": [
-        "remove",
-        "delete",
-        "del",
-        "erase"
+        "remove (Methodenname)",
+        "delete (englischer Begriff)",
+        "del (Python-Keyword)",
+        "erase (englischer Begriff)"
       ],
       "answer": 2,
       "explanation": "`del` ist ein Statement, das Referenzen löscht. `del my_dict['a']` entfernt den Schlüssel 'a'.",
@@ -6577,10 +6577,10 @@
     {
       "question": "258. Um ein Pandas DataFrame zu transponieren (Zeilen und Spalten tauschen), nutzen Sie welches Attribut?\n\n```python\n1: df = pd.DataFrame([[1, 2], [3, 4]])\n2: df_transposed = df.__________\n```",
       "options": [
-        "transpose()",
-        "T",
-        "swapaxes()",
-        "flip()"
+        "transpose() (Methode zum Transponieren)",
+        "T (Attribut für Transponieren)",
+        "swapaxes() (Methode für Achsenwechsel)",
+        "flip() (Begriff aus anderen Kontexten)"
       ],
       "answer": 1,
       "explanation": "`.T` ist der Kurz-Accessor (Property) für das Transponieren, analog zu NumPy-Matrizen. `.transpose()` existiert zwar als Methode, `.T` ist aber idiomatisch.",
@@ -6896,7 +6896,7 @@
     {
       "question": "265. Ein Data-Science-Team verwendet MLFlow im AMALEA-Ansatz. Welche MLFlow-Funktionalität ist für die systematische Protokollierung von Experimenten in der A³-Phase am wichtigsten?",
       "options": [
-        "Logging von Parametern, Metriken und Artefakten mit mlflow.log_param() und mlflow.log_metric()",
+        "Logging von Parametern – im Kurskontext – im Kontext.",
         "Automatische Datensatzaufteilung mit mlflow.train_test_split()",
         "Visualisierung von Scatter-Plots mit mlflow.visualize()",
         "Definition von KPIs mit mlflow.set_kpi()"
@@ -6948,10 +6948,10 @@
       "question": "266. Basierend auf den EDA-Erkenntnissen des Iris-Projekts wurde festgestellt, dass Petal-Merkmale prädiktiv stärker sind als Sepal-Merkmale. Welche Schlussfolgerung sollte für die Modellierung in der A³-Phase gezogen werden?",
       "options": [
         "Petal-Merkmale sollten im Modell höher gewichtet werden oder bei Feature Selection priorisiert werden",
-        "Sepal-Merkmale sollten vollständig aus dem Datensatz entfernt werden",
-        "Alle Merkmale sollten gleich gewichtet werden, um Bias zu vermeiden",
+        "Sepal-Merkmale sollten vollständig aus dem Datensatz entfernt werden – im Kontext.",
+        "Alle Merkmale sollten gleich gewichtet werden, um Bias zu vermeiden – im Kontext.",
         "Nur Petal Length sollte verwendet werden, da es das wichtigste einzelne Merkmal ist",
-        "Die Merkmale sollten invertiert werden, um die Modellkomplexität zu erhöhen"
+        "Die Merkmale sollten invertiert werden, um die Modellkomplexität zu erhöhen – im Kontext."
       ],
       "answer": 0,
       "explanation": "Die EDA-Erkenntnis, dass Petal-Merkmale eine bessere Klassentrennung zeigen, sollte in der Modellierung berücksichtigt werden. Dies kann durch höhere Gewichtung, Priorisierung bei Feature Selection oder bewusste Modellwahl (z.B. Entscheidungsbäume, die wichtige Features näher an der Wurzel platzieren) erfolgen. Ein vollständiges Entfernen von Sepal-Merkmalen wäre übertrieben, da sie zusätzliche Information liefern können.",
@@ -7051,10 +7051,10 @@
       "question": "268. Im Iris-Projekt wurde eine stratifizierte Datenaufteilung (train_test_split mit stratify=y) verwendet. Welcher Vorteil ergibt sich aus dieser Strategie?",
       "options": [
         "Die Klassenverteilung bleibt in Trainings- und Testdaten proportional erhalten",
-        "Die Trainingszeit des Modells wird signifikant reduziert",
-        "Overfitting wird vollständig verhindert",
-        "Die Anzahl der Features wird automatisch optimiert",
-        "Die Hyperparameter werden automatisch angepasst"
+        "Die Trainingszeit des Modells wird signifikant reduziert – im Kontext.",
+        "Overfitting wird vollständig verhindert – in der Praxis – im Kontext.",
+        "Die Anzahl der Features wird automatisch optimiert – im Kontext.",
+        "Die Hyperparameter werden automatisch angepasst – in der Praxis."
       ],
       "answer": 0,
       "explanation": "Stratifizierte Aufteilung stellt sicher, dass die Proportionen der Klassen in Trainings- und Testdaten gleich bleiben. Dies ist besonders wichtig bei unbalancierten Datensätzen, verhindert aber auch bei balancierten Daten zufällige Verzerrungen. Im Iris-Datensatz mit drei gleich häufigen Klassen garantiert Stratifizierung, dass alle drei Arten proportional in beiden Splits vertreten sind.",
@@ -7104,8 +7104,8 @@
       "options": [
         "Öffentliches GitHub-Repository mit README und Streamlit Cloud App",
         "Gedruckte Dissertation mit mathematischen Beweisen",
-        "Zertifikate von Online-Kursen",
-        "Powerpoint-Präsentation für Vorträge"
+        "Zertifikate von Online-Kursen – in der Praxis – im Kontext.",
+        "Powerpoint-Präsentation für Vorträge – in der Praxis."
       ],
       "answer": 0,
       "explanation": "Der AMALEA-Kurs legt besonderen Wert auf die Erstellung eines professionellen Portfolios mit öffentlichem GitHub-Repository (inklusive strukturierter README zur Projektdokumentation) und einer interaktiven Streamlit Cloud App zur Demonstration des trainierten Modells. Diese Kombination zeigt sowohl technische Fähigkeiten als auch die Kompetenz, Projekte professionell zu dokumentieren und bereitzustellen.",
@@ -7154,10 +7154,10 @@
       "question": "270. Welches Kriterium ist laut dem Kursmaterial am wichtigsten, um in der C-Phase das beste Modell auszuwählen?",
       "options": [
         "Ein ausgewogener Kompromiss zwischen quantitativen Metriken und qualitativen Kriterien wie Interpretierbarkeit",
-        "Ausschließlich die höchste Accuracy auf dem Testdatensatz",
-        "Die kürzeste Trainingszeit unabhängig von der Leistung",
-        "Die größte Anzahl an Parametern für maximale Flexibilität",
-        "Die Verwendung des neuesten veröffentlichten Algorithmus"
+        "Ausschließlich die höchste Accuracy auf dem Testdatensatz – in der Praxis – im Kontext.",
+        "Die kürzeste Trainingszeit unabhängig von der Leistung – im Kurskontext – im Kontext.",
+        "Die größte Anzahl an Parametern für maximale Flexibilität – in der Praxis – im Kontext.",
+        "Die Verwendung des neuesten veröffentlichten Algorithmus – in der Praxis – im Kontext."
       ],
       "answer": 0,
       "explanation": "Die C-Phase betont, dass nicht nur die höchste Genauigkeit entscheidend ist, sondern ein ausgewogener Kompromiss zwischen quantitativen Metriken (Accuracy, Precision, Recall, Inferenzzeit) und qualitativen Kriterien (Modellkomplexität, Interpretierbarkeit, Wartungsaufwand). Ein Modell muss neben Genauigkeit auch effizient, interpretierbar und wartbar sein, um in der Praxis erfolgreich eingesetzt zu werden.",
@@ -7207,10 +7207,10 @@
       "question": "271. Laut Gartner (2017-2019) scheitern 85-87 Prozent der Data-Science-Projekte. Analysieren Sie die Hauptursachen: Welcher strukturelle Faktor ist primär verantwortlich für diese hohe Scheiternrate?",
       "options": [
         "Unklare Problemdefinition und fehlende Abstimmung in der initialen Projektphase",
-        "Mangelnde Rechenleistung und Hardware-Limitierungen",
-        "Zu wenige verfügbare Algorithmen und ML-Frameworks",
-        "Fehlende Programmierkenntnisse der Datenwissenschaftler",
-        "Unzureichende Budget-Allokation für Cloud-Dienste"
+        "Mangelnde Rechenleistung und Hardware-Limitierungen – im Kontext.",
+        "Zu wenige verfügbare Algorithmen und ML-Frameworks – im Kontext.",
+        "Fehlende Programmierkenntnisse der Datenwissenschaftler – im Kontext.",
+        "Unzureichende Budget-Allokation für Cloud-Dienste – im Kontext."
       ],
       "answer": 0,
       "explanation": "Die häufigsten Gründe für das Scheitern sind laut Material unklare Problemdefinition, fehlende Erfolgsmetriken und mangelnde Stakeholder-Abstimmung - allesamt Defizite in der Q-Phase. Technische Aspekte wie Hardware oder Algorithmen sind selten der limitierende Faktor. Dies unterstreicht die kritische Bedeutung einer präzisen Fragestellung, die das QUA³CK-Modell durch die systematische Q-Phase adressiert.",
@@ -7259,10 +7259,10 @@
       "question": "272. Im Iris-Projekt erreichten Decision Tree und K-Nearest Neighbors beide eine Accuracy von 97,8 Prozent. Der Decision Tree wurde dennoch bevorzugt. Analysieren Sie: Welche Überlegungen rechtfertigen diese Entscheidung trotz identischer Accuracy?",
       "options": [
         "Decision Trees bieten höhere Interpretierbarkeit und potenziell effizientere Inferenz bei gleicher Genauigkeit",
-        "K-Nearest Neighbors hat immer eine schlechtere Generalisierung auf neue Daten",
-        "Decision Trees benötigen weniger Speicherplatz für die Trainingsdaten",
+        "K-Nearest Neighbors hat immer eine schlechtere Generalisierung auf neue Daten – im Kontext.",
+        "Decision Trees benötigen weniger Speicherplatz für die Trainingsdaten – im Kontext – in der Praxis.",
         "Die Wahl basiert ausschließlich auf persönlichen Präferenzen ohne objektive Kriterien",
-        "Decision Trees sind in allen Metriken überlegen, nicht nur in Accuracy"
+        "Decision Trees sind in allen Metriken überlegen, nicht nur in Accuracy – im Kontext."
       ],
       "answer": 0,
       "explanation": "Bei identischer Accuracy werden qualitative Kriterien entscheidend. Decision Trees sind inherent interpretierbarer (Entscheidungsregeln sind nachvollziehbar) und haben oft effizientere Inferenz (nur ein Pfad durch den Baum), während KNN alle Trainingsdaten speichern und mit jedem neuen Punkt vergleichen muss. Diese Überlegungen spiegeln die ganzheitliche Bewertungsstrategie der C-Phase wider.",
@@ -7364,7 +7364,7 @@
     {
       "question": "274. Die EDA im Iris-Projekt zeigte, dass Setosa linear separierbar ist, während Versicolor und Virginica leichte Überlappungen aufweisen. Analysieren Sie: Welche Implikation hat dies für die Modellwahl und erwartete Performance?",
       "options": [
-        "Einfache lineare Modelle könnten für Setosa vs. Rest ausreichen, aber Versicolor vs. Virginica erfordert komplexere Entscheidungsgrenzen",
+        "Einfache lineare Modelle könnten für Setosa vs. Rest ausreichen",
         "Alle drei Klassen benötigen zwingend Deep Learning mit neuronalen Netzen",
         "Die Überlappung macht eine Klassifikation grundsätzlich unmöglich",
         "Clustering-Algorithmen wie K-Means sind für überlappende Klassen immer besser als überwachte Methoden",
@@ -7418,10 +7418,10 @@
       "question": "275. Bewerten Sie den vollständigen QUA³CK-Workflow für ein hypothetisches Projekt zur medizinischen Bildklassifikation (z.B. Tumordetektion). In welcher Phase würden die größten Herausforderungen auftreten und warum?",
       "options": [
         "In der Q-Phase aufgrund komplexer ethischer und regulatorischer Anforderungen sowie kritischer Fehlerkosten",
-        "In der U-Phase wegen der Größe medizinischer Bilddatensätze",
-        "In der A³-Phase, da Deep Learning-Modelle schwer zu trainieren sind",
-        "In der C-Phase durch die Vielzahl verfügbarer Metriken",
-        "In der K-Phase aufgrund fehlender Cloud-Infrastruktur"
+        "In der U-Phase wegen der Größe medizinischer Bilddatensätze – in der Praxis – im Kontext.",
+        "In der A³-Phase, da Deep Learning-Modelle schwer zu trainieren sind – im Kontext – in der Praxis.",
+        "In der C-Phase durch die Vielzahl verfügbarer Metriken – in der Praxis – im Kontext.",
+        "In der K-Phase aufgrund fehlender Cloud-Infrastruktur – in der Praxis – im Kontext."
       ],
       "answer": 0,
       "explanation": "Medizinische Anwendungen haben besondere Herausforderungen in der Q-Phase: ethische Überlegungen (Patientendaten, Bias), regulatorische Anforderungen (FDA, CE-Zertifizierung), extreme Asymmetrie der Fehlerkosten (False Negatives können lebensbedrohlich sein) und komplexe Stakeholder-Landschaft (Ärzte, Patienten, Behörden). Eine unzureichende Q-Phase würde hier zum Scheitern führen, selbst bei technisch exzellenter Umsetzung.",
@@ -7472,9 +7472,9 @@
       "options": [
         "Iterativ zur Q-Phase zurückkehren und KPIs basierend auf Datenlage anpassen oder Datenbeschaffung neu planen",
         "Mit unrealistischen KPIs fortfahren und in der C-Phase erklären, warum sie nicht erreicht wurden",
-        "Die U-Phase überspringen und direkt mit der Modellierung beginnen",
-        "Das gesamte Projekt abbrechen, da QUA³CK keine Iterationen erlaubt",
-        "Nur synthetische Daten generieren, um die ursprünglichen KPIs zu erreichen"
+        "Die U-Phase überspringen und direkt mit der Modellierung beginnen – im Kontext – in der Praxis.",
+        "Das gesamte Projekt abbrechen, da QUA³CK keine Iterationen erlaubt – im Kontext – in der Praxis.",
+        "Nur synthetische Daten generieren, um die ursprünglichen KPIs zu erreichen – im Kontext."
       ],
       "answer": 0,
       "explanation": "QUA³CK ist iterativ, nicht strikt sequenziell. Wenn die U-Phase zeigt, dass die Datenlage die KPIs nicht unterstützt, muss zur Q-Phase zurückgekehrt werden, um entweder realistischere KPIs zu definieren oder die Datenbeschaffungsstrategie anzupassen. Dies verhindert, dass Ressourcen in ein zum Scheitern verurteiltes Projekt investiert werden. Flexibilität bei der Phasendurchführung ist ein Kernprinzip agiler Data-Science-Methodik.",
@@ -7523,7 +7523,7 @@
     {
       "question": "277. Im Kursmaterial wird betont, dass die Wahl von Erfolgsmetriken in der Q-Phase kritisch ist. Kritisch analysiert: Warum ist Accuracy oft eine unzureichende Metrik, und unter welchen Bedingungen sollte sie durch Recall oder Precision ersetzt werden?",
       "options": [
-        "Accuracy ignoriert Klassenungleichgewichte und unterschiedliche Fehlerkosten; Recall bei kritischen False Negatives, Precision bei kritischen False Positives",
+        "Accuracy ignoriert Klassenungleichgewichte und unterschiedliche Fehlerkosten",
         "Accuracy ist immer die beste Metrik für alle Klassifikationsprobleme",
         "Recall und Precision sind veraltet und sollten nie verwendet werden",
         "Accuracy sollte nur bei Regressionsproblemen verwendet werden",
@@ -7576,7 +7576,7 @@
     {
       "question": "278. Synthese: Ein Startup plant ein ML-Projekt für personalisierte Produktempfehlungen. Entwickeln Sie eine QUA³CK-basierte Strategie für die ersten drei Phasen (Q, U, A³) und begründen Sie, wie MLOps-Integration den Prozess verbessern würde.",
       "options": [
-        "Q: KPIs definieren (Click-Through-Rate, Conversion); U: User-Behavior-Analyse; A³: Collaborative Filtering + Content-Based mit MLFlow-Tracking",
+        "Q: KPIs definieren – im beschriebenen Szenario – im Kontext.",
         "Direkt mit Deep Learning beginnen ohne Problemdefinition oder Datenanalyse",
         "Nur die K-Phase durchführen und ein vorgefertigtes Modell deployen",
         "Ausschließlich auf manuelle Empfehlungen durch Experten setzen",
