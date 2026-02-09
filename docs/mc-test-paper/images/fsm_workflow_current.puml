@@ -11,8 +11,8 @@ skinparam state {
   BackgroundColor white
   BorderColor #666666
   RoundCorner 10
-  MinimumWidth 170
-  MinimumHeight 45
+  MinimumWidth 200
+  MinimumHeight 42
 }
 
 skinparam state<<phase1>> {
@@ -27,13 +27,13 @@ skinparam state<<phase3>> {
   BackgroundColor #FFF2E2
   BorderColor #C27C2C
 }
-state "Phase 1: Interactive Configuration" as CFG <<phase1>> {
+state "Phase 1: Finite-State Configuration" as CFG <<phase1>> {
   state "Step 1: Topic" as C1
   state "Step 2: Target Audience & Language" as C2
-  state "Step 3: Count & Weights" as C3
-  state "Step 4: Answer Options" as C4
+  state "Step 3: Question Count & Difficulty Profile" as C3
+  state "Step 4: Answer Option Format" as C4
   state "Step 5: Context Material" as C5
-  state "Confirmation" as C7
+  state "Confirmation (Summary + Generate)" as C7
 
   C1 --> C2
   C2 --> C3
@@ -48,10 +48,10 @@ state "Phase 1: Interactive Configuration" as CFG <<phase1>> {
 
 }
 
-state "Phase 2: Generation (LLM, internal)" as GEN <<phase2>> {
+state "Phase 2: LLM Generation" as GEN <<phase2>> {
   state "Blueprinting" as G1
-  state "Item Draft" as G2
-  state "JSON Generation" as G3
+  state "Item Drafting" as G2
+  state "Schema-Bound JSON Output" as G3
   G1 --> G2
   G2 --> G3
 
@@ -59,15 +59,15 @@ state "Phase 2: Generation (LLM, internal)" as GEN <<phase2>> {
     Blueprinting:
     - Compute weight counts
     - Plan topics (max 12, min 2 each)
-    - Map weight -> Bloom level
+    - Map weights to Bloom 1-3
     - Check LaTeX/JSON escapes
     - Compute test duration
   end note
 }
 
 state "Phase 3: Validation & Repair" as QA <<phase3>> {
-  state "Schema & Quality Checks" as V1
-  state "Repair / QA" as V2
+  state "Schema & Quality Validation" as V1
+  state "Targeted Repair" as V2
   state "Approval" as V3
 
   V1 --> V2 : Violations
@@ -76,10 +76,11 @@ state "Phase 3: Validation & Repair" as QA <<phase3>> {
 
   note right of V1
     Didactic QA:
-    - Distractors plausible
-    - Length bias check
-    - Bloom level fit
-    - LO QA: 1 per item, single verb, level fit, clusters
+    - Plausible distractors
+    - Length-bias check
+    - Terminology consistency
+    - Bloom label fit
+    - LO QA: 1/item, single verb, level fit, clusters
   end note
 }
 
