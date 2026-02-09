@@ -82,10 +82,10 @@
     {
       "question": "4. Was ist der Hauptunterschied zwischen Supervised und Unsupervised Learning?",
       "options": [
-        "Supervised Learning benötigt mehr Rechenleistung.",
-        "Unsupervised Learning wird nur für Textdaten verwendet.",
-        "Supervised Learning verwendet gelabelte Daten (Input und Output), Unsupervised Learning nicht.",
-        "Unsupervised Learning ist immer genauer als Supervised Learning."
+        "Supervised braucht mehr Rechenleistung.",
+        "Unsupervised nur für Text.",
+        "Supervised nutzt Labels, Unsupervised nicht.",
+        "Unsupervised ist immer genauer."
       ],
       "answer": 2,
       "explanation": "Der Kernunterschied ist das Vorhandensein von 'Antworten' in den Trainingsdaten. Supervised Learning lernt von Beispielen mit bekannten Ergebnissen (Labels), während Unsupervised Learning Muster in ungelabelten Daten sucht.",
@@ -202,10 +202,10 @@
     {
       "question": "10. Was ist Data Augmentation?",
       "options": [
-        "Das manuelle Hinzufügen von neuen, gelabelten Daten zum Trainingsset.",
-        "Das künstliche Erzeugen neuer Trainingsdaten durch Transformationen der bestehenden Daten (z.B. Drehen, Spiegeln).",
-        "Eine Methode zur Beschleunigung des Modell-Trainings.",
-        "Das Entfernen von fehlerhaften Daten aus dem Datensatz."
+        "Manuelles Hinzufügen neuer, gelabelter Daten.",
+        "Künstliche Erzeugung neuer Daten durch Transformationen.",
+        "Beschleunigung des Trainings durch Hardware.",
+        "Entfernen fehlerhafter oder verzerrter Daten."
       ],
       "answer": 1,
       "explanation": "Data Augmentation ist eine Technik, um Overfitting zu reduzieren, indem man dem Modell zur Trainingszeit leicht veränderte Versionen der Bilder zeigt. Dadurch lernt das Modell, robustere und allgemeinere Merkmale zu erkennen.",
@@ -222,10 +222,10 @@
     {
       "question": "11. Was versteht man unter Transfer Learning?",
       "options": [
-        "Das Trainieren eines Modells von Grund auf mit einem sehr großen Datensatz.",
-        "Die Verwendung eines auf einer großen Aufgabe vortrainierten Modells als Ausgangspunkt für eine neue, spezifischere Aufgabe.",
-        "Die Übertragung eines Modells von einer Programmiersprache in eine andere.",
-        "Das Trainieren mehrerer Modelle auf verschiedenen Teilen eines Datensatzes."
+        "Training von Grund auf.",
+        "Vortrainiertes Modell als Ausgangspunkt für neue Aufgabe.",
+        "Übertragung zwischen Programmiersprachen.",
+        "Mehrere Modelle auf Datenteilen trainieren."
       ],
       "answer": 1,
       "explanation": "Beim Transfer Learning nutzt man das 'Wissen' (die gelernten Features) eines Modells, das auf einem riesigen Datensatz (z.B. ImageNet) trainiert wurde, und passt es mit einem kleineren, aufgabenspezifischen Datensatz an. Dies spart enorm viel Zeit und Daten.",
@@ -262,10 +262,10 @@
     {
       "question": "13. Welches Tool wird im Kurs primär für das Experiment-Tracking und die Modell-Verwaltung (Model Registry) verwendet?",
       "options": [
-        "TensorBoard",
-        "Weights & Biases",
-        "MLflow",
-        "DVC"
+        "TensorBoard (primär für DL-Logs)",
+        "Weights & Biases (alternatives Tracking-Tool)",
+        "MLflow (Experiment-Tracking & Model Registry)",
+        "DVC (Daten-Versionierung)"
       ],
       "answer": 2,
       "explanation": "MLflow wird im Kurs als zentrales MLOps-Tool verwendet, um Experimente (Parameter, Metriken) zu tracken und trainierte Modelle in einer 'Model Registry' zu versionieren und zu verwalten.",
@@ -282,10 +282,10 @@
     {
       "question": "14. Was ist der Hauptzweck einer `requirements.txt`-Datei?",
       "options": [
-        "Sie enthält den Python-Code für die Anwendung.",
-        "Sie listet alle Python-Bibliotheken und deren Versionen auf, die für ein Projekt benötigt werden.",
-        "Sie beschreibt die Architektur eines Neuronalen Netzes.",
-        "Sie enthält die Trainingsdaten für ein Machine-Learning-Modell."
+        "Enthält den Python-Code.",
+        "Listet Abhängigkeiten und Versionen.",
+        "Beschreibt die NN-Architektur.",
+        "Enthält Trainingsdaten."
       ],
       "answer": 1,
       "explanation": "Die `requirements.txt` Datei ermöglicht es, eine Python-Umgebung mit genau den richtigen Abhängigkeiten zu reproduzieren, was für die Zusammenarbeit und das Deployment entscheidend ist. Man installiert sie mit `pip install -r requirements.txt`.",
@@ -322,10 +322,10 @@
     {
       "question": "16. Was ist der Unterschied zwischen `st.write()` und `st.dataframe()` in Streamlit?",
       "options": [
-        "`st.write()` zeigt Tabellen immer als interaktive DataFrames.",
-        "`st.dataframe()` ist flexibler für beliebige Datentypen.",
-        "`st.write()` ist generisch; `st.dataframe()` ist speziell für tabellarische Daten.",
-        "Beide Funktionen sind identisch."
+        "`st.write()` zeigt Tabellen immer als DataFrame.",
+        "`st.dataframe()` ist flexibler für alle Datentypen.",
+        "`st.write()` ist generisch; `st.dataframe()` für Tabellen.",
+        "Beide identisch."
       ],
       "answer": 2,
       "explanation": "`st.write()` ist ein Allzweck-Befehl. Wenn man ihm einen Pandas DataFrame übergibt, zeigt er eine statische Tabelle an. `st.dataframe()` hingegen rendert eine interaktive Tabelle mit Sortier- und Filterfunktionen.",
@@ -382,10 +382,10 @@
     {
       "question": "19. Was ist der Hauptvorteil der Verwendung von Transformer-Modellen (wie BERT oder GPT) gegenüber LSTMs für NLP-Aufgaben?",
       "options": [
-        "Es gibt praktisch keinen Unterschied in der Leistung.",
-        "Sie verarbeiten Sequenzen parallel und erfassen lange Abhängigkeiten via Self‑Attention.",
-        "Sie benötigen keine Trainingsdaten für NLP‑Aufgaben.",
-        "Sie funktionieren nur für sehr kurze Texte und Sätze."
+        "Kein Unterschied in Leistung oder Skalierung.",
+        "Parallelisierung + Self-Attention für lange Abhängigkeiten.",
+        "Benötigen keine Trainingsdaten oder Labels.",
+        "Nur für sehr kurze Texte und Sätze geeignet."
       ],
       "answer": 1,
       "explanation": "LSTMs verarbeiten Sequenzen Wort für Wort, was die Parallelisierung erschwert. Transformer verarbeiten alle Wörter einer Sequenz gleichzeitig mithilfe des 'Attention'-Mechanismus, was sie ideal für moderne Hardware wie GPUs und TPUs macht.",
@@ -482,10 +482,10 @@
     {
       "question": "24. Was ist der Unterschied zwischen `Accuracy` und `Precision` als Metrik?",
       "options": [
-        "Es gibt keinen Unterschied in der Bedeutung.",
-        "Accuracy = Anteil korrekter Vorhersagen; Precision = Anteil korrekter positiver Vorhersagen.",
-        "Precision ist immer höher als Accuracy.",
-        "Accuracy ist für Regression, Precision nur für Klassifikation."
+        "Es gibt keinen Unterschied zwischen den Kennzahlen.",
+        "Accuracy: Anteil korrekter Vorhersagen; Precision: Anteil korrekter Positiver.",
+        "Precision ist immer höher als Accuracy bei Klassifikation.",
+        "Accuracy nur für Regression, Precision nur für Klassifikation."
       ],
       "answer": 1,
       "explanation": "Accuracy = (TP+TN)/(TP+TN+FP+FN). Precision = TP/(TP+FP). Precision ist wichtig, wenn die Kosten für 'False Positives' hoch sind (z.B. Spam-Filter, der wichtige E-Mails fälschlicherweise als Spam markiert).",
@@ -502,10 +502,10 @@
     {
       "question": "25. Wie kann man in Streamlit interaktive Widgets wie Schieberegler oder Buttons in einer Seitenleiste platzieren?",
       "options": [
-        "Man kann Widgets nicht in einer Seitenleiste platzieren.",
-        "Indem man den Befehl `st.sidebar()` verwendet.",
-        "Indem man den Befehlen das Präfix `st.sidebar.` voranstellt (z.B. `st.sidebar.slider(...)`).",
-        "Durch die CSS-Eigenschaft `position: sidebar;`."
+        "Widgets gehen nicht in der Sidebar (falsch).",
+        "Mit `st.sidebar()` als Funktion (so nicht vorgesehen).",
+        "Mit `st.sidebar.<widget>()`, z. B. `st.sidebar.slider()`.",
+        "Mit CSS `position: sidebar` (nicht möglich)."
       ],
       "answer": 2,
       "explanation": "Jeder Streamlit-Befehl, dem `st.sidebar.` vorangestellt wird, rendert das entsprechende Element in der Seitenleiste anstatt im Hauptbereich der App.",
@@ -522,10 +522,10 @@
     {
       "question": "26. Was ist ein 'Hyperparameter'?",
       "options": [
-        "Ein Gewicht oder Bias, das während des Trainings gelernt wird.",
-        "Ein Parameter, der vor dem Trainingsprozess festgelegt wird und diesen steuert (z.B. Lernrate, Anzahl der Layer).",
-        "Ein Maß für die Leistung des Modells auf dem Testdatensatz.",
-        "Die Ausgabe der Verlustfunktion nach einer Trainingsepoche."
+        "Gewicht/Bias, das während des Trainings gelernt wird.",
+        "Vor dem Training festgelegter Steuerparameter (z. B. Lernrate).",
+        "Leistungsmaß auf dem Testset, z. B. Accuracy.",
+        "Ausgabe der Verlustfunktion nach einer Epoche."
       ],
       "answer": 1,
       "explanation": "Hyperparameter sind die 'Stellschrauben' eines Modells, die nicht durch das Training gelernt, sondern vom Entwickler festgelegt werden. Die Suche nach den optimalen Hyperparametern ist ein wichtiger Teil des ML-Prozesses.",
@@ -582,10 +582,10 @@
     {
       "question": "29. Welches Problem löst der 'Attention'-Mechanismus in Transformer-Modellen?",
       "options": [
-        "Das 'Vanishing Gradient'-Problem in tiefen Netzwerken.",
-        "Die Schwierigkeit von RNNs/LSTMs, Langzeitabhängigkeiten in langen Sequenzen zu lernen.",
-        "Die hohe Anzahl an Parametern in CNNs.",
-        "Die Notwendigkeit, Daten vor dem Training zu normalisieren."
+        "Vanishing Gradient in tiefen Netzen.",
+        "Lange Abhängigkeiten in Sequenzen besser erfassen.",
+        "Reduziert Parameterzahl in CNNs.",
+        "Ersetzt Daten-Normalisierung."
       ],
       "answer": 1,
       "explanation": "Der Attention-Mechanismus erlaubt es dem Modell, für jedes Wort in einer Sequenz die Wichtigkeit jedes anderen Wortes zu bewerten. Dadurch kann es direkte Verbindungen zwischen weit entfernten Wörtern herstellen, ein Problem, mit dem rekurrente Architekturen (RNNs) zu kämpfen haben.",
@@ -662,10 +662,10 @@
     {
       "question": "33. Welcher der 'Big 3' Algorithmen ist ein distanzbasierter Algorithmus?",
       "options": [
-        "Decision Tree",
-        "K-Means Clustering",
-        "K-Nearest Neighbors (KNN)",
-        "Random Forest"
+        "Decision Tree (baum-basiert)",
+        "K-Means Clustering (clusterbasiert)",
+        "K-Nearest Neighbors (distanzbasiert)",
+        "Random Forest (Ensemble aus Bäumen)"
       ],
       "answer": 2,
       "explanation": "KNN klassifiziert einen neuen Datenpunkt basierend auf der Mehrheitsklasse seiner 'k' nächsten Nachbarn. Die 'Nähe' wird dabei durch ein Distanzmaß (z.B. Euklidischer Abstand) bestimmt.",
@@ -702,10 +702,10 @@
     {
       "question": "35. Was ist der Zweck der `requirements.cloud.txt` Datei im `07_Deployment_Portfolio` Ordner?",
       "options": [
-        "Sie enthält spezielle Anforderungen für das Training in der Cloud.",
-        "Sie listet alle Python-Pakete auf, die für das Deployment der Streamlit-Apps auf Streamlit Cloud benötigt werden.",
-        "Sie ist eine Sicherungskopie der normalen `requirements.txt`.",
-        "Sie enthält die Zugangsdaten für die Cloud-Plattform."
+        "Anforderungen fürs Cloud-Training.",
+        "Pakete für Deployment auf Streamlit Cloud.",
+        "Backup der normalen requirements.txt.",
+        "Enthält Cloud-Zugangsdaten."
       ],
       "answer": 1,
       "explanation": "Deployment-Plattformen wie Streamlit Cloud benötigen eine `requirements.txt`-Datei, um zu wissen, welche Pakete für die Ausführung der App installiert werden müssen. Die `requirements.cloud.txt` ist speziell für diesen Zweck optimiert.",
@@ -762,10 +762,10 @@
     {
       "question": "38. Was ist der 'Vanishing Gradient' Problem in tiefen Neuronalen Netzen?",
       "options": [
-        "Ein Problem, bei dem die Gradienten während der Backpropagation so groß werden, dass das Training instabil wird.",
-        "Ein Problem, bei dem die Gradienten während der Backpropagation so klein werden, dass die unteren Schichten des Netzwerks kaum noch lernen.",
-        "Ein Problem, bei dem das Netzwerk vergisst, was es in früheren Epochen gelernt hat.",
-        "Ein Problem, bei dem die Aktivierungsfunktionen verschwinden."
+        "Gradienten werden zu groß (Exploding).",
+        "Gradienten werden sehr klein und Lernen stoppt.",
+        "Netz vergisst frühere Epochen.",
+        "Aktivierungen verschwinden vollständig."
       ],
       "answer": 1,
       "explanation": "Bei der Backpropagation wird der Fehlergradient durch das Netzwerk zurückpropagiert. Bei tiefen Netzen und bestimmten Aktivierungsfunktionen (wie Sigmoid) kann dieser Gradient exponentiell kleiner werden, was das Update der Gewichte in den vorderen Schichten verhindert.",
@@ -882,10 +882,10 @@
     {
       "question": "44. Was ist der Zweck der `predict()`-Methode bei einem trainierten Scikit-learn Modell?",
       "options": [
-        "Sie trainiert das Modell neu mit neuen Daten.",
-        "Sie gibt die gelernten Parameter des Modells zurück.",
-        "Sie wendet das gelernte Modell auf neue, ungesehene Daten an, um Vorhersagen zu treffen.",
-        "Sie berechnet die Genauigkeit des Modells auf den Trainingsdaten."
+        "Trainiert das Modell neu.",
+        "Gibt gelernte Parameter zurück.",
+        "Erzeugt Vorhersagen für neue Daten.",
+        "Berechnet die Trainingsgenauigkeit."
       ],
       "answer": 2,
       "explanation": "Nachdem ein Modell mit `fit()` trainiert wurde, wird die `predict()`-Methode verwendet, um es auf neue Daten (z.B. das Testset) anzuwenden und die entsprechenden Vorhersagen (Klassen oder Werte) zu generieren.",
@@ -902,10 +902,10 @@
     {
       "question": "45. Was ist der Hauptunterschied zwischen einem `Dockerfile` und einem `docker-compose.yml`?",
       "options": [
-        "Ein `Dockerfile` baut ein einzelnes Image, während `docker-compose.yml` mehrere Container (Services) definiert und orchestriert.",
-        "Ein `Dockerfile` ist für die Entwicklung, `docker-compose.yml` für die Produktion.",
-        "Ein `Dockerfile` ist in Python geschrieben, `docker-compose.yml` in YAML.",
-        "Es gibt keinen wesentlichen Unterschied."
+        "Dockerfile baut ein Image; compose orchestriert Services.",
+        "Dockerfile nur für Dev, compose nur für Prod.",
+        "Dockerfile ist Python, compose ist YAML.",
+        "Beides ist austauschbar in Projekten."
       ],
       "answer": 0,
       "explanation": "Ein `Dockerfile` ist die Bauanleitung für einen einzelnen Container. `docker-compose` ist ein Werkzeug, um Multi-Container-Anwendungen zu definieren und auszuführen, wobei jeder Container auf seinem eigenen `Dockerfile` basieren kann.",
@@ -942,10 +942,10 @@
     {
       "question": "47. Was ist der Zweck der `Flatten`-Schicht in einem CNN?",
       "options": [
-        "Sie glättet das Eingabebild.",
-        "Sie formt Feature‑Maps zu einem 1D‑Vektor für dichte Layer.",
-        "Sie reduziert die Farbtiefe des Bildes.",
-        "Sie führt eine Faltungsoperation aus."
+        "Glättet das Eingabebild.",
+        "Formt Feature-Maps zu 1D-Vektor.",
+        "Reduziert Farbtiefe.",
+        "Führt eine Faltung aus."
       ],
       "answer": 1,
       "explanation": "Nach den Convolutional- und Pooling-Layern liegen die Daten als mehrdimensionale Tensoren (Feature Maps) vor. Um sie an die nachfolgenden `Dense`-Layer (die einen Vektor als Input erwarten) übergeben zu können, muss dieser Tensor 'geglättet' oder 'plattgedrückt' werden.",
@@ -962,10 +962,10 @@
     {
       "question": "48. Was ist ein 'REST API'?",
       "options": [
-        "Eine spezielle Art von Machine‑Learning‑Modell.",
-        "HTTP‑basierte Schnittstelle für standardisierten Datenaustausch zwischen Systemen.",
-        "Ein Tool zur Versionskontrolle von Code.",
-        "Eine Datenbank für sehr große Datenmengen."
+        "Ein spezieller ML-Modelltyp für Klassifikation.",
+        "HTTP-Schnittstelle mit standardisierten Ressourcen.",
+        "Tool zur Versionskontrolle von Code, z. B. Git.",
+        "Große Datenbank für Rohdaten und Logs."
       ],
       "answer": 1,
       "explanation": "REST (Representational State Transfer) ist ein Architekturstil für verteilte Systeme. Eine REST API ermöglicht es einem Client (z.B. eine Web-App), Daten von einem Server (z.B. einem ML-Modell-Server) über Standard-HTTP-Methoden (GET, POST, etc.) anzufordern.",
@@ -982,10 +982,10 @@
     {
       "question": "49. Welches Python-Keyword wird verwendet, um eine Funktion zu definieren?",
       "options": [
-        "function",
-        "def",
-        "fun",
-        "define"
+        "function (kein Python-Keyword)",
+        "def (Funktionen definieren)",
+        "fun (kein Python-Keyword)",
+        "define (kein Python-Keyword)"
       ],
       "answer": 1,
       "explanation": "In Python wird das Keyword `def` verwendet, um eine neue Funktion zu deklarieren, gefolgt vom Funktionsnamen, den Parametern in Klammern und einem Doppelpunkt.",
@@ -1002,10 +1002,10 @@
     {
       "question": "50. Was ist der Zweck der `BatchNormalization`-Schicht in einem Neuronalen Netz?",
       "options": [
-        "Sie erhöht die Anzahl der Parameter.",
-        "Sie normalisiert Aktivierungen und stabilisiert das Training.",
-        "Sie ersetzt Aktivierungsfunktionen.",
-        "Sie wirkt nur in der ersten Schicht."
+        "Erhöht die Parameterzahl des Modells.",
+        "Normalisiert Aktivierungen und stabilisiert Training.",
+        "Ersetzt Aktivierungsfunktionen vollständig.",
+        "Wirkt nur in der ersten Schicht."
       ],
       "answer": 1,
       "explanation": "Batch Normalization normalisiert die Ausgaben einer Schicht, bevor sie an die nächste weitergegeben werden. Dies wirkt dem Problem des 'Internal Covariate Shift' entgegen, erlaubt höhere Lernraten und macht das Training insgesamt stabiler und schneller.",
@@ -1122,9 +1122,9 @@
     {
       "question": "56. Was ist der Zweck der `Dropout`-Schicht in einem Neuronalen Netz?",
       "options": [
-        "Sie glättet die Eingabedaten.",
-        "Sie entfernt zufällig Neuronen während des Trainings.",
-        "Sie erhöht die Lernrate.",
+        "Sie glättet die Eingabedaten im Modell.",
+        "Sie deaktiviert zufällig Neuronen im Training.",
+        "Sie erhöht die Lernrate automatisch.",
         "Sie fügt neue Neuronen hinzu."
       ],
       "answer": 1,
@@ -1202,10 +1202,10 @@
     {
       "question": "60. Was bedeutet der Begriff 'CI/CD' im Kontext von MLOps?",
       "options": [
-        "'Continuous Integration / Continuous Deployment': Ein Satz von Praktiken zur Automatisierung des Build-, Test- und Deployment-Prozesses.",
-        "'Complex Intelligence / Complex Deployment': Eine Methode für sehr komplexe Modelle.",
-        "'Code Inspection / Code Delivery': Ein Werkzeug zur Code-Analyse.",
-        "'Cloud Infrastructure / Cloud Database': Bezieht sich auf die verwendete Cloud-Infrastruktur."
+        "Continuous Integration/Deployment: Build, Test, Deploy automatisieren.",
+        "Complex Intelligence/Complex Deployment (kein Standard).",
+        "Code Inspection/Code Delivery (kein Standard).",
+        "Cloud Infrastructure/Cloud Database (kein Standard)."
       ],
       "answer": 0,
       "explanation": "CI/CD ist ein Kernprinzip von DevOps und MLOps. Continuous Integration automatisiert das Testen bei jeder Code-Änderung, während Continuous Deployment den Prozess automatisiert, neue Versionen in die Produktion zu bringen.",
@@ -1282,9 +1282,9 @@
     {
       "question": "64. Was ist der Unterschied zwischen Regression und Klassifikation?",
       "options": [
-        "Regression sagt Klassen vorher; Klassifikation sagt Zahlen voraus.",
-        "Regression sagt kontinuierliche Werte voraus; Klassifikation sagt Klassen vorher.",
-        "Beide sind identisch.",
+        "Regression sagt Klassen voraus; Klassifikation Zahlen.",
+        "Regression sagt kontinuierliche Werte; Klassifikation Klassen.",
+        "Beide sind identisch in der Praxis.",
         "Klassifikation ist nur für Zeitreihen."
       ],
       "answer": 1,
@@ -1402,10 +1402,10 @@
     {
       "question": "70. Was ist der Unterschied zwischen `pip` und `conda`?",
       "options": [
-        "`pip` ist nur für Python 2 gedacht, `conda` nur für Python 3.",
-        "`pip` installiert Python‑Pakete, `conda` verwaltet zusätzlich Umgebungen und Nicht‑Python‑Pakete.",
-        "`conda` ist generell schneller als `pip` und ersetzt es komplett.",
-        "Es gibt keinen praktischen Unterschied zwischen beiden."
+        "pip nur für Python 2, conda nur für Python 3.",
+        "pip installiert Pakete; conda verwaltet zusätzlich Umgebungen.",
+        "conda ersetzt pip komplett in allen Fällen.",
+        "Kein Unterschied zwischen beiden Tools."
       ],
       "answer": 1,
       "explanation": "`pip` ist der Standard-Paketmanager für Python. `conda` ist Teil der Anaconda-Distribution und kann nicht nur Python-Pakete, sondern auch komplexe Abhängigkeiten (wie C-Bibliotheken) und isolierte Umgebungen verwalten, was es in der Data Science sehr beliebt macht.",
@@ -1422,10 +1422,10 @@
     {
       "question": "71. Was ist der Zweck der `groupby()`-Funktion in Pandas?",
       "options": [
-        "Sie sortiert den DataFrame nach einer Spalte.",
-        "Gruppiert Daten nach Spalten und ermöglicht Aggregationen pro Gruppe.",
-        "Sie wählt nur eine Gruppe von Zeilen aus.",
-        "Sie benennt die Spalten des DataFrames um."
+        "Sortiert den DataFrame nach Spalte.",
+        "Gruppiert nach Spalten und erlaubt Aggregationen.",
+        "Wählt eine Gruppe von Zeilen aus.",
+        "Benennt Spalten automatisch um."
       ],
       "answer": 1,
       "explanation": "Die `groupby()`-Operation ist ein extrem mächtiges Werkzeug für die Datenanalyse. Sie folgt dem 'Split-Apply-Combine'-Muster: Daten aufteilen, eine Funktion anwenden und die Ergebnisse wieder zusammenführen.",
@@ -1463,9 +1463,9 @@
       "question": "73. Was ist der Unterschied zwischen `EarlyStopping` und `ModelCheckpoint` Callbacks in Keras?",
       "options": [
         "Beide speichern nur das beste Modell.",
-        "`EarlyStopping` stoppt Training; `ModelCheckpoint` speichert Modelle.",
-        "`ModelCheckpoint` reduziert die Lernrate.",
-        "`EarlyStopping` speichert automatisch Gewichte."
+        "EarlyStopping stoppt Training; ModelCheckpoint speichert.",
+        "ModelCheckpoint reduziert Lernrate.",
+        "EarlyStopping speichert automatisch Gewichte."
       ],
       "answer": 1,
       "explanation": "Beide sind nützliche Callbacks. `EarlyStopping` verhindert Overfitting, indem es das Training abbricht, wenn z.B. der Validierungsfehler nicht mehr sinkt. `ModelCheckpoint` stellt sicher, dass man am Ende nicht ein schlechteres Modell hat, nur weil das Training zu lange lief, indem es die Version mit der besten Leistung auf dem Validierungsset speichert.",
@@ -1482,10 +1482,10 @@
     {
       "question": "74. Was ist der Zweck der `random_state`-Parameters in vielen Scikit-learn Funktionen?",
       "options": [
-        "Er steuert die Zufälligkeit des Algorithmus, um die Ergebnisse reproduzierbar zu machen.",
-        "Er setzt den Zustand des Modells auf einen zufälligen Wert.",
-        "Er wählt zufällige Features für das Training aus.",
-        "Er hat keine Funktion und wird ignoriert."
+        "Steuert Zufälligkeit für Reproduzierbarkeit.",
+        "Setzt Modellzustand zufällig bei jedem Lauf.",
+        "Wählt zufällige Features für das Training.",
+        "Wird ignoriert und hat keine Wirkung."
       ],
       "answer": 0,
       "explanation": "Viele Algorithmen haben eine stochastische (zufällige) Komponente (z.B. die Initialisierung der Gewichte). Durch das Setzen von `random_state` auf einen festen Integer-Wert wird sichergestellt, dass der Zufallszahlengenerator immer im gleichen Zustand startet, was zu identischen Ergebnissen bei wiederholten Durchläufen führt.",
@@ -1522,10 +1522,10 @@
     {
       "question": "76. Was ist der Unterschied zwischen einem `Dense` und einem `Embedding` Layer in Keras?",
       "options": [
-        "Beide sind identisch.",
-        "Embedding mappt Indizes auf Vektoren, Dense verbindet Eingaben.",
-        "Dense reduziert immer die Dimension, Embedding erhöht immer.",
-        "Embedding ist nur für Bilder."
+        "Beide sind identisch im Verhalten und Einsatz.",
+        "Embedding mappt Indizes auf Vektoren; Dense verbindet Eingaben.",
+        "Dense reduziert immer die Dimension der Eingaben.",
+        "Embedding ist nur für Bilder und Videos."
       ],
       "answer": 1,
       "explanation": "Ein `Embedding`-Layer ist eine effiziente Methode, um hochdimensionale, dünn besetzte kategoriale Daten (wie Wörter in einem Vokabular, die als Integer repräsentiert werden) in dichte, niedrigdimensionale Vektoren umzuwandeln. Es ist im Wesentlichen eine lernbare Nachschlagetabelle, während ein `Dense`-Layer eine vollständige lineare Transformation durchführt.",
@@ -1582,10 +1582,10 @@
     {
       "question": "79. Was ist der Zweck der `predict_proba()`-Methode bei vielen Scikit-learn Klassifikationsmodellen?",
       "options": [
-        "Sie macht die gleiche Vorhersage wie `predict()`.",
-        "Sie gibt die Wahrscheinlichkeit für jede Klasse zurück, anstatt nur die wahrscheinlichste Klasse.",
-        "Sie berechnet die Wahrscheinlichkeit, dass das Modell korrekt ist.",
-        "Sie ist nur für Regressionsmodelle verfügbar."
+        "Gibt dasselbe wie predict().",
+        "Gibt Klassen-Wahrscheinlichkeiten zurück.",
+        "Schätzt die Korrektheit des Modells.",
+        "Nur für Regression verfügbar."
       ],
       "answer": 1,
       "explanation": "Während `predict()` die 'harte' Klassenzuweisung (z.B. Klasse 'Hund') zurückgibt, gibt `predict_proba()` die 'weiche' Zuweisung in Form von Wahrscheinlichkeiten für jede Klasse zurück. Dies ist nützlich, um die Konfidenz des Modells zu bewerten.",
@@ -1624,10 +1624,10 @@
       "options": [
         "Listen und Sets sind identisch.",
         "`set` ist geordnet, `list` ist ungeordnet.",
-        "`set` speichert eindeutige, ungeordnete Elemente; `list` erlaubt Duplikate und Ordnung.",
+        "`set` speichert eindeutige Elemente; `list` erlaubt Duplikate.",
         "`list` ist unveränderlich, `set` ist veränderlich."
       ],
-      "answer": 0,
+      "answer": 2,
       "explanation": "Sets sind für schnelle Mitgliedschaftstests optimiert und entfernen automatisch Duplikate. Listen behalten die Reihenfolge der Elemente bei und erlauben Duplikate.",
       "weight": 1,
       "topic": "Grundlagen & Werkzeuge",
@@ -1762,10 +1762,10 @@
     {
       "question": "88. Welches Dateiformat wird oft für die Speicherung von großen, strukturierten Datensätzen empfohlen, da es spaltenorientiert und komprimiert ist?",
       "options": [
-        "CSV (zeilenorientiert)",
-        "JSON (textbasiert)",
+        "CSV (zeilenorientiert, wenig komprimiert)",
+        "JSON (textbasiert, verschachtelt)",
         "Parquet (spaltenorientiert, komprimiert)",
-        "TXT (unstrukturiert)"
+        "TXT (unstrukturiert, ohne Schema)"
       ],
       "answer": 2,
       "explanation": "Parquet ist ein spaltenorientiertes Speicherformat, das für Big-Data-Workflows optimiert ist. Es ermöglicht eine sehr effiziente Kompression und Abfrage-Performance, da nur die benötigten Spalten gelesen werden müssen.",
@@ -1982,10 +1982,10 @@
     {
       "question": "99. Was ist ein 'Container Registry' wie Docker Hub oder GitHub Container Registry?",
       "options": [
-        "Ein Ort, an dem man Docker-Container ausführt.",
-        "Ein zentrales Repository zum Speichern, Verwalten und Verteilen von Docker-Images.",
-        "Ein Werkzeug zur Überwachung von laufenden Containern.",
-        "Eine Datenbank für Container-Metadaten."
+        "Ort zum Ausführen von Containern.",
+        "Repository zum Speichern/Verteilen von Images.",
+        "Tool zum Container-Monitoring.",
+        "Datenbank für Container-Metadaten."
       ],
       "answer": 1,
       "explanation": "Eine Container Registry ist wie ein 'App Store' für Docker-Images. Man kann seine eigenen Images dorthin 'pushen' (hochladen) und Images von anderen 'pullen' (herunterladen), was die Zusammenarbeit und das Deployment vereinfacht.",
@@ -2156,10 +2156,10 @@
     {
       "question": "106. Welche Aussage zu `Feature Engineering` ist korrekt?",
       "options": [
-        "Ohne kNN geht keine Regression.",
-        "kNN nutzt Nachbarn im Feature‑Raum zur Vorhersage.",
-        "kNN setzt immer lineare Modelle voraus.",
-        "kNN ist nur für Texte."
+        "Ersetzt das Training des Modells vollständig.",
+        "Erstellt/transformiert Merkmale zur besseren Leistung.",
+        "Wählt automatisch den Algorithmus aus.",
+        "Entfernt immer alle Features."
       ],
       "answer": 1,
       "explanation": "Feature Engineering ist der Prozess der Nutzung von Domänenwissen zur Erstellung von Features, die die Modellgüte verbessern. Indem man rohe Daten in ein Format umwandelt, das für das Modell nützlicher ist, können komplexe Beziehungen für das Modell leichter erfassbar gemacht werden. Dies kann in praktisch jedem Bereich des maschinellen Lernens angewendet werden und ist oft ein entscheidender Faktor für den Erfolg eines Projekts.",
@@ -2212,10 +2212,10 @@
     {
       "question": "108. Was ist ein typisches Symptom für **`Data Leakage`**?",
       "options": [
-        "K‑Means",
-        "Logistische Regression",
-        "PCA",
-        "DBSCAN"
+        "Schlechte Trainingsleistung, hohe Testleistung.",
+        "Sehr niedrige Trainingsleistung, aber gute Generalisierung.",
+        "Stabile, realistische Testleistung.",
+        "Sehr hohe Val/Test-Scores, die im Einsatz einbrechen."
       ],
       "answer": 3,
       "explanation": "Ein verräterisches Zeichen für `Data Leakage` ist, wenn ein Modell auf den Trainings- und Testdaten eine nahezu perfekte Leistung zeigt, aber in der realen Anwendung oder auf komplett neuen Daten versagt. Die Testgenauigkeit ist künstlich aufgebläht, weil das Modell unbeabsichtigt Informationen aus dem Testset während des Trainings 'gesehen' hat. Dies führt zu einer falschen Einschätzung der Modellgüte.",
@@ -2297,9 +2297,9 @@
       "question": "111. Welche Aussage zu `K-Nearest Neighbors` (`KNN`) ist korrekt?",
       "options": [
         "Gute Generalisierung, schlecht auf Training.",
-        "Gute Leistung auf Training, schlecht auf neue Daten.",
-        "Nur zu viele Features.",
-        "Nur zu wenige Daten."
+        "Gute Trainingsleistung, kann auf neue Daten schwächer sein.",
+        "Nur zu viele Features verursachen Probleme.",
+        "Nur zu wenige Daten erklären alles."
       ],
       "answer": 1,
       "explanation": "`K-Nearest Neighbors` ist ein sogenanntes instanzbasiertes oder speicherbasiertes Lernverfahren. Im Gegensatz zu Modellen wie `Decision Trees` oder linearen Modellen, die einen expliziten Algorithmus erlernen und Gewichte oder Parameter speichern, merkt sich `KNN` einfach den gesamten Trainingsdatensatz. Bei einer Vorhersage sucht es dann nur die $k$ ähnlichsten Datenpunkte im Trainingsset, um die Entscheidung zu treffen.",
@@ -2352,10 +2352,10 @@
     {
       "question": "113. Welche Rolle spielt die Standardisierung von Features bei der Anwendung von `KNN`?",
       "options": [
-        "Es misst die Modellkomplexität.",
-        "Es schätzt die Generalisierbarkeit mit mehreren Splits.",
-        "Es erhöht die Trainingsdaten.",
-        "Es ersetzt das Testset."
+        "Sie ist nur bei Regression nötig.",
+        "Sie verhindert, dass große Skalen die Distanz dominieren.",
+        "Sie ersetzt die Wahl von k.",
+        "Sie macht KNN unabhängig von der Distanzmetrik."
       ],
       "answer": 1,
       "explanation": "`KNN` misst die Ähnlichkeit zwischen Datenpunkten anhand ihrer Distanz im Merkmalsraum. Wenn die Features unterschiedliche Skalen aufweisen (z.B. eine Spalte von 0 bis 1000 und eine andere von 0 bis 1), dominiert das Feature mit dem größeren Wertebereich die Distanzberechnung. Die Standardisierung (`Min-Max Scaling` oder `Z-Score-Normalisierung`) stellt sicher, dass alle Features einen ähnlichen Wertebereich haben und somit gleichmäßig zur Distanzmessung beitragen.",
@@ -2380,10 +2380,10 @@
     {
       "question": "114. Welche Aussage zu **`Cross-Validation`** ist korrekt?",
       "options": [
-        "Accuracy",
-        "Precision",
-        "MSE",
-        "MAE"
+        "Einmalige Aufteilung in Train und Testdaten.",
+        "Mehrfaches Trainieren und Validieren auf verschiedenen Folds.",
+        "Nutzung des Testsets fürs Tuning der Hyperparameter.",
+        "Ersetzt das Testset vollständig durch Training."
       ],
       "answer": 1,
       "explanation": "Die `Cross-Validation` ist eine robuste Methode zur Modellbewertung, die die Varianz der Leistungsschätzung reduziert. Im Gegensatz zur einfachen `Holdout-Validierung`, bei der das Modell nur einmal auf einer einzelnen Testmenge bewertet wird, verwendet `Cross-Validation` mehrere Folds (Teilmengen). Das Modell wird mehrfach auf unterschiedlichen Trainings- und Testsets bewertet, und die Ergebnisse werden gemittelt. Dies führt zu einer stabileren und zuverlässigeren Schätzung der Modellgüte.",
@@ -2533,10 +2533,10 @@
     {
       "question": "120. Welche Aussage zu `Explainable AI` (`XAI`) ist korrekt?",
       "options": [
-        "`XAI` ist nur für `Deep Learning` relevant.",
-        "`XAI` hilft, Modelle und deren Entscheidungen nachvollziehbar zu machen.",
-        "`XAI` verschlechtert die Modellgüte.",
-        "`XAI` ist nur für Bilddaten relevant."
+        "Nur für Deep Learning relevant.",
+        "Macht Entscheidungen von Modellen nachvollziehbar.",
+        "Verschlechtert immer die Modellgüte.",
+        "Nur für Bilddaten relevant."
       ],
       "answer": 1,
       "explanation": "`Explainable AI` (`XAI`) ist ein Sammelbegriff für Methoden, die es ermöglichen, die Ergebnisse und Entscheidungen von KI-Systemen nachvollziehbar, transparent und interpretierbar zu machen. Dies ist besonders wichtig bei komplexen Modellen, die oft als 'Black Box' gelten, um das Vertrauen der Nutzer zu gewinnen, Fehler zu identifizieren und die Modelle in kritischen Anwendungen (z.B. in der Medizin) zu validieren.",
@@ -2701,10 +2701,10 @@
     {
       "question": "126. Erklären Sie, wie Sie mit `MLflow` ein Experiment-Tracking für verschiedene Modellvarianten aufsetzen würden und welche Vorteile dies bietet.",
       "options": [
-        "Sie nutzen es, um das Modell in einen Docker-Container zu packen und in der Cloud zu deployen.",
-        "Sie verwenden es, um automatisch Hyperparameter zu finden und zu optimieren.",
-        "Sie initiieren einen `MLflow` Run, loggen Parameter (`mlflow.log_param()`) und Metriken (`mlflow.log_metric()`) und speichern das trainierte Modell.",
-        "Sie nutzen es, um `Python`-Bibliotheken zu installieren und die Daten zu bereinigen."
+        "Nur zum Deployment in Docker nutzen.",
+        "Für automatische Hyperparameter-Suche verwenden.",
+        "Run starten, Parameter/Metriken loggen, Modell speichern.",
+        "Für Installation von Python-Paketen nutzen."
       ],
       "answer": 2,
       "explanation": "`MLflow` ist für das Experiment-Tracking konzipiert. Man startet einen Run (`with mlflow.start_run():`), loggt die verwendeten Hyperparameter, die gemessenen Metriken (z.B. Genauigkeit, `F1-Score`) und die erzeugten Artefakte, wie das trainierte Modell. Der Hauptvorteil ist, dass man die Ergebnisse verschiedener Modellvarianten (z.B. mit unterschiedlichen Hyperparametern) systematisch vergleichen, reproduzieren und die beste Version leicht identifizieren kann. Dies ist im `MLOps`-Kontext entscheidend für die Transparenz und Verwaltung des Modelllebenszyklus.",
@@ -2729,10 +2729,10 @@
     {
       "question": "127. Beschreiben Sie, wie Sie mit `Transfer Learning` ein `Computer-Vision`-Projekt umsetzen würden.",
       "options": [
-        "Ein neues Netz von Grund auf trainieren.",
-        "Alle Schichten löschen und komplett neu aufbauen.",
-        "Vortrainiertes Modell wählen, frühe Layer einfrieren, neuen Head trainieren.",
-        "Vortrainiertes Modell ohne Anpassung direkt nutzen."
+        "Netz von Grund auf trainieren, ohne Vorwissen oder Pretraining.",
+        "Alle Schichten löschen und komplett neu bauen.",
+        "Vortrainiertes Modell nutzen, Layer einfrieren, neuen Klassifikator trainieren.",
+        "Vortrainiertes Modell ohne Anpassung direkt einsetzen."
       ],
       "answer": 2,
       "explanation": "Der typische Workflow für `Transfer Learning` im `Computer Vision` sieht vor, dass man ein Modell wie `ResNet` oder `VGG16`, das auf einem großen Datensatz wie `ImageNet` vortrainiert wurde, verwendet. Da die frühen Schichten bereits gelernt haben, allgemeine Merkmale (Kanten, Texturen) zu erkennen, friert man diese ein. Man ersetzt dann die letzten Schichten (die für die Klassifikation spezifisch sind) durch neue, die für die eigene Aufgabe geeignet sind. Schließlich trainiert man nur diese neuen Schichten auf dem kleineren, spezifischen Datensatz, was den Prozess beschleunigt und Overfitting reduziert.",
@@ -2757,10 +2757,10 @@
     {
       "question": "128. Diskutieren Sie die Rolle von `Cross-Validation` und `Hyperparameter-Tuning` für die Modellgüte. Wie gehen Sie dabei praktisch vor?",
       "options": [
-        "`Cross-Validation` dient nur der Datenaufteilung, `Hyperparameter-Tuning` wird manuell durchgeführt.",
-        "Beide sind voneinander unabhängige Prozesse, die nacheinander ohne Verbindung angewendet werden.",
-        "`Cross-Validation` wird verwendet, um eine robuste Schätzung der Modellgüte zu erhalten, während `Hyperparameter-Tuning` auf Basis dieser Schätzung die optimalen Parameter findet.",
-        "Das `Hyperparameter-Tuning` erfolgt ausschließlich auf den Testdaten, während `Cross-Validation` auf den Trainingsdaten durchgeführt wird."
+        "CV nur Datenaufteilung, Tuning manuell.",
+        "Beide unabhängig ohne Zusammenhang.",
+        "CV liefert robuste Schätzung, Tuning optimiert Parameter.",
+        "Tuning auf Testdaten, CV auf Training."
       ],
       "answer": 2,
       "explanation": "`Cross-Validation` und `Hyperparameter-Tuning` sind eng miteinander verbunden. Bei der `Grid Search` oder `Randomized Search` wird `Cross-Validation` in jeder Iteration verwendet, um die Leistung eines Modells mit einem bestimmten Satz von Hyperparametern zu bewerten. Durch die Mittelung der Ergebnisse über alle Folds erhält man eine zuverlässige Schätzung der Güte. Das `Tuning`-Verfahren sucht dann systematisch nach dem besten Parametersatz, der die beste durchschnittliche Leistung über alle Folds liefert. Die Kombination beider Verfahren stellt sicher, dass man ein optimales Modell findet, dessen Leistungsschätzung nicht durch eine zufällige Aufteilung der Daten verzerrt ist.",
@@ -2785,10 +2785,10 @@
     {
       "question": "129. Analysieren Sie, wie Sie mit `Exploratory Data Analysis` (`EDA`) typische Fehlerquellen und Ausreißer in einem Datensatz identifizieren und adressieren würden.",
       "options": [
-        "Indem Sie nur die Durchschnittswerte aller Spalten berechnen und vergleichen.",
-        "Durch die alleinige Anwendung eines Machine-Learning-Modells auf die Rohdaten, um Fehler zu identifizieren.",
-        "Durch Visualisierungen wie `Boxplots` und `Streudiagramme` sowie statistische Kennzahlen wie `Mittelwert`, `Median` und `Standardabweichung`.",
-        "Durch das Löschen aller Datenpunkte, die von einer Normalverteilung abweichen."
+        "Nur Durchschnittswerte vergleichen, keine Visualisierung.",
+        "Nur ML-Modell auf Rohdaten anwenden.",
+        "Mit Boxplots/Streudiagrammen + Kennzahlen Ausreißer finden.",
+        "Alle Abweichungen pauschal löschen."
       ],
       "answer": 2,
       "explanation": "`EDA` ist der erste und wichtigste Schritt im `Data Analytics`-Workflow. Visuelle Werkzeuge wie `Boxplots` oder `Streudiagramme` sind besonders effektiv, um die Verteilung der Daten zu verstehen, Ausreißer zu erkennen und unerwartete Beziehungen zwischen Variablen zu identifizieren. Statistische Kennzahlen (`Mittelwert`, `Median`, etc.) helfen, diese visuellen Eindrücke quantitativ zu untermauern. Fehlerquellen wie fehlende Werte oder falsche Datentypen werden in dieser Phase ebenfalls identifiziert.",
@@ -2987,11 +2987,11 @@
     {
       "question": "137. Welche Maßnahme verbessert die **Robustheit gegenüber Ausreißern** in linearen Modellen am ehesten?",
       "options": [
-        "Verwendung von `HuberRegressor` statt `LinearRegression`.",
-        "Stärkere $L_2$-Regularisierung (`Ridge`).",
-        "Vergrößerung der Lernrate.",
-        "Standardisierung der Zielvariablen.",
-        "Verzicht auf Bias-Term."
+        "HuberRegressor statt LinearRegression.",
+        "Stärkere L2-Regularisierung.",
+        "Lernrate vergrößern.",
+        "Zielvariable standardisieren.",
+        "Bias-Term entfernen."
       ],
       "answer": 0,
       "explanation": "Der `HuberRegressor` nutzt einen robusten Verlust, der Ausreißer weniger stark gewichtet als das quadratische Fehlermaß der klassischen `LinearRegression`.",
@@ -3064,11 +3064,11 @@
     {
       "question": "140. Welche Praxis ist bei **Class Imbalance** für die **Schwellenwahl** sinnvoll?",
       "options": [
-        "Immer bei Schwelle 0.5 bleiben.",
-        "Schwellenwahl per Youden-Index oder Kostenmatrix anhand `ROC`/`PR`-Kurven.",
-        "Schwelle so verschieben, dass `Accuracy` maximal wird.",
+        "Immer Schwelle 0.5, unabhängig von Kosten.",
+        "Schwelle per Youden-Index/Kostenmatrix anhand ROC/PR.",
+        "Schwelle so, dass Accuracy maximal wird.",
         "Schwellen zufällig sampeln und mitteln.",
-        "Schwellenwahl ignorieren; sie beeinflusst Metriken nicht."
+        "Schwellenwahl ignorieren, sie ändert nichts."
       ],
       "answer": 1,
       "explanation": "Bei unausgeglichenen Klassen optimiert eine feste Schwelle selten die gewünschten **Kosten/Nutzen**. Kurvenbasierte Verfahren erlauben zielabhängige Auswahl.",
@@ -3170,9 +3170,9 @@
       "question": "144. Welche Option beschreibt **`TimeSeriesSplit`** richtig?",
       "options": [
         "Randomisiert Daten ohne Reihenfolge.",
-        "TimeSeriesSplit respektiert Zeitordnung bei der Validierung.",
-        "Mischt Training und Test in einem Fold.",
-        "Wählt zufällige Subsets ohne Ordnung."
+        "Respektiert Zeitordnung bei Validierung.",
+        "Mischt Train/Test in einem Fold.",
+        "Wählt zufällige Subsets."
       ],
       "answer": 1,
       "explanation": "`TimeSeriesSplit` respektiert **Zeitkausalität**: Train auf Vergangenheit, Val auf Zukunft—verhindert **Look-ahead Leakage**.",
@@ -3196,11 +3196,11 @@
     {
       "question": "145. Was ist der **Hauptzweck** von **`MLflow Tracking`** im Analytics-Stack?",
       "options": [
-        "Training von neuronalen Netzen auf GPU.",
-        "Nachverfolgung von Parametern, Metriken, Artefakten und Modellen je Experiment.",
-        "Automatisches Generieren perfekter Hyperparameter.",
-        "Berechnung von Shapley-Werten.",
-        "Deployment in Kubernetes ohne weitere Tools."
+        "GPU-Training von Netzen im Stack.",
+        "Tracking von Parametern, Metriken, Artefakten und Modellen.",
+        "Automatische Hyperparameter-Optimierung im Hintergrund.",
+        "Berechnung von SHAP-Werten für Erklärbarkeit.",
+        "Direktes Kubernetes-Deployment ohne weitere Tools."
       ],
       "answer": 1,
       "explanation": "`MLflow Tracking` protokolliert **Parameter, Metriken, Artefakte und Modelldateien** und erleichtert Vergleich und Reproduzierbarkeit.",
@@ -3252,11 +3252,11 @@
     {
       "question": "147. Welche **Docker**-Praxis unterstützt **Reproduzierbarkeit** in Analytics-Projekten am stärksten?",
       "options": [
-        "Installationen direkt auf dem Host ohne Versionsangaben.",
-        "Nutzung eines versionierten `Dockerfile` plus `requirements.txt`/`environment.yml`.",
-        "Nur ein Readme mit Setup-Hinweisen verwenden.",
-        "Abhängigkeiten zur Laufzeit zufällig aktualisieren.",
-        "Container ohne feste Basisimages starten."
+        "Installationen auf Host ohne Versionsangaben (schlecht).",
+        "Versioniertes Dockerfile + pinned Requirements/Environment.",
+        "Nur Readme mit Setup-Hinweisen, ohne Versionen.",
+        "Abhängigkeiten zur Laufzeit updaten (nicht reproduzierbar).",
+        "Basisimage ohne Tag verwenden (wechselnd)."
       ],
       "answer": 1,
       "explanation": "Ein **fixiertes** `Dockerfile` mit **versionierten** Abhängigkeiten erzeugt portable, reproduzierbare Umgebungen über Systeme hinweg.",
@@ -3308,11 +3308,11 @@
     {
       "question": "149. Welche Metrik eignet sich **besonders** zur Bewertung einer **Regression**?",
       "options": [
-        "`F1-Score`",
-        "`MSE`",
-        "`Recall`",
-        "`ROC-AUC`",
-        "`Accuracy`"
+        "F1-Score (Klassifikation)",
+        "MSE (mittlere quadratische Abweichung)",
+        "Recall (Klassifikation)",
+        "ROC-AUC (Klassifikation)",
+        "Accuracy (Klassifikation)"
       ],
       "answer": 1,
       "explanation": "In Regressionsaufgaben sind Fehlermaße wie **`MSE`** oder `MAE` üblich; Klassifikationsmetriken wie `F1`, `Accuracy`, `ROC-AUC` sind ungeeignet.",
@@ -3413,10 +3413,10 @@
     {
       "question": "153. Welche Maßnahme verbessert **Reproduzierbarkeit** zusätzlich zu `Docker`?",
       "options": [
-        "Seeds und Daten-Splits zufällig halten.",
-        "`requirements.txt` ohne Versions-Pins verwenden.",
-        "**Random-Seeds** setzen und **Daten-Splits** deterministisch speichern.",
-        "Artefakte nicht versionieren.",
+        "Seeds und Splits zufällig halten (nicht reproduzierbar).",
+        "requirements.txt ohne Versions-Pins verwenden.",
+        "Random-Seeds setzen und Splits deterministisch speichern.",
+        "Artefakte nicht versionieren oder sichern.",
         "Notebook-Zellen beliebig neu ausführen."
       ],
       "answer": 2,
@@ -3434,11 +3434,11 @@
     {
       "question": "154. Wodurch unterscheidet sich **`GridSearchCV`** von **`RandomizedSearchCV`**?",
       "options": [
-        "`GridSearchCV` wählt Parameter zufällig, `RandomizedSearchCV` durchsucht lückenlos.",
-        "`GridSearchCV` durchsucht ein Gitter vollständig, `RandomizedSearchCV` sampelt zufällige Kombinationen.",
-        "Beide liefern immer identische Ergebnisse.",
-        "`RandomizedSearchCV` benötigt keine Cross-Validation.",
-        "`GridSearchCV` ist grundsätzlich schneller."
+        "GridSearch zufällig, Randomized vollständig.",
+        "GridSearch prüft alle Kombos, Randomized sampelt.",
+        "Beide liefern identische Ergebnisse.",
+        "Randomized braucht keine CV.",
+        "GridSearch ist immer schneller."
       ],
       "answer": 1,
       "explanation": "**Grid** prüft alle Gitterpunkte; **Randomized** sampelt und kann schneller gute Regionen finden—insbesondere bei großen Suchräumen.",
@@ -3462,11 +3462,11 @@
     {
       "question": "155. Welche Strategie ist **zweckmäßig**, um **Ausreißer** **vor** dem Modelltraining zu behandeln?",
       "options": [
-        "Immer alle Ausreißer entfernen.",
-        "Winsorisierung oder robuste Transformationen prüfen und deren Effekt validieren.",
-        "Ausreißer ignorieren; Modelle lernen das automatisch.",
-        "Zielvariable clippen, Features unverändert lassen.",
-        "Nur logarithmische Transformationen anwenden."
+        "Alle Ausreißer immer entfernen, ohne Prüfung.",
+        "Winsorisierung/robuste Transformationen prüfen und validieren.",
+        "Ausreißer ignorieren, Modelle lernen das.",
+        "Nur Zielvariable clippen, Features unverändert.",
+        "Nur Log-Transformationen anwenden, immer."
       ],
       "answer": 1,
       "explanation": "**Ausreißer-Handling** ist kontextabhängig. Robuste Alternativen (Winsorize, Huber/Quantile-Transformer) sollten **validiert** statt dogmatisch angewandt werden.",
@@ -3539,11 +3539,11 @@
     {
       "question": "158. Welche Aussage zu **`Train/Test Split`** ist **richtig**?",
       "options": [
-        "Testset darf für Hyperparameter-Suche verwendet werden.",
-        "Train/Validation/Test trennen Rollen: Tuning auf Val, finale Schätzung auf Test.",
-        "Testset muss immer größer als Trainset sein.",
-        "Validierungsset ist unnötig bei Cross-Validation.",
-        "Stratifizierung ist nur bei Regression relevant."
+        "Testset für Tuning nutzen (falsch).",
+        "Train/Val/Test trennen; Test nur finale Schätzung.",
+        "Testset größer als Trainset erzwingen.",
+        "Validierungsset unnötig bei CV.",
+        "Stratifizierung nur bei Regression."
       ],
       "answer": 1,
       "explanation": "**Rollen-Trennung**: Tuning erfolgt ohne Testwissen (Val/CV), die finale Leistung wird **einmalig** auf dem **Testset** geschätzt.",
