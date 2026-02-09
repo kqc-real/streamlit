@@ -57,7 +57,6 @@ from user_question_sets import (
     list_user_question_sets,
     save_user_question_set,
     delete_user_question_set,
-    delete_sets_for_user,
     is_owner_of_user_qset,
 )
 from i18n import available_locales, translate
@@ -212,7 +211,7 @@ except (ImportError, AttributeError):
 
 
 def _apply_user_set_retention_policy(aborted_user_id: str) -> None:
-    """Decide whether to delete or preserve temporary user question sets.
+    """Decide whether to preserve temporary user question sets.
 
     This logic is extracted so it can be unit-tested. It uses the same DB
     helper that the UI uses to determine whether the current pseudonym was
@@ -283,14 +282,8 @@ def _apply_user_set_retention_policy(aborted_user_id: str) -> None:
                 pass
 
         if not keep_sets:
-            # Ensure any preserved-notice flag is cleared for this user so downstream UI
-            # logic (and unit tests) observe a deterministic state when we
-            # decided to delete the sets. Be defensive: some test harnesses
-            # replace `st.session_state` with stubs/mocks that may not
-            # implement `pop` correctly, so attempt both pop and explicit
-            # assignment to a falsy value.
+            # Clear any preserved-notice flag so downstream UI stays deterministic.
             try:
-                # Clear any owner-tagged preserved notice
                 st.session_state.pop("_user_qset_preserved_notice", None)
                 st.session_state.pop("_user_qset_preserved_owner", None)
             except Exception:
@@ -300,17 +293,6 @@ def _apply_user_set_retention_policy(aborted_user_id: str) -> None:
                 st.session_state["_user_qset_preserved_owner"] = None
             except Exception:
                 pass
-
-            try:
-                delete_sets_for_user(aborted_user_id)
-            except Exception:
-                # Non-fatal: log at debug level if available
-                try:
-                    logging.getLogger(__name__).debug(
-                        "Failed to delete temporary sets for user: %s", aborted_user_id
-                    )
-                except Exception:
-                    pass
         else:
             try:
                 # Mark preserved and record owner so the UI only shows this
@@ -3255,11 +3237,9 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                     pass
 
             if has_active_user_set and isinstance(active_file, str):
-                # Only the original uploader (owner) is allowed to delete the
-                # temporary user-uploaded question set when they end their
-                # session. Previously this deletion ran for any user who
-                # happened to have the set selected which caused others to
-                # inadvertently remove someone else's upload.
+                # We no longer delete temporary user sets on session end.
+                # This check remains to ensure retention messaging (if any)
+                # only applies to the original uploader.
                 try:
                     info = get_user_question_set(active_file)
                 except Exception:
@@ -3282,10 +3262,9 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                     owner_matches = False
 
                 if owner_matches:
-                    # Defer the retention decision (preserve vs delete) to the
-                    # centralized helper `_apply_user_set_retention_policy` which
-                    # is called later. That helper is unit-tested and performs
-                    # the DB checks and sets owner-scoped session flags.
+                    # Defer the retention note (preserved vs default) to the
+                    # centralized helper `_apply_user_set_retention_policy`,
+                    # which is called later and sets owner-scoped session flags.
                     pass
                 else:
                     # Do not delete sets owned by another user. Keep silent
