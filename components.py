@@ -3841,6 +3841,14 @@ def render_question_distribution_chart(questions: list, duration_minutes=None, d
                 "wissen": "reproduction",
                 "memorieren": "reproduction",
                 "knowledge": "reproduction",
+                # Unknown / missing
+                "unknown": "unknown",
+                "unbekannt": "unknown",
+                "na": "unknown",
+                "n/a": "unknown",
+                "none": "unknown",
+                "null": "unknown",
+                "nan": "unknown",
                 # Understanding
                 "verstehen": "understanding",
                 "verständnis": "understanding",
