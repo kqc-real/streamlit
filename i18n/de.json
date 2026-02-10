@@ -162,7 +162,8 @@
             "delete_all_test_data": "🔴 Alle Testdaten unwiderruflich löschen",
             "delete_multiple_reports": "🔴 Gefahrenzone: Mehrere Meldungen löschen",
             "delete_old_logs": "🗑️ Alte Logs löschen (DSGVO)",
-            "about_audit_logging": "ℹ️ Über Audit-Logging"
+            "about_audit_logging": "ℹ️ Über Audit-Logging",
+            "delete_questionset": "🗑️ Fragenset löschen"
         },
         "dashboard_title": "🛠 Admin Dashboard",
         "glossary_header": "📚 Mini-Glossare als PDF",
@@ -195,7 +196,23 @@
                 "glossary_entries": "Glossar-Einträge",
                 "difficulty": "Schwierigkeiten",
                 "topics": "Themen"
-            }
+            },
+            "delete_source": "Quelle",
+            "delete_select": "Fragenset auswählen",
+            "delete_select_temp": "Temporäres Fragenset auswählen",
+            "delete_lo_hint": "Lernziele-Datei: {status}",
+            "delete_lo_missing": "nicht gefunden",
+            "delete_no_temp_sets": "Keine temporären Fragensets gefunden.",
+            "delete_no_target": "Bitte ein Fragenset auswählen.",
+            "delete_confirm": "Ich verstehe: Das Fragenset wird endgültig gelöscht.",
+            "delete_button": "Fragenset löschen",
+            "delete_success": "Gelöscht: {files}",
+            "delete_nothing": "Keine Dateien gelöscht (nichts gefunden).",
+            "delete_error": "Löschen fehlgeschlagen: {error}",
+            "delete_redirect_notice": "Aktives Fragenset wurde gelöscht. Du wurdest zur Startseite zurückgeführt.",
+            "delete_active_warning": "⚠️ Dieses Fragenset ist aktuell ausgewählt. Beim Löschen wirst du zur Startseite zurückgeführt.",
+            "delete_active_confirm": "Ich verstehe: Das aktuell ausgewählte Fragenset wird gelöscht.",
+            "delete_active_confirm_required": "Bitte bestätige zusätzlich das Löschen des aktuell ausgewählten Fragensets."
         },
         "highscores_by_questionset_header": "🏆 Highscores nach Fragenset",
         "item_analysis_header": "📊 Item-Analyse",
@@ -482,7 +499,8 @@
             "options": "Antwortoptionen",
             "themes": "Themenverteilung",
             "meta": "Meta-/Feld-Warnungen",
-            "other": "Sonstige"
+            "other": "Sonstige",
+            "delete_questionset": "⚠️ Löscht die JSON-Datei und die zugehörige Lernziel-Datei der gewählten Quelle (data/ oder data-user/). Testdaten bleiben unverändert."
         },
         "audit_logging": {
             "what_is_logged": "### Was wird protokolliert?",

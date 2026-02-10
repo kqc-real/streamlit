@@ -484,7 +484,8 @@
             "delete_all_test_data": "🔴 Delete all test data irreversibly",
             "delete_multiple_reports": "🔴 Danger Zone: Delete multiple reports",
             "delete_old_logs": "🗑️ Delete old logs (GDPR)",
-            "about_audit_logging": "ℹ️ About Audit Logging"
+            "about_audit_logging": "ℹ️ About Audit Logging",
+            "delete_questionset": "🗑️ Delete question set"
         },
         "dashboard_title": "🛠 Admin Dashboard",
         "glossary_header": "📚 Mini-Glossaries as PDF",
@@ -517,7 +518,23 @@
                 "glossary_entries": "Glossary Entries",
                 "difficulty": "Difficulty",
                 "topics": "Topics"
-            }
+            },
+            "delete_source": "Source",
+            "delete_select": "Select question set",
+            "delete_select_temp": "Select temporary question set",
+            "delete_lo_hint": "Learning objectives file: {status}",
+            "delete_lo_missing": "not found",
+            "delete_no_temp_sets": "No temporary question sets found.",
+            "delete_no_target": "Please select a question set.",
+            "delete_confirm": "I understand: The question set will be permanently deleted.",
+            "delete_button": "Delete question set",
+            "delete_success": "Deleted: {files}",
+            "delete_nothing": "No files deleted (nothing found).",
+            "delete_error": "Deletion failed: {error}",
+            "delete_redirect_notice": "The active question set was deleted. You were redirected to the start page.",
+            "delete_active_warning": "⚠️ This question set is currently selected. Deleting it will redirect you to the start page.",
+            "delete_active_confirm": "I understand: The currently selected question set will be deleted.",
+            "delete_active_confirm_required": "Please also confirm deletion of the currently selected question set."
         },
         "highscores_by_questionset_header": "🏆 Highscores by Question Set",
         "item_analysis_header": "📊 Item Analysis",
@@ -804,7 +821,8 @@
             "options": "Answer options",
             "themes": "Topic distribution",
             "meta": "Meta/field warnings",
-            "other": "Other"
+            "other": "Other",
+            "delete_questionset": "⚠️ Deletes the JSON file and the associated learning objectives file from the selected source (data/ or data-user/). Test data remains unchanged."
         },
         "audit_logging": {
             "what_is_logged": "### What is logged?",

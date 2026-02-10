@@ -45,7 +45,8 @@
             "delete_all_test_data": "🔴 Eliminar todos los datos de prueba de forma irreversible",
             "delete_multiple_reports": "🔴 Zona de peligro: eliminar varios reportes",
             "delete_old_logs": "🗑️ Eliminar logs antiguos (GDPR)",
-            "about_audit_logging": "ℹ️ Sobre el registro de auditoría"
+            "about_audit_logging": "ℹ️ Sobre el registro de auditoría",
+            "delete_questionset": "🗑️ Eliminar conjunto de preguntas"
         },
         "dashboard_title": "🛠 Panel de administración",
         "glossary_header": "📚 Mini-glosarios en PDF",
@@ -78,7 +79,23 @@
                 "glossary_entries": "Entradas Glosario",
                 "difficulty": "Dificultad",
                 "topics": "Temas"
-            }
+            },
+            "delete_source": "Fuente",
+            "delete_select": "Seleccionar conjunto de preguntas",
+            "delete_select_temp": "Seleccionar conjunto de preguntas temporal",
+            "delete_lo_hint": "Archivo de objetivos de aprendizaje: {status}",
+            "delete_lo_missing": "no encontrado",
+            "delete_no_temp_sets": "No se encontraron conjuntos de preguntas temporales.",
+            "delete_no_target": "Selecciona un conjunto de preguntas.",
+            "delete_confirm": "Entiendo: el conjunto de preguntas se eliminará de forma permanente.",
+            "delete_button": "Eliminar conjunto de preguntas",
+            "delete_success": "Eliminado: {files}",
+            "delete_nothing": "No se eliminaron archivos (no se encontró nada).",
+            "delete_error": "Error al eliminar: {error}",
+            "delete_redirect_notice": "Se eliminó el conjunto de preguntas activo. Se te redirigió a la página de inicio.",
+            "delete_active_warning": "⚠️ Este conjunto de preguntas está seleccionado. Al eliminarlo, se te redirigirá a la página de inicio.",
+            "delete_active_confirm": "Entiendo: se eliminará el conjunto de preguntas actualmente seleccionado.",
+            "delete_active_confirm_required": "Confirma también la eliminación del conjunto de preguntas actualmente seleccionado."
         },
         "highscores_by_questionset_header": "🏆 Mejores puntuaciones por conjunto de preguntas",
         "item_analysis_header": "📊 Análisis de ítems",
@@ -365,7 +382,8 @@
             "options": "Opciones de respuesta",
             "themes": "Distribución de temas",
             "meta": "Advertencias de meta/campos",
-            "other": "Otras"
+            "other": "Otras",
+            "delete_questionset": "⚠️ Elimina el archivo JSON y el archivo de objetivos de aprendizaje asociado de la fuente seleccionada (data/ o data-user/). Los datos de prueba no se modifican."
         },
         "audit_logging": {
             "what_is_logged": "### ¿Qué se registra?",

@@ -45,7 +45,8 @@
             "delete_all_test_data": "🔴 Supprimer toutes les données de test de manière irréversible",
             "delete_multiple_reports": "🔴 Zone de danger : supprimer plusieurs rapports",
             "delete_old_logs": "🗑️ Supprimer les anciens logs (RGPD)",
-            "about_audit_logging": "ℹ️ À propos de l'audit logging"
+            "about_audit_logging": "ℹ️ À propos de l'audit logging",
+            "delete_questionset": "🗑️ Supprimer un lot de questions"
         },
         "dashboard_title": "🛠 Tableau de bord administrateur",
         "glossary_header": "📚 Mini-glossaires en PDF",
@@ -78,7 +79,23 @@
                 "glossary_entries": "Entrées Glossaire",
                 "difficulty": "Difficulté",
                 "topics": "Sujets"
-            }
+            },
+            "delete_source": "Source",
+            "delete_select": "Sélectionner un lot de questions",
+            "delete_select_temp": "Sélectionner un lot de questions temporaire",
+            "delete_lo_hint": "Fichier d’objectifs d’apprentissage : {status}",
+            "delete_lo_missing": "introuvable",
+            "delete_no_temp_sets": "Aucun lot de questions temporaire trouvé.",
+            "delete_no_target": "Veuillez sélectionner un lot de questions.",
+            "delete_confirm": "Je comprends : le lot de questions sera définitivement supprimé.",
+            "delete_button": "Supprimer le lot de questions",
+            "delete_success": "Supprimé : {files}",
+            "delete_nothing": "Aucun fichier supprimé (rien trouvé).",
+            "delete_error": "Échec de la suppression : {error}",
+            "delete_redirect_notice": "Le lot de questions actif a été supprimé. Vous avez été redirigé vers la page d’accueil.",
+            "delete_active_warning": "⚠️ Ce lot de questions est actuellement sélectionné. Le supprimer vous redirigera vers la page d’accueil.",
+            "delete_active_confirm": "Je comprends : le lot de questions actuellement sélectionné sera supprimé.",
+            "delete_active_confirm_required": "Veuillez également confirmer la suppression du lot de questions actuellement sélectionné."
         },
         "highscores_by_questionset_header": "🏆 Meilleurs scores par ensemble de questions",
         "item_analysis_header": "📊 Analyse des items",
@@ -365,7 +382,8 @@
             "options": "Options de réponse",
             "themes": "Répartition des thèmes",
             "meta": "Avertissements méta/champs",
-            "other": "Autres"
+            "other": "Autres",
+            "delete_questionset": "⚠️ Supprime le fichier JSON et le fichier d’objectifs d’apprentissage associé de la source choisie (data/ ou data-user/). Les données de test restent inchangées."
         },
         "audit_logging": {
             "what_is_logged": "### Qu'est-ce qui est enregistré ?",
