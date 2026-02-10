@@ -1,0 +1,1855 @@
+{
+  "questions": [
+    {
+      "question": "1. In a linear SVM classifier, what is the primary geometric objective during training?",
+      "options": [
+        "To maximize the margin width",
+        "To minimize the error count",
+        "To maximize a likelihood score",
+        "To match the class means"
+      ],
+      "answer": 0,
+      "explanation": "A linear SVM aims to separate classes with the widest possible margin, which tends to improve generalization. Minimizing only the training error or maximizing likelihood are objectives of other models. Matching class means is not the SVM criterion.",
+      "weight": 1,
+      "topic": "Large-margin geometry",
+      "concept": "Maximum-margin hyperplane",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "SVM",
+          "definition": "A supervised learning model that finds a separating decision boundary with a large margin."
+        },
+        {
+          "term": "Hyperplane",
+          "definition": "A linear decision boundary defined by w·x + b = 0."
+        },
+        {
+          "term": "Margin",
+          "definition": "The distance between the decision boundary and the closest training points."
+        },
+        {
+          "term": "Generalization",
+          "definition": "Performance of a model on unseen data."
+        },
+        {
+          "term": "Weight vector (w)",
+          "definition": "Parameters that define the orientation of the hyperplane."
+        },
+        {
+          "term": "Bias term (b)",
+          "definition": "Offset that shifts the hyperplane without changing its orientation."
+        }
+      ],
+      "frage": "1. In a linear SVM classifier, what is the primary geometric objective during training?",
+      "gewichtung": 1,
+      "thema": "Large-margin geometry",
+      "kognitive_stufe": "Reproduction",
+      "optionen": [
+        "To maximize the margin width",
+        "To minimize the error count",
+        "To maximize a likelihood score",
+        "To match the class means"
+      ],
+      "loesung": 0,
+      "erklaerung": "A linear SVM aims to separate classes with the widest possible margin, which tends to improve generalization. Minimizing only the training error or maximizing likelihood are objectives of other models. Matching class means is not the SVM criterion."
+    },
+    {
+      "question": "2. Which training points determine the position of the SVM decision boundary?",
+      "options": [
+        "Points on the margin edge",
+        "Each training point equally",
+        "Only the class centroids",
+        "Only the farthest points"
+      ],
+      "answer": 0,
+      "explanation": "The decision boundary is determined by the points closest to it, called support vectors. Points far from the margin do not change the optimal boundary in a stable solution. Centroids are not sufficient to define an SVM boundary.",
+      "weight": 1,
+      "topic": "Support vectors",
+      "concept": "Support vectors",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Support vector",
+          "definition": "A training point with non-zero influence on the SVM solution (typically on/inside the margin)."
+        },
+        {
+          "term": "Decision boundary",
+          "definition": "The set of points where the classifier is indifferent between classes."
+        },
+        {
+          "term": "Margin edge",
+          "definition": "The boundary lines w·x + b = ±1 in the canonical SVM scaling."
+        },
+        {
+          "term": "Training set",
+          "definition": "The labeled examples used to fit the model."
+        },
+        {
+          "term": "Separating hyperplane",
+          "definition": "A hyperplane that assigns different sides to different classes."
+        },
+        {
+          "term": "Large margin",
+          "definition": "A classifier property of keeping maximal distance to nearest training points."
+        }
+      ],
+      "frage": "2. Which training points determine the position of the SVM decision boundary?",
+      "gewichtung": 1,
+      "thema": "Support vectors",
+      "kognitive_stufe": "Reproduction",
+      "optionen": [
+        "Points on the margin edge",
+        "Each training point equally",
+        "Only the class centroids",
+        "Only the farthest points"
+      ],
+      "loesung": 0,
+      "erklaerung": "The decision boundary is determined by the points closest to it, called support vectors. Points far from the margin do not change the optimal boundary in a stable solution. Centroids are not sufficient to define an SVM boundary."
+    },
+    {
+      "question": "3. Why is feature scaling usually important before training an SVM?",
+      "options": [
+        "It prevents one feature dominating",
+        "It removes the need for kernels",
+        "It guarantees zero training errors",
+        "It makes C irrelevant in practice"
+      ],
+      "answer": 0,
+      "explanation": "SVMs are sensitive to feature scales because distances and dot products change with scaling. Without scaling, a large-scale feature can dominate the margin geometry. Scaling does not remove kernels, guarantee perfect training accuracy, or make C irrelevant.",
+      "weight": 2,
+      "topic": "Feature scaling",
+      "concept": "Sensitivity to feature scale",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Reasoning about scaling",
+        "content": "Because the margin and decision function rely on dot products/distances, a feature with a larger numeric range can dominate the solution. Standardizing or normalizing features typically stabilizes training and improves generalization.",
+        "steps": [
+          "SVM geometry depends on dot products and distances.",
+          "Unequal feature scales distort the margin.",
+          "Scaling makes each feature contribute comparably."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Feature scaling",
+          "definition": "Rescaling input features (e.g., standardization) to comparable ranges."
+        },
+        {
+          "term": "Standardization",
+          "definition": "Transforming features to zero mean and unit variance."
+        },
+        {
+          "term": "Dot product",
+          "definition": "An operation that measures alignment between vectors; used in linear SVMs."
+        },
+        {
+          "term": "Distance",
+          "definition": "A measure of how far points are apart; affects kernels such as RBF."
+        },
+        {
+          "term": "Margin",
+          "definition": "The buffer region the SVM tries to maximize."
+        },
+        {
+          "term": "StandardScaler",
+          "definition": "A common tool (e.g., in scikit-learn) for standardizing features."
+        }
+      ],
+      "frage": "3. Why is feature scaling usually important before training an SVM?",
+      "gewichtung": 2,
+      "thema": "Feature scaling",
+      "kognitive_stufe": "Application",
+      "optionen": [
+        "It prevents one feature dominating",
+        "It removes the need for kernels",
+        "It guarantees zero training errors",
+        "It makes C irrelevant in practice"
+      ],
+      "loesung": 0,
+      "erklaerung": "SVMs are sensitive to feature scales because distances and dot products change with scaling. Without scaling, a large-scale feature can dominate the margin geometry. Scaling does not remove kernels, guarantee perfect training accuracy, or make C irrelevant."
+    },
+    {
+      "question": "4. In a soft-margin SVM, what is the most typical effect of decreasing C?",
+      "options": [
+        "It widens the margin, more violations",
+        "It narrows the margin, fewer violations",
+        "It forces a hard-margin solution",
+        "It removes the need to scale data"
+      ],
+      "answer": 0,
+      "explanation": "C controls the trade-off between a wide margin and penalizing margin violations. Lower C increases regularization, allowing more violations while often widening the margin. It does not force hard-margin behavior or replace feature scaling.",
+      "weight": 2,
+      "topic": "Soft-margin and C",
+      "concept": "Regularization via C",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Interpreting C",
+        "content": "A smaller C reduces the cost of slack variables, so the optimizer can accept more violations if that helps keep ||w|| small and the margin wide. This often reduces overfitting but can underfit if C is too small.",
+        "steps": [
+          "C weights the penalty for margin violations.",
+          "Lower C increases regularization.",
+          "More violations can be tolerated to gain a wider margin."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Soft margin",
+          "definition": "An SVM variant that allows some margin violations via slack variables."
+        },
+        {
+          "term": "C",
+          "definition": "Regularization hyperparameter controlling penalty for violations."
+        },
+        {
+          "term": "Slack variable (ζ)",
+          "definition": "A nonnegative variable measuring margin violation for a point."
+        },
+        {
+          "term": "Regularization",
+          "definition": "A technique that discourages overly complex models."
+        },
+        {
+          "term": "Underfitting",
+          "definition": "When a model is too simple to capture structure in data."
+        },
+        {
+          "term": "Overfitting",
+          "definition": "When a model fits noise and generalizes poorly."
+        }
+      ],
+      "frage": "4. In a soft-margin SVM, what is the most typical effect of decreasing C?",
+      "gewichtung": 2,
+      "thema": "Soft-margin and C",
+      "kognitive_stufe": "Application",
+      "optionen": [
+        "It widens the margin, more violations",
+        "It narrows the margin, fewer violations",
+        "It forces a hard-margin solution",
+        "It removes the need to scale data"
+      ],
+      "loesung": 0,
+      "erklaerung": "C controls the trade-off between a wide margin and penalizing margin violations. Lower C increases regularization, allowing more violations while often widening the margin. It does not force hard-margin behavior or replace feature scaling."
+    },
+    {
+      "question": "5. Compared with hinge loss, which statement about squared hinge loss is most accurate?",
+      "options": [
+        "It reacts more to big outliers",
+        "It ignores points beyond margin",
+        "It matches log loss closely",
+        "It uses only support vectors"
+      ],
+      "answer": 0,
+      "explanation": "Squared hinge loss grows quadratically for misclassified or margin-violating points, so it reacts more strongly to outliers than hinge loss. Both losses ignore points well beyond the margin (loss 0 there). It is not log loss, and training can still consider many points.",
+      "weight": 2,
+      "topic": "Hinge vs squared hinge",
+      "concept": "Outlier sensitivity",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Comparing the losses",
+        "content": "Because squared hinge loss penalizes large violations more than hinge loss, extreme points can influence the optimization more strongly. This can be helpful on clean data but risky when outliers are present.",
+        "steps": [
+          "Hinge loss increases linearly after a violation.",
+          "Squared hinge increases quadratically.",
+          "Quadratic growth amplifies large errors."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Hinge loss",
+          "definition": "Loss max(0, 1 − t·s) used in large-margin classification."
+        },
+        {
+          "term": "Squared hinge loss",
+          "definition": "Loss max(0, 1 − t·s)^2 with stronger penalty for large violations."
+        },
+        {
+          "term": "Outlier",
+          "definition": "A data point far from typical patterns that can distort training."
+        },
+        {
+          "term": "Margin violation",
+          "definition": "When a point lies inside the margin or on the wrong side of the boundary."
+        },
+        {
+          "term": "Decision score (s)",
+          "definition": "The value w·x + b used to classify a point."
+        },
+        {
+          "term": "Label (t)",
+          "definition": "Target class encoded as +1 or −1 in the hinge-loss formulation."
+        }
+      ],
+      "frage": "5. Compared with hinge loss, which statement about squared hinge loss is most accurate?",
+      "gewichtung": 2,
+      "thema": "Hinge vs squared hinge",
+      "kognitive_stufe": "Application",
+      "optionen": [
+        "It reacts more to big outliers",
+        "It ignores points beyond margin",
+        "It matches log loss closely",
+        "It uses only support vectors"
+      ],
+      "loesung": 0,
+      "erklaerung": "Squared hinge loss grows quadratically for misclassified or margin-violating points, so it reacts more strongly to outliers than hinge loss. Both losses ignore points well beyond the margin (loss 0 there). It is not log loss, and training can still consider many points."
+    },
+    {
+      "question": "6. In an SVM, what does a valid kernel function K(a, b) compute?",
+      "options": [
+        "Dot product in feature space",
+        "A class probability estimate",
+        "A random projection of inputs",
+        "A distance to the class mean"
+      ],
+      "answer": 0,
+      "explanation": "A kernel computes the dot product of transformed features without explicitly constructing the transformation. This enables efficient learning in high-dimensional feature spaces. Kernels do not directly output probabilities or random projections.",
+      "weight": 1,
+      "topic": "Kernel trick",
+      "concept": "Kernel as implicit dot product",
+      "cognitive_level": "Reproduction",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Kernel",
+          "definition": "A function K(a,b) that equals ϕ(a)ᵀϕ(b) for some feature map ϕ."
+        },
+        {
+          "term": "Kernel trick",
+          "definition": "Using kernels to work in transformed spaces without explicit features."
+        },
+        {
+          "term": "Feature map (ϕ)",
+          "definition": "A transformation from input space to a (possibly higher-dimensional) feature space."
+        },
+        {
+          "term": "Dot product",
+          "definition": "An inner product measuring similarity; central in SVM dual form."
+        },
+        {
+          "term": "RBF kernel",
+          "definition": "A kernel based on exp(−γ||x−x'||^2)."
+        },
+        {
+          "term": "Polynomial kernel",
+          "definition": "A kernel such as (aᵀb + r)^d representing polynomial features."
+        }
+      ],
+      "frage": "6. In an SVM, what does a valid kernel function K(a, b) compute?",
+      "gewichtung": 1,
+      "thema": "Kernel trick",
+      "kognitive_stufe": "Reproduction",
+      "optionen": [
+        "Dot product in feature space",
+        "A class probability estimate",
+        "A random projection of inputs",
+        "A distance to the class mean"
+      ],
+      "loesung": 0,
+      "erklaerung": "A kernel computes the dot product of transformed features without explicitly constructing the transformation. This enables efficient learning in high-dimensional feature spaces. Kernels do not directly output probabilities or random projections."
+    },
+    {
+      "question": "7. With an RBF-kernel SVM, what is the most typical effect of increasing gamma (γ) while keeping C fixed?",
+      "options": [
+        "It makes the boundary more wiggly",
+        "It makes the boundary more linear",
+        "It removes the need for scaling",
+        "It reduces support vectors to zero"
+      ],
+      "answer": 0,
+      "explanation": "A higher γ narrows each point’s influence, so the decision boundary can bend more tightly around the training data and may overfit. A lower γ produces smoother, broader influence and a smoother boundary. Scaling is still important, and support vectors will generally remain.",
+      "weight": 2,
+      "topic": "RBF kernel and gamma",
+      "concept": "Local influence of RBF",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Understanding γ in RBF kernels",
+        "content": "In an RBF SVM, γ controls how quickly similarity drops as points move apart. Larger γ emphasizes very local neighborhoods, enabling complex boundaries but raising overfitting risk; smaller γ smooths the boundary but can underfit.",
+        "steps": [
+          "RBF similarity decays with distance controlled by γ.",
+          "Higher γ means faster decay and more locality.",
+          "More locality can increase variance and overfitting."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "RBF kernel",
+          "definition": "A kernel K(x,x') = exp(−γ||x−x'||^2)."
+        },
+        {
+          "term": "Gamma (γ)",
+          "definition": "Hyperparameter controlling the width of the RBF similarity function."
+        },
+        {
+          "term": "Decision boundary",
+          "definition": "The set where the model switches predicted class."
+        },
+        {
+          "term": "Overfitting",
+          "definition": "Fitting noise due to excessive model flexibility."
+        },
+        {
+          "term": "Underfitting",
+          "definition": "Missing structure due to overly rigid model assumptions."
+        },
+        {
+          "term": "Similarity",
+          "definition": "A measure of how alike two inputs are; kernels encode this."
+        }
+      ],
+      "frage": "7. With an RBF-kernel SVM, what is the most typical effect of increasing gamma (γ) while keeping C fixed?",
+      "gewichtung": 2,
+      "thema": "RBF kernel and gamma",
+      "kognitive_stufe": "Application",
+      "optionen": [
+        "It makes the boundary more wiggly",
+        "It makes the boundary more linear",
+        "It removes the need for scaling",
+        "It reduces support vectors to zero"
+      ],
+      "loesung": 0,
+      "erklaerung": "A higher γ narrows each point’s influence, so the decision boundary can bend more tightly around the training data and may overfit. A lower γ produces smoother, broader influence and a smoother boundary. Scaling is still important, and support vectors will generally remain."
+    },
+    {
+      "question": "8. You have a linear SVM task with m = 500 training points and n = 5000 features. Which training approach is typically more favorable and why?",
+      "options": [
+        "Solve the dual, since m &lt; n",
+        "Solve the primal, since m &lt; n",
+        "Solve the dual, since n &lt; m",
+        "Solve the primal, since n &lt; m"
+      ],
+      "answer": 0,
+      "explanation": "For linear SVMs, the dual can be faster when the number of training points is smaller than the number of features. It also aligns with kernelization ideas (even if you stay linear). When m is much smaller than n, solving the dual is often advantageous.",
+      "weight": 3,
+      "topic": "Primal vs dual",
+      "concept": "When to solve the dual",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Choosing primal vs dual",
+        "content": "The primal optimization involves parameters in feature space (dimension n), while the dual involves one variable per training point (dimension m). If m is smaller than n, the dual problem can be computationally preferable, and it is also the gateway to the kernel trick.",
+        "steps": [
+          "Compare m (points) and n (features).",
+          "Dual variables scale with m, primal variables scale with n.",
+          "When m < n, the dual can be cheaper to optimize.",
+          "Kernel methods require the dual viewpoint."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Primal problem",
+          "definition": "The SVM optimization formulated over w and b in feature space."
+        },
+        {
+          "term": "Dual problem",
+          "definition": "The equivalent optimization formulated over Lagrange multipliers α."
+        },
+        {
+          "term": "m (samples)",
+          "definition": "Number of training instances in the dataset."
+        },
+        {
+          "term": "n (features)",
+          "definition": "Number of input features (dimensions) per instance."
+        },
+        {
+          "term": "Lagrange multiplier (α)",
+          "definition": "Dual variable that weights each training point in the solution."
+        },
+        {
+          "term": "Kernel trick",
+          "definition": "Using the dual form so dot products can be replaced by kernels."
+        }
+      ],
+      "frage": "8. You have a linear SVM task with m = 500 training points and n = 5000 features. Which training approach is typically more favorable and why?",
+      "gewichtung": 3,
+      "thema": "Primal vs dual",
+      "kognitive_stufe": "Analysis",
+      "optionen": [
+        "Solve the dual, since m &lt; n",
+        "Solve the primal, since m &lt; n",
+        "Solve the dual, since n &lt; m",
+        "Solve the primal, since n &lt; m"
+      ],
+      "loesung": 0,
+      "erklaerung": "For linear SVMs, the dual can be faster when the number of training points is smaller than the number of features. It also aligns with kernelization ideas (even if you stay linear). When m is much smaller than n, solving the dual is often advantageous."
+    },
+    {
+      "question": "9. Consider this situation:\n\n```python\n1: # Dataset is too large for RAM\n2: # You expect a linear decision boundary\n3: # You want incremental (online) learning\n```\nWhich scikit-learn-style approach best matches these constraints?",
+      "options": [
+        "Use SGDClassifier with hinge",
+        "Use SVC with an RBF kernel",
+        "Use SVR with a poly kernel",
+        "Use KMeans as a proxy model."
+      ],
+      "answer": 0,
+      "explanation": "Incremental learning on very large datasets is well matched by SGD-based linear classifiers; with hinge loss it approximates a linear SVM. Kernel SVC can be very slow on huge datasets, and SVR is for regression. KMeans is unsupervised and does not fit the classification goal.",
+      "weight": 2,
+      "topic": "Algorithm choice and scaling",
+      "concept": "Out-of-core linear SVM",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Matching constraints to an algorithm",
+        "content": "When the dataset does not fit in memory and you want incremental updates, stochastic gradient descent is a standard choice. Using hinge loss yields a large-margin classifier comparable to a linear SVM, while kernel SVC is computationally expensive at scale.",
+        "steps": [
+          "Large data + online learning suggests SGD-based training.",
+          "Hinge loss corresponds to large-margin classification.",
+          "Kernel SVC is typically too slow for very large m."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "SGDClassifier",
+          "definition": "A classifier trained with stochastic gradient descent; supports incremental learning."
+        },
+        {
+          "term": "Hinge loss",
+          "definition": "Large-margin loss used to approximate SVM training with SGD."
+        },
+        {
+          "term": "Out-of-core learning",
+          "definition": "Training when data cannot fit in RAM, using streaming or mini-batches."
+        },
+        {
+          "term": "Linear decision boundary",
+          "definition": "A separator defined by w·x + b = 0."
+        },
+        {
+          "term": "SVC",
+          "definition": "Kernel-capable SVM classifier implementation (often slower on large datasets)."
+        },
+        {
+          "term": "Incremental learning",
+          "definition": "Updating a model as new data arrives without full retraining."
+        }
+      ],
+      "frage": "9. Consider this situation:\n\n```python\n1: # Dataset is too large for RAM\n2: # You expect a linear decision boundary\n3: # You want incremental (online) learning\n```\nWhich scikit-learn-style approach best matches these constraints?",
+      "gewichtung": 2,
+      "thema": "Algorithm choice and scaling",
+      "kognitive_stufe": "Application",
+      "optionen": [
+        "Use SGDClassifier with hinge",
+        "Use SVC with an RBF kernel",
+        "Use SVR with a poly kernel",
+        "Use KMeans as a proxy model."
+      ],
+      "loesung": 0,
+      "erklaerung": "Incremental learning on very large datasets is well matched by SGD-based linear classifiers; with hinge loss it approximates a linear SVM. Kernel SVC can be very slow on huge datasets, and SVR is for regression. KMeans is unsupervised and does not fit the classification goal."
+    },
+    {
+      "question": "10. In ε-SVM regression (SVR), what is the most typical effect of decreasing ε while keeping C fixed?",
+      "options": [
+        "It adds more support vectors",
+        "It widens the tube a lot",
+        "It removes kernels from SVR",
+        "It makes outputs strictly binary"
+      ],
+      "answer": 0,
+      "explanation": "In SVR, ε sets the width of the “insensitive tube.” Smaller ε means more points fall outside the tube, so more points become support vectors and the fit becomes more constrained. It does not remove kernels or turn regression into classification.",
+      "weight": 2,
+      "topic": "SVM regression",
+      "concept": "Epsilon-insensitive tube",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Interpreting ε in SVR",
+        "content": "Reducing ε narrows the tube, so more training points contribute to the loss and become support vectors. This often increases model complexity and can act like reduced tolerance to deviations.",
+        "steps": [
+          "ε defines the tolerance tube around predictions.",
+          "Smaller ε flags more deviations as errors.",
+          "More errors typically create more support vectors."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "SVR",
+          "definition": "Support Vector Regression, the SVM variant for predicting continuous targets."
+        },
+        {
+          "term": "Epsilon (ε)",
+          "definition": "The half-width of the ε-insensitive tube in SVR."
+        },
+        {
+          "term": "Insensitive tube",
+          "definition": "Region around predictions where errors are not penalized."
+        },
+        {
+          "term": "Support vector",
+          "definition": "A point that influences the SVR solution (often outside/at the tube)."
+        },
+        {
+          "term": "C",
+          "definition": "Penalty hyperparameter controlling trade-off between flatness and violations."
+        },
+        {
+          "term": "Regression",
+          "definition": "Learning to predict a continuous numeric value."
+        }
+      ],
+      "frage": "10. In ε-SVM regression (SVR), what is the most typical effect of decreasing ε while keeping C fixed?",
+      "gewichtung": 2,
+      "thema": "SVM regression",
+      "kognitive_stufe": "Application",
+      "optionen": [
+        "It adds more support vectors",
+        "It widens the tube a lot",
+        "It removes kernels from SVR",
+        "It makes outputs strictly binary"
+      ],
+      "loesung": 0,
+      "erklaerung": "In SVR, ε sets the width of the “insensitive tube.” Smaller ε means more points fall outside the tube, so more points become support vectors and the fit becomes more constrained. It does not remove kernels or turn regression into classification."
+    },
+    {
+      "question": "11. In a linear SVM with canonical scaling (margin lines at w·x + b = ±1), what happens to the margin width if you change only b while keeping w fixed?",
+      "options": [
+        "It stays the same, only shifts",
+        "It becomes wider as b grows",
+        "It becomes narrower as b grows"
+      ],
+      "answer": 0,
+      "explanation": "The margin width depends on ||w|| (it is proportional to 1/||w||) and does not depend on b. Changing b shifts the hyperplane and margin lines in parallel without changing their distance. Therefore the width remains unchanged.",
+      "weight": 2,
+      "topic": "Large-margin geometry",
+      "concept": "Margin width depends on ||w||",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Separating shift from width",
+        "content": "In the canonical SVM formulation, the two margin boundaries are parallel to the decision boundary and their separation is 2/||w||. Since b only translates these lines together, it does not change the separation, so the margin width stays constant.",
+        "steps": [
+          "Margin width is determined by ||w||, not by b.",
+          "b translates the hyperplane without rotating it.",
+          "Parallel translation preserves distances between margin lines."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Bias term (b)",
+          "definition": "Offset that shifts the decision boundary without changing its orientation."
+        },
+        {
+          "term": "Weight vector (w)",
+          "definition": "Vector controlling the orientation and scale of the hyperplane."
+        },
+        {
+          "term": "Norm ||w||",
+          "definition": "Length of w; controls margin width in the canonical SVM scaling."
+        },
+        {
+          "term": "Margin width",
+          "definition": "Distance between the two margin boundary lines."
+        },
+        {
+          "term": "Canonical scaling",
+          "definition": "Convention where support vectors satisfy w·x + b = ±1."
+        },
+        {
+          "term": "Parallel shift",
+          "definition": "Moving a hyperplane without changing its direction."
+        }
+      ],
+      "frage": "11. In a linear SVM with canonical scaling (margin lines at w·x + b = ±1), what happens to the margin width if you change only b while keeping w fixed?",
+      "gewichtung": 2,
+      "thema": "Large-margin geometry",
+      "kognitive_stufe": "Application",
+      "optionen": [
+        "It stays the same, only shifts",
+        "It becomes wider as b grows",
+        "It becomes narrower as b grows"
+      ],
+      "loesung": 0,
+      "erklaerung": "The margin width depends on ||w|| (it is proportional to 1/||w||) and does not depend on b. Changing b shifts the hyperplane and margin lines in parallel without changing their distance. Therefore the width remains unchanged."
+    },
+    {
+      "question": "12. Complete the pipeline so that the SVM is trained on standardized features:\n\n```python\n1: from sklearn.pipeline import make_pipeline\n2: from sklearn.svm import LinearSVC\n3: clf = make_pipeline(__________, LinearSVC(C=1.0))\n```",
+      "options": [
+        "StandardScaler()",
+        "PolynomialFeatures(2)",
+        "LabelEncoder()",
+        "OneHotEncoder()"
+      ],
+      "answer": 0,
+      "explanation": "StandardScaler() standardizes features to zero mean and unit variance, which is usually important for SVMs. The other choices are for feature expansion or label/one-hot encoding, not numeric scaling. In Python you pass an instantiated transformer (with parentheses), unlike many Java APIs that pass class types or builders.",
+      "weight": 2,
+      "topic": "Feature scaling",
+      "concept": "StandardScaler in a pipeline",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Filling the missing preprocessing step",
+        "content": "The blank should be a preprocessing transformer that standardizes inputs. StandardScaler() is the standard choice and is placed before the SVM inside the pipeline, so the same scaling is applied during both training and prediction.",
+        "steps": [
+          "SVMs are sensitive to feature scale.",
+          "A pipeline needs a transformer object before the estimator.",
+          "StandardScaler() provides standardization.",
+          "Then LinearSVC trains on scaled features."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Pipeline",
+          "definition": "A chained sequence of preprocessing and model steps applied consistently."
+        },
+        {
+          "term": "StandardScaler",
+          "definition": "Transformer that standardizes features to mean 0 and variance 1."
+        },
+        {
+          "term": "Standardization",
+          "definition": "Rescaling features to comparable distributions (zero mean, unit variance)."
+        },
+        {
+          "term": "LinearSVC",
+          "definition": "A linear SVM classifier implementation optimized for large datasets."
+        },
+        {
+          "term": "Transformer",
+          "definition": "A preprocessing object that implements fit/transform on data."
+        },
+        {
+          "term": "Instantiation",
+          "definition": "Creating an object instance in code (e.g., StandardScaler())."
+        }
+      ],
+      "frage": "12. Complete the pipeline so that the SVM is trained on standardized features:\n\n```python\n1: from sklearn.pipeline import make_pipeline\n2: from sklearn.svm import LinearSVC\n3: clf = make_pipeline(__________, LinearSVC(C=1.0))\n```",
+      "gewichtung": 2,
+      "thema": "Feature scaling",
+      "kognitive_stufe": "Application",
+      "optionen": [
+        "StandardScaler()",
+        "PolynomialFeatures(2)",
+        "LabelEncoder()",
+        "OneHotEncoder()"
+      ],
+      "loesung": 0,
+      "erklaerung": "StandardScaler() standardizes features to zero mean and unit variance, which is usually important for SVMs. The other choices are for feature expansion or label/one-hot encoding, not numeric scaling. In Python you pass an instantiated transformer (with parentheses), unlike many Java APIs that pass class types or builders."
+    },
+    {
+      "question": "13. Your data are nearly linearly separable but contain a few clear outliers. Which SVM setup is most appropriate to improve robustness?",
+      "options": [
+        "Use soft margin with low C value.",
+        "Use hard margin with high C value",
+        "Use soft margin with high C value",
+        "Use hard margin without slack vars"
+      ],
+      "answer": 0,
+      "explanation": "Hard-margin SVMs are very sensitive to outliers because they require perfect separability. A soft-margin SVM can tolerate violations via slack variables, and a smaller C increases regularization, improving robustness. Very large C pushes the model toward fitting outliers more strongly.",
+      "weight": 3,
+      "topic": "Soft-margin and C",
+      "concept": "Outlier robustness",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Reasoning about robustness",
+        "content": "When a few points are inconsistent with the general pattern, insisting on zero violations can rotate the hyperplane dramatically and hurt generalization. Soft margin relaxes the constraints, and choosing a smaller C prevents the model from overreacting to outliers.",
+        "steps": [
+          "Hard margin requires strict separability.",
+          "Outliers can force a poor boundary under hard margin.",
+          "Soft margin allows violations via slack variables.",
+          "Smaller C reduces the penalty for violations, improving robustness."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Hard margin",
+          "definition": "SVM formulation that requires all points to be correctly separated with no violations."
+        },
+        {
+          "term": "Soft margin",
+          "definition": "SVM formulation that allows some violations using slack variables."
+        },
+        {
+          "term": "Outlier",
+          "definition": "A point that deviates strongly from the overall data pattern."
+        },
+        {
+          "term": "C",
+          "definition": "Hyperparameter controlling the penalty for margin violations."
+        },
+        {
+          "term": "Slack variable (ζ)",
+          "definition": "Variable measuring how much a point violates the margin."
+        },
+        {
+          "term": "Robustness",
+          "definition": "Stability of performance when data contain noise or outliers."
+        }
+      ],
+      "frage": "13. Your data are nearly linearly separable but contain a few clear outliers. Which SVM setup is most appropriate to improve robustness?",
+      "gewichtung": 3,
+      "thema": "Soft-margin and C",
+      "kognitive_stufe": "Analysis",
+      "optionen": [
+        "Use soft margin with low C value.",
+        "Use hard margin with high C value",
+        "Use soft margin with high C value",
+        "Use hard margin without slack vars"
+      ],
+      "loesung": 0,
+      "erklaerung": "Hard-margin SVMs are very sensitive to outliers because they require perfect separability. A soft-margin SVM can tolerate violations via slack variables, and a smaller C increases regularization, improving robustness. Very large C pushes the model toward fitting outliers more strongly."
+    },
+    {
+      "question": "14. If you add new training points that are far away from the margin and correctly classified, what is the most typical effect on the SVM decision boundary?",
+      "options": [
+        "It stays nearly unchanged",
+        "It rotates substantially",
+        "It becomes non-linear suddenly"
+      ],
+      "answer": 0,
+      "explanation": "SVM solutions are primarily determined by support vectors near the margin. Points far from the margin usually have zero influence on the optimum, so the boundary stays essentially the same. Large rotations would require changes near the margin.",
+      "weight": 2,
+      "topic": "Support vectors",
+      "concept": "Influence of distant points",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Why far points matter little",
+        "content": "Because the SVM objective focuses on maximizing the margin while meeting constraints, points far from the margin are not binding and usually do not alter the optimal hyperplane. The boundary is therefore stable to such additions.",
+        "steps": [
+          "Only points with non-zero dual weight affect the solution.",
+          "Those points are typically on or inside the margin.",
+          "Far, well-classified points usually get zero weight."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Support vector",
+          "definition": "A training point that influences the learned boundary."
+        },
+        {
+          "term": "Margin",
+          "definition": "Region around the boundary that the SVM tries to keep empty."
+        },
+        {
+          "term": "Decision boundary",
+          "definition": "Line/plane separating classes in the input space."
+        },
+        {
+          "term": "Constraint",
+          "definition": "Condition that training points must satisfy in SVM optimization."
+        },
+        {
+          "term": "Dual weight (α)",
+          "definition": "Multiplier indicating whether a point influences the solution."
+        },
+        {
+          "term": "Generalization",
+          "definition": "How well the classifier performs on unseen examples."
+        }
+      ],
+      "frage": "14. If you add new training points that are far away from the margin and correctly classified, what is the most typical effect on the SVM decision boundary?",
+      "gewichtung": 2,
+      "thema": "Support vectors",
+      "kognitive_stufe": "Application",
+      "optionen": [
+        "It stays nearly unchanged",
+        "It rotates substantially",
+        "It becomes non-linear suddenly"
+      ],
+      "loesung": 0,
+      "erklaerung": "SVM solutions are primarily determined by support vectors near the margin. Points far from the margin usually have zero influence on the optimum, so the boundary stays essentially the same. Large rotations would require changes near the margin."
+    },
+    {
+      "question": "15. You are given this code:\n\n```python\n1: from sklearn.svm import SVC\n2: clf = SVC(kernel=\"rbf\", gamma=5, C=1.0)\n3: clf.fit(X_train, y_train)\n```\nWhat is the most direct improvement to reduce scale-related issues?",
+      "options": [
+        "Add StandardScaler to pipeline",
+        "Set gamma much higher than 5",
+        "Switch to kernel='linear' now.",
+        "Skip scaling and just tune C"
+      ],
+      "answer": 0,
+      "explanation": "RBF SVMs are sensitive to feature scaling because distances drive the kernel. Adding StandardScaler (ideally in a pipeline) is the direct fix for scale mismatches. Changing gamma or switching kernels is not a reliable substitute, and tuning C alone does not correct distorted distances.",
+      "weight": 2,
+      "topic": "Feature scaling",
+      "concept": "Scaling for kernel SVMs",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Diagnosing scale issues",
+        "content": "If one feature has a much larger numeric scale, it can dominate the distance computation used by the RBF kernel. Standardizing features before fitting is the standard remedy and should be done within a pipeline to avoid leakage.",
+        "steps": [
+          "RBF kernels depend on Euclidean distances.",
+          "Different scales distort distances.",
+          "Standardization fixes the geometry before fitting."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "SVC",
+          "definition": "Kernel-capable SVM classifier implementation."
+        },
+        {
+          "term": "RBF kernel",
+          "definition": "A kernel based on exp(−γ||x−x'||^2)."
+        },
+        {
+          "term": "Gamma (γ)",
+          "definition": "Controls how quickly RBF similarity decays with distance."
+        },
+        {
+          "term": "C",
+          "definition": "Penalty for margin violations; affects regularization strength."
+        },
+        {
+          "term": "StandardScaler",
+          "definition": "Standardizes features for improved SVM behavior."
+        },
+        {
+          "term": "Data leakage",
+          "definition": "Using information from test data during training or preprocessing."
+        }
+      ],
+      "frage": "15. You are given this code:\n\n```python\n1: from sklearn.svm import SVC\n2: clf = SVC(kernel=\"rbf\", gamma=5, C=1.0)\n3: clf.fit(X_train, y_train)\n```\nWhat is the most direct improvement to reduce scale-related issues?",
+      "gewichtung": 2,
+      "thema": "Feature scaling",
+      "kognitive_stufe": "Application",
+      "optionen": [
+        "Add StandardScaler to pipeline",
+        "Set gamma much higher than 5",
+        "Switch to kernel='linear' now.",
+        "Skip scaling and just tune C"
+      ],
+      "loesung": 0,
+      "erklaerung": "RBF SVMs are sensitive to feature scaling because distances drive the kernel. Adding StandardScaler (ideally in a pipeline) is the direct fix for scale mismatches. Changing gamma or switching kernels is not a reliable substitute, and tuning C alone does not correct distorted distances."
+    },
+    {
+      "question": "16. In a soft-margin SVM, what does the slack variable ζ(i) represent for a training point i?",
+      "options": [
+        "How much it violates margin",
+        "How far it is from the origin",
+        "How many features it contains",
+        "How often it gets resampled"
+      ],
+      "answer": 0,
+      "explanation": "Slack variables quantify how much a point lies inside the margin or on the wrong side of the boundary. They allow a controlled number of violations to improve robustness and generalization. They are not about distance to the origin, dimensionality, or sampling frequency.",
+      "weight": 2,
+      "topic": "Soft-margin and C",
+      "concept": "Slack variables",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Interpreting slack variables",
+        "content": "Slack variables are a bookkeeping device that relaxes strict separability. They enable the optimizer to focus on a wide margin while penalizing, but not forbidding, violations in proportion to C.",
+        "steps": [
+          "ζ(i) is constrained to be nonnegative.",
+          "ζ(i)=0 means the point respects the margin.",
+          "Larger ζ(i) means a larger margin violation.",
+          "C trades off ζ(i) penalties vs margin size."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Slack variable (ζ)",
+          "definition": "A nonnegative variable that measures margin violation for a data point."
+        },
+        {
+          "term": "Margin violation",
+          "definition": "When a point is inside the margin or misclassified."
+        },
+        {
+          "term": "Soft margin",
+          "definition": "SVM formulation allowing controlled violations."
+        },
+        {
+          "term": "Constraint",
+          "definition": "Optimization condition linking ζ, w, b, and each training point."
+        },
+        {
+          "term": "Regularization",
+          "definition": "Penalty that discourages complex or overfit models."
+        },
+        {
+          "term": "C",
+          "definition": "Hyperparameter setting the strength of the violation penalty."
+        }
+      ],
+      "frage": "16. In a soft-margin SVM, what does the slack variable ζ(i) represent for a training point i?",
+      "gewichtung": 2,
+      "thema": "Soft-margin and C",
+      "kognitive_stufe": "Application",
+      "optionen": [
+        "How much it violates margin",
+        "How far it is from the origin",
+        "How many features it contains",
+        "How often it gets resampled"
+      ],
+      "loesung": 0,
+      "erklaerung": "Slack variables quantify how much a point lies inside the margin or on the wrong side of the boundary. They allow a controlled number of violations to improve robustness and generalization. They are not about distance to the origin, dimensionality, or sampling frequency."
+    },
+    {
+      "question": "17. Which pairing of scikit-learn-style model and default loss is most accurate?",
+      "options": [
+        "LinearSVC uses squared_hinge",
+        "LinearSVC uses log_loss only",
+        "SGDClassifier uses squared_hinge",
+        "SVC uses squared_hinge only"
+      ],
+      "answer": 0,
+      "explanation": "A common default is that LinearSVC uses the squared hinge loss, while SGDClassifier often uses hinge loss for large-margin classification. Log loss is associated with logistic regression. Kernel SVC uses a different optimization approach and is not described as “squared_hinge only.”",
+      "weight": 2,
+      "topic": "Hinge vs squared hinge",
+      "concept": "Default losses in practice",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Connecting APIs to objectives",
+        "content": "Different implementations expose different loss choices. Remembering defaults matters because squared hinge can be more outlier-sensitive than hinge, which can affect behavior on noisy data.",
+        "steps": [
+          "LinearSVC is a linear SVM implementation.",
+          "Its common default loss is squared hinge.",
+          "SGDClassifier can approximate linear SVMs with hinge loss."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "LinearSVC",
+          "definition": "A linear SVM classifier implementation (typically based on liblinear)."
+        },
+        {
+          "term": "SGDClassifier",
+          "definition": "A classifier trained via SGD; can use hinge or log loss."
+        },
+        {
+          "term": "hinge",
+          "definition": "Linear-margin loss max(0, 1 − t·s)."
+        },
+        {
+          "term": "squared_hinge",
+          "definition": "Quadratic-margin loss max(0, 1 − t·s)^2."
+        },
+        {
+          "term": "Loss function",
+          "definition": "A function minimized during training to fit model parameters."
+        },
+        {
+          "term": "Outlier sensitivity",
+          "definition": "How strongly extreme points affect the fit."
+        }
+      ],
+      "frage": "17. Which pairing of scikit-learn-style model and default loss is most accurate?",
+      "gewichtung": 2,
+      "thema": "Hinge vs squared hinge",
+      "kognitive_stufe": "Application",
+      "optionen": [
+        "LinearSVC uses squared_hinge",
+        "LinearSVC uses log_loss only",
+        "SGDClassifier uses squared_hinge",
+        "SVC uses squared_hinge only"
+      ],
+      "loesung": 0,
+      "erklaerung": "A common default is that LinearSVC uses the squared hinge loss, while SGDClassifier often uses hinge loss for large-margin classification. Log loss is associated with logistic regression. Kernel SVC uses a different optimization approach and is not described as “squared_hinge only.”"
+    },
+    {
+      "question": "18. If a feature map ϕ satisfies ϕ(a)ᵀϕ(b) = (aᵀb)^2, which kernel matches this relationship?",
+      "options": [
+        "Polynomial kernel of degree 2",
+        "Linear kernel without bias term",
+        "RBF kernel with small gamma",
+        "Sigmoid kernel with tanh"
+      ],
+      "answer": 0,
+      "explanation": "The equation corresponds to a polynomial kernel of degree 2, because it equals the squared dot product in the original space. Linear and RBF kernels do not square the dot product in this way. The sigmoid kernel uses tanh, not a squared dot product.",
+      "weight": 3,
+      "topic": "Kernel trick",
+      "concept": "Polynomial kernel (degree 2)",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Matching equations to kernels",
+        "content": "Polynomial kernels represent inner products in a space of polynomial features. When the relationship is exactly the squared dot product, it matches a degree-2 polynomial kernel with zero offset.",
+        "steps": [
+          "Identify the target inner product: (aᵀb)^2.",
+          "Polynomial kernels compute (aᵀb + r)^d.",
+          "With r=0 and d=2, you get (aᵀb)^2."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Feature map (ϕ)",
+          "definition": "Transformation that maps inputs into a new feature space."
+        },
+        {
+          "term": "Kernel",
+          "definition": "Function computing an inner product in feature space implicitly."
+        },
+        {
+          "term": "Dot product (aᵀb)",
+          "definition": "Inner product between vectors a and b."
+        },
+        {
+          "term": "Polynomial kernel",
+          "definition": "Kernel of the form (aᵀb + r)^d."
+        },
+        {
+          "term": "Degree (d)",
+          "definition": "Exponent in a polynomial kernel controlling feature interactions."
+        },
+        {
+          "term": "Offset (r)",
+          "definition": "Constant term (often called coef0) added inside polynomial kernels."
+        }
+      ],
+      "frage": "18. If a feature map ϕ satisfies ϕ(a)ᵀϕ(b) = (aᵀb)^2, which kernel matches this relationship?",
+      "gewichtung": 3,
+      "thema": "Kernel trick",
+      "kognitive_stufe": "Analysis",
+      "optionen": [
+        "Polynomial kernel of degree 2",
+        "Linear kernel without bias term",
+        "RBF kernel with small gamma",
+        "Sigmoid kernel with tanh"
+      ],
+      "loesung": 0,
+      "erklaerung": "The equation corresponds to a polynomial kernel of degree 2, because it equals the squared dot product in the original space. Linear and RBF kernels do not square the dot product in this way. The sigmoid kernel uses tanh, not a squared dot product."
+    },
+    {
+      "question": "19. In a polynomial-kernel SVM, what does coef0 (the offset term) mainly control?",
+      "options": [
+        "Balance low vs high-degree terms",
+        "The number of classes in training",
+        "The learning rate in optimization",
+        "Whether scaling is still needed"
+      ],
+      "answer": 0,
+      "explanation": "coef0 shifts the kernel so that lower-order versus higher-order polynomial terms can have different relative influence. It does not set class count or learning rate, and scaling can still matter. It’s a kernel-shape parameter, not a preprocessing switch.",
+      "weight": 2,
+      "topic": "Kernel hyperparameters",
+      "concept": "coef0 in polynomial kernels",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Interpreting coef0",
+        "content": "Adjusting coef0 changes how strongly the kernel emphasizes interactions versus simpler components. This can help tune bias–variance behavior when a polynomial kernel is used.",
+        "steps": [
+          "Polynomial kernels often use (aᵀb + coef0)^d.",
+          "coef0 changes the contribution of lower-order terms.",
+          "Together with degree, it affects model flexibility."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Polynomial kernel",
+          "definition": "Kernel of the form (aᵀb + coef0)^degree."
+        },
+        {
+          "term": "coef0",
+          "definition": "Offset inside the polynomial (and sigmoid) kernel."
+        },
+        {
+          "term": "Degree",
+          "definition": "Polynomial degree controlling interaction order."
+        },
+        {
+          "term": "Kernel hyperparameter",
+          "definition": "A parameter that changes the kernel’s behavior."
+        },
+        {
+          "term": "Bias–variance trade-off",
+          "definition": "Trade-off between underfitting and overfitting."
+        },
+        {
+          "term": "Model flexibility",
+          "definition": "Capacity of a model to fit complex patterns."
+        }
+      ],
+      "frage": "19. In a polynomial-kernel SVM, what does coef0 (the offset term) mainly control?",
+      "gewichtung": 2,
+      "thema": "Kernel hyperparameters",
+      "kognitive_stufe": "Application",
+      "optionen": [
+        "Balance low vs high-degree terms",
+        "The number of classes in training",
+        "The learning rate in optimization",
+        "Whether scaling is still needed"
+      ],
+      "loesung": 0,
+      "erklaerung": "coef0 shifts the kernel so that lower-order versus higher-order polynomial terms can have different relative influence. It does not set class count or learning rate, and scaling can still matter. It’s a kernel-shape parameter, not a preprocessing switch."
+    },
+    {
+      "question": "20. In the dual formulation of an SVM, which training points typically have non-zero α(i) at the optimum?",
+      "options": [
+        "Points on or inside the margin",
+        "Points far outside the margin",
+        "Only the correctly classified ones",
+        "Only the misclassified ones"
+      ],
+      "answer": 0,
+      "explanation": "Non-zero α(i) values correspond to support vectors, which lie on the margin or violate it (inside the margin or misclassified). Points far outside the margin usually have α(i)=0 and do not affect the solution. Being correct or incorrect alone is not the criterion.",
+      "weight": 3,
+      "topic": "Primal vs dual",
+      "concept": "Support vectors via α",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Connecting α to support vectors",
+        "content": "In the SVM dual, the decision function is a weighted sum over training points. KKT complementary slackness implies that only points with active constraints (on/inside the margin) receive non-zero weight and thus define the boundary.",
+        "steps": [
+          "Dual variables α(i) weight training points in the solution.",
+          "KKT conditions link α(i) to whether constraints are active.",
+          "Active constraints occur on/inside the margin.",
+          "Those points become support vectors."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Dual variable (α)",
+          "definition": "Lagrange multiplier associated with each training constraint."
+        },
+        {
+          "term": "KKT conditions",
+          "definition": "Optimality conditions linking primal and dual solutions in convex optimization."
+        },
+        {
+          "term": "Support vector",
+          "definition": "A point with α(i) ≠ 0 that influences the decision function."
+        },
+        {
+          "term": "Active constraint",
+          "definition": "A constraint that holds with equality at the optimum."
+        },
+        {
+          "term": "Margin",
+          "definition": "Buffer region the classifier tries to maximize."
+        },
+        {
+          "term": "Complementary slackness",
+          "definition": "KKT rule relating α(i) to whether a constraint is active."
+        }
+      ],
+      "frage": "20. In the dual formulation of an SVM, which training points typically have non-zero α(i) at the optimum?",
+      "gewichtung": 3,
+      "thema": "Primal vs dual",
+      "kognitive_stufe": "Analysis",
+      "optionen": [
+        "Points on or inside the margin",
+        "Points far outside the margin",
+        "Only the correctly classified ones",
+        "Only the misclassified ones"
+      ],
+      "loesung": 0,
+      "erklaerung": "Non-zero α(i) values correspond to support vectors, which lie on the margin or violate it (inside the margin or misclassified). Points far outside the margin usually have α(i)=0 and do not affect the solution. Being correct or incorrect alone is not the criterion."
+    },
+    {
+      "question": "21. A linear soft-margin SVM underfits: training accuracy is low and the margin is very wide. Which change is most directly aimed at reducing underfitting?",
+      "options": [
+        "Increase C to penalize violations",
+        "Decrease C to widen the margin",
+        "Increase ε to ignore more errors",
+        "Decrease γ to make it local in RBF"
+      ],
+      "answer": 0,
+      "explanation": "Increasing C reduces regularization by penalizing margin violations more strongly, which can fit the training data better and reduce underfitting. Decreasing C would usually increase regularization. ε applies to SVR, and γ applies to RBF kernels, not a linear SVM.",
+      "weight": 3,
+      "topic": "Large-margin geometry",
+      "concept": "Regularization strength",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Diagnosing underfitting in SVMs",
+        "content": "When a soft-margin SVM underfits, a common cause is overly strong regularization. Raising C increases the cost of violations, typically shrinking the margin and improving training fit—at the risk of overfitting if pushed too far.",
+        "steps": [
+          "Underfitting suggests the model is too constrained.",
+          "In soft-margin SVMs, C controls constraint strength.",
+          "Higher C fits training points more strictly.",
+          "Adjust kernel/hyperparameters only if they apply."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Underfitting",
+          "definition": "Poor performance because the model is too simple or too regularized."
+        },
+        {
+          "term": "Soft margin",
+          "definition": "SVM that allows controlled violations via slack variables."
+        },
+        {
+          "term": "C",
+          "definition": "Penalty strength for margin violations; higher C means weaker regularization."
+        },
+        {
+          "term": "Regularization",
+          "definition": "Penalty that limits model complexity to improve generalization."
+        },
+        {
+          "term": "Training accuracy",
+          "definition": "Accuracy computed on the training dataset."
+        },
+        {
+          "term": "Margin",
+          "definition": "Distance buffer that an SVM tries to maximize."
+        }
+      ],
+      "frage": "21. A linear soft-margin SVM underfits: training accuracy is low and the margin is very wide. Which change is most directly aimed at reducing underfitting?",
+      "gewichtung": 3,
+      "thema": "Large-margin geometry",
+      "kognitive_stufe": "Analysis",
+      "optionen": [
+        "Increase C to penalize violations",
+        "Decrease C to widen the margin",
+        "Increase ε to ignore more errors",
+        "Decrease γ to make it local in RBF"
+      ],
+      "loesung": 0,
+      "erklaerung": "Increasing C reduces regularization by penalizing margin violations more strongly, which can fit the training data better and reduce underfitting. Decreasing C would usually increase regularization. ε applies to SVR, and γ applies to RBF kernels, not a linear SVM."
+    },
+    {
+      "question": "22. A linear SVM uses the decision score s = w·x + b. Which rule is typically used to predict the positive class?",
+      "options": [
+        "Predict positive when s &gt; 0",
+        "Predict positive when s &lt; 0",
+        "Predict positive when s = 0",
+        "Predict positive when |s| &lt; 1"
+      ],
+      "answer": 0,
+      "explanation": "For a binary linear SVM, the sign of s determines the side of the hyperplane. If s is positive, the point lies on the positive side and is predicted as the positive class. The threshold at exactly 0 defines the boundary itself.",
+      "weight": 2,
+      "topic": "Support vectors",
+      "concept": "Decision function sign",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Using the decision score",
+        "content": "SVM classification is based on which side of the separating hyperplane a point falls on. The score is a signed distance proxy: its sign gives the predicted class, while its magnitude relates to confidence and margin distance.",
+        "steps": [
+          "Compute s = w·x + b.",
+          "Check its sign.",
+          "Positive sign maps to the positive side of the hyperplane."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Decision score (s)",
+          "definition": "Value w·x + b used to classify a point."
+        },
+        {
+          "term": "Hyperplane",
+          "definition": "Decision boundary defined by w·x + b = 0."
+        },
+        {
+          "term": "Sign",
+          "definition": "Whether a number is positive or negative; used for classification."
+        },
+        {
+          "term": "Binary classification",
+          "definition": "Task with two classes, often encoded as 0/1 or −1/+1."
+        },
+        {
+          "term": "Weight vector (w)",
+          "definition": "Parameters that define hyperplane orientation."
+        },
+        {
+          "term": "Bias term (b)",
+          "definition": "Offset that shifts the hyperplane."
+        }
+      ],
+      "frage": "22. A linear SVM uses the decision score s = w·x + b. Which rule is typically used to predict the positive class?",
+      "gewichtung": 2,
+      "thema": "Support vectors",
+      "kognitive_stufe": "Application",
+      "optionen": [
+        "Predict positive when s &gt; 0",
+        "Predict positive when s &lt; 0",
+        "Predict positive when s = 0",
+        "Predict positive when |s| &lt; 1"
+      ],
+      "loesung": 0,
+      "erklaerung": "For a binary linear SVM, the sign of s determines the side of the hyperplane. If s is positive, the point lies on the positive side and is predicted as the positive class. The threshold at exactly 0 defines the boundary itself."
+    },
+    {
+      "question": "23. You have two input features: one is in milliseconds (0–1000), the other is a ratio (0–1). What preprocessing is most appropriate before an SVM?",
+      "options": [
+        "Standardize both features",
+        "Drop the ratio feature",
+        "Multiply ratios by 1000",
+        "Clip values to [0, 1] range",
+        "Randomly permute features"
+      ],
+      "answer": 0,
+      "explanation": "Standardization makes features comparable regardless of units, which is important for SVMs. Dropping a feature may lose signal, and manually multiplying or clipping is not a principled substitute. Permuting features breaks the meaning of the data.",
+      "weight": 2,
+      "topic": "Feature scaling",
+      "concept": "Unit mismatch",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Handling different feature units",
+        "content": "When feature units differ, the larger-scale feature can dominate the margin or kernel distance. Standardizing both features is the standard fix and is typically safer than ad-hoc rescaling.",
+        "steps": [
+          "SVMs use dot products/distances that depend on scale.",
+          "Different units distort these computations.",
+          "Standardization fixes the mismatch systematically."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Unit mismatch",
+          "definition": "When features have different units and numeric ranges."
+        },
+        {
+          "term": "Standardization",
+          "definition": "Rescaling to mean 0 and variance 1."
+        },
+        {
+          "term": "Feature",
+          "definition": "Input variable used by a learning algorithm."
+        },
+        {
+          "term": "Distance",
+          "definition": "Measure used by kernels (e.g., RBF) and implicit geometry."
+        },
+        {
+          "term": "Margin",
+          "definition": "SVM buffer region influenced by feature scales."
+        },
+        {
+          "term": "Preprocessing",
+          "definition": "Transformations applied to data before model fitting."
+        }
+      ],
+      "frage": "23. You have two input features: one is in milliseconds (0–1000), the other is a ratio (0–1). What preprocessing is most appropriate before an SVM?",
+      "gewichtung": 2,
+      "thema": "Feature scaling",
+      "kognitive_stufe": "Application",
+      "optionen": [
+        "Standardize both features",
+        "Drop the ratio feature",
+        "Multiply ratios by 1000",
+        "Clip values to [0, 1] range",
+        "Randomly permute features"
+      ],
+      "loesung": 0,
+      "erklaerung": "Standardization makes features comparable regardless of units, which is important for SVMs. Dropping a feature may lose signal, and manually multiplying or clipping is not a principled substitute. Permuting features breaks the meaning of the data."
+    },
+    {
+      "question": "24. An RBF-kernel SVM overfits: training accuracy is high but validation accuracy is low. Which adjustment is most consistent with reducing overfitting?",
+      "options": [
+        "Decrease γ and decrease C together",
+        "Increase γ and increase C together",
+        "Increase γ and decrease C together",
+        "Decrease γ and increase C together"
+      ],
+      "answer": 0,
+      "explanation": "Overfitting in an RBF SVM can be reduced by making the boundary smoother and regularizing more. Decreasing γ broadens each point’s influence (smoother boundary), and decreasing C increases regularization (tolerates more violations). The opposite directions typically increase model flexibility.",
+      "weight": 3,
+      "topic": "RBF kernel and gamma",
+      "concept": "Bias–variance tuning (C, γ)",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Reducing overfitting in RBF SVMs",
+        "content": "When an RBF SVM overfits, it is often too flexible: γ may be too large (too local) and/or C too large (too little regularization). Lowering both typically reduces variance and improves validation performance, though the best settings should be selected via tuning.",
+        "steps": [
+          "γ controls locality: lower γ → smoother boundary.",
+          "C controls regularization: lower C → stronger regularization.",
+          "Combine adjustments to reduce variance.",
+          "Validate changes with cross-validation."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "RBF kernel",
+          "definition": "Kernel based on exp(−γ||x−x'||^2)."
+        },
+        {
+          "term": "Gamma (γ)",
+          "definition": "Controls how local the RBF similarity is."
+        },
+        {
+          "term": "C",
+          "definition": "Penalty for margin violations; smaller C increases regularization."
+        },
+        {
+          "term": "Overfitting",
+          "definition": "High training performance but poor validation performance."
+        },
+        {
+          "term": "Validation set",
+          "definition": "Hold-out data used to estimate generalization."
+        },
+        {
+          "term": "Regularization",
+          "definition": "Constraint/penalty that reduces model complexity."
+        }
+      ],
+      "frage": "24. An RBF-kernel SVM overfits: training accuracy is high but validation accuracy is low. Which adjustment is most consistent with reducing overfitting?",
+      "gewichtung": 3,
+      "thema": "RBF kernel and gamma",
+      "kognitive_stufe": "Analysis",
+      "optionen": [
+        "Decrease γ and decrease C together",
+        "Increase γ and increase C together",
+        "Increase γ and decrease C together",
+        "Decrease γ and increase C together"
+      ],
+      "loesung": 0,
+      "erklaerung": "Overfitting in an RBF SVM can be reduced by making the boundary smoother and regularizing more. Decreasing γ broadens each point’s influence (smoother boundary), and decreasing C increases regularization (tolerates more violations). The opposite directions typically increase model flexibility."
+    },
+    {
+      "question": "25. Your dataset has noticeable outliers. Which loss choice is generally less sensitive to extreme violations?",
+      "options": [
+        "Use hinge instead of squared_hinge",
+        "Use squared_hinge instead of hinge",
+        "Use log_loss for a hard margin",
+        "Use zero_one loss for kernels",
+        "Use tanh loss for stability"
+      ],
+      "answer": 0,
+      "explanation": "Hinge loss grows linearly for violations, whereas squared hinge grows quadratically, making it more sensitive to outliers. Log loss is a different objective, and 0–1 loss is not used directly in standard convex SVM training. “tanh loss” is not a standard choice here.",
+      "weight": 2,
+      "topic": "Hinge vs squared hinge",
+      "concept": "Noise robustness",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "Picking a loss under outliers",
+        "content": "When you expect outliers, a loss with gentler growth can reduce their leverage on the optimization. Hinge loss is often preferable to squared hinge in that setting, though tuning and data cleaning still matter.",
+        "steps": [
+          "Outliers create large margin violations.",
+          "Linear growth reduces the impact of extremes.",
+          "Quadratic growth amplifies extreme points."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Outlier",
+          "definition": "A point that is far from the typical data distribution."
+        },
+        {
+          "term": "Hinge loss",
+          "definition": "Linear penalty for violations: max(0, 1 − t·s)."
+        },
+        {
+          "term": "Squared hinge loss",
+          "definition": "Quadratic penalty: max(0, 1 − t·s)^2."
+        },
+        {
+          "term": "Margin violation",
+          "definition": "A point inside the margin or misclassified."
+        },
+        {
+          "term": "Noise",
+          "definition": "Random variation or errors in data that can mislead training."
+        },
+        {
+          "term": "Robustness",
+          "definition": "Resistance of a model to performance degradation under noise/outliers."
+        }
+      ],
+      "frage": "25. Your dataset has noticeable outliers. Which loss choice is generally less sensitive to extreme violations?",
+      "gewichtung": 2,
+      "thema": "Hinge vs squared hinge",
+      "kognitive_stufe": "Application",
+      "optionen": [
+        "Use hinge instead of squared_hinge",
+        "Use squared_hinge instead of hinge",
+        "Use log_loss for a hard margin",
+        "Use zero_one loss for kernels",
+        "Use tanh loss for stability"
+      ],
+      "loesung": 0,
+      "erklaerung": "Hinge loss grows linearly for violations, whereas squared hinge grows quadratically, making it more sensitive to outliers. Log loss is a different objective, and 0–1 loss is not used directly in standard convex SVM training. “tanh loss” is not a standard choice here."
+    },
+    {
+      "question": "26. Which condition is most essential for a function K(a, b) to be a valid Mercer kernel for SVMs?",
+      "options": [
+        "It yields a PSD Gram matrix for data",
+        "It outputs probabilities in [0,1] values",
+        "It is strictly decreasing with distance",
+        "It depends on only one input"
+      ],
+      "answer": 0,
+      "explanation": "A Mercer kernel must correspond to an inner product in some feature space, which is equivalent to producing a positive semidefinite (PSD) Gram matrix on any finite sample. Probability outputs are not required, and the kernel must depend on both inputs. Monotonic decrease is not a general requirement.",
+      "weight": 3,
+      "topic": "Kernel trick",
+      "concept": "Mercer condition (PSD)",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Checking Mercer validity",
+        "content": "Mercer’s theorem connects kernel functions to implicit feature maps. In practice, a key check is whether the kernel yields a symmetric, positive semidefinite Gram matrix, ensuring the SVM optimization remains convex and well-defined.",
+        "steps": [
+          "Construct the Gram matrix K_ij = K(x_i, x_j).",
+          "A valid kernel produces a PSD Gram matrix.",
+          "PSD implies an inner-product representation in some feature space."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Mercer kernel",
+          "definition": "A kernel that corresponds to an inner product in some (possibly infinite) feature space."
+        },
+        {
+          "term": "Gram matrix",
+          "definition": "Matrix with entries K(x_i, x_j) for a dataset."
+        },
+        {
+          "term": "Positive semidefinite (PSD)",
+          "definition": "Property meaning vᵀKv ≥ 0 for all vectors v."
+        },
+        {
+          "term": "Feature space",
+          "definition": "Space where inputs are mapped by ϕ and inner products are computed."
+        },
+        {
+          "term": "Convex optimization",
+          "definition": "Optimization with a single global optimum; standard SVM training is convex."
+        },
+        {
+          "term": "Symmetry",
+          "definition": "Kernel property K(a,b)=K(b,a), typically required for standard kernels."
+        }
+      ],
+      "frage": "26. Which condition is most essential for a function K(a, b) to be a valid Mercer kernel for SVMs?",
+      "gewichtung": 3,
+      "thema": "Kernel trick",
+      "kognitive_stufe": "Analysis",
+      "optionen": [
+        "It yields a PSD Gram matrix for data",
+        "It outputs probabilities in [0,1] values",
+        "It is strictly decreasing with distance",
+        "It depends on only one input"
+      ],
+      "loesung": 0,
+      "erklaerung": "A Mercer kernel must correspond to an inner product in some feature space, which is equivalent to producing a positive semidefinite (PSD) Gram matrix on any finite sample. Probability outputs are not required, and the kernel must depend on both inputs. Monotonic decrease is not a general requirement."
+    },
+    {
+      "question": "27. As a practical rule of thumb when choosing an SVM kernel, what is a good first choice to try?",
+      "options": [
+        "Start with a linear kernel",
+        "Start with an RBF kernel",
+        "Start with a sigmoid kernel"
+      ],
+      "answer": 0,
+      "explanation": "A linear kernel is often the first choice because it is fast and can perform well, especially with many features. If it underfits, you can then try more flexible kernels such as RBF. Sigmoid kernels are less commonly used in practice.",
+      "weight": 2,
+      "topic": "Kernel hyperparameters",
+      "concept": "Kernel selection heuristic",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "A simple kernel-selection heuristic",
+        "content": "Kernel choice is part of controlling model complexity and computational cost. Starting with a linear model gives a strong baseline and is easier to scale; more complex kernels are explored if the linear model is insufficient.",
+        "steps": [
+          "Try the simplest model first.",
+          "Linear SVMs are efficient for large feature spaces.",
+          "Only move to kernels if needed and feasible."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Kernel",
+          "definition": "Function that defines similarity for kernelized SVMs."
+        },
+        {
+          "term": "Linear kernel",
+          "definition": "Kernel K(a,b)=aᵀb; equivalent to a linear classifier."
+        },
+        {
+          "term": "RBF kernel",
+          "definition": "Kernel based on exp(−γ||x−x'||^2), enabling non-linear boundaries."
+        },
+        {
+          "term": "Underfitting",
+          "definition": "When the model is too simple to capture structure."
+        },
+        {
+          "term": "Computational cost",
+          "definition": "Time/memory needed to train and use a model."
+        },
+        {
+          "term": "Baseline model",
+          "definition": "A simple first model used as a reference point."
+        }
+      ],
+      "frage": "27. As a practical rule of thumb when choosing an SVM kernel, what is a good first choice to try?",
+      "gewichtung": 2,
+      "thema": "Kernel hyperparameters",
+      "kognitive_stufe": "Application",
+      "optionen": [
+        "Start with a linear kernel",
+        "Start with an RBF kernel",
+        "Start with a sigmoid kernel"
+      ],
+      "loesung": 0,
+      "erklaerung": "A linear kernel is often the first choice because it is fast and can perform well, especially with many features. If it underfits, you can then try more flexible kernels such as RBF. Sigmoid kernels are less commonly used in practice."
+    },
+    {
+      "question": "28. In a kernel SVM, what primarily determines the computation time for predicting one new example?",
+      "options": [
+        "The number of support vectors",
+        "The number of training epochs",
+        "The number of output classes",
+        "The batch size in training"
+      ],
+      "answer": 0,
+      "explanation": "Kernel SVM prediction typically computes kernel values between the new point and each support vector, so the number of support vectors is the main driver of prediction cost. Training epochs and batch size relate to training procedures, not kernel evaluation at prediction time. Class count matters mainly for multi-class schemes, but kernel evaluations still scale with support vectors.",
+      "weight": 3,
+      "topic": "Primal vs dual",
+      "concept": "Support vectors at prediction time",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Why support vectors matter at inference",
+        "content": "The kernel decision function is a weighted sum over support vectors. Because only those points have non-zero α(i), prediction cost scales with their count rather than with all training points—yet it can still be large if many support vectors remain.",
+        "steps": [
+          "Kernel prediction sums contributions from selected training points.",
+          "Only support vectors have non-zero weights.",
+          "Each support vector requires a kernel evaluation.",
+          "More support vectors → slower predictions."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "Kernel SVM",
+          "definition": "An SVM that uses a kernel to model non-linear decision boundaries."
+        },
+        {
+          "term": "Support vector",
+          "definition": "Training point with non-zero weight in the decision function."
+        },
+        {
+          "term": "Kernel evaluation",
+          "definition": "Computing K(x_new, x_i) for a support vector x_i."
+        },
+        {
+          "term": "Inference",
+          "definition": "Using a trained model to make predictions on new data."
+        },
+        {
+          "term": "Dual weight (α)",
+          "definition": "Coefficient for a support vector in the kernel expansion."
+        },
+        {
+          "term": "Decision function",
+          "definition": "Score computed to decide the predicted class."
+        }
+      ]
+    },
+    {
+      "question": "29. Which statement best describes the typical training scalability trade-off between LinearSVC and kernel SVC (SVC) on large datasets?",
+      "options": [
+        "Kernel SVC scales superlinearly in m",
+        "LinearSVC can scale superlinearly in m",
+        "Kernel SVC can scale roughly linearly in m",
+        "LinearSVC can scale cubically in n",
+        "Both can scale the same in practice"
+      ],
+      "answer": 0,
+      "explanation": "Kernel SVC often scales poorly with the number of training points m (commonly between quadratic and cubic behavior), making it slow on very large datasets. LinearSVC is designed to scale much closer to linearly with m and n for linear problems. Therefore, kernel SVC can be the bottleneck as m grows.",
+      "weight": 3,
+      "topic": "Algorithm choice and scaling",
+      "concept": "Computational complexity",
+      "cognitive_level": "Analysis",
+      "extended_explanation": {
+        "title": "Reasoning about scalability",
+        "content": "Kernel SVC relies on computations that effectively involve many pairwise interactions, which can grow very quickly as the dataset grows. LinearSVC avoids this by working directly in the original feature space, making it far more practical for large m when a linear separator is sufficient.",
+        "steps": [
+          "Kernel SVC uses kernel methods that depend on pairwise relationships.",
+          "Pairwise relationships grow ~m² in size.",
+          "Linear SVM implementations avoid the full kernel matrix.",
+          "Choose LinearSVC (or SGD) when m is huge and linear is plausible."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "LinearSVC",
+          "definition": "Efficient linear SVM classifier implementation."
+        },
+        {
+          "term": "SVC",
+          "definition": "Kernel-capable SVM classifier implementation."
+        },
+        {
+          "term": "m (samples)",
+          "definition": "Number of training points in the dataset."
+        },
+        {
+          "term": "Kernel matrix",
+          "definition": "Matrix of pairwise kernel values; expensive to build/store for large m."
+        },
+        {
+          "term": "Scalability",
+          "definition": "How training time/memory grow with dataset size."
+        },
+        {
+          "term": "Superlinear",
+          "definition": "Growth faster than proportional (e.g., quadratic or cubic)."
+        }
+      ],
+      "frage": "29. Which statement best describes the typical training scalability trade-off between LinearSVC and kernel SVC (SVC) on large datasets?",
+      "gewichtung": 3,
+      "thema": "Algorithm choice and scaling",
+      "kognitive_stufe": "Analysis",
+      "optionen": [
+        "Kernel SVC scales superlinearly in m",
+        "LinearSVC can scale superlinearly in m",
+        "Kernel SVC can scale roughly linearly in m",
+        "LinearSVC can scale cubically in n",
+        "Both can scale the same in practice"
+      ],
+      "loesung": 0,
+      "erklaerung": "Kernel SVC often scales poorly with the number of training points m (commonly between quadratic and cubic behavior), making it slow on very large datasets. LinearSVC is designed to scale much closer to linearly with m and n for linear problems. Therefore, kernel SVC can be the bottleneck as m grows."
+    },
+    {
+      "question": "30. In SVR, what is the most typical effect of increasing ε (epsilon) while keeping other hyperparameters fixed?",
+      "options": [
+        "It reduces support vectors",
+        "It increases support vectors",
+        "It forces a hard margin"
+      ],
+      "answer": 0,
+      "explanation": "A larger ε widens the insensitive tube, so fewer points fall outside it and fewer become support vectors. This can make the model simpler and smoother. The hard-margin concept is for classification, not SVR regression.",
+      "weight": 2,
+      "topic": "SVM regression",
+      "concept": "Effect of ε on support vectors",
+      "cognitive_level": "Application",
+      "extended_explanation": {
+        "title": "How ε changes the SVR fit",
+        "content": "By increasing ε you tolerate more deviation without penalty, so fewer training points constrain the solution. This typically reduces the number of support vectors and yields a smoother regression function.",
+        "steps": [
+          "ε sets the tube width around predictions.",
+          "Wider tube means fewer penalized deviations.",
+          "Fewer penalized deviations often means fewer support vectors."
+        ]
+      },
+      "mini_glossary": [
+        {
+          "term": "SVR",
+          "definition": "Support Vector Regression for continuous prediction."
+        },
+        {
+          "term": "Epsilon (ε)",
+          "definition": "Width parameter of the ε-insensitive tube."
+        },
+        {
+          "term": "Insensitive tube",
+          "definition": "Region where prediction errors are not penalized."
+        },
+        {
+          "term": "Support vector",
+          "definition": "Point that influences the SVR solution."
+        },
+        {
+          "term": "Model complexity",
+          "definition": "How flexible a model is in fitting data."
+        },
+        {
+          "term": "Smoother fit",
+          "definition": "A regression function that varies less abruptly with inputs."
+        }
+      ],
+      "frage": "30. In SVR, what is the most typical effect of increasing ε (epsilon) while keeping other hyperparameters fixed?",
+      "gewichtung": 2,
+      "thema": "SVM regression",
+      "kognitive_stufe": "Application",
+      "optionen": [
+        "It reduces support vectors",
+        "It increases support vectors",
+        "It forces a hard margin"
+      ],
+      "loesung": 0,
+      "erklaerung": "A larger ε widens the insensitive tube, so fewer points fall outside it and fewer become support vectors. This can make the model simpler and smoother. The hard-margin concept is for classification, not SVR regression."
+    }
+  ],
+  "meta": {
+    "title": "Machine Learning: Kapitel 5",
+    "created": "10.02.2026 10:22",
+    "target_audience": "University computer science students",
+    "question_count": 30,
+    "difficulty_profile": {
+      "leicht": 3,
+      "mittel": 18,
+      "schwer": 9
+    },
+    "language": "en",
+    "time_per_weight_minutes": {
+      "1": 0.5,
+      "2": 0.75,
+      "3": 1.0
+    },
+    "additional_buffer_minutes": 5,
+    "test_duration_minutes": 30,
+    "computed_test_duration_minutes": 30
+  }
+}

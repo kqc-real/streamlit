@@ -13,19 +13,21 @@ Optimiere die Lernziele fachlich und didaktisch, sodass sie **vollständig, kons
    - Lernziele müssen den **Themen** und **Konzepten** der Fragen entsprechen.
 
 2. **Korrektes kognitives Niveau**
-   - **Reproduktion**: nennen, beschreiben, definieren, identifizieren, wiedergeben
-   - **Anwendung**: anwenden, einsetzen, auswählen, bestimmen, zuordnen, erkennen (im Kontext)
-   - **Strukturelle Analyse**: analysieren, begründen, bewerten, diagnostizieren, herleiten, ableiten
+   - **Reproduktion / Reproduction**: nennen, beschreiben, definieren, identifizieren, wiedergeben | name, recall, describe, define, identify, state, list
+   - **Anwendung / Application**: anwenden, einsetzen, auswählen, bestimmen, zuordnen, erkennen (im Kontext) | apply, use, select, determine, classify, recognize (in context)
+   - **Strukturelle Analyse / Structural Analysis**: analysieren, begründen, bewerten, diagnostizieren, herleiten, ableiten | analyze, compare, justify, diagnose, evaluate, derive, assess, reason about
 
 3. **Formale Regeln**
    - **Ein Verb pro Lernziel** (keine Verbketten).
    - **Kurz, klar, messbar**.
    - Keine vagen Verben wie „verstehen“, „kennen“.
-   - Sprache: **Deutsch**.
+   - Sprache: **Wie im Fragenset** (meta.language; falls fehlt: Sprache aus den Fragen ableiten).
 
 4. **Struktur der Lernziele**
    - 5–10 **übergeordnete Cluster** mit kurzen Erklärungen.
-   - Detaillierte Lernziele nach **Reproduktion / Anwendung / Strukturelle Analyse**.
+   - Detaillierte Lernziele nach den **lokalisierten Level-Namen**:
+     - DE: Reproduktion / Anwendung / Strukturelle Analyse
+     - EN: Reproduction / Application / Structural Analysis
    - Reihenfolge: Themen logisch von einfach zu komplex.
 
 5. **Technische Regeln**
@@ -35,7 +37,7 @@ Optimiere die Lernziele fachlich und didaktisch, sodass sie **vollständig, kons
 ## Output-Regeln (strikt!)
 - **Nur Markdown** ausgeben. Keine JSON, keine Erklärungen.
 - **Keine Code-Fences**.
-- Struktur wie im Beispiel:
+- Struktur wie im Beispiel (Deutsch). **Passe Überschriften und „Du kannst …“ an die Fragenset-Sprache an.**
 
 # Übergeordnete Lernziele: <Titel>
 

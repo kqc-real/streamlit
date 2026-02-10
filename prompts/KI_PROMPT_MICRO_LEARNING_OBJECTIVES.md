@@ -6,7 +6,7 @@ You receive a JSON object with `meta` (title, target_audience, etc.) and `questi
 
 TASK
 ----
-1. **Detect language** from `question` texts (German/English)
+1. **Determine output language** from `meta.language` (preferred) or detect from `question` texts (German/English)
 2. **Create ONE micro-LO per question** describing what a learner can do when answering correctly
 3. **Group by cognitive_level** and order by topic/concept complexity within each level
 4. **Generate overarching objectives** by clustering related topics (5-10 clusters)
@@ -67,7 +67,10 @@ PROCEDURE PER QUESTION
 
 OUTPUT FORMAT
 -------------
-Single markdown code block:
+Single markdown code block. Adapt headings and the "Du kannst …"/"You can …" line to the selected language. Use localized level names:
+- DE: Reproduktion / Anwendung / Strukturelle Analyse
+- EN: Reproduction / Application / Analysis
+
 ```markdown
 # Übergeordnete Lernziele: <title>
 
@@ -105,7 +108,7 @@ Im Kontext des Themas **<title>** soll dir dieses Fragenset helfen, die folgende
 ```
 
 **Key formatting:**
-- Blank line after "**Du kannst …**" before list
+- Blank line after "**Du kannst …**" / "**You can …**" before list
 - Order within level: group by topic → simple to complex topics → within topic basic to advanced concepts
 - Use infinitive (German) or base form (English) verbs
 - Math notation: LaTeX in `$...$` or `$$...$$`
