@@ -110,7 +110,7 @@ Der Workflow ist in Abb. 1 dargestellt.
 
 ![](images/fsm_workflow_current.svg)
 
-*Abb. 1. Endlicher Zustandsworkflow der Itemgenerierung.*
+*Abb. 1. Zustandsworkflow der Itemgenerierung.*
 
 ## 4. Learner-Facing Analytics und pädagogische Steuerung
 
