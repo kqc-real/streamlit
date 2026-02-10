@@ -3047,10 +3047,7 @@ def render_welcome_page(app_config: AppConfig):
     languages_label_parts = []
     for lang, count in sorted(language_counts.items()):
         name = lang_names.get(lang.lower(), lang)
-        if count > 1:
-            languages_label_parts.append(f"{name} ({count})")
-        else:
-            languages_label_parts.append(name)
+        languages_label_parts.append(f"{name} ({count})")
     languages_label = ", ".join(languages_label_parts)
     if languages_label:
         st.caption(_welcome_languages_available(languages_label))
