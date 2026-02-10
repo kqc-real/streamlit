@@ -90,6 +90,28 @@ def show_ephemeral_message(message: str, seconds: float = 3.0, icon: str | None 
                 pass
 
 
+@st.cache_data(ttl=3600)
+def _load_scientist_contributions_any_locale() -> dict[str, str]:
+    """Load scientist contributions across all locale files for name lookup."""
+    base_dir = Path(get_package_dir()) / "data"
+    lookup: dict[str, str] = {}
+    for path in base_dir.glob("scientists*.json"):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        if not isinstance(data, list):
+            continue
+        for entry in data:
+            if not isinstance(entry, dict):
+                continue
+            name = entry.get("name")
+            contrib = entry.get("contribution")
+            if isinstance(name, str) and name and isinstance(contrib, str) and contrib:
+                lookup.setdefault(name, contrib)
+    return lookup
+
+
 def _inject_main_container_padding() -> None:
     """Inject a single padding declaration for the main container.
 
@@ -2326,7 +2348,19 @@ def _render_pseudonym_gate_dialog(app_config: AppConfig):
         if app_config.admin_user:
             admin_scientist = next((s for s in scientists if s.get("name") == app_config.admin_user), None)
             if admin_scientist and admin_scientist not in available:
+                if not admin_scientist.get("contribution"):
+                    contrib = _load_scientist_contributions_any_locale().get(app_config.admin_user)
+                    if contrib:
+                        admin_scientist = dict(admin_scientist)
+                        admin_scientist["contribution"] = contrib
                 available.append(admin_scientist)
+            if not admin_scientist:
+                admin_name = str(app_config.admin_user).strip()
+                if admin_name:
+                    existing = {s.get("name") for s in available if isinstance(s, dict)}
+                    if admin_name not in existing:
+                        contrib = _load_scientist_contributions_any_locale().get(admin_name, "")
+                        available.append({"name": admin_name, "contribution": contrib})
 
         available.sort(key=lambda s: locale.strxfrm(s["name"]))
         options = [s["name"] for s in available]
@@ -3903,9 +3937,22 @@ def render_welcome_page(app_config: AppConfig):
             admin_user = app_config.admin_user
             if admin_user:
                 admin_scientist = next((s for s in scientists if s.get('name') == admin_user), None)
-                # Füge den Admin hinzu, falls er nicht bereits in der verfügbaren Liste ist
+                # Füge den Admin hinzu, falls er nicht bereits in der verfügbaren Liste ist.
                 if admin_scientist and admin_scientist not in available_scientists_obj:
+                    if not admin_scientist.get("contribution"):
+                        contrib = _load_scientist_contributions_any_locale().get(admin_user)
+                        if contrib:
+                            admin_scientist = dict(admin_scientist)
+                            admin_scientist["contribution"] = contrib
                     available_scientists_obj.append(admin_scientist)
+                # Falls der Admin nicht in der Scientists-Liste ist, trotzdem aufnehmen.
+                if not admin_scientist:
+                    admin_name = str(admin_user).strip()
+                    if admin_name:
+                        existing = {s.get('name') for s in available_scientists_obj if isinstance(s, dict)}
+                        if admin_name not in existing:
+                            contrib = _load_scientist_contributions_any_locale().get(admin_name, "")
+                            available_scientists_obj.append({"name": admin_name, "contribution": contrib})
     
             # Sortiere die Objekte alphabetisch nach dem Namen
             # Wichtig: Die Sortierung muss nach dem Hinzufügen des Admins erfolgen.
