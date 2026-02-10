@@ -2569,6 +2569,14 @@ def render_welcome_page(app_config: AppConfig):
     if not st.session_state.get("_welcome_splash_dismissed", False):
         st.stop()
 
+    # Hinweis nach Admin-Löschaktion: aktives Fragenset wurde entfernt.
+    try:
+        redirect_notice = st.session_state.pop("_admin_delete_qset_redirect_notice", None)
+    except Exception:
+        redirect_notice = None
+    if redirect_notice:
+        st.warning(redirect_notice)
+
     # Pseudonym-Gate: niemand gelangt ohne Pseudonym in die App.
     user_has_pseudonym = bool(
         st.session_state.get("user_id")

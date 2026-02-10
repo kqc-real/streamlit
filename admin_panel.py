@@ -10,11 +10,25 @@ import string
 
 import pandas as pd
 import streamlit as st
+from pathlib import Path
 
-from config import AppConfig, QuestionSet, load_questions, list_question_files, load_scientists
+from config import (
+    AppConfig,
+    QuestionSet,
+    load_questions,
+    list_question_files,
+    load_scientists,
+    get_package_dir,
+    USER_QUESTION_PREFIX,
+)
 from i18n.context import t as translate_ui
 from pdf_export import generate_mini_glossary_pdf
-from user_question_sets import pretty_label_from_identifier_string
+from user_question_sets import (
+    pretty_label_from_identifier_string,
+    list_user_question_sets,
+    delete_user_question_set,
+    format_user_label,
+)
 from helpers.text import format_decimal_locale, get_user_id_hash
 from database import (
     add_user,
@@ -189,6 +203,20 @@ def render_mini_glossary_tab():
 def render_question_sets_tab():
     """Zeigt eine Übersicht über alle verfügbaren Fragensets."""
     st.header(translate_ui("admin.questionsets_overview_header"))
+    try:
+        notice = st.session_state.pop("_admin_delete_qset_notice", None)
+    except Exception:
+        notice = None
+    if isinstance(notice, (list, tuple)) and len(notice) == 2:
+        level, message = notice
+        try:
+            renderer = getattr(st, level)
+        except Exception:
+            renderer = st.info
+        try:
+            renderer(message)
+        except Exception:
+            st.info(message)
 
     question_files = list_question_files()
     if not question_files:
@@ -264,6 +292,211 @@ def render_question_sets_tab():
                 st.markdown("\n".join(f"- {topic}" for topic in topics))
             else:
                 st.caption(translate_ui("admin.messages.no_topics_defined"))
+
+    # --- Fragenset löschen (JSON + Lernziele) ---
+    def _learning_objectives_path_for_set(filename: str, base_dir: Path) -> Path:
+        stem = Path(filename).stem
+        core = stem.replace("questions_", "")
+        return base_dir / f"questions_{core}_Learning_Objectives.md"
+
+    def _learning_objectives_path_for_user_set(identifier: str) -> Path:
+        cleaned = identifier[len(USER_QUESTION_PREFIX):] if identifier.startswith(USER_QUESTION_PREFIX) else identifier
+        stem = Path(cleaned).stem
+        core = stem.replace("questions_", "")
+        base_dir = Path(get_package_dir()) / "data-user"
+        return base_dir / f"questions_{core}_Learning_Objectives.md"
+
+    if overview_rows:
+        name_key = translate_ui("admin.questionsets.columns.name", default="Name")
+        file_key = translate_ui("admin.questionsets.columns.file", default="Datei")
+        file_to_title = {entry[file_key]: entry[name_key] for entry in overview_rows if file_key in entry}
+
+        with st.expander(translate_ui("admin.expanders.delete_questionset", default="🗑️ Fragenset löschen"), expanded=False):
+            st.warning(
+                translate_ui(
+                    "admin.warnings.delete_questionset",
+                    default="⚠️ Löscht die JSON-Datei und die zugehörige Lernziel-Datei der gewählten Quelle (data/ oder data-user/). Testdaten bleiben unverändert.",
+                )
+            )
+            source_choice = st.radio(
+                translate_ui("admin.questionsets.delete_source", default="Quelle"),
+                options=["data", "data-user"],
+                format_func=lambda v: "data/" if v == "data" else "data-user/ (temporär)",
+                horizontal=True,
+                key="admin_delete_qset_source",
+            )
+
+            target_file = None
+            lo_path = None
+            temp_sets = list_user_question_sets() if source_choice == "data-user" else []
+            temp_options = [info.identifier for info in temp_sets]
+            temp_label_map = {
+                info.identifier: format_user_label(info)
+                for info in temp_sets
+            }
+            no_temp_sets = source_choice == "data-user" and not temp_options
+
+            if source_choice == "data":
+                target_file = st.selectbox(
+                    translate_ui("admin.questionsets.delete_select", default="Fragenset auswählen"),
+                    options=question_files,
+                    format_func=lambda f: f"{file_to_title.get(f, f)} ({f})",
+                    key="admin_delete_qset_select",
+                )
+                lo_path = _learning_objectives_path_for_set(target_file, Path(get_package_dir()) / "data")
+                st.caption(
+                    translate_ui(
+                        "admin.questionsets.delete_lo_hint",
+                        default="Lernziele-Datei: {status}",
+                    ).format(status=str(lo_path.name) if lo_path.exists() else translate_ui("admin.questionsets.delete_lo_missing", default="nicht gefunden"))
+                )
+            else:
+                if not temp_options:
+                    st.info(translate_ui("admin.questionsets.delete_no_temp_sets", default="Keine temporären Fragensets gefunden."))
+                else:
+                    target_file = st.selectbox(
+                        translate_ui("admin.questionsets.delete_select_temp", default="Temporäres Fragenset auswählen"),
+                        options=temp_options,
+                        format_func=lambda f: f"{temp_label_map.get(f, f)} ({f})",
+                        key="admin_delete_qset_select_temp",
+                    )
+                    lo_path = _learning_objectives_path_for_user_set(target_file)
+                    st.caption(
+                        translate_ui(
+                            "admin.questionsets.delete_lo_hint",
+                            default="Lernziele-Datei: {status}",
+                        ).format(status=str(lo_path.name) if lo_path.exists() else translate_ui("admin.questionsets.delete_lo_missing", default="nicht gefunden"))
+                    )
+
+            try:
+                from auth import check_admin_key
+            except Exception:
+                check_admin_key = None
+
+            reauth_key = st.text_input(
+                translate_ui("admin.login_generator.admin_key", default="Admin-Key zur Bestätigung:"),
+                type="password",
+                key="delete_questionset_reauth",
+            )
+            confirmed = st.checkbox(
+                translate_ui(
+                    "admin.questionsets.delete_confirm",
+                    default="Ich verstehe: Das Fragenset wird endgültig gelöscht.",
+                ),
+                key="delete_questionset_confirm",
+            )
+
+            block_active = False
+            try:
+                block_active = bool(
+                    source_choice == "data"
+                    and target_file
+                    and st.session_state.get("selected_questions_file") == target_file
+                )
+            except Exception:
+                block_active = False
+
+            active_confirm = True
+            if block_active:
+                st.warning(
+                    translate_ui(
+                        "admin.questionsets.delete_active_warning",
+                        default="⚠️ Dieses Fragenset ist aktuell ausgewählt. Beim Löschen wirst du zur Startseite zurückgeführt.",
+                    )
+                )
+                active_confirm = st.checkbox(
+                    translate_ui(
+                        "admin.questionsets.delete_active_confirm",
+                        default="Ich verstehe: Das aktuell ausgewählte Fragenset wird gelöscht.",
+                    ),
+                    key="delete_questionset_active_confirm",
+                )
+
+            if st.button(
+                translate_ui("admin.questionsets.delete_button", default="Fragenset löschen"),
+                type="primary",
+                key="delete_questionset_btn",
+                disabled=bool(no_temp_sets),
+            ):
+                if not confirmed:
+                    st.warning(translate_ui("admin.warnings.confirm_checkbox_required"))
+                elif block_active and not active_confirm:
+                    st.warning(
+                        translate_ui(
+                            "admin.questionsets.delete_active_confirm_required",
+                            default="Bitte bestätige zusätzlich das Löschen des aktuell ausgewählten Fragensets.",
+                        )
+                    )
+                else:
+                    if not target_file:
+                        st.warning(translate_ui("admin.questionsets.delete_no_target", default="Bitte ein Fragenset auswählen."))
+                        return
+                    admin_key_ok = True
+                    cfg = AppConfig()
+                    if check_admin_key is not None and getattr(cfg, "admin_key", None):
+                        admin_key_ok = check_admin_key(reauth_key, cfg)
+                    if not admin_key_ok:
+                        st.error(translate_ui("admin.login_generator.wrong_key", default="Falscher Admin-Key. Vorgang abgebrochen."))
+                    else:
+                        deleted = []
+                        try:
+                            if source_choice == "data":
+                                data_dir = Path(get_package_dir()) / "data"
+                                json_path = data_dir / target_file
+                                if json_path.exists():
+                                    json_path.unlink()
+                                    deleted.append(json_path.name)
+                            else:
+                                delete_user_question_set(target_file)
+                                deleted.append(Path(target_file[len(USER_QUESTION_PREFIX):]).name if target_file.startswith(USER_QUESTION_PREFIX) else Path(target_file).name)
+                            if lo_path and lo_path.exists():
+                                lo_path.unlink()
+                                deleted.append(lo_path.name)
+                        except Exception as exc:
+                            st.error(
+                                translate_ui(
+                                    "admin.questionsets.delete_error",
+                                    default="Löschen fehlgeschlagen: {error}",
+                                ).format(error=exc)
+                            )
+                        else:
+                            if hasattr(st, "cache_data"):
+                                st.cache_data.clear()
+                            try:
+                                if hasattr(load_questions, "clear"):
+                                    load_questions.clear()
+                            except Exception:
+                                pass
+                            # Clear any active selection pointing to the deleted set
+                            try:
+                                was_active = st.session_state.get("selected_questions_file") == target_file
+                                if was_active:
+                                    st.session_state.pop("selected_questions_file", None)
+                                    st.session_state.pop("main_view_question_file_selector", None)
+                                    st.session_state["_admin_delete_qset_redirect_notice"] = translate_ui(
+                                        "admin.questionsets.delete_redirect_notice",
+                                        default="Aktives Fragenset wurde gelöscht. Du wurdest zur Startseite zurückgeführt.",
+                                    )
+                            except Exception:
+                                pass
+
+                            if deleted:
+                                st.session_state["_admin_delete_qset_notice"] = (
+                                    "success",
+                                    translate_ui(
+                                        "admin.questionsets.delete_success",
+                                        default="Gelöscht: {files}",
+                                    ).format(files=", ".join(deleted)),
+                                )
+                            else:
+                                st.session_state["_admin_delete_qset_notice"] = (
+                                    "info",
+                                    translate_ui(
+                                        "admin.questionsets.delete_nothing",
+                                        default="Keine Dateien gelöscht (nichts gefunden).",
+                                    ),
+                                )
+                            st.rerun()
 
 
 def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
