@@ -65,7 +65,7 @@ except Exception:
 def main():
     """Hauptfunktion der Streamlit-Anwendung."""
     st.set_page_config(
-        page_title="MC-Test AMALEA",
+        page_title="MC-Test",
         page_icon="🎓",
         layout="centered",
         # Legt den initialen Zustand der Sidebar fest.
