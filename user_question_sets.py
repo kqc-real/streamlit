@@ -478,6 +478,41 @@ def delete_sets_for_user(user_id: str | None) -> None:
     _delete_files(lambda info: info.uploaded_by_hash == user_hash)
 
 
+def delete_sets_for_user_ids(user_ids: Iterable[str]) -> int:
+    """Delete temp question sets for the given pseudonyms/hashes.
+
+    Returns the number of deleted files.
+    """
+    ids = [uid for uid in (user_ids or []) if isinstance(uid, str) and uid]
+    if not ids:
+        return 0
+
+    # Accept both raw pseudonyms and already-hashed IDs.
+    hashes = {get_user_id_hash(uid) for uid in ids if uid}
+    hashes.update(ids)
+    deleted = 0
+
+    def _matches(info: UserQuestionSetInfo) -> bool:
+        try:
+            if info.uploaded_by and info.uploaded_by in ids:
+                return True
+            if info.uploaded_by_hash and info.uploaded_by_hash in hashes:
+                return True
+        except Exception:
+            return False
+        return False
+
+    for info in list_user_question_sets():
+        try:
+            if _matches(info) and info.path.exists():
+                info.path.unlink()
+                deleted += 1
+        except Exception:
+            continue
+
+    return deleted
+
+
 def cleanup_stale_user_question_sets(hours: int = 24) -> int:
     """Delete temporary user question set files older than `hours`.
 

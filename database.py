@@ -1810,6 +1810,30 @@ def release_unreserved_pseudonyms() -> int:
 
         deleted_count = 0
         if user_ids_to_delete:
+            # Also remove temporary user question sets owned by the released pseudonyms
+            try:
+                from user_question_sets import delete_sets_for_user_ids
+                removed_sets = delete_sets_for_user_ids(user_ids_to_delete)
+                try:
+                    if removed_sets:
+                        from audit_log import log_admin_action, get_client_ip
+                        ip = None
+                        try:
+                            ip = get_client_ip()
+                        except Exception:
+                            ip = None
+                        log_admin_action(
+                            user_id="system",
+                            action="RELEASE_PSEUDONYMS_DELETE_USER_QSETS",
+                            details=f"Deleted {removed_sets} temp sets for {len(user_ids_to_delete)} released pseudonyms",
+                            ip_address=ip,
+                            success=True,
+                        )
+                except Exception:
+                    pass
+            except Exception:
+                # Best-effort cleanup only
+                pass
             with conn:
                 placeholders = ','.join('?' for _ in user_ids_to_delete)
                 # Lösche zuerst abhängige Daten, falls Foreign Keys aktiv sind
