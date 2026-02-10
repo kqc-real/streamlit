@@ -551,7 +551,13 @@
         "history_show_all": "Mostrar todo",
         "history_show_less": "Mostrar menos",
         "history_show_more": "Mostrar más",
-        "about_paper_blocked": "Cierra primero el diálogo abierto para abrir el paper."
+        "about_paper_blocked": "Cierra primero el diálogo abierto para abrir el paper.",
+        "user_qset_delete_expander": "🗑️ Eliminar conjunto de preguntas temporal",
+        "user_qset_delete_warning": "Elimina tu conjunto de preguntas temporal y sus objetivos de aprendizaje. Esta acción no se puede deshacer.",
+        "user_qset_delete_confirm": "Entiendo: el conjunto de preguntas temporal se eliminará de forma permanente.",
+        "user_qset_delete_button": "Eliminar conjunto de preguntas",
+        "user_qset_delete_success": "Se eliminó tu conjunto de preguntas temporal.",
+        "user_qset_delete_error": "Error al eliminar: {error}"
     },
     "dialog": {
         "title": "✨ Crear conjunto de preguntas con IA",

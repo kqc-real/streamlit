@@ -143,7 +143,13 @@
         "history_show_all": "显示全部",
         "history_show_less": "显示较少",
         "history_show_more": "显示更多",
-        "about_paper_blocked": "请先关闭已打开的对话框，然后再打开论文。"
+        "about_paper_blocked": "请先关闭已打开的对话框，然后再打开论文。",
+        "user_qset_delete_expander": "🗑️ 删除临时题集",
+        "user_qset_delete_warning": "将删除你的临时题集及其学习目标。此操作无法撤销。",
+        "user_qset_delete_confirm": "我了解：临时题集将被永久删除。",
+        "user_qset_delete_button": "删除题集",
+        "user_qset_delete_success": "你的临时题集已删除。",
+        "user_qset_delete_error": "删除失败：{error}"
     },
     "dialog": {
         "title": "✨ 使用 AI 创建题库",

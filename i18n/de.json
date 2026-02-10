@@ -143,7 +143,13 @@
         "about_expander": "ℹ️ Über MC-Test",
         "about_paper_button": "📄 Paper (EDULEARN26)",
         "about_project_text": "Ein Forschungsprojekt zur formativen MC-Übung.",
-        "about_paper_blocked": "Schließe zuerst den offenen Dialog, um das Paper zu öffnen."
+        "about_paper_blocked": "Schließe zuerst den offenen Dialog, um das Paper zu öffnen.",
+        "user_qset_delete_expander": "🗑️ Temporäres Fragenset löschen",
+        "user_qset_delete_warning": "Löscht dein temporäres Fragenset und die zugehörigen Lernziele. Dies kann nicht rückgängig gemacht werden.",
+        "user_qset_delete_confirm": "Ich verstehe: Das temporäre Fragenset wird endgültig gelöscht.",
+        "user_qset_delete_button": "Fragenset löschen",
+        "user_qset_delete_success": "Dein temporäres Fragenset wurde gelöscht.",
+        "user_qset_delete_error": "Löschen fehlgeschlagen: {error}"
     },
     "tempo": {
         "normal": "Normal",

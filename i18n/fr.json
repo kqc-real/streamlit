@@ -551,7 +551,13 @@
         "history_show_less": "Afficher moins",
         "history_show_more": "Afficher plus",
         "title": "Navigation",
-        "about_paper_blocked": "Ferme d’abord le dialogue ouvert pour ouvrir le paper."
+        "about_paper_blocked": "Ferme d’abord le dialogue ouvert pour ouvrir le paper.",
+        "user_qset_delete_expander": "🗑️ Supprimer un lot de questions temporaire",
+        "user_qset_delete_warning": "Supprime ton lot de questions temporaire et ses objectifs d’apprentissage. Cette action est irréversible.",
+        "user_qset_delete_confirm": "Je comprends : le lot de questions temporaire sera supprimé définitivement.",
+        "user_qset_delete_button": "Supprimer le lot de questions",
+        "user_qset_delete_success": "Ton lot de questions temporaire a été supprimé.",
+        "user_qset_delete_error": "Échec de la suppression : {error}"
     },
     "dialog": {
         "title": "✨ Créer un ensemble de questions avec l’IA",

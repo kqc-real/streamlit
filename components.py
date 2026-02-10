@@ -2614,6 +2614,67 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             # Sidebar-Anzeigen dürfen die Hauptanzeige nicht brechen
             pass
 
+        # Owner-Aktion: temporäres Fragenset löschen (mit Sicherheitsabfrage)
+        try:
+            if is_temp_set and is_user_set:
+                user_pseudo = st.session_state.get("user_id")
+                user_hash = st.session_state.get("user_id_hash")
+                if is_owner_of_user_qset(selected_file, user_pseudo, user_hash):
+                    with st.sidebar.expander(
+                        _sidebar_text("user_qset_delete_expander", default="🗑️ Temporäres Fragenset löschen"),
+                        expanded=False,
+                    ):
+                        st.warning(
+                            _sidebar_text(
+                                "user_qset_delete_warning",
+                                default="Löscht dein temporäres Fragenset und die zugehörigen Lernziele. Dies kann nicht rückgängig gemacht werden.",
+                            )
+                        )
+                        confirm_key = f"user_qset_delete_confirm_{selected_file}"
+                        confirmed = st.checkbox(
+                            _sidebar_text(
+                                "user_qset_delete_confirm",
+                                default="Ich verstehe: Das temporäre Fragenset wird endgültig gelöscht.",
+                            ),
+                            key=confirm_key,
+                        )
+                        btn_key = f"user_qset_delete_btn_{selected_file}"
+                        if st.button(
+                            _sidebar_text("user_qset_delete_button", default="Fragenset löschen"),
+                            type="secondary",
+                            key=btn_key,
+                            disabled=not confirmed,
+                        ):
+                            try:
+                                delete_user_question_set(selected_file)
+                                # Lernziele-Datei im data-user/ löschen (falls vorhanden)
+                                try:
+                                    cleaned = selected_file[len(USER_QUESTION_PREFIX):] if selected_file.startswith(USER_QUESTION_PREFIX) else selected_file
+                                    stem = Path(cleaned).stem
+                                    core = stem.replace("questions_", "")
+                                    lo_path = Path(get_package_dir()) / "data-user" / f"questions_{core}_Learning_Objectives.md"
+                                    if lo_path.exists():
+                                        lo_path.unlink()
+                                except Exception:
+                                    pass
+
+                                # Auswahl zurücksetzen (verhindert Zugriff auf gelöschtes Set)
+                                for key in ("selected_questions_file", "main_view_question_file_selector", "selected_questions_file_path"):
+                                    try:
+                                        st.session_state.pop(key, None)
+                                    except Exception:
+                                        pass
+
+                                st.session_state["_user_qset_deleted_self_notice"] = True
+                                st.session_state["_user_qset_deleted_self_owner"] = user_pseudo
+                                st.rerun()
+                            except Exception as exc:
+                                st.session_state["_user_qset_deleted_self_error"] = str(exc)
+                                st.session_state["_user_qset_deleted_self_owner"] = user_pseudo
+                                st.rerun()
+        except Exception:
+            pass
+
     # --- Mini-Glossar: Ein einzelner Download-Button in der Sidebar ---
     try:
         selected_file = st.session_state.get("selected_questions_file")
@@ -2999,6 +3060,36 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         # shown to the user who triggered the action.
         try:
             current_user = st.session_state.get('user_id')
+            # Self-deleted notice: only show if owner matches current user
+            deleted_self_flag = st.session_state.get('_user_qset_deleted_self_notice')
+            deleted_self_owner = st.session_state.get('_user_qset_deleted_self_owner')
+            deleted_self_error = st.session_state.get('_user_qset_deleted_self_error')
+            if deleted_self_flag or deleted_self_error:
+                try:
+                    st.session_state.pop('_user_qset_deleted_self_notice', None)
+                    st.session_state.pop('_user_qset_deleted_self_error', None)
+                except Exception:
+                    pass
+                if deleted_self_owner and deleted_self_owner == current_user:
+                    try:
+                        st.session_state.pop('_user_qset_deleted_self_owner', None)
+                    except Exception:
+                        pass
+                    if deleted_self_error:
+                        st.sidebar.error(
+                            _sidebar_text(
+                                "user_qset_delete_error",
+                                default="Löschen fehlgeschlagen: {error}",
+                                error=deleted_self_error,
+                            )
+                        )
+                    else:
+                        st.sidebar.success(
+                            _sidebar_text(
+                                "user_qset_delete_success",
+                                default="Dein temporäres Fragenset wurde gelöscht.",
+                            )
+                        )
             # Deleted notice: only show if owner matches current user
             deleted_flag = st.session_state.get('_user_qset_deleted_notice')
             deleted_owner = st.session_state.get('_user_qset_deleted_owner')

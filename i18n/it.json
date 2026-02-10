@@ -551,7 +551,13 @@
         "history_show_all": "Mostra tutto",
         "history_show_less": "Mostra meno",
         "history_show_more": "Mostra di più",
-        "about_paper_blocked": "Chiudi prima il dialogo aperto per aprire il paper."
+        "about_paper_blocked": "Chiudi prima il dialogo aperto per aprire il paper.",
+        "user_qset_delete_expander": "🗑️ Elimina set di domande temporaneo",
+        "user_qset_delete_warning": "Elimina il tuo set di domande temporaneo e i relativi obiettivi di apprendimento. L’operazione è irreversibile.",
+        "user_qset_delete_confirm": "Ho capito: il set di domande temporaneo verrà eliminato definitivamente.",
+        "user_qset_delete_button": "Elimina set di domande",
+        "user_qset_delete_success": "Il tuo set di domande temporaneo è stato eliminato.",
+        "user_qset_delete_error": "Eliminazione non riuscita: {error}"
     },
     "dialog": {
         "title": "✨ Crea set di domande con l’IA",

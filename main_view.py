@@ -2564,6 +2564,40 @@ def render_welcome_page(app_config: AppConfig):
     except Exception:
         pass
 
+    # Hinweis nach dem Löschen eines temporären Fragensets durch den Besitzer.
+    try:
+        current_user = st.session_state.get('user_id')
+        deleted_self_flag = st.session_state.get('_user_qset_deleted_self_notice')
+        deleted_self_owner = st.session_state.get('_user_qset_deleted_self_owner')
+        deleted_self_error = st.session_state.get('_user_qset_deleted_self_error')
+        if deleted_self_flag or deleted_self_error:
+            try:
+                st.session_state.pop('_user_qset_deleted_self_notice', None)
+                st.session_state.pop('_user_qset_deleted_self_error', None)
+            except Exception:
+                pass
+            if deleted_self_owner and deleted_self_owner == current_user:
+                try:
+                    st.session_state.pop('_user_qset_deleted_self_owner', None)
+                except Exception:
+                    pass
+                if deleted_self_error:
+                    st.error(
+                        translate_ui(
+                            "sidebar.user_qset_delete_error",
+                            default="Löschen fehlgeschlagen: {error}",
+                        ).format(error=deleted_self_error)
+                    )
+                else:
+                    st.success(
+                        translate_ui(
+                            "sidebar.user_qset_delete_success",
+                            default="Dein temporäres Fragenset wurde gelöscht.",
+                        )
+                    )
+    except Exception:
+        pass
+
     # Splash (zwingt zur Flow-Wahl und Pseudonym-Gate)
     _render_welcome_splash()
     if not st.session_state.get("_welcome_splash_dismissed", False):

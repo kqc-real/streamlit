@@ -143,7 +143,13 @@
         "about_expander": "ℹ️ About MC-Test",
         "about_paper_button": "📄 Paper (EDULEARN26)",
         "about_project_text": "A research project on formative MC practice.",
-        "about_paper_blocked": "Close the open dialog first to open the paper."
+        "about_paper_blocked": "Close the open dialog first to open the paper.",
+        "user_qset_delete_expander": "🗑️ Delete temporary question set",
+        "user_qset_delete_warning": "Deletes your temporary question set and its learning objectives. This cannot be undone.",
+        "user_qset_delete_confirm": "I understand: The temporary question set will be permanently deleted.",
+        "user_qset_delete_button": "Delete question set",
+        "user_qset_delete_success": "Your temporary question set has been deleted.",
+        "user_qset_delete_error": "Deletion failed: {error}"
     },
     "dialog": {
         "title": "✨ Create set with AI",
