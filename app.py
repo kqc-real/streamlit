@@ -137,7 +137,10 @@ def main():
                 load_questions.clear()
             except Exception:
                 pass
-            questions = load_questions(sel_path or st.session_state.get("selected_questions_file"))
+            questions = load_questions(
+                sel_path or st.session_state.get("selected_questions_file"),
+                silent=True,
+            )
         except Exception as exc:
             st.error(translate_ui("app.error.questionset_load_failed", default="Fragenset '{filename}' konnte nicht geladen werden: {error}").format(filename=st.session_state.get('selected_questions_file'), error=exc))
             st.stop()

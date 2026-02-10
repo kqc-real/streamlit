@@ -1744,7 +1744,7 @@ def _render_history_table(history_rows, filename_base: str):
                                     try:
                                         sel = st.session_state.get('selected_questions_file')
                                         if sel:
-                                            qset = load_questions(sel)
+                                            qset = load_questions(sel, silent=True)
                                             app_cfg = st.session_state.get('app_config') or globals().get('app_config')
                                             try:
                                                 initialize_session_state(qset, app_cfg)
@@ -3259,7 +3259,7 @@ def render_welcome_page(app_config: AppConfig):
         if selected_question_set is not None:
             questions = selected_question_set
         else:
-            questions = load_questions(selected_file)
+            questions = load_questions(selected_file, silent=True)
     else:
         # No selection yet: present an empty questions list so downstream
         # UI blocks that check `if questions:` stay hidden.
