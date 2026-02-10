@@ -51,7 +51,6 @@
         "To maximize a likelihood score",
         "To match the class means"
       ],
-      "loesung": 0,
       "erklaerung": "A linear SVM aims to separate classes with the widest possible margin, which tends to improve generalization. Minimizing only the training error or maximizing likelihood are objectives of other models. Matching class means is not the SVM criterion."
     },
     {
@@ -105,7 +104,6 @@
         "Only the class centroids",
         "Only the farthest points"
       ],
-      "loesung": 0,
       "erklaerung": "The decision boundary is determined by the points closest to it, called support vectors. Points far from the margin do not change the optimal boundary in a stable solution. Centroids are not sufficient to define an SVM boundary."
     },
     {
@@ -167,7 +165,6 @@
         "It guarantees zero training errors",
         "It makes C irrelevant in practice"
       ],
-      "loesung": 0,
       "erklaerung": "SVMs are sensitive to feature scales because distances and dot products change with scaling. Without scaling, a large-scale feature can dominate the margin geometry. Scaling does not remove kernels, guarantee perfect training accuracy, or make C irrelevant."
     },
     {
@@ -229,7 +226,6 @@
         "It forces a hard-margin solution",
         "It removes the need to scale data"
       ],
-      "loesung": 0,
       "erklaerung": "C controls the trade-off between a wide margin and penalizing margin violations. Lower C increases regularization, allowing more violations while often widening the margin. It does not force hard-margin behavior or replace feature scaling."
     },
     {
@@ -291,7 +287,6 @@
         "It matches log loss closely",
         "It uses only support vectors"
       ],
-      "loesung": 0,
       "erklaerung": "Squared hinge loss grows quadratically for misclassified or margin-violating points, so it reacts more strongly to outliers than hinge loss. Both losses ignore points well beyond the margin (loss 0 there). It is not log loss, and training can still consider many points."
     },
     {
@@ -345,7 +340,6 @@
         "A random projection of inputs",
         "A distance to the class mean"
       ],
-      "loesung": 0,
       "erklaerung": "A kernel computes the dot product of transformed features without explicitly constructing the transformation. This enables efficient learning in high-dimensional feature spaces. Kernels do not directly output probabilities or random projections."
     },
     {
@@ -407,7 +401,6 @@
         "It removes the need for scaling",
         "It reduces support vectors to zero"
       ],
-      "loesung": 0,
       "erklaerung": "A higher γ narrows each point’s influence, so the decision boundary can bend more tightly around the training data and may overfit. A lower γ produces smoother, broader influence and a smoother boundary. Scaling is still important, and support vectors will generally remain."
     },
     {
@@ -470,7 +463,6 @@
         "Solve the dual, since n &lt; m",
         "Solve the primal, since n &lt; m"
       ],
-      "loesung": 0,
       "erklaerung": "For linear SVMs, the dual can be faster when the number of training points is smaller than the number of features. It also aligns with kernelization ideas (even if you stay linear). When m is much smaller than n, solving the dual is often advantageous."
     },
     {
@@ -532,7 +524,6 @@
         "Use SVR with a poly kernel",
         "Use KMeans as a proxy model."
       ],
-      "loesung": 0,
       "erklaerung": "Incremental learning on very large datasets is well matched by SGD-based linear classifiers; with hinge loss it approximates a linear SVM. Kernel SVC can be very slow on huge datasets, and SVR is for regression. KMeans is unsupervised and does not fit the classification goal."
     },
     {
@@ -594,7 +585,6 @@
         "It removes kernels from SVR",
         "It makes outputs strictly binary"
       ],
-      "loesung": 0,
       "erklaerung": "In SVR, ε sets the width of the “insensitive tube.” Smaller ε means more points fall outside the tube, so more points become support vectors and the fit becomes more constrained. It does not remove kernels or turn regression into classification."
     },
     {
@@ -654,7 +644,6 @@
         "It becomes wider as b grows",
         "It becomes narrower as b grows"
       ],
-      "loesung": 0,
       "erklaerung": "The margin width depends on ||w|| (it is proportional to 1/||w||) and does not depend on b. Changing b shifts the hyperplane and margin lines in parallel without changing their distance. Therefore the width remains unchanged."
     },
     {
@@ -717,7 +706,6 @@
         "LabelEncoder()",
         "OneHotEncoder()"
       ],
-      "loesung": 0,
       "erklaerung": "StandardScaler() standardizes features to zero mean and unit variance, which is usually important for SVMs. The other choices are for feature expansion or label/one-hot encoding, not numeric scaling. In Python you pass an instantiated transformer (with parentheses), unlike many Java APIs that pass class types or builders."
     },
     {
@@ -780,7 +768,6 @@
         "Use soft margin with high C value",
         "Use hard margin without slack vars"
       ],
-      "loesung": 0,
       "erklaerung": "Hard-margin SVMs are very sensitive to outliers because they require perfect separability. A soft-margin SVM can tolerate violations via slack variables, and a smaller C increases regularization, improving robustness. Very large C pushes the model toward fitting outliers more strongly."
     },
     {
@@ -840,7 +827,6 @@
         "It rotates substantially",
         "It becomes non-linear suddenly"
       ],
-      "loesung": 0,
       "erklaerung": "SVM solutions are primarily determined by support vectors near the margin. Points far from the margin usually have zero influence on the optimum, so the boundary stays essentially the same. Large rotations would require changes near the margin."
     },
     {
@@ -902,7 +888,6 @@
         "Switch to kernel='linear' now.",
         "Skip scaling and just tune C"
       ],
-      "loesung": 0,
       "erklaerung": "RBF SVMs are sensitive to feature scaling because distances drive the kernel. Adding StandardScaler (ideally in a pipeline) is the direct fix for scale mismatches. Changing gamma or switching kernels is not a reliable substitute, and tuning C alone does not correct distorted distances."
     },
     {
@@ -965,7 +950,6 @@
         "How many features it contains",
         "How often it gets resampled"
       ],
-      "loesung": 0,
       "erklaerung": "Slack variables quantify how much a point lies inside the margin or on the wrong side of the boundary. They allow a controlled number of violations to improve robustness and generalization. They are not about distance to the origin, dimensionality, or sampling frequency."
     },
     {
@@ -1027,7 +1011,6 @@
         "SGDClassifier uses squared_hinge",
         "SVC uses squared_hinge only"
       ],
-      "loesung": 0,
       "erklaerung": "A common default is that LinearSVC uses the squared hinge loss, while SGDClassifier often uses hinge loss for large-margin classification. Log loss is associated with logistic regression. Kernel SVC uses a different optimization approach and is not described as “squared_hinge only.”"
     },
     {
@@ -1089,7 +1072,6 @@
         "RBF kernel with small gamma",
         "Sigmoid kernel with tanh"
       ],
-      "loesung": 0,
       "erklaerung": "The equation corresponds to a polynomial kernel of degree 2, because it equals the squared dot product in the original space. Linear and RBF kernels do not square the dot product in this way. The sigmoid kernel uses tanh, not a squared dot product."
     },
     {
@@ -1151,7 +1133,6 @@
         "The learning rate in optimization",
         "Whether scaling is still needed"
       ],
-      "loesung": 0,
       "erklaerung": "coef0 shifts the kernel so that lower-order versus higher-order polynomial terms can have different relative influence. It does not set class count or learning rate, and scaling can still matter. It’s a kernel-shape parameter, not a preprocessing switch."
     },
     {
@@ -1214,7 +1195,6 @@
         "Only the correctly classified ones",
         "Only the misclassified ones"
       ],
-      "loesung": 0,
       "erklaerung": "Non-zero α(i) values correspond to support vectors, which lie on the margin or violate it (inside the margin or misclassified). Points far outside the margin usually have α(i)=0 and do not affect the solution. Being correct or incorrect alone is not the criterion."
     },
     {
@@ -1277,7 +1257,6 @@
         "Increase ε to ignore more errors",
         "Decrease γ to make it local in RBF"
       ],
-      "loesung": 0,
       "erklaerung": "Increasing C reduces regularization by penalizing margin violations more strongly, which can fit the training data better and reduce underfitting. Decreasing C would usually increase regularization. ε applies to SVR, and γ applies to RBF kernels, not a linear SVM."
     },
     {
@@ -1339,7 +1318,6 @@
         "Predict positive when s = 0",
         "Predict positive when |s| &lt; 1"
       ],
-      "loesung": 0,
       "erklaerung": "For a binary linear SVM, the sign of s determines the side of the hyperplane. If s is positive, the point lies on the positive side and is predicted as the positive class. The threshold at exactly 0 defines the boundary itself."
     },
     {
@@ -1403,7 +1381,6 @@
         "Clip values to [0, 1] range",
         "Randomly permute features"
       ],
-      "loesung": 0,
       "erklaerung": "Standardization makes features comparable regardless of units, which is important for SVMs. Dropping a feature may lose signal, and manually multiplying or clipping is not a principled substitute. Permuting features breaks the meaning of the data."
     },
     {
@@ -1466,7 +1443,6 @@
         "Increase γ and decrease C together",
         "Decrease γ and increase C together"
       ],
-      "loesung": 0,
       "erklaerung": "Overfitting in an RBF SVM can be reduced by making the boundary smoother and regularizing more. Decreasing γ broadens each point’s influence (smoother boundary), and decreasing C increases regularization (tolerates more violations). The opposite directions typically increase model flexibility."
     },
     {
@@ -1530,7 +1506,6 @@
         "Use zero_one loss for kernels",
         "Use tanh loss for stability"
       ],
-      "loesung": 0,
       "erklaerung": "Hinge loss grows linearly for violations, whereas squared hinge grows quadratically, making it more sensitive to outliers. Log loss is a different objective, and 0–1 loss is not used directly in standard convex SVM training. “tanh loss” is not a standard choice here."
     },
     {
@@ -1592,7 +1567,6 @@
         "It is strictly decreasing with distance",
         "It depends on only one input"
       ],
-      "loesung": 0,
       "erklaerung": "A Mercer kernel must correspond to an inner product in some feature space, which is equivalent to producing a positive semidefinite (PSD) Gram matrix on any finite sample. Probability outputs are not required, and the kernel must depend on both inputs. Monotonic decrease is not a general requirement."
     },
     {
@@ -1652,7 +1626,6 @@
         "Start with an RBF kernel",
         "Start with a sigmoid kernel"
       ],
-      "loesung": 0,
       "erklaerung": "A linear kernel is often the first choice because it is fast and can perform well, especially with many features. If it underfits, you can then try more flexible kernels such as RBF. Sigmoid kernels are less commonly used in practice."
     },
     {
@@ -1768,7 +1741,6 @@
         "LinearSVC can scale cubically in n",
         "Both can scale the same in practice"
       ],
-      "loesung": 0,
       "erklaerung": "Kernel SVC often scales poorly with the number of training points m (commonly between quadratic and cubic behavior), making it slow on very large datasets. LinearSVC is designed to scale much closer to linearly with m and n for linear problems. Therefore, kernel SVC can be the bottleneck as m grows."
     },
     {
@@ -1828,7 +1800,6 @@
         "It increases support vectors",
         "It forces a hard margin"
       ],
-      "loesung": 0,
       "erklaerung": "A larger ε widens the insensitive tube, so fewer points fall outside it and fewer become support vectors. This can make the model simpler and smoother. The hard-margin concept is for classification, not SVR regression."
     }
   ],
