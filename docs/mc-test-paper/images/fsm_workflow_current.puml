@@ -28,11 +28,11 @@ skinparam state<<phase3>> {
   BorderColor #C27C2C
 }
 state "Phase 1: Finite-State Configuration" as CFG <<phase1>> {
-  state "Step 1: Topic" as C1
-  state "Step 2: Target Audience & Language" as C2
-  state "Step 3: Question Count & Difficulty Profile" as C3
-  state "Step 4: Answer Option Format" as C4
-  state "Step 5: Context Material" as C5
+  state "Step 1: Topic?" as C1
+  state "Step 2: Target Audience & Language?" as C2
+  state "Step 3: Question Count & Difficulty Profile?" as C3
+  state "Step 4: Answer Option Format?" as C4
+  state "Step 5: Context Material?" as C5
   state "Confirmation (Summary + Generate)" as C7
 
   C1 --> C2
