@@ -261,6 +261,7 @@
         "tab_selector_hint": "Choose the step (1–4) you want to work on now.",
         "questionset_start_without_lo_warning": "⚠️ Start without learning objectives — you can add them later.",
         "questionset_start_without_lo_confirm": "OK, I understand.",
+        "questionset_start_without_lo_confirm_required": "Please confirm that you want to start without learning objectives.",
         "questionset_start_without_lo_button": "🚀 Start test",
         "questionset_start_without_lo_hint": "Note: You can add learning objectives later in the “Define learning objectives” tab."
     },

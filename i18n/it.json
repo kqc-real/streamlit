@@ -669,6 +669,7 @@
         "tab_selector_hint": "Scegli il passo (1–4) che vuoi fare ora.",
         "questionset_start_without_lo_warning": "⚠️ Avvio senza obiettivi di apprendimento — puoi aggiungerli più tardi.",
         "questionset_start_without_lo_confirm": "OK, ho capito.",
+        "questionset_start_without_lo_confirm_required": "Conferma che vuoi avviare il test senza obiettivi di apprendimento.",
         "questionset_start_without_lo_button": "🚀 Avvia il test",
         "questionset_start_without_lo_hint": "Nota: puoi aggiungere gli obiettivi di apprendimento più tardi nella scheda “Definire gli obiettivi di apprendimento”."
     },

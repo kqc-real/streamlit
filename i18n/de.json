@@ -672,6 +672,7 @@
         "tab_selector_hint": "Wähle den Schritt (1–4), den du jetzt bearbeiten möchtest.",
         "questionset_start_without_lo_warning": "⚠️ Start ohne Lernziele – du kannst sie später nachreichen.",
         "questionset_start_without_lo_confirm": "Okay, habe ich verstanden.",
+        "questionset_start_without_lo_confirm_required": "Bitte bestätige, dass du ohne Lernziele startest.",
         "questionset_start_without_lo_button": "🚀 Test starten",
         "questionset_start_without_lo_hint": "Hinweis: Du kannst Lernziele später im Tab „Lernziele definieren“ ergänzen."
     },

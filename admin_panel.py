@@ -1084,6 +1084,25 @@ def render_export_tab(df: pd.DataFrame, app_config: AppConfig = None):
                 pass
         return identifier.replace(USER_QUESTION_PREFIX, "").replace("questions_", "").replace(".json", "").replace("_", " ")
 
+    def _friendly_user_qset_download_name(identifier: str, suffix: str, info_lookup: dict[str, object]) -> str:
+        label = None
+        try:
+            info = info_lookup.get(identifier)
+            if info and format_user_label:
+                label = format_user_label(info)
+        except Exception:
+            label = None
+
+        if not label:
+            label = "Fragenset"
+
+        import re
+        slug = re.sub(r"[^\w\s-]", "", str(label))
+        slug = slug.strip().replace(" ", "_")
+        slug = re.sub(r"_+", "_", slug)
+        slug = slug[:80] or "Fragenset"
+        return f"questions_{slug}{suffix}"
+
     def _find_learning_objectives_path_admin(selected: str) -> Path | None:
         if not selected:
             return None
@@ -1132,9 +1151,11 @@ def render_export_tab(df: pd.DataFrame, app_config: AppConfig = None):
             available_files.extend(list_question_files())
     except Exception:
         pass
+    user_set_map: dict[str, object] = {}
     try:
         if list_user_question_sets:
             user_sets = list_user_question_sets()
+            user_set_map = {info.identifier: info for info in user_sets}
             available_files = [info.identifier for info in user_sets] + available_files
     except Exception:
         pass
@@ -1153,7 +1174,10 @@ def render_export_tab(df: pd.DataFrame, app_config: AppConfig = None):
                 json_path = resolve_question_path(selected_export)
                 if json_path.exists():
                     json_bytes = json_path.read_bytes()
-                    json_name = json_path.name if json_path.suffix.lower() == ".json" else f"{json_path.name}.json"
+                    if selected_export.startswith(USER_QUESTION_PREFIX):
+                        json_name = _friendly_user_qset_download_name(selected_export, ".json", user_set_map)
+                    else:
+                        json_name = json_path.name if json_path.suffix.lower() == ".json" else f"{json_path.name}.json"
             except Exception:
                 json_bytes = None
                 json_name = None
@@ -1176,10 +1200,13 @@ def render_export_tab(df: pd.DataFrame, app_config: AppConfig = None):
             except Exception:
                 lo_bytes = None
             if lo_bytes:
+                lo_name = lo_path.name
+                if selected_export.startswith(USER_QUESTION_PREFIX):
+                    lo_name = _friendly_user_qset_download_name(selected_export, "_Learning_Objectives.md", user_set_map)
                 st.download_button(
                     label=translate_ui("admin.export.download_lo_md", default="💾 Lernziele (Markdown) herunterladen"),
                     data=lo_bytes,
-                    file_name=lo_path.name,
+                    file_name=lo_name,
                     mime="text/markdown",
                     key="admin_export_qset_lo_md",
                 )

@@ -261,6 +261,7 @@
         "tab_selector_hint": "选择你现在要处理的步骤（1–4）。",
         "questionset_start_without_lo_warning": "⚠️ 无学习目标开始：你可以稍后补充。",
         "questionset_start_without_lo_confirm": "好的，我明白了。",
+        "questionset_start_without_lo_confirm_required": "请确认要在没有学习目标的情况下开始。",
         "questionset_start_without_lo_button": "🚀 开始测试",
         "questionset_start_without_lo_hint": "提示：你可以稍后在“定义学习目标”标签页中补充学习目标。"
     },

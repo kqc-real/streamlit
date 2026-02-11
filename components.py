@@ -584,6 +584,24 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             base_dir.mkdir(parents=True, exist_ok=True)
             return base_dir / f"questions_{core}_Learning_Objectives.md"
 
+        def _friendly_user_qset_json_filename(info, fallback: str) -> str:
+            label = None
+            try:
+                if info:
+                    label = format_user_label(info)
+            except Exception:
+                label = None
+
+            if not label:
+                label = "Fragenset"
+
+            import re
+            slug = re.sub(r"[^\w\s-]", "", str(label))
+            slug = slug.strip().replace(" ", "_")
+            slug = re.sub(r"_+", "_", slug)
+            slug = slug[:80] or "Fragenset"
+            return f"questions_{slug}.json" if slug else fallback
+
         def _save_learning_objectives_content(raw: bytes, identifier: str) -> tuple[bool, str]:
             try:
                 if not raw:
@@ -905,29 +923,38 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                             )
                         )
 
-                    st.warning(
-                        _dialog_text(
-                            "questionset_start_without_lo_warning",
-                            default="⚠️ Start ohne Lernziele – du kannst sie später nachreichen.",
+                    with st.form(key="user_qset_start_no_lo_form", clear_on_submit=False):
+                        st.warning(
+                            _dialog_text(
+                                "questionset_start_without_lo_warning",
+                                default="⚠️ Start ohne Lernziele – du kannst sie später nachreichen.",
+                            )
                         )
-                    )
-                    no_lo_confirm = st.checkbox(
-                        _dialog_text(
-                            "questionset_start_without_lo_confirm",
-                            default="Okay, habe ich verstanden.",
-                        ),
-                        key="user_qset_start_no_lo_confirm",
-                    )
-                    if st.button(
-                        _dialog_text(
-                            "questionset_start_without_lo_button",
-                            default="🚀 Test starten",
-                        ),
-                        key="user_qset_start_no_lo_btn",
-                        type="secondary",
-                        disabled=not (can_start and no_lo_confirm),
-                    ):
-                        _start_test_with_user_set(status["identifier"], app_config)
+                        no_lo_confirm = st.checkbox(
+                            _dialog_text(
+                                "questionset_start_without_lo_confirm",
+                                default="Okay, habe ich verstanden.",
+                            ),
+                            key="user_qset_start_no_lo_confirm",
+                        )
+                        start_no_lo = st.form_submit_button(
+                            _dialog_text(
+                                "questionset_start_without_lo_button",
+                                default="🚀 Test starten",
+                            ),
+                            type="secondary",
+                            disabled=not can_start,
+                        )
+                    if start_no_lo:
+                        if not no_lo_confirm:
+                            st.warning(
+                                _dialog_text(
+                                    "questionset_start_without_lo_confirm_required",
+                                    default="Bitte bestätige, dass du ohne Lernziele startest.",
+                                )
+                            )
+                        else:
+                            _start_test_with_user_set(status["identifier"], app_config)
                 else:
                     err_msg = status.get(
                         "error",
@@ -1063,7 +1090,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     info = get_user_question_set(status["identifier"])
                     if info and info.path.exists():
                         original_set_json = info.path.read_text(encoding="utf-8")
-                        original_set_filename = info.filename or original_set_filename
+                        original_set_filename = _friendly_user_qset_json_filename(info, original_set_filename)
                 except Exception:
                     original_set_json = ""
             st.download_button(
@@ -1309,7 +1336,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     info = get_user_question_set(status["identifier"])
                     if info and info.path.exists():
                         original_set_json = info.path.read_text(encoding="utf-8")
-                        original_set_filename = info.filename or original_set_filename
+                        original_set_filename = _friendly_user_qset_json_filename(info, original_set_filename)
                 except Exception:
                     original_set_json = ""
             st.download_button(

@@ -669,6 +669,7 @@
         "tab_selector_hint": "Elige el paso (1–4) que quieres trabajar ahora.",
         "questionset_start_without_lo_warning": "⚠️ Iniciar sin objetivos de aprendizaje: puedes añadirlos más tarde.",
         "questionset_start_without_lo_confirm": "OK, entendido.",
+        "questionset_start_without_lo_confirm_required": "Confirma que deseas iniciar sin objetivos de aprendizaje.",
         "questionset_start_without_lo_button": "🚀 Iniciar test",
         "questionset_start_without_lo_hint": "Nota: puedes añadir los objetivos de aprendizaje más tarde en la pestaña “Definir objetivos de aprendizaje”."
     },

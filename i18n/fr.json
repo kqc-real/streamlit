@@ -669,6 +669,7 @@
         "tab_selector_hint": "Choisis l’étape (1–4) que tu veux traiter maintenant.",
         "questionset_start_without_lo_warning": "⚠️ Démarrer sans objectifs d’apprentissage — tu pourras les ajouter plus tard.",
         "questionset_start_without_lo_confirm": "OK, j’ai compris.",
+        "questionset_start_without_lo_confirm_required": "Merci de confirmer que tu veux démarrer sans objectifs d’apprentissage.",
         "questionset_start_without_lo_button": "🚀 Démarrer le test",
         "questionset_start_without_lo_hint": "Remarque : tu peux ajouter les objectifs d’apprentissage plus tard dans l’onglet « Définir les objectifs d’apprentissage »."
     },
