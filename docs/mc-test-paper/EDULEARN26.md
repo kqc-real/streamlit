@@ -105,6 +105,8 @@ Die Item-Generierung folgt einer endlichen Interaktionssequenz (**Finite-State-W
 
 Das Ergebnis ist strikt JSON-konform. Dadurch lassen sich nachgelagerte Checks automatisieren (z. B. Distraktorqualität, Konsistenz zwischen Frage und Erklärung).
 
+Generative LLMs zeigen ohne klare Constraints einen **Length‑Bias**: Die korrekte Antwortoption wird systematisch länger und detaillierter formuliert als Distraktoren. Dieser Effekt macht die Lösung oft allein über die Länge erkennbar und unterminiert die Item‑Validität. Deshalb erzwingt unsere QA‑Stufe explizite Vorgaben zu Antwortlängen und Distraktoren‑Symmetrie und überprüft diese konsistent in der Post‑Production.
+
 
 Der Workflow ist in Abb. 1 dargestellt.
 
