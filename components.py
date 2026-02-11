@@ -904,6 +904,48 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     ):
                         st.session_state["user_qset_tab_pending"] = base_tab_options[1]
                         st.rerun()
+
+                    # Optionaler Start ohne Lernziele (mit Bestätigung)
+                    can_start = bool(
+                        st.session_state.get("user_id") and st.session_state.get("user_id_hash")
+                    )
+                    if not can_start:
+                        st.info(
+                            _dialog_text(
+                                "login_required",
+                                default="Bitte melde dich an, bevor du den Test startest.",
+                            )
+                        )
+
+                    st.warning(
+                        _dialog_text(
+                            "questionset_start_without_lo_warning",
+                            default="⚠️ Start ohne Lernziele: Du verzichtest auf Lernziele in der Session. Du kannst sie später jederzeit nachreichen.",
+                        )
+                    )
+                    st.info(
+                        _dialog_text(
+                            "questionset_start_without_lo_hint",
+                            default="Hinweis: Du kannst Lernziele später im Tab „Lernziele definieren“ ergänzen.",
+                        )
+                    )
+                    no_lo_confirm = st.checkbox(
+                        _dialog_text(
+                            "questionset_start_without_lo_confirm",
+                            default="Ich starte bewusst ohne Lernziele.",
+                        ),
+                        key="user_qset_start_no_lo_confirm",
+                    )
+                    if st.button(
+                        _dialog_text(
+                            "questionset_start_without_lo_button",
+                            default="🚀 Test starten (ohne Lernziele)",
+                        ),
+                        key="user_qset_start_no_lo_btn",
+                        type="secondary",
+                        disabled=not (can_start and no_lo_confirm),
+                    ):
+                        _start_test_with_user_set(status["identifier"], app_config)
                 else:
                     err_msg = status.get(
                         "error",

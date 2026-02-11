@@ -258,7 +258,11 @@
         "postproduction_lo_save_success": "优化后的学习目标已保存。现在可以开始测试。",
         "postproduction_lo_save_error": "优化后的学习目标保存失败：{error}",
         "tab_selector_label": "步骤（1–4）",
-        "tab_selector_hint": "选择你现在要处理的步骤（1–4）。"
+        "tab_selector_hint": "选择你现在要处理的步骤（1–4）。",
+        "questionset_start_without_lo_warning": "⚠️ 无学习目标开始：本次将跳过学习目标，你可以稍后补充。",
+        "questionset_start_without_lo_confirm": "我理解并希望在没有学习目标的情况下开始。",
+        "questionset_start_without_lo_button": "🚀 开始测试（无学习目标）",
+        "questionset_start_without_lo_hint": "提示：你可以稍后在“定义学习目标”标签页中补充学习目标。"
     },
     "user_qset": {
         "login_required": "登录以开始。",

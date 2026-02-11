@@ -669,7 +669,11 @@
         "postproduction_lo_save_success": "Optimierte Lernziele gespeichert. Du kannst jetzt den Test starten.",
         "postproduction_lo_save_error": "Optimierte Lernziele konnten nicht gespeichert werden: {error}",
         "tab_selector_label": "Schritt (1–4)",
-        "tab_selector_hint": "Wähle den Schritt (1–4), den du jetzt bearbeiten möchtest."
+        "tab_selector_hint": "Wähle den Schritt (1–4), den du jetzt bearbeiten möchtest.",
+        "questionset_start_without_lo_warning": "⚠️ Start ohne Lernziele: Du verzichtest auf Lernziele in der Session. Du kannst sie später jederzeit nachreichen.",
+        "questionset_start_without_lo_confirm": "Ich starte bewusst ohne Lernziele.",
+        "questionset_start_without_lo_button": "🚀 Test starten (ohne Lernziele)",
+        "questionset_start_without_lo_hint": "Hinweis: Du kannst Lernziele später im Tab „Lernziele definieren“ ergänzen."
     },
     "user_qset": {
         "login_required": "Bitte anmelden zum Starten.",
