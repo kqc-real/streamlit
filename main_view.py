@@ -8535,6 +8535,28 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 "export_user_qset_expander",
                 default="🧩 Temporäres Fragenset (JSON)",
             )):
+                def _friendly_user_qset_download_name(identifier: str, suffix: str) -> str:
+                    label = None
+                    try:
+                        from user_question_sets import get_user_question_set, format_user_label, pretty_label_from_identifier_string
+                        info = get_user_question_set(identifier)
+                        if info:
+                            label = format_user_label(info)
+                        if not label:
+                            label = pretty_label_from_identifier_string(identifier)
+                    except Exception:
+                        label = label or None
+
+                    if not label:
+                        label = "Fragenset"
+
+                    import re
+                    slug = re.sub(r"[^\w\s-]", "", str(label))
+                    slug = slug.strip().replace(" ", "_")
+                    slug = re.sub(r"_+", "_", slug)
+                    slug = slug[:80] or "Fragenset"
+                    return f"questions_{slug}{suffix}"
+
                 st.markdown(_summary_text(
                     "export_user_qset_description",
                     default="Lade die ursprüngliche JSON-Datei deines temporären Fragensets herunter.",
@@ -8577,9 +8599,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                                 )
                             )
                         json_bytes = json_path.read_bytes()
-                        download_name = json_path.name
-                        if not download_name.lower().endswith(".json"):
-                            download_name = f"{download_name}.json"
+                        download_name = _friendly_user_qset_download_name(export_selected_file, ".json")
                     except Exception as exc:
                         st.error(
                             _summary_text(
@@ -8632,9 +8652,10 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                                     )
                                 )
                             lo_bytes = lo_path.read_bytes()
-                            lo_download_name = lo_path.name
-                            if not lo_download_name.lower().endswith(".md"):
-                                lo_download_name = f"{lo_download_name}.md"
+                            lo_download_name = _friendly_user_qset_download_name(
+                                export_selected_file,
+                                "_Learning_Objectives.md",
+                            )
                         except Exception as exc:
                             st.error(
                                 _summary_text(

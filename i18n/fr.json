@@ -445,7 +445,7 @@
         "language_selector_label": "Choisis ta langue",
         "pseudonym_locale_assignment": "Réglage lié à ton pseudo.",
         "greeting": "👋 **{user}**",
-        "temp_set_notice": "Set temp actif : {label}",
+        "temp_set_notice": "Set temp actif.",
         "reserved_pseudonym": "Pseudo réservé pour toi.",
         "pseudonym_reserved": "Ton pseudo réservé.",
         "pseudonym_info": "👤 Infos pseudo",

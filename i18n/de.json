@@ -35,7 +35,7 @@
         "language_selector_label": "Wähle deine Sprache",
         "pseudonym_locale_assignment": "Diese Einstellung wird an dein Pseudonym geknüpft.",
         "greeting": "👋 **{user}**",
-        "temp_set_notice": "Temporäres Set aktiv: {label}",
+        "temp_set_notice": "Temporäres Set aktiv.",
         "reserved_pseudonym": "Pseudonym ist für dich reserviert.",
         "pseudonym_reserved": "Dein reserviertes Pseudonym.",
         "pseudonym_info": "👤 Infos zum Pseudonym",

@@ -1166,13 +1166,6 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 if lo_status.get("success"):
                     st.success(
                         _dialog_text(
-                            "learning_objectives_success",
-                            default="Lernziele gespeichert als {filename}. Sie werden im Lernziele-Button deines Fragensets angezeigt.",
-                            filename=lo_status.get("detail"),
-                        )
-                    )
-                    st.success(
-                        _dialog_text(
                             "learning_objectives_save_success",
                             default="Lernziele gespeichert. Du kannst jetzt den Test starten oder mit der QA des Fragensets fortfahren.",
                         )
@@ -1971,7 +1964,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         st.sidebar.success(
             _sidebar_text(
                 "temp_set_notice",
-                default="Temporäres Fragenset aktiviert: {label}",
+                default="Temporäres Fragenset aktiviert.",
             ).format(label=toast_message)
         )
 
@@ -2526,6 +2519,50 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         except Exception:
             temp_owner = None
         display_name = None
+        display_includes_marker = False
+        info = None
+        if is_user_set:
+            try:
+                info = get_user_question_set(selected_file)
+            except Exception:
+                info = None
+            if info:
+                # Spiegel das Label aus dem Auswahlmenü (Marker + Name + Count + Datum),
+                # damit das Set nach der Session wiedererkannt wird.
+                label_marker = "🟡"
+                try:
+                    from database import has_recovery_secret_for_pseudonym
+
+                    pseudo = getattr(info, "uploaded_by", None) or getattr(info, "user_pseudonym", None)
+                    if pseudo and callable(has_recovery_secret_for_pseudonym):
+                        label_marker = "🟢" if has_recovery_secret_for_pseudonym(pseudo) else "🟡"
+                except Exception:
+                    label_marker = "🟡"
+
+                label = f"{label_marker} {format_user_label(info)}"
+
+                try:
+                    count = len(info.question_set) if info.question_set is not None else 0
+                except Exception:
+                    count = 0
+                if count:
+                    if count == 1:
+                        count_label = translate_ui("welcome.select.count_one", default="{n} Frage").format(n=count)
+                    else:
+                        count_label = translate_ui("welcome.select.count_many", default="{n} Fragen").format(n=count)
+                    label += f" ({count_label})"
+
+                uploaded_at = getattr(info, "uploaded_at", None)
+                if uploaded_at:
+                    try:
+                        from helpers.text import format_datetime_locale, FMT_DATETIME_SHORT_YEAR
+
+                        label += f" 📅 {format_datetime_locale(uploaded_at, fmt=FMT_DATETIME_SHORT_YEAR)}"
+                    except Exception:
+                        pass
+
+                display_name = label
+                display_includes_marker = True
         meta_title = None
         try:
             meta_title = meta_obj.get("title") if isinstance(meta_obj, dict) else None
@@ -2542,10 +2579,9 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         except Exception:
             mt = None
 
-        if mt and mt.lower() != "pasted":
+        if not display_name and mt and mt.lower() != "pasted":
             display_name = mt
-        elif is_user_set:
-            info = get_user_question_set(selected_file)
+        elif not display_name and is_user_set:
             if info:
                 meta_title = info.question_set.meta.get("title") if info.question_set.meta else None
                 # Treat the placeholder 'pasted' as missing so we prefer the
@@ -2584,7 +2620,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         # emoji prefix so it appears inside the textual label and is compatible
         # with Streamlit's rendering of sidebar content.
         marker = ""
-        if is_temp_set:
+        if is_temp_set and not display_includes_marker:
             try:
                 try:
                     from database import has_recovery_secret_for_pseudonym

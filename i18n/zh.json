@@ -38,7 +38,7 @@
         "language_selector_label": "选择语言",
         "pseudonym_locale_assignment": "此设置与您的化名相关联。",
         "greeting": "👋 **{user}**",
-        "temp_set_notice": "临时题库激活: {label}",
+        "temp_set_notice": "临时题库已激活。",
         "reserved_pseudonym": "化名已为您保留。",
         "pseudonym_reserved": "您保留的化名。",
         "pseudonym_info": "👤 化名信息",

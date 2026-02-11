@@ -446,7 +446,7 @@
         "language_selector_label": "Scegli lingua",
         "pseudonym_locale_assignment": "Impostazione legata al tuo alias.",
         "greeting": "👋 **{user}**",
-        "temp_set_notice": "Set temp attivo: {label}",
+        "temp_set_notice": "Set temp attivo.",
         "reserved_pseudonym": "Alias riservato per te.",
         "pseudonym_reserved": "Il tuo alias riservato.",
         "pseudonym_info": "👤 Info alias",
