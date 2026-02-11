@@ -180,7 +180,7 @@
         "text_area_label": "📋 JSON Content",
         "text_area_placeholder": "{\"meta\": {...}, \"questions\": [...]}",
         "clear_text_button": "🧹 Clear content",
-        "status_success": "{label} saved – {count} questions ready.",
+        "status_success": "{label} saved ({count} questions).",
         "login_required": "Please log in first.",
         "start_test_button": "🚀 Let's go",
         "status_unknown_error": "Unknown set error.",
@@ -259,9 +259,9 @@
         "postproduction_lo_save_error": "Optimized learning objectives could not be saved: {error}",
         "tab_selector_label": "Step (1–4)",
         "tab_selector_hint": "Choose the step (1–4) you want to work on now.",
-        "questionset_start_without_lo_warning": "⚠️ Start without learning objectives: You are skipping learning objectives for this session. You can add them later.",
-        "questionset_start_without_lo_confirm": "I understand and want to start without learning objectives.",
-        "questionset_start_without_lo_button": "🚀 Start test (without learning objectives)",
+        "questionset_start_without_lo_warning": "⚠️ Start without learning objectives — you can add them later.",
+        "questionset_start_without_lo_confirm": "OK, I understand.",
+        "questionset_start_without_lo_button": "🚀 Start test",
         "questionset_start_without_lo_hint": "Note: You can add learning objectives later in the “Define learning objectives” tab."
     },
     "user_qset": {

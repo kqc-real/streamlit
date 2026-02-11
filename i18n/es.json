@@ -588,7 +588,7 @@
         "text_area_label": "📋 Contenido JSON",
         "text_area_placeholder": "{\"meta\": {...}, \"questions\": [...]}",
         "clear_text_button": "🧹 Borrar contenido",
-        "status_success": "{label} guardado – {count} preguntas listas.",
+        "status_success": "{label} guardado ({count} preguntas).",
         "login_required": "Inicia sesión primero.",
         "start_test_button": "🚀 Vamos",
         "status_unknown_error": "Error desconocido.",
@@ -667,9 +667,9 @@
         "postproduction_lo_save_error": "No se pudieron guardar los objetivos de aprendizaje optimizados: {error}",
         "tab_selector_label": "Paso (1–4)",
         "tab_selector_hint": "Elige el paso (1–4) que quieres trabajar ahora.",
-        "questionset_start_without_lo_warning": "⚠️ Iniciar sin objetivos de aprendizaje: omites los objetivos de aprendizaje en esta sesión. Puedes añadirlos más tarde.",
-        "questionset_start_without_lo_confirm": "Entiendo y quiero iniciar sin objetivos de aprendizaje.",
-        "questionset_start_without_lo_button": "🚀 Iniciar test (sin objetivos de aprendizaje)",
+        "questionset_start_without_lo_warning": "⚠️ Iniciar sin objetivos de aprendizaje: puedes añadirlos más tarde.",
+        "questionset_start_without_lo_confirm": "OK, entendido.",
+        "questionset_start_without_lo_button": "🚀 Iniciar test",
         "questionset_start_without_lo_hint": "Nota: puedes añadir los objetivos de aprendizaje más tarde en la pestaña “Definir objetivos de aprendizaje”."
     },
     "user_qset": {

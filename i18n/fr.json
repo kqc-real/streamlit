@@ -588,7 +588,7 @@
         "text_area_label": "📋 Contenu JSON",
         "text_area_placeholder": "{\"meta\": {...}, \"questions\": [...]}",
         "clear_text_button": "🧹 Effacer le contenu",
-        "status_success": "{label} sauvé – {count} questions prêtes.",
+        "status_success": "{label} enregistré ({count} questions).",
         "login_required": "Connecte-toi d'abord.",
         "start_test_button": "🚀 C'est parti",
         "status_unknown_error": "Erreur inconnue.",
@@ -667,9 +667,9 @@
         "postproduction_lo_save_error": "Impossible d’enregistrer les objectifs d’apprentissage optimisés : {error}",
         "tab_selector_label": "Étape (1–4)",
         "tab_selector_hint": "Choisis l’étape (1–4) que tu veux traiter maintenant.",
-        "questionset_start_without_lo_warning": "⚠️ Démarrer sans objectifs d’apprentissage : tu ignores les objectifs d’apprentissage pour cette session. Tu pourras les ajouter plus tard.",
-        "questionset_start_without_lo_confirm": "Je comprends et je veux démarrer sans objectifs d’apprentissage.",
-        "questionset_start_without_lo_button": "🚀 Démarrer le test (sans objectifs d’apprentissage)",
+        "questionset_start_without_lo_warning": "⚠️ Démarrer sans objectifs d’apprentissage — tu pourras les ajouter plus tard.",
+        "questionset_start_without_lo_confirm": "OK, j’ai compris.",
+        "questionset_start_without_lo_button": "🚀 Démarrer le test",
         "questionset_start_without_lo_hint": "Remarque : tu peux ajouter les objectifs d’apprentissage plus tard dans l’onglet « Définir les objectifs d’apprentissage »."
     },
     "user_qset": {

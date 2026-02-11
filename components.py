@@ -878,21 +878,9 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     st.success(
                         _dialog_text(
                             "status_success",
-                            default="{label} gespeichert – {count} Fragen bereit.",
+                            default="{label} gespeichert ({count} Fragen).",
                             label=status['label'],
                             count=status['question_count'],
-                        )
-                    )
-                    st.success(
-                        _dialog_text(
-                            "questionset_save_success",
-                            default="Fragenset gespeichert. Du kannst jetzt im Tab „Lernziele“ die Lernziele erstellen und hochladen.",
-                        )
-                    )
-                    st.info(
-                        _dialog_text(
-                            "questionset_next_step",
-                            default="Als nächstes: Lernziele im Tab \"Lernziele erstellen\" hinzufügen.",
                         )
                     )
                     if st.button(
@@ -920,26 +908,20 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     st.warning(
                         _dialog_text(
                             "questionset_start_without_lo_warning",
-                            default="⚠️ Start ohne Lernziele: Du verzichtest auf Lernziele in der Session. Du kannst sie später jederzeit nachreichen.",
-                        )
-                    )
-                    st.info(
-                        _dialog_text(
-                            "questionset_start_without_lo_hint",
-                            default="Hinweis: Du kannst Lernziele später im Tab „Lernziele definieren“ ergänzen.",
+                            default="⚠️ Start ohne Lernziele – du kannst sie später nachreichen.",
                         )
                     )
                     no_lo_confirm = st.checkbox(
                         _dialog_text(
                             "questionset_start_without_lo_confirm",
-                            default="Ich starte bewusst ohne Lernziele.",
+                            default="Okay, habe ich verstanden.",
                         ),
                         key="user_qset_start_no_lo_confirm",
                     )
                     if st.button(
                         _dialog_text(
                             "questionset_start_without_lo_button",
-                            default="🚀 Test starten (ohne Lernziele)",
+                            default="🚀 Test starten",
                         ),
                         key="user_qset_start_no_lo_btn",
                         type="secondary",
