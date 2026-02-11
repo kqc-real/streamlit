@@ -2977,7 +2977,23 @@ def render_welcome_page(app_config: AppConfig):
                 # On any error, fall back to yellow to be conservative/visible
                 marker = '🟡'
 
-            label = f"{marker} {format_user_label(info)}"
+            label_name = None
+            try:
+                meta = info.question_set.meta if info and info.question_set else {}
+                title_val = meta.get("title") if isinstance(meta, dict) else None
+                if isinstance(title_val, str):
+                    title_val = title_val.strip()
+                else:
+                    title_val = None
+                if title_val and title_val.lower() != "pasted":
+                    label_name = title_val
+            except Exception:
+                label_name = None
+
+            if not label_name:
+                label_name = format_user_label(info)
+
+            label = f"{marker} {label_name}"
             num_questions = question_counts.get(filename)
             if num_questions:
                 label += f" ({_questions_count_label(num_questions)})"
@@ -8738,7 +8754,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                             qs_obj = None
 
                     if qs_obj and getattr(qs_obj, 'meta', None):
-                        raw_label = qs_obj.meta.get('thema') or qs_obj.meta.get('title')
+                        raw_label = qs_obj.meta.get('title') or qs_obj.meta.get('thema')
                 except Exception:
                     # Keep raw_label as-is on any error
                     raw_label = raw_label
@@ -8763,7 +8779,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                     if info:
                         try:
                             # Prefer an explicit title in the stored meta if present
-                            raw_label = getattr(info, 'question_set', None) and info.question_set.meta.get('thema')
+                            raw_label = getattr(info, 'question_set', None) and info.question_set.meta.get('title')
                             if not raw_label:
                                 raw_label = format_user_label(info)
                         except Exception:
@@ -8800,7 +8816,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                         sqs = globals().get('selected_question_set') if isinstance(globals(), dict) else None
 
                     if sqs is not None and getattr(sqs, 'meta', None):
-                        raw_label_sel = sqs.meta.get('thema') or sqs.meta.get('title')
+                        raw_label_sel = sqs.meta.get('title') or sqs.meta.get('thema')
                 except Exception:
                     raw_label_sel = raw_label_sel
 
@@ -8823,7 +8839,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
 
                     if sel_info:
                         try:
-                            raw_label_sel = getattr(sel_info, 'question_set', None) and sel_info.question_set.meta.get('thema')
+                            raw_label_sel = getattr(sel_info, 'question_set', None) and sel_info.question_set.meta.get('title')
                             if not raw_label_sel:
                                 raw_label_sel = format_user_label(sel_info)
                         except Exception:

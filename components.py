@@ -588,7 +588,16 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             label = None
             try:
                 if info:
-                    label = format_user_label(info)
+                    meta = info.question_set.meta if info.question_set else {}
+                    title_val = meta.get("title") if isinstance(meta, dict) else None
+                    if isinstance(title_val, str):
+                        title_val = title_val.strip()
+                    else:
+                        title_val = None
+                    if title_val and title_val.lower() != "pasted":
+                        label = title_val
+                    else:
+                        label = format_user_label(info)
             except Exception:
                 label = None
 
@@ -2566,7 +2575,23 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                 except Exception:
                     label_marker = "🟡"
 
-                label = f"{label_marker} {format_user_label(info)}"
+                label_name = None
+                try:
+                    meta = info.question_set.meta if info.question_set else {}
+                    title_val = meta.get("title") if isinstance(meta, dict) else None
+                    if isinstance(title_val, str):
+                        title_val = title_val.strip()
+                    else:
+                        title_val = None
+                    if title_val and title_val.lower() != "pasted":
+                        label_name = title_val
+                except Exception:
+                    label_name = None
+
+                if not label_name:
+                    label_name = format_user_label(info)
+
+                label = f"{label_marker} {label_name}"
 
                 try:
                     count = len(info.question_set) if info.question_set is not None else 0

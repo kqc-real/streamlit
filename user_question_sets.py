@@ -332,6 +332,7 @@ def save_user_question_set(
         )
 
     question_set = _load_question_set_from_payload(payload, original_filename or "upload.json")
+    ensure_meta_title(question_set, original_filename or "upload.json")
 
     # Strict validation: ensure no forbidden inline references/citations are present
     _validate_no_references(question_set)
@@ -392,7 +393,24 @@ def list_user_question_sets() -> list[UserQuestionSetInfo]:
         try:
             with path.open("r", encoding="utf-8") as fh:
                 data = json.load(fh)
+            original_title = None
+            if isinstance(data, dict):
+                meta_in = data.get("meta")
+                if isinstance(meta_in, dict):
+                    original_title = meta_in.get("title")
             question_set = _build_question_set(data, path.name, silent=True)
+            new_title = ensure_meta_title(question_set, path.name)
+            if new_title and (not original_title or (isinstance(original_title, str) and original_title.strip().lower() == "pasted")):
+                try:
+                    if isinstance(data, dict):
+                        meta_in = data.get("meta")
+                        if not isinstance(meta_in, dict):
+                            meta_in = {}
+                        meta_in["title"] = new_title
+                        data["meta"] = meta_in
+                        path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+                except Exception:
+                    pass
             meta = dict(question_set.meta)
             uploaded_by = meta.get("uploaded_by") if isinstance(meta.get("uploaded_by"), str) else None
             uploaded_by_hash = meta.get("uploaded_by_hash") if isinstance(meta.get("uploaded_by_hash"), str) else None
@@ -643,11 +661,17 @@ def format_user_label(info: UserQuestionSetInfo) -> str:
     # Prefer an explicit 'thema' from the question set metadata when available.
     # This prevents ugly default titles like 'pasted' from being shown to users
     # after they pasted/uploaded a temporary file. Fallback order:
-    #  1. meta['thema']
-    #  2. first question['thema']
-    #  3. meta['title'] (unless it's the generic 'pasted')
+    #  1. meta['title'] (unless it's the generic 'pasted')
+    #  2. meta['thema']
+    #  3. first question['thema']
     #  4. filename without extension
     meta = info.question_set.meta or {}
+    title = meta.get("title")
+    if isinstance(title, str):
+        title = title.strip()
+    else:
+        title = None
+
     tema = meta.get("thema")
     if not tema:
         try:
@@ -664,11 +688,10 @@ def format_user_label(info: UserQuestionSetInfo) -> str:
     except Exception:
         pass
 
-    title = meta.get("title")
-    if tema:
-        base_label = tema
-    elif title and title != "pasted":
+    if title and title.lower() != "pasted":
         base_label = title
+    elif tema:
+        base_label = tema
     else:
         # Fallback: clean the internal filename. Filenames for user uploads
         # are of the form `user_{hash}_{timestamp}.json`. Prefer showing the
@@ -691,6 +714,69 @@ def format_user_label(info: UserQuestionSetInfo) -> str:
             base_label = info.filename.replace('.json', '') if info.filename else 'Temporäres Fragenset'
 
     return f"{base_label}"
+
+
+def _normalize_title_value(value: Any) -> str | None:
+    if not isinstance(value, str):
+        return None
+    cleaned = value.strip()
+    if not cleaned:
+        return None
+    if cleaned.lower() == "pasted":
+        return None
+    return cleaned
+
+
+def _is_generic_theme(value: str | None) -> bool:
+    if not value:
+        return False
+    try:
+        return bool(re.match(r"^\s*(Frage|Question)\s*\d+\s*$", value, flags=re.IGNORECASE))
+    except Exception:
+        return False
+
+
+def ensure_meta_title(question_set: QuestionSet, fallback_filename: str | None = None) -> str | None:
+    """Ensure question_set.meta.title is set to a meaningful value for display."""
+    meta = question_set.meta if isinstance(question_set.meta, dict) else {}
+
+    title = _normalize_title_value(meta.get("title"))
+    if title:
+        meta["title"] = title
+        question_set.meta = meta
+        return title
+
+    candidate = _normalize_title_value(meta.get("thema"))
+    if candidate and not _is_generic_theme(candidate):
+        meta["title"] = candidate
+        question_set.meta = meta
+        return candidate
+
+    try:
+        q0 = question_set.questions[0]
+        if isinstance(q0, dict):
+            candidate = _normalize_title_value(q0.get("thema"))
+        else:
+            candidate = None
+    except Exception:
+        candidate = None
+
+    if candidate and not _is_generic_theme(candidate):
+        meta["title"] = candidate
+        question_set.meta = meta
+        return candidate
+
+    if fallback_filename:
+        base = Path(fallback_filename).stem
+        base = base.replace("questions_", "").replace("user_", "").replace("_", " ")
+        base = re.sub(r"\s+", " ", base).strip()
+        if base:
+            meta["title"] = base
+            question_set.meta = meta
+            return base
+
+    question_set.meta = meta
+    return None
 
 
 def pretty_label_from_identifier_string(raw: str) -> str:

@@ -248,7 +248,7 @@ def render_question_sets_tab():
             if count:
                 diff_parts.append(f"{count} × {label}")
 
-        name = meta.get("title") or meta.get("thema")
+        name = meta.get("title")
         if not name:
             name = pretty_label_from_identifier_string(filename)
 
@@ -519,7 +519,7 @@ def render_leaderboard_tab(df_all: pd.DataFrame, app_config: AppConfig):
         questions_for_set = load_questions(q_file)
         max_score_for_set = sum(q.get("gewichtung", 1) for q in questions_for_set)
         
-        title = questions_for_set.meta.get("title") or questions_for_set.meta.get("thema")
+        title = questions_for_set.meta.get("title")
         if not title:
             title = pretty_label_from_identifier_string(q_file)
 
@@ -685,7 +685,7 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
         # Versuche Titel aus Meta zu laden
         try:
             qs = load_questions(qfile, silent=True)
-            name = qs.meta.get("title") or qs.meta.get("thema")
+            name = qs.meta.get("title")
         except Exception:
             name = None
         if not name:
@@ -718,7 +718,7 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
         return
     
     # Zeige Überschrift mit Fragenset-Info
-    qset_display_name = questions.meta.get("title") or questions.meta.get("thema")
+    qset_display_name = questions.meta.get("title")
     if not qset_display_name:
         qset_display_name = pretty_label_from_identifier_string(selected_qset)
 
