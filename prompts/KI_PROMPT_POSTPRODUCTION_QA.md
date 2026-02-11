@@ -11,6 +11,12 @@ Optimiere die **Qualität der Fragen und Antwortoptionen** und liefere ein **val
 ```
 
 ## Aufgaben
+0. **Nur überarbeiten, nicht neu generieren**
+   - Verwende **die vorhandenen Fragen** als Basis.
+   - **Keine neuen Fragen hinzufügen**, **keine Fragen entfernen**.
+   - **Reihenfolge beibehalten** (Fragen und Optionen).
+   - Erlaubt sind nur **präzise Korrekturen** (Formulierung, Distraktoren, Erklärungen, `answer`-Index, `cognitive_level`, `concept`, `mini_glossary`, `meta`).
+
 1. **Struktur & Schema sichern**
    - `meta` und `questions` müssen vorhanden sein.
    - Pro Frage: `question`, `options`, `answer`, `explanation`, `weight`, `topic`, `concept`.
@@ -60,10 +66,12 @@ Optimiere die **Qualität der Fragen und Antwortoptionen** und liefere ein **val
    - Setze `meta.updated` auf **heutiges Datum** im Format `YYYY-MM-DD`.
 
 ## Output-Regeln (strikt!)
-- **Nur JSON** ausgeben. Keine Kommentare, kein Markdown, keine Code-Fences.
+- Gib **genau ein vollständiges JSON** aus, **in einem einzigen** ```json ... ``` Codeblock.
+- **Kein Text außerhalb** dieses Codeblocks. **Keine weiteren** Codeblöcke.
 - Struktur muss exakt dem Schema entsprechen.
 - **Keine** zusätzlichen Felder außerhalb von `meta` und `questions`.
 
 ---
 
-Beginne jetzt mit der Optimierung und gib ausschließlich das bereinigte JSON zurück.
+Beginne jetzt mit der Optimierung und gib ausschließlich das bereinigte JSON **in einem einzigen ```json```‑Codeblock** zurück.
+LETZTE ANWEISUNG: Gib **nur** diesen einen JSON‑Codeblock aus, ohne Text davor oder danach.

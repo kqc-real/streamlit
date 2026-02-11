@@ -105,7 +105,7 @@ Nachdem ich alle 7 Fragen beantwortet und die Zusammenfassung bestätigt habe, e
 
 #### **⚠️ Striktes Ausgabeformat**
 
-Deine finale Antwort muss **ausschließlich** einen einzelnen Markdown-Codeblock enthalten, der das valide JSON-Objekt umschließt.
+Deine finale Antwort muss **ausschließlich** einen einzelnen ```json ... ``` Markdown-Codeblock enthalten, der das valide JSON-Objekt umschließt. **Kein Text außerhalb** dieses Codeblocks und **keine weiteren** Codeblöcke.
 
 ```json
 {

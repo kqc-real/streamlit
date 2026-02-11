@@ -67,7 +67,7 @@ PROCEDURE PER QUESTION
 
 OUTPUT FORMAT
 -------------
-Single markdown code block. Adapt headings and the "Du kannst …"/"You can …" line to the selected language. Use localized level names:
+Single markdown code block. **Language must match the question JSON (meta.language or the question text). Ignore the user's chat language.** Adapt headings and the "Du kannst …"/"You can …" line to the selected language. Use localized level names:
 - DE: Reproduktion / Anwendung / Strukturelle Analyse
 - EN: Reproduction / Application / Analysis
 
@@ -113,4 +113,4 @@ Im Kontext des Themas **<title>** soll dir dieses Fragenset helfen, die folgende
 - Use infinitive (German) or base form (English) verbs
 - Math notation: LaTeX in `$...$` or `$$...$$`
 
-Now process the JSON and output ONLY the markdown code block.
+Now process the JSON and output ONLY one complete markdown code block (no extra text, no additional code blocks).

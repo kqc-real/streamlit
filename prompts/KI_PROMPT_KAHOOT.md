@@ -56,7 +56,7 @@ Führe den folgenden Prompt schrittweise aus:
 ### Finale Aufgabe (nach Schritt 7)
 
 1. Fasse die Antworten auf die sieben Schritte kompakt zusammen und bitte um Bestätigung.
-1. Erzeuge nach der Bestätigung genau ein valides JSON-Objekt in einem Markdown-Codeblock mit folgendem Grundschema:
+1. Erzeuge nach der Bestätigung **genau ein** valides JSON-Objekt **in einem einzigen** ```json ... ``` Codeblock (kein Text außerhalb, keine weiteren Codeblöcke) mit folgendem Grundschema:
 
 ```json
 {
