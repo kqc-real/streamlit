@@ -3954,6 +3954,8 @@ def render_question_distribution_chart(questions: list, duration_minutes=None, d
                 "analyse": "analysis",
                 "analysieren": "analysis",
                 "analyzing": "analysis",
+                "strukturelle analyse": "analysis",
+                "structural analysis": "analysis",
             }
             if not value:
                 return "unknown"
