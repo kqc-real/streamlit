@@ -689,6 +689,7 @@
         "answer_button": "Antwort abgeben",
         "answer_button_unsure": "🤔 Unsicher antworten",
         "answer_button_sure": "✅ Sicher antworten",
+        "next_question_notice": "Nächste Frage wird angezeigt.",
         "confidence_matrix_title": "Konfidenzmatrix (kumuliert)",
         "confidence_matrix_caption": "Kumuliert aus allen bisherigen Einschätzungen – ohne Autorbeiträge.",
         "confidence_matrix_empty": "Noch keine Einschätzungen vorhanden.",

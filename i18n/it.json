@@ -686,6 +686,7 @@
         "answer_button": "Invia risposta",
         "answer_button_unsure": "🤔 Rispondi (incerto)",
         "answer_button_sure": "✅ Rispondi (sicuro)",
+        "next_question_notice": "La prossima domanda è visualizzata.",
         "confidence_matrix_title": "Matrice di confidenza (cumulata)",
         "confidence_matrix_caption": "Cumulata su tutte le valutazioni — escludendo l’autore.",
         "confidence_matrix_empty": "Ancora nessuna valutazione.",

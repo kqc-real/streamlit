@@ -278,6 +278,7 @@
         "answer_button": "Submit answer",
         "answer_button_unsure": "🤔 Answer (unsure)",
         "answer_button_sure": "✅ Answer (sure)",
+        "next_question_notice": "Next question is shown.",
         "confidence_matrix_title": "Confidence matrix (cumulative)",
         "confidence_matrix_caption": "Cumulative across all prior ratings — excluding the author.",
         "confidence_matrix_empty": "No ratings yet.",

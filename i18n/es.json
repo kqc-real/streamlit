@@ -686,6 +686,7 @@
         "answer_button": "Enviar respuesta",
         "answer_button_unsure": "🤔 Responder (inseguro)",
         "answer_button_sure": "✅ Responder (seguro)",
+        "next_question_notice": "Se muestra la siguiente pregunta.",
         "confidence_matrix_title": "Matriz de confianza (acumulada)",
         "confidence_matrix_caption": "Acumulada de todas las valoraciones — excluyendo al autor.",
         "confidence_matrix_empty": "Aún no hay valoraciones.",

@@ -4675,6 +4675,14 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             st.session_state["_current_question_idx"] = frage_idx
             st.session_state[f"frage_{frage_idx}_shown_time_monotonic"] = time.monotonic()
             st.session_state.pop(f"frage_{frage_idx}_explanation_shown_time_monotonic", None)
+            # Progress cue in exam flow when switching to the next question
+            try:
+                current_mode = st.session_state.get("selected_mode", "exam")
+                if prev_idx is not None and current_mode == "exam" and not st.session_state.get("jump_to_idx_active"):
+                    st.session_state["_next_question_notice_idx"] = frage_idx
+                    st.session_state["_next_question_notice_shown"] = False
+            except Exception:
+                pass
     except Exception:
         pass
 
@@ -5832,6 +5840,58 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     # Do not disrupt the test UI if pacing UI fails
                     pass
 
+                # Brief inline notice when the next question is displayed (exam mode).
+                try:
+                    if current_mode == "exam":
+                        notice_idx = st.session_state.get("_next_question_notice_idx")
+                        notice_shown = st.session_state.get("_next_question_notice_shown", True)
+                        flash_now = (notice_idx == frage_idx and not notice_shown)
+                        if flash_now:
+                            st.session_state["_next_question_notice_shown"] = True
+                        notice_text = translate_ui("test_view.next_question_notice", default="Nächste Frage wird angezeigt.") if flash_now else ""
+                        notice_class = "flash" if flash_now else "silent"
+                        st.markdown(
+                            f"""
+<div class="q-next-overlay">
+  <div class="q-next-toast {notice_class}">{notice_text}</div>
+</div>
+<style>
+.q-next-overlay {{
+  position: relative;
+  height: 0;
+  overflow: visible;
+}}
+.q-next-toast {{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  margin-top: 6px;
+  font-size: 0.9rem;
+  padding: 6px 10px;
+  border-radius: 6px;
+  pointer-events: none;
+}}
+.q-next-toast.flash {{
+  color: inherit;
+  background: rgba(59, 130, 246, 0.18);
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  animation: qNextFade 3.0s ease-out forwards;
+}}
+.q-next-toast.silent {{
+  opacity: 0;
+}}
+@keyframes qNextFade {{
+  0%   {{ opacity: 1; transform: translateY(0); }}
+  100% {{ opacity: 0; transform: translateY(-4px); }}
+}}
+</style>
+""",
+                            unsafe_allow_html=True,
+                        )
+                except Exception:
+                    pass
+
         # Logik für die Fortschrittsanzeige
         if num_answered == 0:
             st.markdown(
@@ -6015,6 +6075,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         # --- Optionen und Antwort-Logik ---
         is_answered = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
         optionen = st.session_state.optionen_shuffled[frage_idx]
+        shuffled_optionen = optionen if isinstance(optionen, list) else []
         # Safety: if shuffled options no longer match the current question,
         # rebuild them to avoid mismatched options after runtime changes.
         try:
@@ -6071,7 +6132,30 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             on_change=_radio_on_change,
         )
 
-        antwort = optionen[selected_index] if selected_index is not None else None
+        if selected_index is None:
+            try:
+                state_idx = st.session_state.get(widget_key)
+                if isinstance(state_idx, int):
+                    selected_index = state_idx
+            except Exception:
+                pass
+
+        def _resolve_selected_answer() -> str | None:
+            idx = selected_index
+            if idx is None:
+                try:
+                    idx = st.session_state.get(widget_key)
+                except Exception:
+                    idx = None
+            try:
+                idx = int(idx) if idx is not None else None
+            except Exception:
+                idx = None
+            if idx is not None and 0 <= idx < len(shuffled_optionen):
+                return shuffled_optionen[idx]
+            return None
+
+        antwort = _resolve_selected_answer()
 
         # --- Dynamic reading cooldown for the 'Antworten' button ---
         try:
@@ -6087,8 +6171,8 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             base_seconds = app_cfg.reading_cooldown_base_per_weight.get(gewichtung, 30.0)
 
             # Scale reading time by number of options (consistent with total time calc)
-            optionen = frage_obj.get('optionen') or frage_obj.get('options') or []
-            num_options = len(optionen) if isinstance(optionen, list) else 0
+            orig_optionen = frage_obj.get('optionen') or frage_obj.get('options') or []
+            num_options = len(orig_optionen) if isinstance(orig_optionen, list) else 0
             option_factor = max(0.6, num_options / 5.0) if num_options > 0 else 1.0
             base_seconds = int(round(base_seconds * option_factor))
 
@@ -6193,7 +6277,8 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             def _handle_answer_click(confidence: str) -> None:
                 _dismiss_user_qset_dialog_from_test()
                 # If no option selected, inform the user.
-                if antwort is None:
+                selected_answer = _resolve_selected_answer()
+                if selected_answer is None:
                     try:
                         select_hint = translate_ui('test_view.select_answer', default='Bitte wähle zuerst eine Antwort aus.')
                     except Exception:
@@ -6209,7 +6294,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     show_ephemeral_message(f"{hint} {translate_ui('test_view.countdown.cooldown_remaining', default='(still {seconds}s)').format(seconds=remaining_answer_cooldown)}", icon="⏳")
                 else:
                     # Proceed with the original submit action.
-                    handle_answer_submission(frage_idx, antwort, frage_obj, app_config, questions, confidence=confidence)
+                    handle_answer_submission(frage_idx, selected_answer, frage_obj, app_config, questions, confidence=confidence)
 
             # Zeige Submit nur, wenn die Frage noch nicht beantwortet wurde
             if not answer_disabled:

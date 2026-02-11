@@ -278,6 +278,7 @@
         "answer_button": "提交答案",
         "answer_button_unsure": "🤔 不确定作答",
         "answer_button_sure": "✅ 确定作答",
+        "next_question_notice": "已显示下一题。",
         "confidence_matrix_title": "置信矩阵（累计）",
         "confidence_matrix_caption": "基于所有历史评估累计 — 不含作者。",
         "confidence_matrix_empty": "暂无评估数据。",
