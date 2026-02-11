@@ -6604,7 +6604,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     # --- Erklärung anzeigen ---
     if st.session_state.get(f"show_explanation_{frage_idx}", False):
         # Im Prüfungsmodus kein sofortiges Feedback während des Tests
-        if current_mode == 'exam' and not is_test_finished(questions):
+        if current_mode == 'exam':
             st.info(translate_ui("test_view.answer_saved", default="Antwort gespeichert."))
         else:
             render_explanation(frage_obj, app_config, questions, remaining_time, remaining)
@@ -6757,13 +6757,23 @@ def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_
     except Exception:
         pass
 
-    st.session_state[f"show_explanation_{frage_idx}"] = True
+    current_mode = st.session_state.get('selected_mode', 'exam')
+    if current_mode == 'exam':
+        # Do not show inline explanations during exams.
+        st.session_state[f"show_explanation_{frage_idx}"] = False
+        try:
+            st.session_state.pop(f"frage_{frage_idx}_explanation_shown_time_monotonic", None)
+        except Exception:
+            pass
+    else:
+        st.session_state[f"show_explanation_{frage_idx}"] = True
     st.session_state.last_answered_idx = frage_idx
     # record when the explanation was shown (monotonic timestamp) for next-button cooldown
-    try:
-        st.session_state[f"frage_{frage_idx}_explanation_shown_time_monotonic"] = time.monotonic()
-    except Exception:
-        pass
+    if current_mode != 'exam':
+        try:
+            st.session_state[f"frage_{frage_idx}_explanation_shown_time_monotonic"] = time.monotonic()
+        except Exception:
+            pass
     st.rerun()
 
 
@@ -7081,6 +7091,7 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int, remainin
     """
     answered_indices = st.session_state.get('answered_indices', [])
     jump_active = st.session_state.get("jump_to_idx_active", False)
+    current_mode = st.session_state.get('selected_mode', 'exam')
     # Im Review-/Jump-Modus übernehmen die spezialisierten Bookmark/Skip-Navigationen,
     # daher hier keine generischen Prev/Nächste-Buttons rendern.
     if jump_active:
@@ -7144,6 +7155,9 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int, remainin
             shown_key = f"frage_{frage_idx}_explanation_shown_time_monotonic"
             shown_time = float(st.session_state.get(shown_key, 0))
             if shown_time:
+                if current_mode == 'exam':
+                    remaining_next_cooldown = 0
+                    raise StopIteration
                 try:
                     from config import AppConfig
                     app_cfg = AppConfig()
@@ -7191,6 +7205,8 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int, remainin
                         st.caption(translate_ui("test_view.panic_mode_skipped", default="⚡ **Panic Mode:** Wartezeit übersprungen."))
             else:
                 remaining_next_cooldown = 0
+        except StopIteration:
+            pass
         except Exception:
             remaining_next_cooldown = 0
 
