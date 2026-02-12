@@ -59,7 +59,7 @@ def initialize_session_state(question_set: QuestionSet, app_config: AppConfig | 
             existing_keys = []
 
     for key in existing_keys:
-        if key.startswith("frage_") or key in [
+        if key.startswith("frage_") or key.startswith("show_explanation_") or key.startswith("show_extended_") or key.startswith("radio_") or key in [
             "beantwortet", "frage_indices", "initial_frage_indices", "start_zeit",
             "progress_loaded", "optionen_shuffled", "answer_outcomes",
             "bookmarked_questions",
