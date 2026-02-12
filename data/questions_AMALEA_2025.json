@@ -1791,7 +1791,7 @@
       },
       "mini_glossary": {
         "**Skalierung**": "Transformation von Merkmalen auf vergleichbare Größenordnungen.",
-        "**Schwellwertsplit**": "Aufteilung eines Knotens bei `Feature ≤/ > t`."
+        "**Schwellwertsplit**": "Aufteilung eines Knotens bei Feature ≤/ größer als t."
       },
       "cognitive_level": "Analyse",
       "concept": "ML: Entscheidungsbaum vs KNN (Skalierung)"
