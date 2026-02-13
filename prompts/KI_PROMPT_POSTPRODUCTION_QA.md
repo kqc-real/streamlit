@@ -57,6 +57,10 @@ Optimiere die **Qualität der Fragen und Antwortoptionen** und liefere ein **val
    - **Kein LaTeX in Backticks**.
    - In Formeln **kein `<` oder `>`** (nutze `\langle`/`\rangle`).
    - **Keine Quellenangaben oder Zitationsmarker** im Text (z. B. „Quelle: …“, „laut …“, `[cite: ...]`, `[1]`).
+   - **Codeblöcke (Markdown):** Wenn eine Frage Code enthält, muss der Code **immer** in einem Markdown‑Codeblock stehen.
+     - Der öffnende ```language‑Fence steht **allein in einer eigenen Zeile** und hat **eine Leerzeile davor**.
+     - Der schließende ```‑Fence steht **allein in einer eigenen Zeile** und hat **eine Leerzeile danach**.
+     - **Nie** ``` direkt nach einem Doppelpunkt oder anderem Text in derselben Zeile.
 
 8. **Themen-Verteilung**
    - Maximal **12** unterschiedliche `topic`-Werte.

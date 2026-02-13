@@ -331,6 +331,7 @@ After the `</scratchpad>` closing tag, output the **final JSON object** in a sin
 
 - **Code Block Formatting (CRITICAL):**
   - **Markdown & Newlines:** When a question contains a code snippet, it MUST be enclosed in a standard Markdown code block (e.g., ```python ... ```).
+  - **Own line + spacing:** The opening ```language fence MUST start on its own line, preceded by a blank line. The closing ``` MUST also be on its own line, followed by a blank line. **Never** place ``` directly after a colon or other text on the same line.
   - **Explicit Newlines:** Inside the JSON string for the question, you MUST use explicit `\n` characters to separate lines of code.
     - *Bad:* `"question": "Code: 1: a=1 2: b=2"`
     - *Good:* `"question": "Code:\n\n```python\n1: a = 1\n2: b = 2\n```"`
