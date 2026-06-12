@@ -1173,12 +1173,12 @@
         "export_kahoot_rule_option_length": "Hasta 4 opciones, máx. 60 caracteres cada una",
         "export_kahoot_rule_time_limits": "Límite de tiempo solo 5/10/20/30/60/90/120/240 s",
         "export_kahoot_rule_max_questions": "El archivo puede contener como máximo 500 preguntas",
-        "export_arsnova_expander": "📣 arsnova.click (feedback en vivo)",
-        "export_arsnova_description": "Para votaciones en directo. Exporta .json.",
-        "export_arsnova_caption": "Formato: .json | [Info arsnova.click](https://arsnova.click/info/about)",
-        "export_arsnova_validation_error": "Validación fallida: {error}",
-        "export_arsnova_warning": "{count} avisos arsnova",
-        "export_arsnova_download_label": "💾 Descargar archivo arsnova",
+        "export_arsnova_expander": "📣 arsnova.eu (feedback en vivo)",
+        "export_arsnova_description": "Para votaciones en directo. Exporta un archivo de importación para arsnova.eu.",
+        "export_arsnova_caption": "Formato: .json | [arsnova.eu](https://arsnova.eu)",
+        "export_arsnova_validation_error": "Validación de arsnova.eu fallida: {error}",
+        "export_arsnova_warning": "{count} avisos para arsnova.eu",
+        "export_arsnova_download_label": "💾 Descargar importación arsnova.eu",
         "export_arsnova_generation_error": "Error Export: {error}",
         "export_arsnova_option_too_long": "{label}: La respuesta {index} supera {max} caracteres (actual {length}).",
         "export_kahoot_question_too_long": "{label}: El texto de la pregunta tiene {length} caracteres (máx. {max}).",
@@ -1285,7 +1285,8 @@
                 "hidden_hint": "{count} intentos ocultos: muy cortos (<{min_time_pct}%) o scores bajos (<{min_score_pct}%).",
                 "hidden_runs_fallback": "{count} intentos ocultos: duración muy corta (<{min_duration_seconds} s) o puntuación mínima no alcanzada."
             }
-        }
+        },
+        "export_arsnova_question_too_long": "{label}: El texto de la pregunta supera {max} caracteres (actual {length})."
     },
     "welcome": {
         "splash": {

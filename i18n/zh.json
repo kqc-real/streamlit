@@ -1176,12 +1176,12 @@
         "export_kahoot_rule_option_length": "最多 4 个选项，每个最多 60 字符",
         "export_kahoot_rule_time_limits": "时间限制仅 5/10/20/30/60/90/120/240 秒",
         "export_kahoot_rule_max_questions": "文件最多 500 题",
-        "export_arsnova_expander": "📣 arsnova.click（现场反馈）",
-        "export_arsnova_description": "用于现场投票。导出为 .json。",
-        "export_arsnova_caption": "格式: .json | [arsnova.click 信息](https://arsnova.click/info/about)",
-        "export_arsnova_validation_error": "验证失败: {error}",
-        "export_arsnova_warning": "arsnova 的 {count} 个提示",
-        "export_arsnova_download_label": "💾 下载 arsnova 文件",
+        "export_arsnova_expander": "📣 arsnova.eu（现场反馈）",
+        "export_arsnova_description": "用于现场投票。导出为 arsnova.eu 导入文件。",
+        "export_arsnova_caption": "格式: .json | [arsnova.eu](https://arsnova.eu)",
+        "export_arsnova_validation_error": "arsnova.eu 验证失败: {error}",
+        "export_arsnova_warning": "arsnova.eu 的 {count} 个提示",
+        "export_arsnova_download_label": "💾 下载 arsnova.eu 导入文件",
         "export_arsnova_generation_error": "导出错误: {error}",
         "export_arsnova_option_too_long": "{label}: 选项 {index} 超过 {max} 字符（当前 {length}）。",
         "export_kahoot_question_too_long": "{label}: 题目文字为 {length} 字符（最大 {max}）。",
@@ -1288,7 +1288,8 @@
                 "hidden_hint": "{count} 次运行隐藏: 太短 (<{min_time_pct}%) 或得分太低 (<{min_score_pct}%)。",
                 "hidden_runs_fallback": "{count} 次运行被隐藏：时间太短 (<{min_duration_seconds} 秒) 或未达到最低得分。"
             }
-        }
+        },
+        "export_arsnova_question_too_long": "{label}: 题干超过 {max} 个字符（当前 {length}）。"
     },
     "welcome": {
         "splash": {

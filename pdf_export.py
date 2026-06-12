@@ -988,9 +988,9 @@ def _render_latex_in_html(html_text: str, total_timeout: float | None = None, md
     processed_text = re.sub(r'\$([^$]+?)\$', save_inline_formula, processed_text)
     processed_text = re.sub(r'\\\((.*?)\\\)', save_inline_formula, processed_text, flags=re.DOTALL)
 
-    # 2. Markdown-Formatierungen wie Listen und Zeilenumbrüche in HTML umwandeln.
-    # Dies ist immer noch notwendig, da die zentrale Bereinigung kein Markdown nach HTML konvertiert.
-    # Wir entfernen aber das HTML-Escaping und die manuelle Tag-Ersetzung.
+    # 2. Markdown in HTML umwandeln. Zuerst normalisieren wir nur noch
+    # serialisierte Zeilenumbrüche und escaped Blockquotes. Listen, Tabellen,
+    # Überschriften und Codeblöcke soll MarkdownIt selbst parsen.
     # Normalize literal escape sequences now that LaTeX formulas are safely
     # extracted into placeholders. This converts pasted/serialized "\\n"
     # sequences into actual newlines without touching backslash-escapes
@@ -1001,35 +1001,7 @@ def _render_latex_in_html(html_text: str, total_timeout: float | None = None, md
     except Exception:
         pass
 
-    lines = processed_text.split('\n')
-    html_lines = []
-    in_list = False
-    
-    for line in lines:
-        stripped = line.strip()
-        # Treat both '*' and '-' as unordered-list markers (e.g. '- item')
-        if stripped.startswith(('* ', '- ')):
-            content = stripped[2:]
-            if not in_list:
-                html_lines.append('<ul>')
-                in_list = True
-            html_lines.append(f'<li>{content}</li>')
-        else:
-            if in_list:
-                html_lines.append('</ul>')
-                in_list = False
-            if stripped:  # Nur nicht-leere Zeilen hinzufügen
-                html_lines.append(stripped)
-    
-    if in_list:
-        html_lines.append('</ul>')
-
-    # Preserve line breaks so Markdown block elements (like ```code```) are
-    # recognized by the Markdown renderer. Previously we concatenated lines
-    # which removed separators and caused code fences to collapse into a
-    # single inline string (e.g. "line1line2"). Joining with '\n' keeps
-    # the original structure intact for the downstream Markdown parser.
-    processed_text = '\n'.join(html_lines)
+    processed_text = re.sub(r'(?m)^(\s*)(?:&gt;|&amp;gt;)(\s?)', r'\1>\2', processed_text)
 
     # Convert basic Markdown (italic, bold, links, etc.) to HTML while
     # keeping our LaTeX placeholders intact. Protect placeholders from
@@ -1046,7 +1018,11 @@ def _render_latex_in_html(html_text: str, total_timeout: float | None = None, md
                 token_map[token] = ph
                 processed_text = processed_text.replace(ph, token)
 
-        _md = MarkdownIt()
+        _md = MarkdownIt("commonmark", {"html": True, "breaks": True})
+        try:
+            _md.enable("table")
+        except Exception:
+            pass
         if md_inline and hasattr(_md, 'renderInline'):
             # Render only inline elements (no surrounding <p>), useful for
             # list items and short previews where block-level margins are undesired.
@@ -1088,10 +1064,7 @@ def _render_latex_in_html(html_text: str, total_timeout: float | None = None, md
             if placeholder_inline in processed_text:
                 processed_text = processed_text.replace(placeholder_inline, rendered)
     
-    if md_inline:
-        # Inline rendering should not convert newlines to <br> globally
-        return processed_text
-    return processed_text.replace('\n', '<br>')
+    return processed_text
 
 
 def _steps_have_numbering(steps: List[str]) -> bool:
@@ -3112,7 +3085,13 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                     class_name = 'wrong-selected'
                     prefix = '✗'
 
-            html_body += f'<li class="{class_name}"><span class="prefix">{prefix}</span> {_render_latex_in_html(smart_quotes_de(option), md_inline=True)}</li>'
+            option_html = _render_latex_in_html(smart_quotes_de(option))
+            html_body += (
+                f'<li class="{class_name}">'
+                f'<span class="prefix">{prefix}</span>'
+                f'<div class="option-content">{option_html}</div>'
+                '</li>'
+            )
         html_body += "</ul>"
 
         erklaerung = frage_obj.get("erklaerung")
@@ -3610,10 +3589,53 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
             /* Prevent large default <p> margins inside question/explanation items
                by resetting paragraph margins in these scoped containers. This
                preserves block semantics but avoids extra vertical gaps. */
-            .question-text p, .explanation p, ul.options li p, .bookmark-preview p {{
-                margin: 0;
+            .question-text p, .explanation p, .bookmark-preview p {{
+                margin: 0 0 6px 0;
                 padding: 0;
-                display: inline;
+            }}
+            .question-text p:last-child, .explanation p:last-child, .bookmark-preview p:last-child {{
+                margin-bottom: 0;
+            }}
+            .question-text h1, .question-text h2, .question-text h3,
+            .option-content h1, .option-content h2, .option-content h3,
+            .explanation h1, .explanation h2, .explanation h3 {{
+                margin: 0 0 8px 0;
+                color: #2d3748;
+                line-height: 1.25;
+            }}
+            .question-text h1, .option-content h1, .explanation h1 {{
+                font-size: 17pt;
+            }}
+            .question-text h2, .option-content h2, .explanation h2 {{
+                font-size: 15pt;
+            }}
+            .question-text h3, .option-content h3, .explanation h3 {{
+                font-size: 12pt;
+            }}
+            .question-text blockquote, .option-content blockquote, .explanation blockquote {{
+                margin: 8px 0;
+                padding: 6px 12px;
+                border-left: 3px solid #94a3b8;
+                background: #f8fafc;
+                color: #475569;
+            }}
+            .question-text table, .option-content table, .explanation table {{
+                width: 100%;
+                border-collapse: collapse;
+                margin: 8px 0;
+                font-size: 10pt;
+            }}
+            .question-text th, .question-text td,
+            .option-content th, .option-content td,
+            .explanation th, .explanation td {{
+                border: 1px solid #cbd5e0;
+                padding: 5px 7px;
+                text-align: left;
+                vertical-align: top;
+            }}
+            .question-text th, .option-content th, .explanation th {{
+                background: #edf2f7;
+                font-weight: 700;
             }}
             /* Also reset paragraph margins inside glossary items to avoid
                large gaps before the first glossary entry when authors
@@ -3643,21 +3665,49 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 padding-left: 0;
                 margin: 16px 0;
             }}
-            ul.options li {{
+            ul.options > li {{
+                position: relative;
                 margin-bottom: 12px;
                 padding: 12px 16px 12px 45px;
-                text-indent: -38px;
+                text-indent: 0;
                 line-height: 1.7;
                 border-radius: 6px;
                 background: #f8f9fa;
                 font-size: 11pt;
             }}
             .prefix {{
+                position: absolute;
+                left: 12px;
+                top: 12px;
                 display: inline-block;
                 width: 28px;
                 text-align: center;
                 font-weight: bold;
-                margin-right: 10px;
+            }}
+            .option-content {{
+                display: block;
+            }}
+            .option-content p {{
+                margin: 0 0 6px 0;
+                padding: 0;
+            }}
+            .option-content p:last-child {{
+                margin-bottom: 0;
+            }}
+            .option-content ul, .option-content ol,
+            .question-text ul, .question-text ol,
+            .explanation ul, .explanation ol {{
+                margin: 6px 0;
+                padding-left: 18px;
+            }}
+            .option-content li, .question-text li, .explanation li {{
+                margin: 2px 0;
+                padding: 0;
+                background: transparent;
+                border-radius: 0;
+                text-indent: 0;
+                line-height: 1.5;
+                font-size: inherit;
             }}
             li.correct-selected, li.correct, li.correct-unanswered {{
                 background: #C5E1A5 !important; /* hellgrün */

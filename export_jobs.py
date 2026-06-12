@@ -21,11 +21,11 @@ import io
 import json
 import hashlib
 import tempfile
-from copy import deepcopy
 import re
 from datetime import datetime, timezone
 from zipfile import ZipFile, ZIP_DEFLATED
 from xml.sax.saxutils import escape
+from html.parser import HTMLParser
 import random
 from i18n.context import t as translate_ui
 
@@ -67,70 +67,15 @@ def _resolve_json_source(selected_file: str) -> Path:
 
 
 
-ARSNOVA_DIFFICULTY_MAP = {1: 2, 2: 6, 3: 10}
-DEFAULT_ARSNOVA_SESSION_CONFIG = {
-    "theme": "Material",
-    "readingConfirmationEnabled": False,
-    "showResponseProgress": True,
-    "confidenceSliderEnabled": False,
-    "music": {
-        "enabled": {
-            "lobby": True,
-            "countdownRunning": True,
-            "countdownEnd": True,
-        },
-        "shared": {
-            "lobby": True,
-            "countdownRunning": False,
-            "countdownEnd": False,
-        },
-        "volumeConfig": {
-            "global": 50,
-            "useGlobalVolume": False,
-            "lobby": 50,
-            "countdownRunning": 50,
-            "countdownEnd": 100,
-        },
-        "titleConfig": {
-            "lobby": "Song3",
-            "countdownRunning": "Song1",
-            "countdownEnd": "Song1",
-        },
-    },
-    "nicks": {
-        "memberGroups": [
-            {"name": ":apple:", "color": "#e6dd26"},
-            {"name": ":pear:", "color": "#7fffd4"},
-        ],
-        "maxMembersPerGroup": 50,
-        "autoJoinToGroup": False,
-        "selectedNicks": [
-            "Edsger Dijkstra",
-            "Konrad Zuse",
-            "Alan Turing",
-            "Galileo Galilei",
-            "Johannes Kepler",
-            "Blaise Pascal",
-            "Christiaan Huygens",
-            "Marie Curie",
-            "Isaac Newton",
-            "Robert Boyle",
-            "Gottfried Leibniz",
-            "Johannes Gutenberg",
-            "Leonardo Fibonacci",
-            "André Ampère",
-            "Archimedes",
-            "Aristoteles",
-            "Leonardo Da Vinci",
-            "Charles Darwin",
-            "Albert Einstein",
-            "Euklid",
-        ],
-        "blockIllegalNicks": True,
-    },
-}
-
-ARSNOVA_MAX_OPTION_LENGTH = int(os.getenv('ARSNOVA_MAX_OPTION_LENGTH', '120'))
+ARSNOVA_EU_EXPORT_VERSION = 1
+ARSNOVA_EU_DIFFICULTY_MAP = {1: "EASY", 2: "MEDIUM", 3: "HARD"}
+ARSNOVA_EU_DEFAULT_TIME_PER_WEIGHT_SECONDS = {1: 30, 2: 45, 3: 60}
+ARSNOVA_EU_MAX_DESCRIPTION_LENGTH = 5000
+ARSNOVA_EU_MAX_QUESTION_LENGTH = int(os.getenv("ARSNOVA_EU_MAX_QUESTION_LENGTH", "2000"))
+ARSNOVA_EU_MAX_ANSWER_LENGTH = int(os.getenv("ARSNOVA_EU_MAX_ANSWER_LENGTH", "500"))
+ARSNOVA_EU_GLOSSARY_DEFINITION_MAX_LENGTH = int(os.getenv("ARSNOVA_EU_GLOSSARY_DEFINITION_MAX_LENGTH", "180"))
+ARSNOVA_EU_MIN_TIMER_SECONDS = 5
+ARSNOVA_EU_MAX_TIMER_SECONDS = 300
 
 KAHOOT_ALLOWED_TIMERS = {5, 10, 20, 30, 60, 90, 120, 240}
 KAHOOT_MAX_QUESTIONS = 500
@@ -669,48 +614,215 @@ def _load_questions_from_file(selected_file: str) -> list[dict]:
     raise ValueError(f"Fragenset '{selected_file}' hat ein unerwartetes Format (Liste der Fragen fehlt).")
 
 
+def _load_question_set_meta(selected_file: str) -> dict[str, Any]:
+    """Liest Metadaten eines Fragensets, ohne den Export bei Fallbacks zu blockieren."""
+
+    try:
+        file_path = _resolve_json_source(selected_file)
+    except Exception:
+        return {}
+
+    if not file_path.exists():
+        return {}
+
+    try:
+        data = json.loads(file_path.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+    if not isinstance(data, dict):
+        return {}
+
+    meta = data.get("meta")
+    return meta if isinstance(meta, dict) else {}
 
 
-
-def _map_weight_to_difficulty(raw_weight: Any) -> int:
+def _coerce_question_weight(raw_weight: Any) -> int:
     try:
         weight_int = int(raw_weight)
     except (TypeError, ValueError):
-        return ARSNOVA_DIFFICULTY_MAP[1]
-    return ARSNOVA_DIFFICULTY_MAP.get(weight_int, ARSNOVA_DIFFICULTY_MAP[1])
+        return 1
+    return weight_int if weight_int in ARSNOVA_EU_DIFFICULTY_MAP else 1
 
 
-def _build_answer_options(options: Sequence[Any], correct_index: int) -> list[dict[str, Any]]:
-    if not isinstance(options, Sequence) or len(options) == 0:
-        raise ValueError("Jede Frage benötigt mindestens eine Antwortoption für den arsnova.click-Export.")
+def _map_weight_to_arsnova_eu_difficulty(raw_weight: Any) -> str:
+    return ARSNOVA_EU_DIFFICULTY_MAP[_coerce_question_weight(raw_weight)]
+
+
+def _clamp_timer_seconds(value: Any) -> int:
+    try:
+        timer = int(round(float(value)))
+    except (TypeError, ValueError):
+        timer = ARSNOVA_EU_DEFAULT_TIME_PER_WEIGHT_SECONDS[1]
+    return max(ARSNOVA_EU_MIN_TIMER_SECONDS, min(ARSNOVA_EU_MAX_TIMER_SECONDS, timer))
+
+
+def _timer_seconds_for_weight(raw_weight: Any, meta: dict[str, Any]) -> int:
+    weight = _coerce_question_weight(raw_weight)
+    fallback = ARSNOVA_EU_DEFAULT_TIME_PER_WEIGHT_SECONDS[weight]
+
+    raw_mapping = meta.get("time_per_weight_minutes") if isinstance(meta, dict) else None
+    if not isinstance(raw_mapping, dict):
+        return _clamp_timer_seconds(fallback)
+
+    minutes = raw_mapping.get(str(weight), raw_mapping.get(weight))
+    if minutes is None:
+        return _clamp_timer_seconds(fallback)
+
+    try:
+        return _clamp_timer_seconds(float(minutes) * 60)
+    except (TypeError, ValueError):
+        return _clamp_timer_seconds(fallback)
+
+
+class _ArsnovaHtmlMarkdownParser(HTMLParser):
+    """Wandelt sichere MC-Test-HTML-Fragmente in arsnova.eu-taugliches Markdown."""
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self._parts: list[str] = []
+        self._captures: list[tuple[str, list[str]]] = []
+
+    def get_markdown(self) -> str:
+        return "".join(self._parts)
+
+    def _append(self, value: str) -> None:
+        if self._captures:
+            self._captures[-1][1].append(value)
+            return
+        self._parts.append(value)
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        normalized = tag.lower()
+        if normalized in {"strong", "b"}:
+            self._append("**")
+        elif normalized in {"em", "i"}:
+            self._append("*")
+        elif normalized == "code":
+            self._append("`")
+        elif normalized == "br":
+            self._append("\n")
+        elif normalized in {"sub", "sup"}:
+            self._captures.append((normalized, []))
+        elif normalized == "p":
+            self._append("\n\n")
+
+    def handle_startendtag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        if tag.lower() == "br":
+            self._append("\n")
+
+    def handle_endtag(self, tag: str) -> None:
+        normalized = tag.lower()
+        if normalized in {"strong", "b"}:
+            self._append("**")
+        elif normalized in {"em", "i"}:
+            self._append("*")
+        elif normalized == "code":
+            self._append("`")
+        elif normalized == "p":
+            self._append("\n\n")
+        elif normalized in {"sub", "sup"} and self._captures:
+            capture_tag, capture_parts = self._captures.pop()
+            content = "".join(capture_parts).strip()
+            if capture_tag == "sub":
+                self._append(f"_{content}" if len(content) <= 1 else f"_{{{content}}}")
+            else:
+                self._append(f"^{content}" if len(content) <= 1 else f"^{{{content}}}")
+
+    def handle_data(self, data: str) -> None:
+        self._append(data)
+
+
+def _replace_markdown_code_with_placeholders(text: str) -> tuple[str, list[str]]:
+    placeholders: list[str] = []
+
+    def _store(match: re.Match[str]) -> str:
+        placeholders.append(match.group(0))
+        return f"\uE000ARSNOVA_CODE_{len(placeholders) - 1}\uE000"
+
+    protected = re.sub(r"```[\s\S]*?```|`[^`\n]+`", _store, text)
+    return protected, placeholders
+
+
+def _restore_markdown_code_placeholders(text: str, placeholders: Sequence[str]) -> str:
+    restored = text
+    for idx, value in enumerate(placeholders):
+        restored = restored.replace(f"\uE000ARSNOVA_CODE_{idx}\uE000", value)
+    return restored
+
+
+def _convert_safe_html_to_arsnova_markdown(text: str) -> str:
+    if not re.search(r"</?(?:strong|b|em|i|code|br|sub|sup|p)\b", text, flags=re.IGNORECASE):
+        return text
+
+    protected, placeholders = _replace_markdown_code_with_placeholders(text)
+    parser = _ArsnovaHtmlMarkdownParser()
+    parser.feed(protected)
+    parser.close()
+    converted = _restore_markdown_code_placeholders(parser.get_markdown(), placeholders)
+    return re.sub(r"\n{4,}", "\n\n\n", converted).strip()
+
+
+def _normalize_arsnova_eu_markdown_compatibility(text: str) -> str:
+    compatible = _convert_safe_html_to_arsnova_markdown(text)
+    return re.sub(r"\n{4,}", "\n\n\n", compatible).strip()
+
+
+def _normalize_arsnova_eu_text(raw_text: Any) -> str:
+    text = "" if raw_text is None else str(raw_text)
+    text = text.replace("\r\n", "\n").replace("\r", "\n").strip()
+    if not text:
+        return ""
+
+    lines = text.split("\n")
+    lines[0] = re.sub(r"^\s*\d+[\.)]\s*", "", lines[0])
+    normalized = "\n".join(lines).strip()
+    normalized = re.sub(r"\n{4,}", "\n\n\n", normalized)
+    return _normalize_arsnova_eu_markdown_compatibility(normalized)
+
+
+
+def _protect_markdown_code_tokens(text: str) -> str:
+    protected_tokens = (
+        "predict_log_proba",
+        "predict_proba",
+        "decision_function",
+        "make_*",
+        "fetch_*",
+        "load_*",
+    )
+    protected = text
+    for token in protected_tokens:
+        protected = re.sub(
+            rf"(?<!`){re.escape(token)}(?!`)",
+            f"`{token}`",
+            protected,
+        )
+    return protected
+
+
+def _normalize_arsnova_eu_answer_text(raw_text: Any) -> str:
+    return _protect_markdown_code_tokens(_normalize_arsnova_eu_text(raw_text))
+
+
+def _build_arsnova_eu_answers(options: Sequence[Any], correct_index: int, question_number: int) -> list[dict[str, Any]]:
+    if not isinstance(options, Sequence) or isinstance(options, (str, bytes)) or len(options) == 0:
+        raise ValueError(f"Frage {question_number} benötigt mindestens eine Antwortoption für den arsnova.eu-Export.")
 
     answers: list[dict[str, Any]] = []
     for idx, raw_option in enumerate(options):
-        option_text = "" if raw_option is None else str(raw_option)
-        if len(option_text) > ARSNOVA_MAX_OPTION_LENGTH:
-            # Truncate in a safer way: avoid leaving a trailing backslash
-            # or an unclosed LaTeX delimiter which would break rendering.
-            truncated = option_text[:ARSNOVA_MAX_OPTION_LENGTH]
-            # If truncation ends with a backslash, drop it to avoid escaping the
-            # next (missing) character in LaTeX commands.
-            while truncated.endswith("\\"):
-                truncated = truncated[:-1]
-
-            # If we truncated inside inline math (odd number of $), try to
-            # balance it by appending a closing '$' when there's space.
-            if truncated.count("$") % 2 == 1:
-                if len(truncated) < ARSNOVA_MAX_OPTION_LENGTH:
-                    truncated = truncated + "$"
-                else:
-                    # replace last char with a closing dollar to keep length
-                    truncated = truncated[:-1] + "$"
-
-            option_text = truncated
+        option_text = _normalize_arsnova_eu_answer_text(raw_option)
+        if not option_text:
+            raise ValueError(f"Frage {question_number}, Antwort {idx + 1} ist leer.")
+        if len(option_text) > ARSNOVA_EU_MAX_ANSWER_LENGTH:
+            raise ValueError(
+                f"Frage {question_number}, Antwort {idx + 1} überschreitet "
+                f"{ARSNOVA_EU_MAX_ANSWER_LENGTH} Zeichen."
+            )
         answers.append(
             {
-                "answerText": option_text,
+                "text": option_text,
                 "isCorrect": idx == correct_index,
-                "TYPE": "DefaultAnswerOption",
             }
         )
     if correct_index < 0 or correct_index >= len(answers):
@@ -718,31 +830,15 @@ def _build_answer_options(options: Sequence[Any], correct_index: int) -> list[di
     return answers
 
 
-def _sanitize_tag_value(thema: Any) -> list[str]:
-    if not isinstance(thema, str):
-        return []
-    sanitized_tag = thema.strip().replace("\n", " ")
-    return [sanitized_tag] if sanitized_tag else []
-
-
-def _collect_metadata_tags(question: dict) -> list[str]:
-    tags: list[str] = []
-    thema_tags = _sanitize_tag_value(question.get("topic"))
-    tags.extend(thema_tags)
-    for field, label in (("concept", "Konzept"), ("cognitive_level", "Kognitive Stufe")):
-        for value in _sanitize_tag_value(question.get(field)):
-            tags.append(f"{label}: {value}")
-    # Preserve original order but drop duplicates
-    return list(dict.fromkeys(tags))
-
-
-def _transform_question_for_arsnova(question: dict, index: int) -> dict[str, Any]:
+def _transform_question_for_arsnova_eu(question: dict, index: int, meta: dict[str, Any]) -> dict[str, Any]:
     if not isinstance(question, dict):
         raise ValueError(f"Einträge im Fragenset müssen Objekte sein (Fehler bei Frage {index + 1}).")
 
-    frage_text = str(question.get("question", "")).strip()
+    frage_text = _normalize_arsnova_eu_text(question.get("question"))
     if not frage_text:
         raise ValueError(f"Frage {index + 1} hat keinen Fragetext.")
+    if len(frage_text) > ARSNOVA_EU_MAX_QUESTION_LENGTH:
+        raise ValueError(f"Frage {index + 1} überschreitet {ARSNOVA_EU_MAX_QUESTION_LENGTH} Zeichen.")
 
     loesung_raw = question.get("answer")
     try:
@@ -750,21 +846,17 @@ def _transform_question_for_arsnova(question: dict, index: int) -> dict[str, Any
     except (TypeError, ValueError):
         raise ValueError(f"Frage {index + 1} besitzt keinen gültigen Lösungsindex.")
 
-    answer_options = _build_answer_options(question.get("options", []), loesung_index)
-
-    normalized_text = _normalize_question_text(frage_text) or f"Frage {index + 1}"
+    answer_options = _build_arsnova_eu_answers(question.get("options", []), loesung_index, index + 1)
 
     return {
-        "TYPE": "SingleChoiceQuestion",
-        "questionText": normalized_text,
-        "answerOptionList": answer_options,
-        "timer": 60,
-        "requiredForToken": True,
-        "difficulty": _map_weight_to_difficulty(question.get("weight")),
-        "displayAnswerText": True,
-        "showOneAnswerPerRow": True,
-        "multipleSelectionEnabled": False,
-        "tags": _collect_metadata_tags(question),
+        "text": frage_text,
+        "type": "SINGLE_CHOICE",
+        "timer": _timer_seconds_for_weight(question.get("weight"), meta),
+        "difficulty": _map_weight_to_arsnova_eu_difficulty(question.get("weight")),
+        "order": index,
+        "skipReadingPhase": False,
+        "answers": answer_options,
+        "enabled": True,
     }
 
 
@@ -815,7 +907,7 @@ def _short_question_label(question_text: str) -> str:
 
 
 def validate_arsnova_questions(questions: Sequence[dict]) -> list[str]:
-    """Ermittelt Warnungen für den arsnova.click-Export."""
+    """Ermittelt Warnungen für den arsnova.eu-Export."""
 
     warnings: list[str] = []
     # Questions are expected to use canonical English keys.
@@ -824,16 +916,28 @@ def validate_arsnova_questions(questions: Sequence[dict]) -> list[str]:
         if not isinstance(question, dict):
             continue
 
-        question_text = _strip_markdown_to_plain_text(question.get("question"))
+        raw_question_text = _normalize_arsnova_eu_text(question.get("question"))
+        question_text = _strip_markdown_to_plain_text(raw_question_text)
         label = _short_question_label(question_text or f"Frage {idx + 1}")
+        if len(raw_question_text) > ARSNOVA_EU_MAX_QUESTION_LENGTH:
+            warnings.append(
+                translate_ui(
+                    "export_arsnova_question_too_long",
+                    default="{label}: Fragetext überschreitet {max} Zeichen (aktuell {length}).",
+                ).format(
+                    label=label,
+                    max=ARSNOVA_EU_MAX_QUESTION_LENGTH,
+                    length=len(raw_question_text),
+                )
+            )
 
         optionen = question.get("options")
         if not isinstance(optionen, Sequence) or isinstance(optionen, (str, bytes)):
             continue
 
         for opt_idx, opt in enumerate(optionen, start=1):
-            option_text = "" if opt is None else str(opt)
-            if len(option_text) > ARSNOVA_MAX_OPTION_LENGTH:
+            option_text = _normalize_arsnova_eu_answer_text(opt)
+            if len(option_text) > ARSNOVA_EU_MAX_ANSWER_LENGTH:
                 warnings.append(
                     translate_ui(
                         "export_arsnova_option_too_long",
@@ -841,7 +945,7 @@ def validate_arsnova_questions(questions: Sequence[dict]) -> list[str]:
                     ).format(
                         label=label,
                         index=opt_idx,
-                        max=ARSNOVA_MAX_OPTION_LENGTH,
+                        max=ARSNOVA_EU_MAX_ANSWER_LENGTH,
                         length=len(option_text),
                     )
                 )
@@ -1004,47 +1108,388 @@ def generate_kahoot_xlsx(selected_file: str, questions: Optional[Sequence[dict]]
     return _write_simple_xlsx(rows, sheet_name)
 
 
+def _derive_arsnova_eu_quiz_name(selected_file: str, meta: dict[str, Any]) -> str:
+    title = meta.get("title") if isinstance(meta, dict) else None
+    if isinstance(title, str) and title.strip():
+        return title.strip()[:200]
+    return _derive_export_name(selected_file)[:200]
+
+
+def _format_arsnova_meta_text(value: Any) -> str:
+    text = "" if value is None else str(value).strip()
+    return re.sub(r"\s+", " ", text)
+
+
+def _format_arsnova_language(value: Any) -> str:
+    language = _format_arsnova_meta_text(value)
+    if language.lower() == "de":
+        return "Deutsch (de)"
+    if language.lower() == "en":
+        return "Englisch (en)"
+    return language
+
+
+def _format_arsnova_difficulty_profile(value: Any) -> str:
+    if not isinstance(value, dict):
+        return ""
+
+    labels = {
+        "easy": "leicht",
+        "medium": "mittel",
+        "hard": "schwer",
+        "EASY": "leicht",
+        "MEDIUM": "mittel",
+        "HARD": "schwer",
+    }
+    parts: list[str] = []
+    for key in ("easy", "medium", "hard", "EASY", "MEDIUM", "HARD"):
+        if key not in value:
+            continue
+        count = value.get(key)
+        try:
+            count_int = int(count)
+        except (TypeError, ValueError):
+            continue
+        parts.append(f"{count_int} {labels[key]}")
+    return ", ".join(parts)
+
+
+def _normalize_arsnova_description_text(value: Any) -> str:
+    text = "" if value is None else str(value)
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def _truncate_arsnova_description_text(value: str, max_length: int) -> str:
+    if len(value) <= max_length:
+        return value
+    if max_length <= 3:
+        return value[:max_length]
+    return value[: max_length - 3].rstrip() + "..."
+
+
+def _extract_arsnova_glossary_entries(questions: Sequence[dict]) -> dict[str, dict[str, str]]:
+    glossary_by_theme: dict[str, dict[str, str]] = {}
+    seen_terms: set[str] = set()
+
+    for question in questions:
+        if not isinstance(question, dict):
+            continue
+
+        glossary = question.get("mini_glossary")
+        if not glossary:
+            continue
+
+        raw_theme = question.get("topic") or question.get("thema") or "Allgemein"
+        theme = _normalize_arsnova_description_text(raw_theme) or "Allgemein"
+        glossary_by_theme.setdefault(theme, {})
+
+        raw_entries: list[tuple[Any, Any]] = []
+        if isinstance(glossary, dict):
+            raw_entries.extend(glossary.items())
+        elif isinstance(glossary, list):
+            for entry in glossary:
+                if not isinstance(entry, dict):
+                    continue
+                if "term" in entry and "definition" in entry:
+                    raw_entries.append((entry.get("term"), entry.get("definition")))
+                elif "Begriff" in entry and "Definition" in entry:
+                    raw_entries.append((entry.get("Begriff"), entry.get("Definition")))
+                elif len(entry) == 1:
+                    raw_entries.append(next(iter(entry.items())))
+                else:
+                    raw_entries.append(
+                        (
+                            entry.get("term") or entry.get("Term") or entry.get("key"),
+                            entry.get("definition") or entry.get("Definition") or entry.get("def"),
+                        )
+                    )
+
+        for raw_term, raw_definition in raw_entries:
+            term = _normalize_arsnova_description_text(raw_term)
+            definition = _normalize_arsnova_description_text(raw_definition)
+            if not term or not definition:
+                continue
+
+            term_key = term.casefold()
+            if term_key in seen_terms:
+                continue
+
+            glossary_by_theme[theme][term] = definition
+            seen_terms.add(term_key)
+
+    return {
+        theme: dict(sorted(terms.items(), key=lambda item: item[0].casefold()))
+        for theme, terms in sorted(glossary_by_theme.items(), key=lambda item: item[0].casefold())
+        if terms
+    }
+
+
+def _extract_arsnova_topic_counts(questions: Sequence[dict]) -> dict[str, int]:
+    topic_counts: dict[str, int] = {}
+    for question in questions:
+        if not isinstance(question, dict):
+            continue
+        topic = _normalize_arsnova_description_text(question.get("topic") or question.get("thema"))
+        if not topic:
+            topic = "Allgemein"
+        topic_counts[topic] = topic_counts.get(topic, 0) + 1
+
+    return dict(sorted(topic_counts.items(), key=lambda item: item[0].casefold()))
+
+
+def _extract_arsnova_concept_counts(questions: Sequence[dict]) -> dict[str, int]:
+    concept_counts: dict[str, int] = {}
+    for question in questions:
+        if not isinstance(question, dict):
+            continue
+        concept = _normalize_arsnova_description_text(question.get("concept") or question.get("konzept"))
+        if not concept:
+            continue
+        concept_counts[concept] = concept_counts.get(concept, 0) + 1
+
+    return dict(sorted(concept_counts.items(), key=lambda item: (-item[1], item[0].casefold())))
+
+
+def _extract_arsnova_cognitive_level_counts(questions: Sequence[dict]) -> dict[str, int]:
+    level_counts: dict[str, int] = {}
+    for question in questions:
+        if not isinstance(question, dict):
+            continue
+        level = _normalize_arsnova_description_text(
+            question.get("cognitive_level") or question.get("kognitive_stufe")
+        )
+        if not level:
+            continue
+        level_counts[level] = level_counts.get(level, 0) + 1
+
+    preferred_order = {
+        "Reproduktion": 0,
+        "Anwendung": 1,
+        "Strukturelle Analyse": 2,
+    }
+    return dict(
+        sorted(
+            level_counts.items(),
+            key=lambda item: (preferred_order.get(item[0], 99), item[0].casefold()),
+        )
+    )
+
+
+def _description_fits(lines: list[str], extra_lines: Sequence[str]) -> bool:
+    return len("\n".join([*lines, *extra_lines]).strip()) <= ARSNOVA_EU_MAX_DESCRIPTION_LENGTH
+
+
+def _append_arsnova_omitted_glossary_notice(lines: list[str], omitted_count: int) -> None:
+    if omitted_count <= 0:
+        return
+
+    while True:
+        notices = [
+            f"... ({omitted_count} weitere Glossarbegriffe im MC-Test-Mini-Glossar/PDF).",
+            f"... ({omitted_count} weitere Glossarbegriffe).",
+            f"... ({omitted_count} weitere).",
+        ]
+        for notice in notices:
+            if _description_fits(lines, [notice]):
+                lines.append(notice)
+                return
+
+        if not lines:
+            return
+
+        removed_line = lines.pop()
+        if removed_line.startswith("- **"):
+            omitted_count += 1
+            continue
+        if removed_line.startswith("### "):
+            continue
+
+        lines.append(removed_line)
+        return
+
+
+def _append_arsnova_glossary_description(lines: list[str], questions: Sequence[dict]) -> None:
+    glossary_by_theme = _extract_arsnova_glossary_entries(questions)
+    total_terms = sum(len(terms) for terms in glossary_by_theme.values())
+    if total_terms == 0:
+        return
+
+    intro_lines = [
+        "",
+        "## Mini-Glossar",
+        "Aus dem MC-Test-Mini-Glossar übernommen. Bei großen Glossaren wird der Abschnitt gekürzt.",
+    ]
+    if not _description_fits(lines, intro_lines):
+        return
+    lines.extend(intro_lines)
+
+    included_terms = 0
+    for theme, terms in glossary_by_theme.items():
+        theme_added = False
+        for term, definition in terms.items():
+            compact_definition = _truncate_arsnova_description_text(
+                definition,
+                ARSNOVA_EU_GLOSSARY_DEFINITION_MAX_LENGTH,
+            )
+            entry_line = f"- **{term}**: {compact_definition}"
+            candidate_lines = [entry_line] if theme_added else [f"### {theme}", entry_line]
+
+            if not _description_fits(lines, candidate_lines):
+                _append_arsnova_omitted_glossary_notice(lines, total_terms - included_terms)
+                return
+
+            lines.extend(candidate_lines)
+            theme_added = True
+            included_terms += 1
+
+
+def _append_arsnova_topic_description(lines: list[str], questions: Sequence[dict]) -> None:
+    topic_counts = _extract_arsnova_topic_counts(questions)
+    if not topic_counts:
+        return
+
+    topic_lines = ["", "## Topics"]
+    for topic, count in topic_counts.items():
+        label = "Frage" if count == 1 else "Fragen"
+        topic_lines.append(f"- {topic}: {count} {label}")
+
+    if _description_fits(lines, topic_lines):
+        lines.extend(topic_lines)
+
+
+def _append_arsnova_cognitive_level_description(lines: list[str], questions: Sequence[dict]) -> None:
+    level_counts = _extract_arsnova_cognitive_level_counts(questions)
+    if not level_counts:
+        return
+
+    level_lines = ["", "## Kognitive Stufen"]
+    for level, count in level_counts.items():
+        label = "Frage" if count == 1 else "Fragen"
+        level_lines.append(f"- {level}: {count} {label}")
+
+    if _description_fits(lines, level_lines):
+        lines.extend(level_lines)
+
+
+def _append_arsnova_concept_description(lines: list[str], questions: Sequence[dict]) -> None:
+    concept_counts = _extract_arsnova_concept_counts(questions)
+    if not concept_counts:
+        return
+
+    intro_lines = ["", "## Concepts"]
+    if not _description_fits(lines, intro_lines):
+        return
+    lines.extend(intro_lines)
+
+    included = 0
+    total = len(concept_counts)
+    for concept, count in concept_counts.items():
+        label = "Frage" if count == 1 else "Fragen"
+        concept_line = f"- {concept}: {count} {label}"
+        if not _description_fits(lines, [concept_line]):
+            omitted = total - included
+            if omitted > 0 and _description_fits(lines, [f"... ({omitted} weitere Concepts)."]):
+                lines.append(f"... ({omitted} weitere Concepts).")
+            return
+        lines.append(concept_line)
+        included += 1
+
+
+def _format_arsnova_eu_description(
+    meta: dict[str, Any],
+    quiz_name: str,
+    question_count: int,
+    questions: Sequence[dict],
+) -> str:
+    lines = [f"## MC-Test-Import: {quiz_name}", ""]
+    details: list[str] = []
+
+    target_audience = _format_arsnova_meta_text(meta.get("target_audience"))
+    if target_audience:
+        details.append(f"Zielgruppe: {target_audience}")
+
+    language = _format_arsnova_language(meta.get("language"))
+    if language:
+        details.append(f"Sprache: {language}")
+
+    meta_question_count = meta.get("question_count")
+    try:
+        displayed_question_count = int(meta_question_count)
+    except (TypeError, ValueError):
+        displayed_question_count = question_count
+    details.append(f"Fragenanzahl: {displayed_question_count}")
+
+    test_duration = _format_arsnova_meta_text(meta.get("test_duration_minutes"))
+    if test_duration:
+        details.append(f"Empfohlene Testdauer im Original: {test_duration} Minuten")
+
+    difficulty_profile = _format_arsnova_difficulty_profile(meta.get("difficulty_profile"))
+    if difficulty_profile:
+        details.append(f"Schwierigkeitsprofil: {difficulty_profile}")
+
+    lines.extend(f"- {detail}" for detail in details)
+    lines.extend(
+        [
+            "",
+            "Hinweis: MC-Test-Erklärungen sind im "
+            "arsnova.eu-Importschema nicht als eigene Felder abbildbar.",
+        ]
+    )
+
+    _append_arsnova_cognitive_level_description(lines, questions)
+    _append_arsnova_topic_description(lines, questions)
+    _append_arsnova_concept_description(lines, questions)
+    _append_arsnova_glossary_description(lines, questions)
+
+    description = "\n".join(lines).strip()
+    if len(description) <= ARSNOVA_EU_MAX_DESCRIPTION_LENGTH:
+        return description
+    return description[: ARSNOVA_EU_MAX_DESCRIPTION_LENGTH - 3].rstrip() + "..."
+
+
 def generate_arsnova_json(selected_file: str, questions: Optional[Sequence[dict]] = None) -> bytes:  # noqa: C901
-    """Erzeugt einen arsnova.click-kompatiblen JSON-Export für das ausgewählte Fragenset."""
+    """Erzeugt einen arsnova.eu-kompatiblen JSON-Import für das ausgewählte Fragenset."""
 
     resolved_questions = list(questions) if questions is not None else _load_questions_from_file(selected_file)
 
     if not resolved_questions:
-        raise ValueError("Keine Fragen für den arsnova.click-Export gefunden.")
+        raise ValueError("Keine Fragen für den arsnova.eu-Export gefunden.")
 
-    # Resolved questions must use canonical English keys.
-
-    question_payloads = [_transform_question_for_arsnova(question, idx) for idx, question in enumerate(resolved_questions)]
-
-    # Prefer the explicit meta.title from the source JSON for the arsnova 'name' field.
-    export_name = None
-    try:
-        src_path = _resolve_json_source(selected_file)
-        if src_path.exists():
-            try:
-                src_data = json.loads(src_path.read_text(encoding="utf-8"))
-                if isinstance(src_data, dict):
-                    meta = src_data.get("meta") or {}
-                    # Use exactly meta.title if present (requirement)
-                    title_val = None
-                    if isinstance(meta, dict):
-                        title_val = meta.get("title")
-                    if isinstance(title_val, str) and title_val.strip():
-                        export_name = title_val.strip()
-            except Exception:
-                # ignore JSON read errors and fall back below
-                pass
-    except Exception:
-        pass
-
-    if not export_name:
-        export_name = _derive_export_name(selected_file)
-
+    meta = _load_question_set_meta(selected_file)
+    quiz_name = _derive_arsnova_eu_quiz_name(selected_file, meta)
+    question_payloads = [
+        _transform_question_for_arsnova_eu(question, idx, meta)
+        for idx, question in enumerate(resolved_questions)
+    ]
+    exported_at = datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
     export_payload = {
-        "name": export_name,
-        "questionList": question_payloads,
-        "sessionConfig": deepcopy(DEFAULT_ARSNOVA_SESSION_CONFIG),
-        "state": "Inactive",
+        "exportVersion": ARSNOVA_EU_EXPORT_VERSION,
+        "exportedAt": exported_at,
+        "quiz": {
+            "name": quiz_name,
+            "description": _format_arsnova_eu_description(meta, quiz_name, len(resolved_questions), resolved_questions),
+            "motifImageUrl": None,
+            "showLeaderboard": True,
+            "allowCustomNicknames": True,
+            "defaultTimer": _timer_seconds_for_weight(1, meta),
+            "timerScaleByDifficulty": False,
+            "enableSoundEffects": True,
+            "enableRewardEffects": True,
+            "enableMotivationMessages": True,
+            "enableEmojiReactions": True,
+            "showQuestionTypeIndicators": True,
+            "anonymousMode": False,
+            "teamMode": False,
+            "teamCount": None,
+            "teamAssignment": "AUTO",
+            "teamNames": [],
+            "backgroundMusic": None,
+            "nicknameTheme": "NOBEL_LAUREATES",
+            "bonusTokenCount": None,
+            "readingPhaseEnabled": True,
+            "questions": question_payloads,
+        },
     }
 
     return json.dumps(export_payload, ensure_ascii=False, indent=2).encode("utf-8")

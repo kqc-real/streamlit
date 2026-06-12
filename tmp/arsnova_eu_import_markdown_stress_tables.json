@@ -1,0 +1,245 @@
+{
+  "exportVersion": 1,
+  "exportedAt": "2026-06-12T18:50:41.366Z",
+  "quiz": {
+    "name": "Markdown-Stress-Test für Exporte",
+    "description": "## MC-Test-Import: Markdown-Stress-Test für Exporte\n\n- Zielgruppe: Entwickler/innen und Lehrende, die MC-Test-Exporte prüfen\n- Sprache: Deutsch (de)\n- Fragenanzahl: 8\n- Empfohlene Testdauer im Original: 8 Minuten\n- Schwierigkeitsprofil: 2 leicht, 4 mittel, 2 schwer\n\nHinweis: MC-Test-Erklärungen sind im arsnova.eu-Importschema nicht als eigene Felder abbildbar.\n\n## Kognitive Stufen\n- Reproduktion: 2 Fragen\n- Anwendung: 4 Fragen\n- Strukturelle Analyse: 2 Fragen\n\n## Topics\n- Code & LaTeX: 2 Fragen\n- Markdown-Grundlagen: 2 Fragen\n- Medien & HTML: 2 Fragen\n- Strukturblöcke: 2 Fragen\n\n## Concepts\n- Code-Fence: 1 Frage\n- Inline-Formatierung: 1 Frage\n- LaTeX-Delimiters: 1 Frage\n- Links und Bilder: 1 Frage\n- Listen und Zitate: 1 Frage\n- Literalzeichen: 1 Frage\n- Markdown-Tabelle: 1 Frage\n- Sicheres HTML: 1 Frage\n\n## Mini-Glossar\nAus dem MC-Test-Mini-Glossar übernommen. Bei großen Glossaren wird der Abschnitt gekürzt.\n### Code & LaTeX\n- **Accuracy**: Anteil korrekt klassifizierter Beispiele an allen Beispielen.\n- **Block-LaTeX**: Abgesetzte Formel, z. B. mit doppelten Dollarzeichen.\n- **Code-Fence**: Mehrzeiliger Codeblock in Markdown, meist mit drei Backticks begrenzt.\n- **Inline-LaTeX**: Kurze Formel im Fließtext, z. B. zwischen Dollarzeichen.\n- **Skalarprodukt**: Operation, die zwei Vektoren eine Zahl zuordnet.\n### Markdown-Grundlagen\n- **Hervorhebung**: Markdown-Auszeichnung für visuelle Betonung, z. B. fett oder kursiv.\n- **Inline-Code**: Kurzer Code oder Token im Fließtext, typischerweise mit Backticks markiert.\n- **Markdown-Bild**: Syntax der Form ![Alternativtext](URL), die ein Bild referenziert.\n- **Markdown-Link**: Syntax der Form [Text](URL), die einen anklickbaren Verweis beschreibt.\n### Medien & HTML\n- **Backticks**: Markdown-Zeichen zur Markierung von Inline-Code.\n- **HTML-Sanitizing**: Bereinigung von HTML, um unsichere Auszeichnung zu entfernen oder zu entschärfen.\n- **Literalzeichen**: Zeichen, die als Zeichen selbst gemeint sind und nicht als Formatierung wirken sollen.\n- **Sicheres HTML**: Begrenzte Menge erlaubter Tags ohne gefährliche Attribute oder Skripte.\n### Strukturblöcke\n- **Blockquote**: Markdown-Block für hervorgehobene Zitate oder Hinweise.\n- **Feature-Matrix**: Matrix der Eingabemerkmale eines Datensatzes.\n- **Geordnete Liste**: Liste mit nummerierten Schritten.\n- **Markdown-Tabelle**: Tabellarische Struktur mit senkrechten Strichen und Trennzeile.",
+    "motifImageUrl": null,
+    "showLeaderboard": true,
+    "allowCustomNicknames": true,
+    "defaultTimer": 30,
+    "timerScaleByDifficulty": false,
+    "enableSoundEffects": true,
+    "enableRewardEffects": true,
+    "enableMotivationMessages": true,
+    "enableEmojiReactions": true,
+    "showQuestionTypeIndicators": true,
+    "anonymousMode": false,
+    "teamMode": false,
+    "teamCount": null,
+    "teamAssignment": "AUTO",
+    "teamNames": [],
+    "backgroundMusic": null,
+    "nicknameTheme": "NOBEL_LAUREATES",
+    "bonusTokenCount": null,
+    "readingPhaseEnabled": true,
+    "questions": [
+      {
+        "text": "## Formatierungs-Mix\nWelche Antwort beschreibt korrekt, wie **Fett**, *Kursiv* und `Inline-Code` in Markdown getrennt werden?\n\n> Prüfe, ob alle drei Inline-Formate erhalten bleiben.",
+        "type": "SINGLE_CHOICE",
+        "timer": 30,
+        "difficulty": "EASY",
+        "order": 0,
+        "skipReadingPhase": false,
+        "answers": [
+          {
+            "text": "### Markdown-Konventionen\n- **Fett** nutzt zwei Sternchen.\n- *Kursiv* nutzt ein Sternchen.\n- `Inline-Code` nutzt Backticks.",
+            "isCorrect": true
+          },
+          {
+            "text": "### Großschreibung\n- **Fett** entsteht nur durch Großbuchstaben.\n- *Kursiv* entsteht automatisch durch Leerzeichen.\n- `Inline-Code` nutzt Dollarzeichen.",
+            "isCorrect": false
+          },
+          {
+            "text": "### Vertauschte Marker\n- **Fett** nutzt ein Sternchen.\n- *Kursiv* nutzt zwei Sternchen.\n- `Inline-Code` nutzt Unterstriche.",
+            "isCorrect": false
+          },
+          {
+            "text": "### HTML-Attribute\n- **Fett**, *Kursiv* und `Inline-Code` werden nur über HTML-Attribute gesteuert.",
+            "isCorrect": false
+          }
+        ],
+        "enabled": true
+      },
+      {
+        "text": "Im Fragenstamm stehen ein Link [Markdown Guide](https://example.com/markdown) und ein Bild ![Platzhalter-Grafik](https://kqc-real.github.io/arsnova.eu/favicon.svg).\nWelche Aussage beschreibt den gewünschten Export?",
+        "type": "SINGLE_CHOICE",
+        "timer": 45,
+        "difficulty": "MEDIUM",
+        "order": 1,
+        "skipReadingPhase": false,
+        "answers": [
+          {
+            "text": "Der Export soll nur den sichtbaren Linktext übernehmen und das Bild vollständig entfernen.",
+            "isCorrect": false
+          },
+          {
+            "text": "Der Export soll [Markdown Guide](https://example.com/markdown) und ![Platzhalter-Grafik](https://kqc-real.github.io/arsnova.eu/favicon.svg) als Markdown-Syntax erhalten.",
+            "isCorrect": true
+          },
+          {
+            "text": "Der Export soll den Link in reinen Text umwandeln und das Bild als Dateipfad speichern.",
+            "isCorrect": false
+          },
+          {
+            "text": "Der Export soll Bilder in Antworten verbieten, auch wenn die Zielplattform Markdown versteht.",
+            "isCorrect": false
+          }
+        ],
+        "enabled": true
+      },
+      {
+        "text": "Gegeben ist ein Codeblock:\n\n```python\ndef accuracy(y_true, y_pred):\n    return (y_true == y_pred).mean()\n```\n\nWelche Option beschreibt die Funktion korrekt?",
+        "type": "SINGLE_CHOICE",
+        "timer": 45,
+        "difficulty": "MEDIUM",
+        "order": 2,
+        "skipReadingPhase": false,
+        "answers": [
+          {
+            "text": "```python\naccuracy(y_true, y_pred)\n```\nDer Code berechnet den Trefferanteil der Vorhersagen.",
+            "isCorrect": true
+          },
+          {
+            "text": "```python\naccuracy(y_true, y_pred)\n```\nDer Code berechnet die Summe aller Klassenlabels.",
+            "isCorrect": false
+          },
+          {
+            "text": "```python\naccuracy(y_true, y_pred)\n```\nDer Code normalisiert die Features auf Mittelwert 0.",
+            "isCorrect": false
+          },
+          {
+            "text": "```python\naccuracy(y_true, y_pred)\n```\nDer Code erzeugt einen Markdown-Codeblock ohne fachliche Berechnung.",
+            "isCorrect": false
+          }
+        ],
+        "enabled": true
+      },
+      {
+        "text": "Für Vektoren $x,y\\in\\mathbb{R}^n$ gilt:\n\n$$\\langle x,y\\rangle = \\sum_{i=1}^{n} x_i y_i$$\n\nWelche Darstellung ist für HTML-Exporte robust?",
+        "type": "SINGLE_CHOICE",
+        "timer": 45,
+        "difficulty": "MEDIUM",
+        "order": 3,
+        "skipReadingPhase": false,
+        "answers": [
+          {
+            "text": "Inline: $\\langle x,y\\rangle$; Block:\n\n$$\\sum_{i=1}^{n} x_i y_i$$",
+            "isCorrect": true
+          },
+          {
+            "text": "Inline: $x*y$; Block:\n\n$$x_1 + y_1$$\nals vollständige Skalarproduktdefinition.",
+            "isCorrect": false
+          },
+          {
+            "text": "Inline: Winkelklammern als normalen Text schreiben; Blockformeln grundsätzlich entfernen.",
+            "isCorrect": false
+          },
+          {
+            "text": "Inline: $x+y$; Block:\n\n$$\\sum_{i=1}^{n} x_i + y_i$$\nals Skalarprodukt verwenden.",
+            "isCorrect": false
+          }
+        ],
+        "enabled": true
+      },
+      {
+        "text": "Welche Aussage passt zur folgenden Markdown-Tabelle?\n\n| Element | Bedeutung |\n|---|---|\n| `X` | Feature-Matrix |\n| `y` | Zielvariable |",
+        "type": "SINGLE_CHOICE",
+        "timer": 45,
+        "difficulty": "MEDIUM",
+        "order": 4,
+        "skipReadingPhase": false,
+        "answers": [
+          {
+            "text": "| Aspekt | Aussage |\n|---|---|\n| Struktur | Tabellenzeilen und Inline-Code sollen erhalten bleiben. |",
+            "isCorrect": true
+          },
+          {
+            "text": "| Aspekt | Aussage |\n|---|---|\n| Einschränkung | Tabellen dürfen nur im Fragenstamm vorkommen. |",
+            "isCorrect": false
+          },
+          {
+            "text": "| Aspekt | Aussage |\n|---|---|\n| Umwandlung | Tabellen müssen vor dem Export zu CSV werden. |",
+            "isCorrect": false
+          },
+          {
+            "text": "| Aspekt | Aussage |\n|---|---|\n| Inline-Code | Inline-Code in Tabellen ist immer ungültig. |",
+            "isCorrect": false
+          }
+        ],
+        "enabled": true
+      },
+      {
+        "text": "Prüfe diese Struktur:\n\n1. Daten lesen\n2. Modell trainieren\n3. Ergebnis bewerten\n\n> Eine Blockquote soll als Hinweis erkennbar bleiben.\n\nWelche Option bewertet die Struktur richtig?",
+        "type": "SINGLE_CHOICE",
+        "timer": 60,
+        "difficulty": "HARD",
+        "order": 5,
+        "skipReadingPhase": false,
+        "answers": [
+          {
+            "text": "> Ablauf\n> Die Reihenfolge ist ein einfacher ML-Ablauf.\n\n- Lesen\n- Trainieren\n- Bewerten",
+            "isCorrect": true
+          },
+          {
+            "text": "> Startpunkt\n> Die Reihenfolge startet mit der Bewertung.\n\n- Bewerten\n- Lesen\n- Trainieren",
+            "isCorrect": false
+          },
+          {
+            "text": "> Listenregel\n> Listenpunkte dürfen in Antworten nie vorkommen.\n\n- Entfernen\n- Glätten\n- Ignorieren",
+            "isCorrect": false
+          },
+          {
+            "text": "> Einsatzort\n> Blockquotes sind nur in Erklärungen erlaubt.\n\n- Frage\n- Antwort\n- Erklärung",
+            "isCorrect": false
+          }
+        ],
+        "enabled": true
+      },
+      {
+        "text": "**Wichtig:**\nDer Fragenstamm enthält sicheres HTML wie `code`, H_2O und x^2.\nWelche Option beschreibt den Testzweck?",
+        "type": "SINGLE_CHOICE",
+        "timer": 30,
+        "difficulty": "EASY",
+        "order": 6,
+        "skipReadingPhase": false,
+        "answers": [
+          {
+            "text": "*Sichere Tags:*\n`code`, _{sub} und ^{sup} prüfen sichere HTML-Tags.",
+            "isCorrect": true
+          },
+          {
+            "text": "*Klartext-Regel:*\nAlle HTML-Tags müssen immer als Klartext escaped werden.",
+            "isCorrect": false
+          },
+          {
+            "text": "**Skriptfokus:**\nNur unsichere Tags wie Skripte sollen bevorzugt werden.",
+            "isCorrect": false
+          },
+          {
+            "text": "`Glossarregel`\nHTML darf nur in Mini-Glossaren vorkommen.",
+            "isCorrect": false
+          }
+        ],
+        "enabled": true
+      },
+      {
+        "text": "In ML-Notizen stehen Funktionsfamilien wie `make_*`, `fetch_*` und `load_*`.\nWelche Antwort schützt diese Tokens korrekt vor Markdown-Kursivinterpretation?",
+        "type": "SINGLE_CHOICE",
+        "timer": 60,
+        "difficulty": "HARD",
+        "order": 7,
+        "skipReadingPhase": false,
+        "answers": [
+          {
+            "text": "`make_*`, `fetch_*` und `load_*` werden als Inline-Code geschrieben.",
+            "isCorrect": true
+          },
+          {
+            "text": "`make_*`, `fetch_*` und `load_*` werden ohne Schutzzeichen geschrieben.",
+            "isCorrect": false
+          },
+          {
+            "text": "*`make_*` und *`fetch_*` werden absichtlich kursiv geschrieben.",
+            "isCorrect": false
+          },
+          {
+            "text": "`make_*`, aber `fetch_*` und `load_*` bleiben ungeschützt.",
+            "isCorrect": false
+          }
+        ],
+        "enabled": true
+      }
+    ]
+  }
+}

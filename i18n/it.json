@@ -1173,12 +1173,12 @@
         "export_kahoot_rule_option_length": "Fino a 4 opzioni, max 60 caratteri ciascuna",
         "export_kahoot_rule_time_limits": "Limite tempo solo 5/10/20/30/60/90/120/240 s",
         "export_kahoot_rule_max_questions": "Il file può contenere al massimo 500 domande",
-        "export_arsnova_expander": "📣 arsnova.click (feedback live)",
-        "export_arsnova_description": "Per sondaggi dal vivo. Export .json.",
-        "export_arsnova_caption": "Formato: .json | [Info arsnova.click](https://arsnova.click/info/about)",
-        "export_arsnova_validation_error": "Validazione fallita: {error}",
-        "export_arsnova_warning": "{count} avvisi arsnova",
-        "export_arsnova_download_label": "💾 Scarica file arsnova",
+        "export_arsnova_expander": "📣 arsnova.eu (feedback live)",
+        "export_arsnova_description": "Per sondaggi dal vivo. Esporta un file di importazione arsnova.eu.",
+        "export_arsnova_caption": "Formato: .json | [arsnova.eu](https://arsnova.eu)",
+        "export_arsnova_validation_error": "Validazione arsnova.eu fallita: {error}",
+        "export_arsnova_warning": "{count} avvisi per arsnova.eu",
+        "export_arsnova_download_label": "💾 Scarica import arsnova.eu",
         "export_arsnova_generation_error": "Errore Export: {error}",
         "export_arsnova_option_too_long": "{label}: Risposta {index} supera {max} caratteri (attuale {length}).",
         "export_kahoot_question_too_long": "{label}: Il testo della domanda ha {length} caratteri (max. {max}).",
@@ -1285,7 +1285,8 @@
                 "hidden_hint": "{count} tentativi nascosti: troppo brevi (<{min_time_pct}%) o punteggi troppo bassi (<{min_score_pct}%).",
                 "hidden_runs_fallback": "{count} tentativi nascosti: durata troppo breve (<{min_duration_seconds} s) o punteggio minimo non raggiunto."
             }
-        }
+        },
+        "export_arsnova_question_too_long": "{label}: Il testo della domanda supera {max} caratteri (attuale {length})."
     },
     "welcome": {
         "splash": {

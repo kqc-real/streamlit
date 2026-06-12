@@ -1365,6 +1365,125 @@ def _strip_leading_numbering(text: str) -> str:
     return re.sub(r'^\s*\d+[\.\)]\s+', '', text)
 
 
+def _line_starts_block_markdown(line: str) -> bool:
+    """Erkennt Markdown-Blöcke, die nicht in fett formatierten Inline-Text gehören."""
+    stripped = str(line or "").lstrip()
+    if not stripped:
+        return False
+    return bool(re.match(r"(#{1,6}\s+|(?:>|&gt;|&amp;gt;)\s+|```|[-*+]\s+|\d+[\.\)]\s+|\|.*\|)", stripped))
+
+
+def _answer_option_label(index: int) -> str:
+    """Gibt stabile Kurzlabels für Antwortoptionen zurück: A, B, C, ..."""
+    alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    if 0 <= index < len(alphabet):
+        return alphabet[index]
+    return str(index + 1)
+
+
+def _prepare_markdown_for_streamlit(text: str) -> str:
+    """Bereitet Markdown-Blöcke vor, die Streamlit sonst als Text ausgibt."""
+    if not isinstance(text, str) or all(marker not in text for marker in (">", "&gt;", "&amp;gt;")):
+        return text
+
+    lines = text.splitlines()
+    output_lines: list[str] = []
+    quote_lines: list[str] = []
+
+    def _flush_quote() -> None:
+        if not quote_lines:
+            return
+        quote_text = "\n".join(quote_lines).strip()
+        if not quote_text:
+            output_lines.append("<blockquote></blockquote>")
+        else:
+            try:
+                import markdown as _md
+
+                quote_html = _md.markdown(
+                    quote_text,
+                    extensions=["extra", "sane_lists"],
+                    output_format="html5",
+                )
+            except Exception:
+                quote_html = "<br>".join(_html.escape(line) for line in quote_lines)
+            output_lines.append(f"<blockquote>{quote_html}</blockquote>")
+        quote_lines.clear()
+
+    for line in lines:
+        quote_match = re.match(r"^\s*(?:>|&gt;|&amp;gt;)\s?(.*)$", line)
+        if quote_match:
+            quote_lines.append(quote_match.group(1))
+            continue
+        _flush_quote()
+        output_lines.append(line)
+
+    _flush_quote()
+    return "\n".join(output_lines)
+
+
+def _render_markdown_answer_options(optionen: list, selected_index: int | None = None) -> None:
+    """Rendert Antwortoptionen als Markdown-Blöcke statt als Radio-Labels."""
+    if not optionen:
+        return
+
+    st.markdown(
+        """
+<style>
+.mc-answer-option-label {
+  margin: 0.9rem 0 0.2rem 0;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.mc-answer-option-label .mc-answer-option-letter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.65rem;
+  height: 1.65rem;
+  margin-right: 0.35rem;
+  border-radius: 999px;
+  background: rgba(37, 99, 235, 0.12);
+  color: #1d4ed8;
+  flex: 0 0 auto;
+}
+.mc-answer-option-label.is-selected .mc-answer-option-letter {
+  background: #1d4ed8;
+  color: #fff;
+}
+.mc-answer-option-selected-text {
+  display: inline-block;
+  margin-left: 0.1rem;
+  color: #1d4ed8;
+  font-weight: 600;
+  white-space: nowrap;
+}
+</style>
+""",
+        unsafe_allow_html=True,
+    )
+
+    selected_text = _test_view_text("answer_option_selected", default="ausgewählt")
+    for opt_idx, raw_option in enumerate(optionen):
+        option_label = _answer_option_label(opt_idx)
+        is_selected = selected_index == opt_idx
+        selected_marker = (
+            f" <span class='mc-answer-option-selected-text'>({selected_text})</span>"
+            if is_selected
+            else ""
+        )
+        selected_class = " is-selected" if is_selected else ""
+        st.markdown(
+            f"<div class='mc-answer-option-label{selected_class}'><span class='mc-answer-option-letter'>{option_label}</span>{selected_marker}</div>",
+            unsafe_allow_html=True,
+        )
+        option_text = smart_quotes_de(str(raw_option or ""))
+        if option_text.strip():
+            st.markdown(_prepare_markdown_for_streamlit(option_text), unsafe_allow_html=True)
+        else:
+            st.markdown("_Leere Antwortoption_")
+
+
 def _sync_questions_query_param(selected_file: str):
     """Synchronisiert die Query-Parameter mit der aktuellen Fragenset-Auswahl."""
     current_value = st.query_params.get("questions_file")
@@ -5575,10 +5694,10 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     session_local_idx = initial_indices.index(frage_idx) if frage_idx in initial_indices else -1
     display_question_number = session_local_idx + 1
 
-    # Extrahiere den reinen Fragentext ohne die ursprüngliche Nummer
-    original_frage_text = (frage_obj.get("question", frage_obj.get("frage", ""))).split('. ', 1)[-1]
+    # Extrahiere den reinen Fragentext ohne die ursprüngliche Nummer.
+    original_frage_text = _strip_leading_numbering(frage_obj.get("question", frage_obj.get("frage", "")))
     # Normalize typographic quotes on the raw text (do not apply after HTML rendering)
-    frage_text_raw = smart_quotes_de(f"{display_question_number}. {original_frage_text}")
+    frage_text_raw = smart_quotes_de(str(original_frage_text))
 
     # Convert literal escaped newlines ("\\n" / "\\r\\n") into real newlines
     # Protect LaTeX/math regions (inline $...$, display $$...$$, \(...\), \[...\])
@@ -6015,9 +6134,15 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         # markdown so lists and inline formatting (e.g. `- ` lists, inline code,
         # LaTeX fragments) are rendered correctly.
         try:
-            st.markdown(f"**{first_line}**", unsafe_allow_html=True)
+            if _line_starts_block_markdown(first_line):
+                st.markdown(f"**{display_question_number}.**", unsafe_allow_html=True)
+                st.markdown(_prepare_markdown_for_streamlit(first_line), unsafe_allow_html=True)
+            elif str(first_line or "").strip():
+                st.markdown(f"**{display_question_number}. {first_line}**", unsafe_allow_html=True)
+            else:
+                st.markdown(f"**{display_question_number}.**", unsafe_allow_html=True)
             if rest and rest.strip():
-                st.markdown(rest, unsafe_allow_html=True)
+                st.markdown(_prepare_markdown_for_streamlit(rest), unsafe_allow_html=True)
         except Exception:
             # Fallback: render as a single escaped line if markdown fails
             # Use weight->cognitive-stage mapping for the display when weight is standard (1/2/3)
@@ -6038,7 +6163,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             else:
                 display_meta = f"({weight_label}: {gewichtung}{stage_suffix})"
 
-            st.markdown(f"**{frage_text_raw}** <span style='color:#888; font-size:0.9em;'>{display_meta}</span>", unsafe_allow_html=True)
+            st.markdown(f"**{display_question_number}. {frage_text_raw}** <span style='color:#888; font-size:0.9em;'>{display_meta}</span>", unsafe_allow_html=True)
 
         # Context tag under the title for review/panic
         if context_label:
@@ -6110,8 +6235,10 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         widget_key = f"radio_{frage_idx}"
         gespeicherte_antwort = get_answer_for_question(frage_idx)
 
-        # Wir verwenden st.radio, um die Auswahl zu steuern.
-        # Die `format_func` wird verwendet, um KaTeX-Formeln korrekt darzustellen.
+        # Wir verwenden st.radio nur zur Auswahlsteuerung. Die Antworttexte
+        # werden separat als Markdown-Blöcke gerendert, weil Radio-Labels
+        # mehrzeiliges Markdown, Tabellen, Codeblöcke und sicheres HTML
+        # nicht zuverlässig darstellen.
         # Local on_change handler: dismiss dialogs, ensure pacing visible,
         # request a rerun, AND explicitly close the mini-glossary for this question.
         def _radio_on_change(frage_idx=frage_idx) -> None:
@@ -6121,14 +6248,27 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 pass
             # Popover-based glossary is stateless; no flag update required here.
 
+        selected_index_for_display = None
+        try:
+            if gespeicherte_antwort in optionen:
+                selected_index_for_display = optionen.index(gespeicherte_antwort)
+            else:
+                state_idx = st.session_state.get(widget_key)
+                if isinstance(state_idx, int):
+                    selected_index_for_display = state_idx
+        except Exception:
+            selected_index_for_display = None
+
+        _render_markdown_answer_options(optionen, selected_index_for_display)
+
         selected_index = st.radio(
             _test_view_text("question_prompt", default="Wähle deine Antwort:"),
             options=range(len(optionen)),
             key=widget_key,
             index=optionen.index(gespeicherte_antwort) if gespeicherte_antwort in optionen else None,
             disabled=is_answered and (not panic_mode),
-            label_visibility="collapsed",
-            format_func=lambda x: smart_quotes_de(optionen[x]),
+            horizontal=True,
+            format_func=lambda x: _answer_option_label(x),
             on_change=_radio_on_change,
         )
 
@@ -6954,18 +7094,20 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list, 
         if gegebene_antwort is not None:
             color = "#15803d" if ist_richtig else "#b91c1c"
             st.markdown(
-                f"<span style='color:{color}; font-weight:bold;'>{your_answer_label}:</span> <span style='color:{color};'>{formatted_gegebene_antwort}</span>",
+                f"<span style='color:{color}; font-weight:bold;'>{your_answer_label}:</span>",
                 unsafe_allow_html=True,
             )
+            st.markdown(_prepare_markdown_for_streamlit(formatted_gegebene_antwort), unsafe_allow_html=True)
             # Only show the wrong-answer notice and the correct answer when the
             # user's answer is present and incorrect.
             if not ist_richtig:
                 st.error(_test_view_text("explanation_wrong", default="Leider falsch. ❌"))
                 correct_label = _test_view_text("correct_label", default="Richtig:")
                 st.markdown(
-                    f"<span style='color:#15803d; font-weight:bold;'>{correct_label}</span> {formatted_richtige_antwort}",
+                    f"<span style='color:#15803d; font-weight:bold;'>{correct_label}</span>",
                     unsafe_allow_html=True,
                 )
+                st.markdown(_prepare_markdown_for_streamlit(formatted_richtige_antwort), unsafe_allow_html=True)
     except Exception:
         # Best-effort: do not break explanation rendering on translation errors
         pass
@@ -8471,6 +8613,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
         gegebene_antwort = get_answer_for_question(i)
         formatted_gegebene_antwort = smart_quotes_de(str(gegebene_antwort)) if gegebene_antwort else ""
         richtige_antwort_text = frage["optionen"][frage["loesung"]]
+        formatted_richtige_antwort = smart_quotes_de(str(richtige_antwort_text))
         ist_richtig = gegebene_antwort == richtige_antwort_text
         punkte = st.session_state.get(f"frage_{i}_beantwortet")
         is_bookmarked = i in st.session_state.get("bookmarked_questions", [])
@@ -8526,21 +8669,22 @@ def render_review_mode(questions: QuestionSet, app_config=None):
             display_q_text = frage.get('question') if isinstance(frage, dict) else ''
             if not display_q_text:
                 display_q_text = frage.get('frage', '') if isinstance(frage, dict) else ''
-            st.markdown(f"**{question_label}:** {display_q_text}")
+            display_q_text = smart_quotes_de(_strip_leading_numbering(display_q_text))
+            st.markdown(f"**{question_label}:**")
+            st.markdown(_prepare_markdown_for_streamlit(display_q_text), unsafe_allow_html=True)
             # Immer zuerst die gegebene Antwort (falsch oder richtig), dann die richtige darunter
             if gegebene_antwort is not None:
                 if ist_richtig:
                     st.markdown(
-                        f"<span style='color:#15803d; font-weight:bold;'>{your_answer_label}:</span> "
-                        f"<span style='color:#15803d;'>{formatted_gegebene_antwort}</span>",
+                        f"<span style='color:#15803d; font-weight:bold;'>{your_answer_label}:</span>",
                         unsafe_allow_html=True,
                     )
                 else:
                     st.markdown(
-                        f"<span style='color:#b91c1c; font-weight:bold;'>{your_answer_label}:</span> "
-                        f"<span style='color:#b91c1c;'>{formatted_gegebene_antwort}</span>",
+                        f"<span style='color:#b91c1c; font-weight:bold;'>{your_answer_label}:</span>",
                         unsafe_allow_html=True,
                     )
+                st.markdown(_prepare_markdown_for_streamlit(formatted_gegebene_antwort), unsafe_allow_html=True)
             else:
                 st.markdown(
                     f"<span style='color:#4b9fff; font-weight:bold;'>{your_answer_label}:</span> <span style='color:#4b9fff;'>{unanswered_label}</span>",
@@ -8548,11 +8692,13 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 )
             # Richtige Antwort immer darunter, auch wenn sie schon oben steht
             st.markdown(
-                f"<span style='color:#15803d; font-weight:bold;'>{correct_answer_label}:</span> <span style='color:#15803d;'>{richtige_antwort_text}</span>",
+                f"<span style='color:#15803d; font-weight:bold;'>{correct_answer_label}:</span>",
                 unsafe_allow_html=True,
             )
+            st.markdown(_prepare_markdown_for_streamlit(formatted_richtige_antwort), unsafe_allow_html=True)
             if frage.get("erklaerung"):
-                st.markdown(f"**{explanation_label}:** {frage['erklaerung']}")
+                st.markdown(f"**{explanation_label}:**")
+                st.markdown(_prepare_markdown_for_streamlit(smart_quotes_de(str(frage["erklaerung"]))), unsafe_allow_html=True)
 
             # Mini-Glossar anzeigen (support both dict and list formats)
             try:
@@ -9144,7 +9290,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                     _summary_text(
                         "export_kahoot_limits_info",
                         default="Kahoot akzeptiert nur Fragensets, die alle Import-Limits einhalten. "
-                        "Passe den Inhalt an oder nutze alternativ Anki / arsnova.click / PDF.",
+                        "Passe den Inhalt an oder nutze alternativ Anki / arsnova.eu / PDF.",
                     )
                 )
                 st.markdown(
@@ -9161,18 +9307,18 @@ def render_review_mode(questions: QuestionSet, app_config=None):
             if st.button(_download_button_label(), key=kahoot_btn_key, disabled=button_disabled):
                 handle_kahoot_export()
 
-        # arsnova.click
+        # arsnova.eu
         with st.expander(_summary_text(
             "export_arsnova_expander",
-            default="📦 arsnova.click-Quiz (für Hochschul-Feedback)",
+            default="📦 arsnova.eu-Quiz (für Hochschul-Feedback)",
         )):
             st.markdown(_summary_text(
                 "export_arsnova_description",
-                default="Exportiere deine Fragen für arsnova.click – ein Audience-Response-System für Hochschulen. Ideal für Feedback und Live-Abstimmungen.",
+                default="Exportiere deine Fragen als arsnova.eu-Importdatei. Ideal für Feedback und Live-Abstimmungen.",
             ))
             st.caption(_summary_text(
                 "export_arsnova_caption",
-                default="Format: .json  |  [arsnova.click Infos](https://arsnova.click/info/about)",
+                default="Format: .json  |  [arsnova.eu](https://arsnova.eu)",
             ))
             arsnova_btn_key = f"download_arsnova_review_{export_selected_file}"
             arsnova_dl_key = f"dl_arsnova_direct_{export_selected_file}"
@@ -9191,7 +9337,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                     st.error(
                         _summary_text(
                             "export_arsnova_validation_error",
-                            default="Fehler bei der arsnova.click-Prüfung: {error}",
+                            default="Fehler bei der arsnova.eu-Prüfung: {error}",
                         ).format(error=exc)
                     )
                     arsnova_warnings = []
@@ -9200,7 +9346,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                 st.warning(
                     _summary_text(
                         "export_arsnova_warning",
-                        default="{count} Hinweis(e) für arsnova.click",
+                        default="{count} Hinweis(e) für arsnova.eu",
                     ).format(count=len(arsnova_warnings)),
                     icon="⚠️",
                 )
@@ -9216,10 +9362,10 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                         st.download_button(
                             label=_summary_text(
                                 "export_arsnova_download_label",
-                                default="💾 arsnova.click-Quiz herunterladen",
+                                default="💾 arsnova.eu-Import herunterladen",
                             ),
                             data=json_bytes,
-                            file_name=f"arsnova_export_{export_file_stem}.json",
+                            file_name=f"arsnova_eu_import_{export_file_stem}.json",
                             mime="application/json",
                             key=arsnova_dl_key
                         )
@@ -9227,7 +9373,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                         st.error(
                             _summary_text(
                                 "export_arsnova_generation_error",
-                                default="Fehler beim Erzeugen des arsnova.click-Exports: {error}",
+                                default="Fehler beim Erzeugen des arsnova.eu-Exports: {error}",
                             ).format(error=e)
                         )
 

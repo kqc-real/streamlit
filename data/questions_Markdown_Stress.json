@@ -1,0 +1,235 @@
+{
+  "meta": {
+    "title": "Markdown-Stress-Test für Exporte",
+    "created": "12.06.2026 18:45",
+    "target_audience": "Entwickler/innen und Lehrende, die MC-Test-Exporte prüfen",
+    "question_count": 8,
+    "difficulty_profile": {
+      "easy": 2,
+      "medium": 4,
+      "hard": 2
+    },
+    "language": "de",
+    "time_per_weight_minutes": {
+      "1": 0.5,
+      "2": 0.75,
+      "3": 1.0
+    },
+    "additional_buffer_minutes": 2,
+    "test_duration_minutes": 8
+  },
+  "questions": [
+    {
+      "question": "1. ## Formatierungs-Mix\nWelche Antwort beschreibt korrekt, wie **Fett**, *Kursiv* und `Inline-Code` in Markdown getrennt werden?\n\n> Prüfe, ob alle drei Inline-Formate erhalten bleiben.",
+      "options": [
+        "### Markdown-Konventionen\n- **Fett** nutzt zwei Sternchen.\n- *Kursiv* nutzt ein Sternchen.\n- `Inline-Code` nutzt Backticks.",
+        "### Großschreibung\n- **Fett** entsteht nur durch Großbuchstaben.\n- *Kursiv* entsteht automatisch durch Leerzeichen.\n- `Inline-Code` nutzt Dollarzeichen.",
+        "### Vertauschte Marker\n- **Fett** nutzt ein Sternchen.\n- *Kursiv* nutzt zwei Sternchen.\n- `Inline-Code` nutzt Unterstriche.",
+        "### HTML-Attribute\n- **Fett**, *Kursiv* und `Inline-Code` werden nur über HTML-Attribute gesteuert."
+      ],
+      "answer": 0,
+      "explanation": "Markdown trennt Hervorhebung und Code klar: **...** für Fett, *...* für Kursiv und `...` für Inline-Code. Der Fragenstamm und die Optionen testen Überschrift, Liste, Zitat, Fett, Kursiv und Inline-Code.",
+      "weight": 1,
+      "topic": "Markdown-Grundlagen",
+      "concept": "Inline-Formatierung",
+      "cognitive_level": "Reproduktion",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Inline-Code",
+          "definition": "Kurzer Code oder Token im Fließtext, typischerweise mit Backticks markiert."
+        },
+        {
+          "term": "Hervorhebung",
+          "definition": "Markdown-Auszeichnung für visuelle Betonung, z. B. fett oder kursiv."
+        }
+      ]
+    },
+    {
+      "question": "2. Im Fragenstamm stehen ein Link [Markdown Guide](https://example.com/markdown) und ein Bild ![Platzhalter-Grafik](https://kqc-real.github.io/arsnova.eu/favicon.svg).\nWelche Aussage beschreibt den gewünschten Export?",
+      "options": [
+        "Der Export soll nur den sichtbaren Linktext übernehmen und das Bild vollständig entfernen.",
+        "Der Export soll [Markdown Guide](https://example.com/markdown) und ![Platzhalter-Grafik](https://kqc-real.github.io/arsnova.eu/favicon.svg) als Markdown-Syntax erhalten.",
+        "Der Export soll den Link in reinen Text umwandeln und das Bild als Dateipfad speichern.",
+        "Der Export soll Bilder in Antworten verbieten, auch wenn die Zielplattform Markdown versteht."
+      ],
+      "answer": 1,
+      "explanation": "Für einen Markdown-Stress-Test sollen Link- und Bildsyntax nicht still entfernt werden. Ob die Zielplattform Bilder nachlädt, ist eine Frage der Plattform, nicht des MC-Test-Exports.",
+      "weight": 2,
+      "topic": "Markdown-Grundlagen",
+      "concept": "Links und Bilder",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Markdown-Link",
+          "definition": "Syntax der Form [Text](URL), die einen anklickbaren Verweis beschreibt."
+        },
+        {
+          "term": "Markdown-Bild",
+          "definition": "Syntax der Form ![Alternativtext](URL), die ein Bild referenziert."
+        }
+      ]
+    },
+    {
+      "question": "3. Gegeben ist ein Codeblock:\n\n```python\ndef accuracy(y_true, y_pred):\n    return (y_true == y_pred).mean()\n```\n\nWelche Option beschreibt die Funktion korrekt?",
+      "options": [
+        "```python\naccuracy(y_true, y_pred)\n```\nDer Code berechnet den Trefferanteil der Vorhersagen.",
+        "```python\naccuracy(y_true, y_pred)\n```\nDer Code berechnet die Summe aller Klassenlabels.",
+        "```python\naccuracy(y_true, y_pred)\n```\nDer Code normalisiert die Features auf Mittelwert 0.",
+        "```python\naccuracy(y_true, y_pred)\n```\nDer Code erzeugt einen Markdown-Codeblock ohne fachliche Berechnung."
+      ],
+      "answer": 0,
+      "explanation": "Die Funktion vergleicht wahre und vorhergesagte Labels elementweise und mittelt die Treffer. Damit testet diese Frage Code-Fences im Fragenstamm und in den Antwortoptionen.",
+      "weight": 2,
+      "topic": "Code & LaTeX",
+      "concept": "Code-Fence",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Code-Fence",
+          "definition": "Mehrzeiliger Codeblock in Markdown, meist mit drei Backticks begrenzt."
+        },
+        {
+          "term": "Accuracy",
+          "definition": "Anteil korrekt klassifizierter Beispiele an allen Beispielen."
+        }
+      ]
+    },
+    {
+      "question": "4. Für Vektoren $x,y\\in\\mathbb{R}^n$ gilt:\n\n$$\\langle x,y\\rangle = \\sum_{i=1}^{n} x_i y_i$$\n\nWelche Darstellung ist für HTML-Exporte robust?",
+      "options": [
+        "Inline: $\\langle x,y\\rangle$; Block:\n\n$$\\sum_{i=1}^{n} x_i y_i$$",
+        "Inline: $x*y$; Block:\n\n$$x_1 + y_1$$\nals vollständige Skalarproduktdefinition.",
+        "Inline: Winkelklammern als normalen Text schreiben; Blockformeln grundsätzlich entfernen.",
+        "Inline: $x+y$; Block:\n\n$$\\sum_{i=1}^{n} x_i + y_i$$\nals Skalarprodukt verwenden."
+      ],
+      "answer": 0,
+      "explanation": "Für HTML-Exporte sind \\langle und \\rangle robuster als spitze Klammern in Formeln. Diese Frage testet Inline-LaTeX und Block-LaTeX in Stamm und Optionen.",
+      "weight": 2,
+      "topic": "Code & LaTeX",
+      "concept": "LaTeX-Delimiters",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Inline-LaTeX",
+          "definition": "Kurze Formel im Fließtext, z. B. zwischen Dollarzeichen."
+        },
+        {
+          "term": "Block-LaTeX",
+          "definition": "Abgesetzte Formel, z. B. mit doppelten Dollarzeichen."
+        },
+        {
+          "term": "Skalarprodukt",
+          "definition": "Operation, die zwei Vektoren eine Zahl zuordnet."
+        }
+      ]
+    },
+    {
+      "question": "5. Welche Aussage passt zur folgenden Markdown-Tabelle?\n\n| Element | Bedeutung |\n|---|---|\n| `X` | Feature-Matrix |\n| `y` | Zielvariable |",
+      "options": [
+        "| Aspekt | Aussage |\n|---|---|\n| Struktur | Tabellenzeilen und Inline-Code sollen erhalten bleiben. |",
+        "| Aspekt | Aussage |\n|---|---|\n| Einschränkung | Tabellen dürfen nur im Fragenstamm vorkommen. |",
+        "| Aspekt | Aussage |\n|---|---|\n| Umwandlung | Tabellen müssen vor dem Export zu CSV werden. |",
+        "| Aspekt | Aussage |\n|---|---|\n| Inline-Code | Inline-Code in Tabellen ist immer ungültig. |"
+      ],
+      "answer": 0,
+      "explanation": "Die Lösung verlangt, dass Tabellen und Inline-Code als Markdown erhalten bleiben. Damit werden Tabellen im Fragenstamm und in Antwortoptionen getestet.",
+      "weight": 2,
+      "topic": "Strukturblöcke",
+      "concept": "Markdown-Tabelle",
+      "cognitive_level": "Anwendung",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Markdown-Tabelle",
+          "definition": "Tabellarische Struktur mit senkrechten Strichen und Trennzeile."
+        },
+        {
+          "term": "Feature-Matrix",
+          "definition": "Matrix der Eingabemerkmale eines Datensatzes."
+        }
+      ]
+    },
+    {
+      "question": "6. Prüfe diese Struktur:\n\n1. Daten lesen\n2. Modell trainieren\n3. Ergebnis bewerten\n\n> Eine Blockquote soll als Hinweis erkennbar bleiben.\n\nWelche Option bewertet die Struktur richtig?",
+      "options": [
+        "> Ablauf\n> Die Reihenfolge ist ein einfacher ML-Ablauf.\n\n- Lesen\n- Trainieren\n- Bewerten",
+        "> Startpunkt\n> Die Reihenfolge startet mit der Bewertung.\n\n- Bewerten\n- Lesen\n- Trainieren",
+        "> Listenregel\n> Listenpunkte dürfen in Antworten nie vorkommen.\n\n- Entfernen\n- Glätten\n- Ignorieren",
+        "> Einsatzort\n> Blockquotes sind nur in Erklärungen erlaubt.\n\n- Frage\n- Antwort\n- Erklärung"
+      ],
+      "answer": 0,
+      "explanation": "Die Struktur beschreibt einen einfachen Ablauf. Diese Frage testet geordnete Listen und Blockquotes im Fragenstamm sowie Blockquotes und Bullet-Listen in Antwortoptionen.",
+      "weight": 3,
+      "topic": "Strukturblöcke",
+      "concept": "Listen und Zitate",
+      "cognitive_level": "Strukturelle Analyse",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Blockquote",
+          "definition": "Markdown-Block für hervorgehobene Zitate oder Hinweise."
+        },
+        {
+          "term": "Geordnete Liste",
+          "definition": "Liste mit nummerierten Schritten."
+        }
+      ]
+    },
+    {
+      "question": "7. <strong>Wichtig:</strong><br>Der Fragenstamm enthält sicheres HTML wie <code>code</code>, H<sub>2</sub>O und x<sup>2</sup>.\nWelche Option beschreibt den Testzweck?",
+      "options": [
+        "<em>Sichere Tags:</em><br><code>code</code>, <sub>sub</sub> und <sup>sup</sup> prüfen sichere HTML-Tags.",
+        "<em>Klartext-Regel:</em><br>Alle HTML-Tags müssen immer als Klartext escaped werden.",
+        "<strong>Skriptfokus:</strong><br>Nur unsichere Tags wie Skripte sollen bevorzugt werden.",
+        "<code>Glossarregel</code><br>HTML darf nur in Mini-Glossaren vorkommen."
+      ],
+      "answer": 0,
+      "explanation": "MC-Test erlaubt einige sichere HTML-Tags. Diese Frage prüft, ob sichere Tags im Fragenstamm und in Antwortoptionen erhalten bleiben.",
+      "weight": 1,
+      "topic": "Medien & HTML",
+      "concept": "Sicheres HTML",
+      "cognitive_level": "Reproduktion",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Sicheres HTML",
+          "definition": "Begrenzte Menge erlaubter Tags ohne gefährliche Attribute oder Skripte."
+        },
+        {
+          "term": "HTML-Sanitizing",
+          "definition": "Bereinigung von HTML, um unsichere Auszeichnung zu entfernen oder zu entschärfen."
+        }
+      ]
+    },
+    {
+      "question": "8. In ML-Notizen stehen Funktionsfamilien wie `make_*`, `fetch_*` und `load_*`.\nWelche Antwort schützt diese Tokens korrekt vor Markdown-Kursivinterpretation?",
+      "options": [
+        "`make_*`, `fetch_*` und `load_*` werden als Inline-Code geschrieben.",
+        "make_*, fetch_* und load_* werden ohne Schutzzeichen geschrieben.",
+        "*make_* und *fetch_* werden absichtlich kursiv geschrieben.",
+        "<code>make_*</code>, aber fetch_* und load_* bleiben ungeschützt."
+      ],
+      "answer": 0,
+      "explanation": "Backticks schützen Sternchen und Unterstriche in Funktionsfamilien vor unbeabsichtigter Markdown-Interpretation. Das ist besonders relevant für arsnova.eu-Exporte.",
+      "weight": 3,
+      "topic": "Medien & HTML",
+      "concept": "Literalzeichen",
+      "cognitive_level": "Strukturelle Analyse",
+      "extended_explanation": null,
+      "mini_glossary": [
+        {
+          "term": "Literalzeichen",
+          "definition": "Zeichen, die als Zeichen selbst gemeint sind und nicht als Formatierung wirken sollen."
+        },
+        {
+          "term": "Backticks",
+          "definition": "Markdown-Zeichen zur Markierung von Inline-Code."
+        }
+      ]
+    }
+  ]
+}

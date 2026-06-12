@@ -233,3 +233,95 @@ def test_render_question_view_smoke(monkeypatch):
     assert any("ökonomische Prinzip" in text for text in fake_st.markdown_calls)
     # Radio selection invoked once for options
     assert fake_st.radio_calls
+
+
+def test_prepare_markdown_for_streamlit_converts_escaped_blockquotes():
+    rendered = mv._prepare_markdown_for_streamlit(
+        "Einleitung\n\n&gt; Prüfe, ob die geladene JSON-Variante als Quote erscheint."
+    )
+
+    assert "<blockquote>" in rendered
+    assert "Prüfe, ob die geladene JSON-Variante als Quote erscheint." in rendered
+    assert "&gt; Prüfe" not in rendered
+
+
+def test_answer_option_selected_marker_does_not_reuse_letter_circle(monkeypatch):
+    fake_st = _FakeStreamlit()
+    monkeypatch.setattr(mv, "st", fake_st)
+    monkeypatch.setattr(mv, "_test_view_text", lambda key, default=None, **_: default or key)
+    monkeypatch.setattr(mv, "smart_quotes_de", lambda s: s)
+
+    mv._render_markdown_answer_options(["A falsch", "D richtig"], selected_index=1)
+
+    rendered = "\n".join(fake_st.markdown_calls)
+    assert ".mc-answer-option-label span" not in rendered
+    assert ".mc-answer-option-label .mc-answer-option-letter" in rendered
+    assert "<span class='mc-answer-option-letter'>B</span>" in rendered
+    assert "<span class='mc-answer-option-selected-text'>(ausgewählt)</span>" in rendered
+
+
+def test_render_question_view_keeps_block_markdown_in_question_and_options(monkeypatch):
+    fake_st = _FakeStreamlit()
+    monkeypatch.setattr(mv, "st", fake_st)
+
+    monkeypatch.setattr(mv, "_process_queued_rerun", lambda: None)
+    monkeypatch.setattr(mv, "_inject_main_container_padding", lambda: None)
+    monkeypatch.setattr(mv, "translate_ui", lambda key, default=None, **_: default or key)
+    monkeypatch.setattr(mv, "_test_view_text", lambda key, default=None, **_: default or key)
+    monkeypatch.setattr(mv, "_summary_text", lambda key, default=None, **_: default or key)
+    monkeypatch.setattr(mv, "smart_quotes_de", lambda s: s)
+    monkeypatch.setattr(mv, "_normalize_stage_label", lambda x: x)
+    monkeypatch.setattr(mv, "get_db_connection", lambda: None)
+    monkeypatch.setattr(mv, "_show_welcome_container", lambda cfg: None)
+    monkeypatch.setattr(mv, "initialize_session_state", lambda questions, cfg: None)
+    monkeypatch.setattr(mv, "is_test_finished", lambda qs: False)
+    for helper_name in (
+        "_dismiss_user_qset_dialog_and_rerun",
+        "_dismiss_user_qset_dialog_from_test",
+        "handle_bookmark_toggle",
+        "_render_history_table",
+        "close_user_qset_dialog",
+    ):
+        if hasattr(mv, helper_name):
+            monkeypatch.setattr(mv, helper_name, lambda *args, **kwargs: None)
+
+    markdown_option = (
+        "### Korrekt\n"
+        "- **Fett** nutzt zwei Sternchen.\n"
+        "- *Kursiv* nutzt ein Sternchen.\n"
+        "- Inline-Code nutzt `Backticks`."
+    )
+    html_option = "<em>Korrekt:</em><br><code>code</code>, <sub>sub</sub> und <sup>sup</sup> prüfen sichere HTML-Tags."
+
+    fake_st.session_state.update(
+        {
+            "test_started": True,
+            "optionen_shuffled": [[markdown_option, html_option]],
+            "frage_0_beantwortet": None,
+            "answered_indices": [],
+            "skipped_questions": [],
+            "initial_frage_indices": [0],
+            "start_zeit": None,
+            "test_time_limit": 0,
+        }
+    )
+
+    question = {
+        "question": "1. ## Formatierungs-Mix\n\n> Prüfe, ob alle drei Inline-Formate erhalten bleiben.",
+        "optionen": [markdown_option, html_option],
+        "loesung": 0,
+        "erklaerung": "Kurzbegründung",
+        "extended_explanation": None,
+        "mini_glossary": None,
+        "gewichtung": 1,
+    }
+
+    mv.render_question_view([question], 0, AppConfig())
+
+    assert any(text == "## Formatierungs-Mix" for text in fake_st.markdown_calls)
+    assert any("<blockquote>" in text and "Prüfe, ob alle drei Inline-Formate erhalten bleiben." in text for text in fake_st.markdown_calls)
+    assert any("### Korrekt\n- **Fett** nutzt zwei Sternchen." in text for text in fake_st.markdown_calls)
+    assert any("<em>Korrekt:</em><br><code>code</code>" in text for text in fake_st.markdown_calls)
+    assert fake_st.radio_calls
+    assert fake_st.radio_calls[0][2]["format_func"](0) == "A"
+    assert fake_st.radio_calls[0][2]["format_func"](1) == "B"

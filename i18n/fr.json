@@ -1174,12 +1174,12 @@
         "export_kahoot_rule_option_length": "Jusqu’à 4 options, 60 caractères max chacune",
         "export_kahoot_rule_time_limits": "Limite de temps uniquement 5/10/20/30/60/90/120/240 s",
         "export_kahoot_rule_max_questions": "Le fichier peut contenir au maximum 500 questions",
-        "export_arsnova_expander": "📣 arsnova.click (feedback live)",
-        "export_arsnova_description": "Pour sondages en direct. Export .json.",
-        "export_arsnova_caption": "Format : .json | [Infos arsnova.click](https://arsnova.click/info/about)",
-        "export_arsnova_validation_error": "Validation échouée : {error}",
-        "export_arsnova_warning": "{count} remarques arsnova",
-        "export_arsnova_download_label": "💾 Télécharger fichier arsnova",
+        "export_arsnova_expander": "📣 arsnova.eu (feedback live)",
+        "export_arsnova_description": "Pour sondages en direct. Export en fichier d’import arsnova.eu.",
+        "export_arsnova_caption": "Format : .json | [arsnova.eu](https://arsnova.eu)",
+        "export_arsnova_validation_error": "Validation arsnova.eu échouée : {error}",
+        "export_arsnova_warning": "{count} remarques pour arsnova.eu",
+        "export_arsnova_download_label": "💾 Télécharger import arsnova.eu",
         "export_arsnova_generation_error": "Erreur Export : {error}",
         "export_arsnova_option_too_long": "{label} : Réponse {index} dépasse {max} caractères (actuel {length}).",
         "export_kahoot_question_too_long": "{label} : Le texte de la question a {length} caractères (max. {max}).",
@@ -1286,7 +1286,8 @@
                 "hidden_hint": "{count} essais masqués : trop courts (<{min_time_pct}%) ou scores trop bas (<{min_score_pct}%).",
                 "hidden_runs_fallback": "{count} essais masqués : durée trop courte (<{min_duration_seconds} s) ou score minimum non atteint."
             }
-        }
+        },
+        "export_arsnova_question_too_long": "{label} : Le texte de la question dépasse {max} caractères (actuel {length})."
     },
     "welcome": {
         "splash": {

@@ -106,3 +106,80 @@ def test_generate_pdf_report_applies_normalization(monkeypatch, tmp_path):
     html = container['inst'].string if 'inst' in container else ''
     assert 'Scrum-Definition' in html
     assert 'Framework' in html and 'Prozess' in html
+
+
+def test_generate_pdf_report_renders_block_markdown_in_questions_and_options(monkeypatch):
+    correct_option = (
+        "### Korrekt\n"
+        "- **Fett** nutzt zwei Sternchen.\n"
+        "- *Kursiv* nutzt ein Sternchen.\n"
+        "- Inline-Code nutzt `Backticks`."
+    )
+    table_option = (
+        "| Bewertung | Aussage |\n"
+        "|---|---|\n"
+        "| korrekt | Tabellenzeilen und `Inline-Code` sollen erhalten bleiben. |"
+    )
+    questions = [
+        {
+            "question": (
+                "1. ## Formatierungs-Mix\n"
+                "Welche Antwort beschreibt korrekt, wie **Fett**, *Kursiv* und `Inline-Code` getrennt werden?\n\n"
+                "&gt; Prüfe, ob alle drei Inline-Formate erhalten bleiben."
+            ),
+            "optionen": [correct_option, table_option],
+            "loesung": 0,
+            "erklaerung": "Kurz",
+            "gewichtung": 1,
+            "thema": "Markdown-Grundlagen",
+            "concept": "Inline-Formatierung",
+            "kognitive_stufe": "Reproduktion",
+        }
+    ]
+
+    class DummyHTML:
+        def __init__(self, string=None):
+            self.string = string
+
+        def write_pdf(self, **kwargs):
+            return b"%PDF-TEST%"
+
+    container = {}
+
+    def factory(string=None, **kwargs):
+        inst = DummyHTML(string)
+        container["inst"] = inst
+        return inst
+
+    import sys
+
+    dummy_db = SimpleNamespace(
+        get_all_logs_for_leaderboard=lambda q_file: [],
+        get_db_connection=lambda: None,
+    )
+    monkeypatch.setitem(sys.modules, "database", dummy_db)
+    monkeypatch.setattr(pdf_export, "HTML", factory)
+    monkeypatch.setattr(pdf_export, "get_answer_for_question", lambda i: None)
+    monkeypatch.setattr(pdf_export, "calculate_score", lambda answered, qs, mode: (0, 1))
+
+    try:
+        pdf_export.st.session_state = {}
+    except Exception:
+        pdf_export.st.session_state = {}
+    pdf_export.st.session_state["selected_questions_file"] = "questions_Markdown_Stress.json"
+
+    result = pdf_export.generate_pdf_report(questions, SimpleNamespace(scoring_mode="default"))
+    assert result == b"%PDF-TEST%"
+
+    html = container["inst"].string
+    assert "<h2>Formatierungs-Mix</h2>" in html
+    assert "<blockquote>" in html
+    assert "&gt; Prüfe" not in html
+    assert "<h3>Korrekt</h3>" in html
+    assert "<li><strong>Fett</strong> nutzt zwei Sternchen.</li>" in html
+    assert "<table>" in html
+    assert "<th>Bewertung</th>" in html
+    assert "| Bewertung |" not in html
+    assert "### Korrekt" not in html
+    assert "ul.options &gt; li" not in html
+    assert "ul.options > li" in html
