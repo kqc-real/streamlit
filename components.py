@@ -3729,9 +3729,38 @@ def render_admin_switch(app_config: AppConfig, questions: QuestionSet):
                         st.error(_sidebar_text("admin_wrong_key", default="Falscher Key."))
 
 
+def _normalize_bookmarked_questions(raw_bookmarks, question_count: int) -> list[int]:
+    normalized_bookmarks: list[int] = []
+    seen_bookmarks = set()
+    for q_idx in raw_bookmarks or []:
+        try:
+            normalized_idx = int(q_idx)
+        except (TypeError, ValueError):
+            continue
+        if normalized_idx < 0 or normalized_idx >= question_count:
+            continue
+        if normalized_idx in seen_bookmarks:
+            continue
+        seen_bookmarks.add(normalized_idx)
+        normalized_bookmarks.append(normalized_idx)
+    return normalized_bookmarks
+
+
 def render_bookmarks(questions: QuestionSet):
     """Rendert die Bookmark-Sektion in der Sidebar."""
-    bookmarks = st.session_state.get("bookmarked_questions", [])
+    raw_bookmarks = st.session_state.get("bookmarked_questions", [])
+    bookmarks = _normalize_bookmarked_questions(raw_bookmarks, len(questions))
+    if bookmarks != raw_bookmarks:
+        st.session_state.bookmarked_questions = bookmarks
+        if "session_id" in st.session_state:
+            try:
+                bookmarked_q_nrs = [
+                    int((questions[i].get('question') or questions[i].get('frage', '')).split('.')[0])
+                    for i in bookmarks
+                ]
+                update_bookmarks(st.session_state.session_id, bookmarked_q_nrs)
+            except Exception:
+                pass
     test_completed = is_test_finished(questions) or st.session_state.get("test_time_expired", False)
 
     # Only hide bookmarks when the user is actually viewing the final summary.
