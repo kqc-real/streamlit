@@ -2092,7 +2092,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                 _sidebar_text("history_button", default="Meine Sessions"),
                 on_click=_open_history_click,
                 type="primary",
-                use_container_width=True,
+                width="stretch",
             )
     except Exception:
         # Do not let sidebar rendering issues break the main UI
@@ -2485,7 +2485,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                                     data=csv_bytes,
                                     file_name=f"history_{(st.session_state.get('user_id') or 'user')}_history.csv",
                                     mime='text/csv',
-                                    use_container_width=True,
+                                    width="stretch",
                                 )
                         except Exception:
                                 st.info(
@@ -2807,7 +2807,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                         file_name=download_name,
                         mime="application/pdf",
                         key="sidebar_glossary_download",
-                        use_container_width=True,
+                        width="stretch",
                         type="primary",
                     )
                 else:
@@ -2830,7 +2830,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                     if st.sidebar.button(
                         _sidebar_text("glossary_generate_button", default="📄 Glossar zum Fragenset"),
                         key="sidebar_glossary_generate",
-                        use_container_width=True,
+                        width="stretch",
                         disabled=(not can_export_glossary),
                     ):
                         # Use shared helper to estimate unique formulas and which
@@ -2903,7 +2903,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                                 file_name=download_name,
                                 mime="application/pdf",
                                 key="sidebar_glossary_download_after_gen",
-                                use_container_width=True,
+                                width="stretch",
                                 type="primary",
                             )
     except Exception:
@@ -2955,7 +2955,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         if st.sidebar.button(
             _sidebar_text("test_end", default="Test beenden"),
             key="end_test_sidebar",
-            use_container_width=True,
+            width="stretch",
             type="secondary",
         ):
             st.session_state["test_manually_ended"] = True
@@ -3009,7 +3009,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         st.sidebar.divider()
         if st.sidebar.button(
             _sidebar_text("review_back", default="⬅️ Zurück zum Testreview"),
-            use_container_width=True,
+            width="stretch",
         ):
             st.session_state.jump_to_idx_active = False  # Deaktiviere den Review-Modus
             st.rerun()
@@ -3037,7 +3037,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                         file_name=download_name,
                         mime="application/pdf",
                         key="sidebar_glossary_download",
-                        use_container_width=True,
+                        width="stretch",
                     )
                 else:
                     # PDF wird erst nach Klick erzeugt
@@ -3059,7 +3059,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                     if st.sidebar.button(
                         _sidebar_text("glossary_generate_button", default="📄 Glossar zum Fragenset"),
                         key="sidebar_glossary_generate",
-                        use_container_width=True,
+                        width="stretch",
                         disabled=(not can_export_glossary),
                     ):
                         # Vor der eigentlichen Generierung können wir die Anzahl der
@@ -3133,7 +3133,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                                 file_name=download_name,
                                 mime="application/pdf",
                                 key="sidebar_glossary_download_after_gen",
-                                use_container_width=True,
+                                width="stretch",
                             )
     except Exception:
         # Sidebar sollte nicht wegen Glossar-Rendering abstürzen.
@@ -3143,7 +3143,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         _sidebar_text("create_user_qset", default="Fragenset mit KI erstellen"),
         key="user_qset_open_btn",
         type="primary",
-        use_container_width=True,
+        width="stretch",
         icon="✨",
     ):
         current_open = bool(st.session_state.get("user_qset_dialog_open"))
@@ -3344,7 +3344,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             _sidebar_text("session_end_button", default="Session beenden"),
             key="abort_session_btn",
             type="primary",
-            use_container_width=True,
+            width="stretch",
         ):
             # Berechne finale Werte vor dem Löschen der Session
             final_score, _ = calculate_score([st.session_state.get(f"frage_{i}_beantwortet") for i in range(len(questions))], questions, app_config.scoring_mode)
@@ -3608,14 +3608,14 @@ def render_admin_switch(app_config: AppConfig, questions: QuestionSet):
                                 file_name=download_name,
                                 mime="application/pdf",
                                 key="sidebar_muster_download",
-                                use_container_width=True,
+                                width="stretch",
                                 type="primary",
                             )
                 else:
                     if st.sidebar.button(
                         _sidebar_text("admin_solution_generate", default="📄 Musterlösung (PDF) generieren"),
                         key="sidebar_muster_generate",
-                        use_container_width=True,
+                        width="stretch",
                     ):
                         with st.spinner(_sidebar_text("admin_solution_spinner", default="Generiere Musterlösung-PDF...")):
                             try:
@@ -3638,12 +3638,12 @@ def render_admin_switch(app_config: AppConfig, questions: QuestionSet):
                                 file_name=download_name,
                                 mime="application/pdf",
                                 key="sidebar_muster_download_after_gen",
-                                use_container_width=True,
+                                width="stretch",
                                 type="primary",
                             )
         except Exception:
             pass
-        if st.sidebar.button(_sidebar_text("admin_back_to_test", default="⬅️ Zurück zum Test"), use_container_width=True):
+        if st.sidebar.button(_sidebar_text("admin_back_to_test", default="⬅️ Zurück zum Test"), width="stretch"):
             # Beim Zurückspringen aus dem Admin-Panel soll eine ggf. zuvor
             # gesetzte Lösch-Hinweisnachricht nicht fälschlich angezeigt
             # werden. Entferne den Session-Flag, bevor wir das Panel schließen.
@@ -3662,7 +3662,7 @@ def render_admin_switch(app_config: AppConfig, questions: QuestionSet):
             )
             if st.sidebar.button(
                 _sidebar_text("admin_open_panel", default="📊 Admin-Panel öffnen (UNSICHER)"),
-                use_container_width=True,
+                width="stretch",
                 type="secondary",
             ):
                 st.session_state.show_admin_panel = True
@@ -3805,7 +3805,7 @@ def render_bookmarks(questions: QuestionSet):
                     key=f"bm_jump_{q_idx}",
                     help=_sidebar_text("bookmarks_jump_help", default="Zur markierten Frage springen"),
                     disabled=jumps_disabled,
-                    use_container_width=True,
+                    width="stretch",
                 ):
                     # Merke die aktuelle Frage als Rückkehrpunkt, bevor wir springen.
                     try:
@@ -3832,7 +3832,7 @@ def render_bookmarks(questions: QuestionSet):
                     "🗑️",
                     key=f"bm_del_{q_idx}",
                     help=_sidebar_text("bookmarks_remove_help", default="Bookmark entfernen"),
-                    use_container_width=True,
+                    width="stretch",
                 ):
                     st.session_state.bookmarked_questions.remove(q_idx)
                     bookmarked_q_nrs = [

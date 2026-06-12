@@ -207,9 +207,12 @@ MC-Test is designed for **formative practice and item QA**. If you use it for su
 
 ## Requirements
 - **Python:** 3.10–3.12 (3.12 recommended)
-- Install dependencies:
+- **Streamlit:** pinned in `requirements.txt` (currently `streamlit==1.58.0`)
+- Recommended local setup with Conda/Miniforge:
   ```bash
-  pip install -r requirements.txt
+  conda create -n mctest python=3.12 pip
+  conda activate mctest
+  python -m pip install -r requirements.txt
   ```
 
 ---
@@ -218,15 +221,26 @@ MC-Test is designed for **formative practice and item QA**. If you use it for su
 
 ### Local run
 1. Clone the repository
-2. Install dependencies:
+2. Create and activate a local environment:
    ```bash
-   pip install -r requirements.txt
+   conda create -n mctest python=3.12 pip
+   conda activate mctest
    ```
-3. Start the app:
+3. Install dependencies:
+   ```bash
+   python -m pip install -r requirements.txt
+   ```
+4. Start the app:
    ```bash
    streamlit run app.py
    ```
-4. Open http://localhost:8501
+5. Open http://localhost:8501
+
+If port 8501 is already in use:
+
+```bash
+streamlit run app.py --server.port 8502
+```
 
 ### Deployment (e.g., Streamlit Cloud)
 1. Connect this GitHub repo to Streamlit Cloud

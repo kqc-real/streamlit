@@ -1,13 +1,14 @@
-# 🐍 Alternative: Installation mit Conda (letzter Troubleshooting-Schritt)
+# 🐍 Installation mit Conda / Miniforge
 
-Wenn alle `pip`-Versuche scheitern (insbesondere Fehler beim Bauen von `pyarrow`, `brotli`, `zopfli`, `cairo`), ist die Verwendung von Conda (Mambaforge / Miniforge) oft die zuverlässigste Lösung. Conda liefert fertige Binärpakete (von `conda-forge`) und umgeht viele native Build-Probleme.
+Diese Variante ist empfohlen, wenn du bereits Anaconda, Miniforge oder Mambaforge nutzt. Sie legt ein eigenes Environment `mctest` an, damit die App-Abhängigkeiten nicht mit der globalen `base`-Umgebung kollidieren.
 
-Kurz: Wenn du nach den Anleitungen in `INSTALLATION_MAC_ANLEITUNG.md` / `INSTALLATION_WINDOWS_ANLEITUNG.md` immer noch Probleme hast, probiere diese Schritte.
+Conda liefert außerdem fertige Binärpakete (von `conda-forge`) und umgeht viele native Build-Probleme, z.B. bei `pyarrow`, `brotli`, `zopfli`, `cairo`, `pango` oder `gdk-pixbuf`.
 
 ## Warum Conda?
 - Vorbuildete Pakete für `pyarrow`, `brotli`, `zopfli`, `cairo` und mehr
 - Einfaches Festlegen der Python-Version (nutze `python=3.12`)
 - Sauberes, isoliertes Environment ohne System-Python zu ändern
+- Keine Vermischung mit der globalen Anaconda-`base`-Umgebung
 - Mamba (Schnellinstaller) reduziert Wartezeiten
 
 ---
@@ -43,7 +44,7 @@ conda activate mctest
 conda install -c conda-forge pyarrow brotli zopfli cairo pango gdk-pixbuf -y
 ```
 
-4) Optional: Restliche Python-Abhängigkeiten per `pip` installieren:
+4) Python-Abhängigkeiten der App installieren:
 
 ```bash
 python -m pip install --upgrade pip setuptools wheel
@@ -75,7 +76,7 @@ conda activate mctest
 conda install -c conda-forge pyarrow brotli zopfli cairo pango gdk-pixbuf -y
 ```
 
-4) Rest per pip (falls nötig):
+4) Python-Abhängigkeiten der App installieren:
 
 ```powershell
 python -m pip install --upgrade pip setuptools wheel
@@ -97,7 +98,7 @@ streamlit run app.py
 conda install -n base -c conda-forge mamba -y
 # dann z.B.
 mamba create -n mctest python=3.12 -y
-mamba activate mctest
+conda activate mctest
 mamba install -c conda-forge pyarrow brotli zopfli -y
 ```
 
@@ -105,5 +106,6 @@ mamba install -c conda-forge pyarrow brotli zopfli -y
 
 ## Hinweise
 - Verwende Python 3.12 im Environment, nicht 3.14.
-- Conda ist eine gute "letzte Option" wenn `pip`-Builds wegen fehlender Build-Tools fehlschlagen.
+- `requirements.txt` pinnt Streamlit aktuell auf `streamlit==1.58.0`.
+- Starte die App immer aus dem aktivierten Environment: `conda activate mctest`.
 - Conda-Umgebungen belegen zusätzlichen Speicherplatz, sind dafür aber sehr zuverlässig.

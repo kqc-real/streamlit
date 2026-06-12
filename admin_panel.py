@@ -1946,7 +1946,7 @@ def render_audit_log_tab():
             data=csv_data,
             file_name=f"audit_log_{pd.Timestamp.now().strftime('%Y%m%d_%H%M%S')}.csv",
             mime="text/csv",
-            use_container_width=True,
+            width="stretch",
         )
     
     with col2:

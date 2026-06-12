@@ -2027,7 +2027,7 @@ def _render_history_table(history_rows, filename_base: str):
                 data=csv_bytes,
                 file_name=f"{filename_base}_history.csv",
                 mime='text/csv',
-                use_container_width=True,
+                width="stretch",
             )
 
             # --- Bulk delete: delete all sessions for current pseudonym ---
@@ -2045,7 +2045,7 @@ def _render_history_table(history_rows, filename_base: str):
                             _history_text('delete_all_button', default='🗑️ Alle Sessions löschen'),
                             key='btn_delete_all_sessions',
                             type='primary',
-                            use_container_width=True,
+                            width="stretch",
                         ):
                             st.session_state['_pending_delete_all_sessions'] = True
 
@@ -2097,7 +2097,7 @@ def _render_history_table(history_rows, filename_base: str):
                                     _history_text('delete_confirm_button', default='Sessions löschen'),
                                     key='confirm_delete_all_sessions',
                                     type='primary',
-                                    use_container_width=True,
+                                    width="stretch",
                                     on_click=_do_delete_all,
                                     args=(user_pseudo,),
                                 )
@@ -2107,7 +2107,7 @@ def _render_history_table(history_rows, filename_base: str):
                                     _history_text('delete_confirm_button', default='Sessions löschen'),
                                     key='confirm_delete_all_sessions_fallback',
                                     type='primary',
-                                    use_container_width=True,
+                                    width="stretch",
                                 ):
                                     try:
                                         ok = delete_all_sessions_for_user(user_pseudo)
@@ -2141,7 +2141,7 @@ def _render_history_table(history_rows, filename_base: str):
                             if st.button(
                                 _history_text('delete_cancel_button', default='Abbrechen'),
                                 key='cancel_delete_all_sessions',
-                                use_container_width=True,
+                                width="stretch",
                             ):
                                 try:
                                     if '_pending_delete_all_sessions' in st.session_state:
@@ -2221,7 +2221,7 @@ def _render_welcome_splash():
             if st.button(
                 translate_ui("welcome.splash.choose_set", default="📂 Fragenset auswählen"),
                 type="secondary",
-                use_container_width=True,
+                width="stretch",
             ):
                 st.session_state._welcome_flow = "choose_set"
                 st.session_state._flow_launched = False
@@ -2234,7 +2234,7 @@ def _render_welcome_splash():
             if st.button(
                 translate_ui("welcome.splash.create_ai", default="Fragenset mit KI erstellen"),
                 type="primary",
-                use_container_width=True,
+                width="stretch",
                 icon="✨",
             ):
                 st.session_state._welcome_flow = "create_ai"
@@ -2458,7 +2458,7 @@ def _render_pseudonym_gate_dialog(app_config: AppConfig):
             if st.button(
                 _welcome_pseudonym_recover_button(start_label),
                 type=recover_btn_type,
-                use_container_width=True,
+                width="stretch",
                 disabled=not (rec_pseudo and rec_secret),
                 key="pseudonym_dialog_recover_btn",
                 icon=start_icon,
@@ -2489,7 +2489,7 @@ def _render_pseudonym_gate_dialog(app_config: AppConfig):
         if st.button(
             start_label,
             type="primary",
-            use_container_width=True,
+            width="stretch",
             disabled=disabled,
             key="pseudonym_dialog_start_btn",
             icon=start_icon,
@@ -3101,7 +3101,7 @@ def render_welcome_page(app_config: AppConfig):
             if st.button(
                 translate_ui("welcome.select.start_button", default="Start"),
                 type="primary",
-                use_container_width=True,
+                width="stretch",
                 disabled=not bool(selected),
                 key="question_select_dialog_start",
             ):
@@ -3211,7 +3211,7 @@ def render_welcome_page(app_config: AppConfig):
                             data=pdf_bytes,
                             file_name=lo_path.with_suffix(".pdf").name,
                             mime="application/pdf",
-                            use_container_width=True,
+                            width="stretch",
                             type="primary",
                             key="download_learning_objectives_pdf_dialog",
                         )
@@ -3232,7 +3232,7 @@ def render_welcome_page(app_config: AppConfig):
                         data=pdf_bytes,
                         file_name=lo_path.with_suffix(".pdf").name,
                         mime="application/pdf",
-                        use_container_width=True,
+                        width="stretch",
                         type="primary",
                         key="download_learning_objectives_pdf_inline",
                     )
@@ -3363,7 +3363,7 @@ def render_welcome_page(app_config: AppConfig):
                 if st.button(
                     '📘 ' + _learning_objectives_button_label(),
                     type="primary",
-                    use_container_width=True,
+                    width="stretch",
                     key="learning_objectives_button",
                 ):
                     _show_learning_objectives_dialog(lo_path, lo_content)
@@ -3922,7 +3922,7 @@ def render_welcome_page(app_config: AppConfig):
                     type="primary",
                     disabled=not bool(can_start),
                     key="welcome_start_after_select",
-                    use_container_width=True,
+                    width="stretch",
                 ):
                     try:
                         # Lokaler Import, um zyklische Abhängigkeiten zu vermeiden
@@ -4122,7 +4122,7 @@ def render_welcome_page(app_config: AppConfig):
                         _welcome_pseudonym_reserve_button(),
                         key="btn_reserve_pseudonym_inline",
                         type="primary",
-                        use_container_width=True,
+                        width="stretch",
                         disabled=bool(reserve_disabled_inline),
                     ):
                         try:
@@ -4266,7 +4266,7 @@ def render_welcome_page(app_config: AppConfig):
                         submitted = st.form_submit_button(
                             label=_welcome_pseudonym_recover_button(),
                             type="secondary",
-                            use_container_width=True
+                            width="stretch"
                         )
     
                         if submitted:
@@ -4379,7 +4379,7 @@ def render_welcome_page(app_config: AppConfig):
             if st.button(
                 _welcome_pseudonym_test_button(),
                 type="primary",
-                use_container_width=True,
+                width="stretch",
                 disabled=bool(
                     (not pseudonym_selected)
                     or (not question_selected)
@@ -4645,7 +4645,7 @@ def _show_welcome_container(app_config: AppConfig):
         if st.button(
             start_label,
             type="primary",
-            use_container_width=True,
+            width="stretch",
         ):
             st.session_state.test_started = True
             # Starte den Countdown sofort
@@ -6220,7 +6220,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 ))
                 skip_disabled = False if panic_mode else (answered_current and (not panic_mode))
                 skip_label = _test_view_text("skip_button", default="↪️ Überspringen")
-                if render_skip and st.button(skip_label, key=f"skip_{frage_idx}", use_container_width=True, disabled=skip_disabled):
+                if render_skip and st.button(skip_label, key=f"skip_{frage_idx}", width="stretch", disabled=skip_disabled):
                     _dismiss_user_qset_dialog_from_test()
                     # Note: pacing visibility only toggled by Antwort / Nächste Frage
                     # Verschiebe die aktuelle Frage ans Ende der Liste
@@ -6304,7 +6304,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                         translate_ui("test_view.submit_button", default="Antworten"),
                         key=f"submit_exam_{frage_idx}",
                         type="primary",
-                        use_container_width=True,
+                        width="stretch",
                         disabled=False,
                     ):
                         _handle_answer_click(None)
@@ -6316,7 +6316,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                             answer_label_unsure,
                             key=f"submit_unsure_{frage_idx}",
                             type=answer_button_type,
-                            use_container_width=True,
+                            width="stretch",
                             disabled=False,
                         ):
                             _handle_answer_click("unsure")
@@ -6325,7 +6325,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                             answer_label_sure,
                             key=f"submit_sure_{frage_idx}",
                             type=answer_button_type,
-                            use_container_width=True,
+                            width="stretch",
                             disabled=False,
                         ):
                             _handle_answer_click("sure")
@@ -6431,7 +6431,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                 xaxis=dict(title="", side="top"),
                                 yaxis=dict(title=""),
                             )
-                            st.plotly_chart(fig, use_container_width=True)
+                            st.plotly_chart(fig, width="stretch")
                         except Exception:
                             try:
                                 matrix_df = pd.DataFrame(
@@ -6504,7 +6504,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                 _test_view_text("resume_button", default="Test fortsetzen"),
                                 key=f"resume_from_answered_bm_{frage_idx}",
                                 type="primary",
-                                use_container_width=True,
+                                width="stretch",
                             ):
                                 _dismiss_user_qset_dialog_from_test()
                                 # Resume to next unanswered question
@@ -6524,7 +6524,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                                 _test_view_text("summary_button", default="Zur Testauswertung 🏁"),
                                 key=f"to_summary_from_answered_{frage_idx}",
                                 type="primary",
-                                use_container_width=True,
+                                width="stretch",
                             ):
                                 _dismiss_user_qset_dialog_from_test()
                                 # Clear overlays and jump flags so app shows final summary
@@ -6579,7 +6579,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                             _test_view_text("back_to_current_question", default="Zur aktuellen Frage"),
                             key=f"back_to_current_{frage_idx}",
                             type="secondary",
-                            use_container_width=True,
+                            width="stretch",
                         ):
                             _dismiss_user_qset_dialog_from_test()
                             st.session_state.jump_to_idx_active = False
@@ -6598,7 +6598,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                             _test_view_text("next_skipped_question", default="Zur nächsten übersprungenen Frage"),
                             key=f"next_skipped_{frage_idx}",
                             type="primary",
-                            use_container_width=True,
+                            width="stretch",
                         ):
                             _dismiss_user_qset_dialog_from_test()
                             try:
@@ -6649,7 +6649,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                         _test_view_text("back_to_current_question", default="Zur aktuellen Frage"),
                         key=f"back_to_current_from_bm_{frage_idx}",
                         type="secondary",
-                        use_container_width=True,
+                        width="stretch",
                     ):
                         _dismiss_user_qset_dialog_from_test()
                         st.session_state.jump_to_idx_active = False
@@ -7041,7 +7041,7 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list, 
                 if st.button(
                     _test_view_text("extended_button", default="🧠 Zeige detaillierte Erklärung"),
                     key=f"btn_extended_{frage_idx}",
-                    use_container_width=True,
+                    width="stretch",
                 ):
                     st.session_state[show_extended_key] = True
                     st.rerun()
@@ -7137,7 +7137,7 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list, 
     else:
         # Action-Buttons teilen sich die Spaltengruppe
         with action_cols[1]:
-            with st.popover(_test_view_text("feedback_popover", default="Problem mit dieser Frage melden"), use_container_width=True):
+            with st.popover(_test_view_text("feedback_popover", default="Problem mit dieser Frage melden"), width="stretch"):
                 st.markdown(_test_view_text("feedback_prompt", default="**Welche Probleme sind dir aufgefallen?**"))
                 
                 # NEU: Formular verwenden, um Checkbox-Klicks zu bündeln
@@ -7152,7 +7152,7 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list, 
                     submitted = st.form_submit_button(
                         _test_view_text("feedback_submit", default="Feedback senden"),
                         type="primary",
-                        use_container_width=True
+                        width="stretch"
                     )
                     
                     if submitted:
@@ -7205,7 +7205,7 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int, remainin
         col1, col2 = st.columns([1, 1])
         with col1:
             prev_label = _test_view_text("prev_question", default="⬅️ Vorherige Frage")
-            if st.button(prev_label, key=f"prev_q_{frage_idx}", type="secondary", use_container_width=True):
+            if st.button(prev_label, key=f"prev_q_{frage_idx}", type="secondary", width="stretch"):
                 if st.session_state.get("user_qset_dialog_open"):
                     close_user_qset_dialog(clear_results=False)
                 prev_idx = answered_indices[current_review_pos - 1]
@@ -7297,7 +7297,7 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int, remainin
 
         # The Next button remains clickable; if clicked during cooldown we show an info message.
         if st.button(
-            button_text, key=f"next_q_{frage_idx}", type="primary", use_container_width=True
+            button_text, key=f"next_q_{frage_idx}", type="primary", width="stretch"
         ):
             if remaining_next_cooldown > 0:
                 # Cooldown ist aktiv: Zeige eine kurzlebige Toast-Nachricht an.
@@ -7829,7 +7829,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                 xaxis=dict(title="", side="top"),
                 yaxis=dict(title=""),
             )
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width="stretch")
         except Exception:
             try:
                 matrix_df = pd.DataFrame(
@@ -8241,7 +8241,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                     pass
 
                 st.subheader(_summary_text("cognition_radar.header", default="Leistung nach kognitiven Stufen"))
-                st.plotly_chart(fig_radar, use_container_width=True, config={"responsive": True})
+                st.plotly_chart(fig_radar, width="stretch", config={"responsive": True})
 
                 # Short explanation expander for the radar chart (localized)
                 with st.expander(
@@ -8309,7 +8309,7 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
             if fig_heatmap:
                 st.divider()
                 st.subheader(translate_ui("summary.subheader.difficulty_map", default="Themen × Kognitive Stufen"))
-                st.plotly_chart(fig_heatmap, use_container_width=True)
+                st.plotly_chart(fig_heatmap, width="stretch")
                 
                 # Erklärung für die Heatmap
                 with st.expander(
