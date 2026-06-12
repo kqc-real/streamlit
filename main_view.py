@@ -3846,7 +3846,7 @@ def render_welcome_page(app_config: AppConfig):
                             duration_col,
                             date_col,
                         ]],
-                        use_container_width=True,
+                        width="stretch",
                         hide_index=True,
                     )
 

@@ -2393,7 +2393,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                             VISIBLE_ROWS = 5
                             total_rows = len(df_display)
                             df_shown = df_display.head(VISIBLE_ROWS)
-                            st.dataframe(df_shown, use_container_width=True, hide_index=True, height=320)
+                            st.dataframe(df_shown, width="stretch", hide_index=True, height=320)
                             st.caption(
                                 _sidebar_text(
                                     "history_showing",
@@ -2401,7 +2401,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                                 ).format(shown=len(df_shown), total=total_rows)
                             )
                         except Exception:
-                            st.dataframe(df_display, use_container_width=True, hide_index=True, height=320)
+                            st.dataframe(df_display, width="stretch", hide_index=True, height=320)
 
                         # Center the CSV download button in the dialog
                         try:
