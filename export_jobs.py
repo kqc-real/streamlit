@@ -25,7 +25,6 @@ import re
 from datetime import datetime, timezone
 from zipfile import ZipFile, ZIP_DEFLATED
 from xml.sax.saxutils import escape
-from html.parser import HTMLParser
 import random
 from i18n.context import t as translate_ui
 
@@ -675,97 +674,8 @@ def _timer_seconds_for_weight(raw_weight: Any, meta: dict[str, Any]) -> int:
         return _clamp_timer_seconds(fallback)
 
 
-class _ArsnovaHtmlMarkdownParser(HTMLParser):
-    """Wandelt sichere MC-Test-HTML-Fragmente in arsnova.eu-taugliches Markdown."""
-
-    def __init__(self) -> None:
-        super().__init__(convert_charrefs=True)
-        self._parts: list[str] = []
-        self._captures: list[tuple[str, list[str]]] = []
-
-    def get_markdown(self) -> str:
-        return "".join(self._parts)
-
-    def _append(self, value: str) -> None:
-        if self._captures:
-            self._captures[-1][1].append(value)
-            return
-        self._parts.append(value)
-
-    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
-        normalized = tag.lower()
-        if normalized in {"strong", "b"}:
-            self._append("**")
-        elif normalized in {"em", "i"}:
-            self._append("*")
-        elif normalized == "code":
-            self._append("`")
-        elif normalized == "br":
-            self._append("\n")
-        elif normalized in {"sub", "sup"}:
-            self._captures.append((normalized, []))
-        elif normalized == "p":
-            self._append("\n\n")
-
-    def handle_startendtag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
-        if tag.lower() == "br":
-            self._append("\n")
-
-    def handle_endtag(self, tag: str) -> None:
-        normalized = tag.lower()
-        if normalized in {"strong", "b"}:
-            self._append("**")
-        elif normalized in {"em", "i"}:
-            self._append("*")
-        elif normalized == "code":
-            self._append("`")
-        elif normalized == "p":
-            self._append("\n\n")
-        elif normalized in {"sub", "sup"} and self._captures:
-            capture_tag, capture_parts = self._captures.pop()
-            content = "".join(capture_parts).strip()
-            if capture_tag == "sub":
-                self._append(f"_{content}" if len(content) <= 1 else f"_{{{content}}}")
-            else:
-                self._append(f"^{content}" if len(content) <= 1 else f"^{{{content}}}")
-
-    def handle_data(self, data: str) -> None:
-        self._append(data)
-
-
-def _replace_markdown_code_with_placeholders(text: str) -> tuple[str, list[str]]:
-    placeholders: list[str] = []
-
-    def _store(match: re.Match[str]) -> str:
-        placeholders.append(match.group(0))
-        return f"\uE000ARSNOVA_CODE_{len(placeholders) - 1}\uE000"
-
-    protected = re.sub(r"```[\s\S]*?```|`[^`\n]+`", _store, text)
-    return protected, placeholders
-
-
-def _restore_markdown_code_placeholders(text: str, placeholders: Sequence[str]) -> str:
-    restored = text
-    for idx, value in enumerate(placeholders):
-        restored = restored.replace(f"\uE000ARSNOVA_CODE_{idx}\uE000", value)
-    return restored
-
-
-def _convert_safe_html_to_arsnova_markdown(text: str) -> str:
-    if not re.search(r"</?(?:strong|b|em|i|code|br|sub|sup|p)\b", text, flags=re.IGNORECASE):
-        return text
-
-    protected, placeholders = _replace_markdown_code_with_placeholders(text)
-    parser = _ArsnovaHtmlMarkdownParser()
-    parser.feed(protected)
-    parser.close()
-    converted = _restore_markdown_code_placeholders(parser.get_markdown(), placeholders)
-    return re.sub(r"\n{4,}", "\n\n\n", converted).strip()
-
-
 def _normalize_arsnova_eu_markdown_compatibility(text: str) -> str:
-    compatible = _convert_safe_html_to_arsnova_markdown(text)
-    return re.sub(r"\n{4,}", "\n\n\n", compatible).strip()
+    return re.sub(r"\n{4,}", "\n\n\n", text).strip()
 
 
 def _normalize_arsnova_eu_text(raw_text: Any) -> str:

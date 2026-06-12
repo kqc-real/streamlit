@@ -1,6 +1,6 @@
 {
   "exportVersion": 1,
-  "exportedAt": "2026-06-12T18:50:41.366Z",
+  "exportedAt": "2026-06-12T19:05:34.387Z",
   "quiz": {
     "name": "Markdown-Stress-Test für Exporte",
     "description": "## MC-Test-Import: Markdown-Stress-Test für Exporte\n\n- Zielgruppe: Entwickler/innen und Lehrende, die MC-Test-Exporte prüfen\n- Sprache: Deutsch (de)\n- Fragenanzahl: 8\n- Empfohlene Testdauer im Original: 8 Minuten\n- Schwierigkeitsprofil: 2 leicht, 4 mittel, 2 schwer\n\nHinweis: MC-Test-Erklärungen sind im arsnova.eu-Importschema nicht als eigene Felder abbildbar.\n\n## Kognitive Stufen\n- Reproduktion: 2 Fragen\n- Anwendung: 4 Fragen\n- Strukturelle Analyse: 2 Fragen\n\n## Topics\n- Code & LaTeX: 2 Fragen\n- Markdown-Grundlagen: 2 Fragen\n- Medien & HTML: 2 Fragen\n- Strukturblöcke: 2 Fragen\n\n## Concepts\n- Code-Fence: 1 Frage\n- Inline-Formatierung: 1 Frage\n- LaTeX-Delimiters: 1 Frage\n- Links und Bilder: 1 Frage\n- Listen und Zitate: 1 Frage\n- Literalzeichen: 1 Frage\n- Markdown-Tabelle: 1 Frage\n- Sicheres HTML: 1 Frage\n\n## Mini-Glossar\nAus dem MC-Test-Mini-Glossar übernommen. Bei großen Glossaren wird der Abschnitt gekürzt.\n### Code & LaTeX\n- **Accuracy**: Anteil korrekt klassifizierter Beispiele an allen Beispielen.\n- **Block-LaTeX**: Abgesetzte Formel, z. B. mit doppelten Dollarzeichen.\n- **Code-Fence**: Mehrzeiliger Codeblock in Markdown, meist mit drei Backticks begrenzt.\n- **Inline-LaTeX**: Kurze Formel im Fließtext, z. B. zwischen Dollarzeichen.\n- **Skalarprodukt**: Operation, die zwei Vektoren eine Zahl zuordnet.\n### Markdown-Grundlagen\n- **Hervorhebung**: Markdown-Auszeichnung für visuelle Betonung, z. B. fett oder kursiv.\n- **Inline-Code**: Kurzer Code oder Token im Fließtext, typischerweise mit Backticks markiert.\n- **Markdown-Bild**: Syntax der Form ![Alternativtext](URL), die ein Bild referenziert.\n- **Markdown-Link**: Syntax der Form [Text](URL), die einen anklickbaren Verweis beschreibt.\n### Medien & HTML\n- **Backticks**: Markdown-Zeichen zur Markierung von Inline-Code.\n- **HTML-Sanitizing**: Bereinigung von HTML, um unsichere Auszeichnung zu entfernen oder zu entschärfen.\n- **Literalzeichen**: Zeichen, die als Zeichen selbst gemeint sind und nicht als Formatierung wirken sollen.\n- **Sicheres HTML**: Begrenzte Menge erlaubter Tags ohne gefährliche Attribute oder Skripte.\n### Strukturblöcke\n- **Blockquote**: Markdown-Block für hervorgehobene Zitate oder Hinweise.\n- **Feature-Matrix**: Matrix der Eingabemerkmale eines Datensatzes.\n- **Geordnete Liste**: Liste mit nummerierten Schritten.\n- **Markdown-Tabelle**: Tabellarische Struktur mit senkrechten Strichen und Trennzeile.",
@@ -187,7 +187,7 @@
         "enabled": true
       },
       {
-        "text": "**Wichtig:**\nDer Fragenstamm enthält sicheres HTML wie `code`, H_2O und x^2.\nWelche Option beschreibt den Testzweck?",
+        "text": "<strong>Wichtig:</strong><br>Der Fragenstamm enthält sicheres HTML wie <code>code</code>, H<sub>2</sub>O und x<sup>2</sup>.\nWelche Option beschreibt den Testzweck?",
         "type": "SINGLE_CHOICE",
         "timer": 30,
         "difficulty": "EASY",
@@ -195,19 +195,19 @@
         "skipReadingPhase": false,
         "answers": [
           {
-            "text": "*Sichere Tags:*\n`code`, _{sub} und ^{sup} prüfen sichere HTML-Tags.",
+            "text": "<em>Sichere Tags:</em><br><code>code</code>, <sub>sub</sub> und <sup>sup</sup> prüfen sichere HTML-Tags.",
             "isCorrect": true
           },
           {
-            "text": "*Klartext-Regel:*\nAlle HTML-Tags müssen immer als Klartext escaped werden.",
+            "text": "<em>Klartext-Regel:</em><br>Alle HTML-Tags müssen immer als Klartext escaped werden.",
             "isCorrect": false
           },
           {
-            "text": "**Skriptfokus:**\nNur unsichere Tags wie Skripte sollen bevorzugt werden.",
+            "text": "<strong>Skriptfokus:</strong><br>Nur unsichere Tags wie Skripte sollen bevorzugt werden.",
             "isCorrect": false
           },
           {
-            "text": "`Glossarregel`\nHTML darf nur in Mini-Glossaren vorkommen.",
+            "text": "<code>Glossarregel</code><br>HTML darf nur in Mini-Glossaren vorkommen.",
             "isCorrect": false
           }
         ],
@@ -234,7 +234,7 @@
             "isCorrect": false
           },
           {
-            "text": "`make_*`, aber `fetch_*` und `load_*` bleiben ungeschützt.",
+            "text": "<code>`make_*`</code>, aber `fetch_*` und `load_*` bleiben ungeschützt.",
             "isCorrect": false
           }
         ],

@@ -238,13 +238,13 @@ def test_generate_arsnova_json_preserves_markdown_tables_for_arsnova_renderer():
     assert "| Struktur | Tabellen bleiben lesbar. |" in correct_answer
 
 
-def test_generate_arsnova_json_converts_safe_html_to_markdown_text():
+def test_generate_arsnova_json_preserves_safe_html_for_arsnova_renderer():
     questions = [
         _build_question(
             "<strong>Wichtig:</strong><br>H<sub>2</sub>O und x<sup>2</sup>",
             [
-                "<em>Korrekt:</em><br><code>code</code> bleibt als Inline-Code lesbar.",
-                "<strong>Falsch:</strong><br>HTML soll roh bleiben.",
+                "<em>Sichere Tags:</em><br><code>code</code> bleibt als Inline-Code lesbar.",
+                "<strong>Klartext-Regel:</strong><br>HTML soll roh bleiben.",
             ],
             0,
         ),
@@ -253,10 +253,10 @@ def test_generate_arsnova_json_converts_safe_html_to_markdown_text():
     payload = json.loads(generate_arsnova_json("questions_demo.json", questions).decode("utf-8"))
     exported_question = payload["quiz"]["questions"][0]
 
-    assert exported_question["text"] == "**Wichtig:**\nH_2O und x^2"
-    assert exported_question["answers"][0]["text"] == "*Korrekt:*\n`code` bleibt als Inline-Code lesbar."
-    assert "<strong>" not in exported_question["text"]
-    assert "<code>" not in exported_question["answers"][0]["text"]
+    assert exported_question["text"] == "<strong>Wichtig:</strong><br>H<sub>2</sub>O und x<sup>2</sup>"
+    assert exported_question["answers"][0]["text"] == (
+        "<em>Sichere Tags:</em><br><code>code</code> bleibt als Inline-Code lesbar."
+    )
 
 
 def test_validate_arsnova_questions_reports_long_options():
