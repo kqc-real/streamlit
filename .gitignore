@@ -26,6 +26,7 @@ test_audit_log.db*
 
 # Generated exports (PDFs, benchmarks)
 exports/
+output/
 
 # Local variable data (formula cache, temp)
 var/

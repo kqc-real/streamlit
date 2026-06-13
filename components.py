@@ -3497,7 +3497,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             st.rerun()
 
     # Paper download (About section)
-    paper_path = Path(get_package_dir()) / "docs" / "mc-test-paper" / "EDULEARN26_52.pdf"
+    paper_path = Path(get_package_dir()) / "docs" / "mc-test-paper" / "mc-test-edulearn26.pdf"
     if paper_path.exists():
         st.sidebar.divider()
         with st.sidebar.expander(_sidebar_text("about_expander", default="ℹ️ Über MC-Test")):

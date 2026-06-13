@@ -3045,7 +3045,7 @@ def _render_welcome_splash():
                 st.session_state._welcome_splash_dismissed = True
                 st.rerun()
 
-        paper_path = Path(get_package_dir()) / "docs" / "mc-test-paper" / "EDULEARN26_52.pdf"
+        paper_path = Path(get_package_dir()) / "docs" / "mc-test-paper" / "mc-test-edulearn26.pdf"
         st.divider()
         if paper_path.exists():
             bottom_left, bottom_right = st.columns([1, 1])

@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: "If you use MC-Test in academic work, please cite the EDULEARN26 paper linked in the repository README."
+title: "MC-Test"
+type: software
+authors:
+  - name: "MC-Test project contributors"
+repository-code: "https://github.com/kqc-real/streamlit"
+license: MIT

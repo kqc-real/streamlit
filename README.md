@@ -26,7 +26,7 @@ MC-Test is part of a teaching and research project on formative assessment, LLM-
 
 The EDULEARN26 paper describes MC-Test as a formative MC platform with schema-bound LLM item generation, Bloom 1-3 metadata, learner dashboards, pacing mechanisms, a local Ollama migration path, and an initial SUS usability study (`N=20`, mean `70.38`).
 
-Paper draft: [docs/mc-test-paper/EDULEARN26_52.pdf](docs/mc-test-paper/EDULEARN26_52.pdf)
+Paper: [docs/mc-test-paper/mc-test-edulearn26.pdf](docs/mc-test-paper/mc-test-edulearn26.pdf)
 
 ## Current Status
 
@@ -245,6 +245,11 @@ MC_TEST_ADMIN_KEY="your_admin_password"
 APP_URL="http://localhost:8501"
 ```
 
+For Streamlit secrets, copy `.streamlit/secrets.example.toml` to
+`.streamlit/secrets.toml` and edit the local copy. The real secrets file is
+ignored and must not be committed. If a real secret was ever committed, rotate
+that value before publishing or deploying the repository.
+
 Common options:
 
 - `MC_TEST_DURATION_MINUTES`: default test duration if no set-specific duration is defined.
@@ -306,12 +311,12 @@ BENCH_EXPORTS_N=5 PYTHONPATH=. python tools/benchmark_exports.py
 
 ## Documentation
 
-- Documentation index: [docs/README.md](docs/README.md)
-- Admin guide: [docs/ADMIN_PANEL_ANLEITUNG.md](docs/ADMIN_PANEL_ANLEITUNG.md)
-- Anki export specification: [docs/README_EXPORT_ANKI.md](docs/README_EXPORT_ANKI.md)
-- Glossary schema: [docs/GLOSSARY_SCHEMA.md](docs/GLOSSARY_SCHEMA.md)
-- Release process: [docs/RELEASE_PROCESS.md](docs/RELEASE_PROCESS.md)
-- EDULEARN26 paper draft: [docs/mc-test-paper/EDULEARN26_52.pdf](docs/mc-test-paper/EDULEARN26_52.pdf)
+- Documentation index: [docs/README.md](https://github.com/kqc-real/streamlit/blob/main/docs/README.md)
+- Admin guide: [docs/ADMIN_PANEL_ANLEITUNG.md](https://github.com/kqc-real/streamlit/blob/main/docs/ADMIN_PANEL_ANLEITUNG.md)
+- Anki export specification: [docs/README_EXPORT_ANKI.md](https://github.com/kqc-real/streamlit/blob/main/docs/README_EXPORT_ANKI.md)
+- Glossary schema: [docs/GLOSSARY_SCHEMA.md](https://github.com/kqc-real/streamlit/blob/main/docs/GLOSSARY_SCHEMA.md)
+- Release process: [docs/RELEASE_PROCESS.md](https://github.com/kqc-real/streamlit/blob/main/docs/RELEASE_PROCESS.md)
+- EDULEARN26 paper: [docs/mc-test-paper/mc-test-edulearn26.pdf](https://github.com/kqc-real/streamlit/blob/main/docs/mc-test-paper/mc-test-edulearn26.pdf)
 
 ## Privacy and Operational Notes
 
