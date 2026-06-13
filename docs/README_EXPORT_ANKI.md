@@ -27,7 +27,7 @@ Diese Hierarchie stellt sicher, dass Fragen strukturiert und pädagogisch wertvo
 Da die TSV-Felder HTML enthalten, muss das HTML vor dem Export validiert/sanitized werden. Empfehlung:
 
 - Nach Markdown→HTML eine Whitelist-basierte Sanitizer-Pipeline (z. B. `bleach`) ausführen.
-- Erlaubte Tags: `p, div, span, ol, ul, li, strong, em, a, img, code, pre, h1..h6, table, thead, tbody, tr, th, td`.
+- Erlaubte Tags: `p, div, span, ol, ul, li, strong, em, a, img, code, pre, h1..h6, blockquote, br, sub, sup, table, thead, tbody, tr, th, td`.
 - Erlaubte Attribute: `href`, `src`, `alt`, `title`, `class` (je nach Bedarf). Entferne alle `on*`-Attribute, `<script>`, `<iframe>` und andere aktive Inhalte.
 - Logge entfernte Elemente für Review, insbesondere wenn Fragen externe Inhalte oder eingebettete HTML-Fragmente enthalten.
 
@@ -138,7 +138,7 @@ Nach Phase 1 werden die (jetzt MathJax-enthaltenden) Strings mit einer Markdown-
 | TSV-Spalte | JSON-Quelle(n) | Transformationslogik |
 | :--- | :--- | :--- |
 | **1. `Frage`** | `q['frage']` | 1. Phase 1 (KaTeX $\rightarrow$ MathJax) <br> 2. Phase 2 (MD $\rightarrow$ HTML) |
-| **2. `Optionen`** | `q['optionen']` (Array) | 1. Array in eine HTML-Liste (`<ol type="A">`) umwandeln. <br> 2. Jedes Listenelement durch Phase 1 & 2 transformieren. |
+| **2. `Optionen`** | `q['optionen']` (Array) | 1. Array in eine HTML-Liste (`<ol class="answer-options" type="A">`) umwandeln. <br> 2. Jedes Listenelement durch Phase 1 & 2 transformieren. Die Klasse ist wichtig, damit nur die äußeren Antwortoptionen A/B/C/D erhalten und verschachtelte Markdown-Listen normal gerendert werden. |
 | **3. `Antwort_Korrekt`** | `q['optionen'][q['loesung']]` | 1. Text der korrekten Antwort via Index-Lookup holen. <br> 2. Phase 1 & 2 anwenden. |
 | **4. `Erklaerung_Basis`** | `q['erklaerung']` | 1. Phase 1 (KaTeX $\rightarrow$ MathJax) <br> 2. Phase 2 (MD $\rightarrow$ HTML) |
 | **5. `Erklaerung_Erweitert`**| `q['extended_explanation']`| 1. Objekt in strukturiertes HTML umwandeln (z.B. `<h3>{titel}</h3><ol><li>{schritt}</li>...</ol>`). <br> 2. Alle Inhalte durch Phase 1 & 2 transformieren. |
@@ -208,7 +208,7 @@ def transform_to_anki_tsv(json_bytes: bytes) -> str:
         frage = convert_math(q.get('frage', ''))
         optionen = q.get('optionen', [])
         # Optionen als kleine HTML-Liste (jedes Element wird Markdown->HTML gerendert)
-        options_html = '<ol type="A">' + ''.join(f'<li>{md.render(convert_math(opt)).strip()}</li>' for opt in optionen) + '</ol>'
+        options_html = '<ol class="answer-options" type="A">' + ''.join(f'<li>{md.render(convert_math(opt)).strip()}</li>' for opt in optionen) + '</ol>'
         loesung_idx = q.get('loesung', 0)
         correct = md.render(convert_math(optionen[loesung_idx])) if optionen else ''
         erklaerung = md.render(convert_math(q.get('erklaerung', '')))

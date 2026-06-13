@@ -23,8 +23,6 @@ import hashlib
 import tempfile
 import re
 from datetime import datetime, timezone
-from zipfile import ZipFile, ZIP_DEFLATED
-from xml.sax.saxutils import escape
 import random
 from i18n.context import t as translate_ui
 
@@ -75,26 +73,6 @@ ARSNOVA_EU_MAX_ANSWER_LENGTH = int(os.getenv("ARSNOVA_EU_MAX_ANSWER_LENGTH", "50
 ARSNOVA_EU_GLOSSARY_DEFINITION_MAX_LENGTH = int(os.getenv("ARSNOVA_EU_GLOSSARY_DEFINITION_MAX_LENGTH", "180"))
 ARSNOVA_EU_MIN_TIMER_SECONDS = 5
 ARSNOVA_EU_MAX_TIMER_SECONDS = 300
-
-KAHOOT_ALLOWED_TIMERS = {5, 10, 20, 30, 60, 90, 120, 240}
-KAHOOT_MAX_QUESTIONS = 500
-KAHOOT_MAX_QUESTION_LENGTH = 95
-KAHOOT_MAX_OPTION_LENGTH = 60
-KAHOOT_MIN_OPTIONS = 2
-KAHOOT_MAX_OPTIONS = 4
-KAHOOT_DEFAULT_TIMER = 60
-KAHOOT_POINTS_STANDARD = "Standard"
-KAHOOT_POINTS_DOUBLE = "Double Points"
-KAHOOT_EXPORT_COLUMNS = [
-    "Question",
-    "Answer 1",
-    "Answer 2",
-    "Answer 3",
-    "Answer 4",
-    "Correct Answer",
-    "Time limit",
-    "Points",
-]
 
 # Configurable worker count (not used for processes; kept for compatibility)
 _MAX_WORKERS = int(os.getenv('EXPORT_JOB_WORKERS', '2'))
@@ -322,18 +300,118 @@ _ANKI_CARD_CSS = """
    Apply a modest 1.2 line-height only for questions, explanations and glossary. */
 .question, .question-content, .question-repeat .question-content, .answer-content, .explanation, .glossary { line-height: 1.2; }
 .question { font-weight: 400; margin-bottom: 12px; }
-.options ol {
+.question p,
+.question-content p,
+.options p,
+.answer-content p,
+.explanation p,
+.glossary p { margin: 0 0 0.45em 0; }
+.question h1, .question h2, .question h3,
+.question-content h1, .question-content h2, .question-content h3,
+.options h1, .options h2, .options h3,
+.answer-content h1, .answer-content h2, .answer-content h3,
+.explanation h1, .explanation h2, .explanation h3 {
+    margin: 0.2em 0 0.4em 0;
+    line-height: 1.2;
+}
+.question table,
+.question-content table,
+.options table,
+.answer-content table,
+.explanation table,
+.glossary table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.55em 0;
+}
+.question th, .question td,
+.question-content th, .question-content td,
+.options th, .options td,
+.answer-content th, .answer-content td,
+.explanation th, .explanation td,
+.glossary th, .glossary td {
+    border: 1px solid #d1d5db;
+    padding: 0.35em 0.5em;
+    text-align: left;
+    vertical-align: top;
+}
+.question th,
+.question-content th,
+.options th,
+.answer-content th,
+.explanation th,
+.glossary th {
+    background: #f3f4f6;
+    font-weight: 700;
+}
+.question blockquote,
+.question-content blockquote,
+.options blockquote,
+.answer-content blockquote,
+.explanation blockquote,
+.glossary blockquote {
+    margin: 0.55em 0;
+    padding: 0.35em 0.75em;
+    border-left: 3px solid #94a3b8;
+    background: #f8fafc;
+    color: #475569;
+}
+.question pre,
+.question-content pre,
+.options pre,
+.answer-content pre,
+.explanation pre,
+.glossary pre {
+    margin: 0.55em 0;
+    padding: 0.6em 0.75em;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    background: #f8fafc;
+    white-space: pre-wrap;
+}
+.question code,
+.question-content code,
+.options code,
+.answer-content code,
+.explanation code,
+.glossary code {
+    background: #f1f5f9;
+    border-radius: 3px;
+    padding: 0.05em 0.25em;
+    font-family: "SF Mono", "Menlo", "Consolas", monospace;
+    font-size: 0.92em;
+}
+.question pre code,
+.question-content pre code,
+.options pre code,
+.answer-content pre code,
+.explanation pre code,
+.glossary pre code {
+    background: transparent;
+    padding: 0;
+}
+.question img,
+.question-content img,
+.options img,
+.answer-content img,
+.explanation img,
+.glossary img {
+    max-width: 100%;
+    height: auto;
+    max-height: 220px;
+}
+.options > ol.answer-options {
     list-style: none;
     padding-left: 0;
     margin: 0;
     counter-reset: option;
 }
-.options ol li {
+.options > ol.answer-options > li {
     position: relative;
     padding-left: 3.6em; /* reserve space for marker */
     margin-bottom: 0.6em;
 }
-.options ol li::before {
+.options > ol.answer-options > li::before {
     counter-increment: option;
     content: counter(option, upper-alpha) ")"; /* A) */
     position: absolute;
@@ -402,6 +480,30 @@ _ANKI_CARD_CSS = """
 .night-mode .card .card-container hr,
 .night_mode .card .card-container hr,
 .nightMode .card .card-container hr { border-top: 1px solid #223042; }
+.card.night-mode table th,
+.night-mode .card table th,
+.night_mode .card table th,
+.nightMode .card table th { background: #1e293b; }
+.card.night-mode table th,
+.card.night-mode table td,
+.night-mode .card table th,
+.night-mode .card table td,
+.night_mode .card table th,
+.night_mode .card table td,
+.nightMode .card table th,
+.nightMode .card table td { border-color: #334155; }
+.card.night-mode blockquote,
+.night-mode .card blockquote,
+.night_mode .card blockquote,
+.nightMode .card blockquote,
+.card.night-mode pre,
+.night-mode .card pre,
+.night_mode .card pre,
+.nightMode .card pre { background: #111827; border-color: #334155; color: #cbd5e1; }
+.card.night-mode code,
+.night-mode .card code,
+.night_mode .card code,
+.nightMode .card code { background: #1e293b; color: #e2e8f0; }
 """
 
 
@@ -863,161 +965,6 @@ def validate_arsnova_questions(questions: Sequence[dict]) -> list[str]:
     return warnings
 
 
-def validate_kahoot_questions(questions: Sequence[dict]) -> tuple[list[str], list[str]]:  # noqa: C901
-    """Prüft Fragen auf Kahoot-Import-Beschränkungen.
-
-    Gibt (errors, warnings) zurück.
-    """
-
-    errors: list[str] = []
-    warnings: list[str] = []
-
-    if len(questions) > KAHOOT_MAX_QUESTIONS:
-        errors.append(
-            f"Fragenset enthält {len(questions)} Fragen (maximal {KAHOOT_MAX_QUESTIONS})."
-        )
-
-    # Questions are expected to use canonical English keys.
-    for idx, question in enumerate(questions):
-        question_text = _strip_markdown_to_plain_text(question.get("question"))
-        label = _short_question_label(question_text or f"Frage {idx + 1}")
-
-        if not question_text:
-            errors.append(f"{label}: Fragetext fehlt oder ist leer.")
-            continue
-
-        if len(question_text) > KAHOOT_MAX_QUESTION_LENGTH:
-            errors.append(
-                translate_ui(
-                    "export_kahoot_question_too_long",
-                    default="{label}: Fragetext hat {length} Zeichen (max. {max}).",
-                ).format(
-                    label=label,
-                    length=len(question_text),
-                    max=KAHOOT_MAX_QUESTION_LENGTH,
-                )
-            )
-
-        optionen = question.get("options")
-        if not isinstance(optionen, Sequence) or isinstance(optionen, (str, bytes)):
-            errors.append(f"{label}: Antwortoptionen fehlen oder sind ungültig.")
-            continue
-
-        if len(optionen) < KAHOOT_MIN_OPTIONS:
-            errors.append(f"{label}: Mindestens {KAHOOT_MIN_OPTIONS} Antwortoptionen benötigt.")
-            continue
-
-        if len(optionen) > KAHOOT_MAX_OPTIONS:
-            errors.append(f"{label}: Höchstens {KAHOOT_MAX_OPTIONS} Antwortoptionen erlaubt (aktuell {len(optionen)}).")
-            continue
-
-        option_texts = [_strip_markdown_to_plain_text(opt) for opt in optionen]
-        for opt_idx, opt_text in enumerate(option_texts, start=1):
-            if not opt_text:
-                warnings.append(f"{label}: Antwort {opt_idx} ist leer und wird als leere Option exportiert.")
-            elif len(opt_text) > KAHOOT_MAX_OPTION_LENGTH:
-                errors.append(
-                    f"{label}: Antwort {opt_idx} hat {len(opt_text)} Zeichen (max. {KAHOOT_MAX_OPTION_LENGTH})."
-                )
-
-        try:
-            correct_indices = _extract_correct_indices(question.get("answer"), len(optionen))
-        except ValueError as exc:
-            errors.append(f"{label}: {exc}")
-            continue
-
-        if len(correct_indices) > KAHOOT_MAX_OPTIONS:
-            errors.append(f"{label}: Zu viele korrekte Antworten angegeben.")
-
-        # Timer-Prüfung: falls definiert, muss im erlaubten Wertebereich liegen
-        timer_value = question.get("zeit_limit") or question.get("timer")
-        if timer_value is not None:
-            try:
-                timer_int = int(timer_value)
-            except (TypeError, ValueError):
-                warnings.append(f"{label}: Zeitlimit '{timer_value}' ist ungültig, es wird 60s verwendet.")
-            else:
-                if timer_int not in KAHOOT_ALLOWED_TIMERS:
-                    warnings.append(
-                        f"{label}: Zeitlimit {timer_int}s wird auf 60s gesetzt (erlaubte Werte: {sorted(KAHOOT_ALLOWED_TIMERS)})."
-                    )
-
-    return errors, warnings
-
-
-def generate_kahoot_xlsx(selected_file: str, questions: Optional[Sequence[dict]] = None) -> bytes:  # noqa: C901
-    """Erzeugt eine Kahoot-kompatible XLSX-Datei für das ausgewählte Fragenset."""
-
-    resolved_questions = list(questions) if questions is not None else _load_questions_from_file(selected_file)
-    if not resolved_questions:
-        raise ValueError("Keine Fragen für den Kahoot-Export gefunden.")
-
-    rows: list[list[Any]] = [KAHOOT_EXPORT_COLUMNS]
-
-    # Resolved questions must use canonical English keys.
-
-    for idx, question in enumerate(resolved_questions):
-        if not isinstance(question, dict):
-            raise ValueError(f"Frage {idx + 1} besitzt kein gültiges Format.")
-        question_text = _strip_markdown_to_plain_text(question.get("question"))
-        if not question_text:
-            question_text = f"Frage {idx + 1}"
-        if len(question_text) > KAHOOT_MAX_QUESTION_LENGTH:
-            question_text = question_text[:KAHOOT_MAX_QUESTION_LENGTH].rstrip()
-        optionen = question.get("options") or []
-        if not isinstance(optionen, Sequence) or isinstance(optionen, (str, bytes)):
-            raise ValueError(f"Frage {idx + 1}: Antwortoptionen fehlen oder sind ungültig.")
-
-        if len(optionen) < KAHOOT_MIN_OPTIONS:
-            raise ValueError(
-                f"Frage {idx + 1}: Mindestens {KAHOOT_MIN_OPTIONS} Antwortoptionen benötigt."
-            )
-        if len(optionen) > KAHOOT_MAX_OPTIONS:
-            raise ValueError(
-                f"Frage {idx + 1}: Höchstens {KAHOOT_MAX_OPTIONS} Antwortoptionen erlaubt."
-            )
-
-        option_texts = []
-        for opt in optionen:
-            text = _strip_markdown_to_plain_text(opt)
-            if len(text) > KAHOOT_MAX_OPTION_LENGTH:
-                text = text[:KAHOOT_MAX_OPTION_LENGTH].rstrip()
-            option_texts.append(text)
-
-        correct_indices = _extract_correct_indices(question.get("answer"), len(option_texts))
-        if len(correct_indices) != 1:
-            raise ValueError(f"Frage {idx + 1}: Kahoot erlaubt genau eine richtige Antwort.")
-        correct_answer = correct_indices[0] + 1  # Kahoot erwartet 1-basierten Index
-
-        while len(option_texts) < KAHOOT_MAX_OPTIONS:
-            option_texts.append("")
-
-        timer_raw = question.get("zeit_limit") or question.get("timer")
-        timer_value = _coerce_kahoot_timer(timer_raw)
-
-        try:
-            weight = int(question.get("weight", 1))
-        except (TypeError, ValueError):
-            weight = 1
-        points_value = KAHOOT_POINTS_DOUBLE if weight >= 3 else KAHOOT_POINTS_STANDARD
-
-        rows.append(
-            [
-                question_text,
-                option_texts[0],
-                option_texts[1],
-                option_texts[2],
-                option_texts[3],
-                correct_answer,
-                timer_value,
-                points_value,
-            ]
-        )
-
-    sheet_name = _sanitize_sheet_name(_derive_export_name(selected_file) or "Kahoot")
-    return _write_simple_xlsx(rows, sheet_name)
-
-
 def _derive_arsnova_eu_quiz_name(selected_file: str, meta: dict[str, Any]) -> str:
     title = meta.get("title") if isinstance(meta, dict) else None
     if isinstance(title, str) and title.strip():
@@ -1403,197 +1350,3 @@ def generate_arsnova_json(selected_file: str, questions: Optional[Sequence[dict]
     }
 
     return json.dumps(export_payload, ensure_ascii=False, indent=2).encode("utf-8")
-
-
-def _coerce_kahoot_timer(value: Any) -> int:
-    if value is None:
-        return KAHOOT_DEFAULT_TIMER
-    try:
-        candidate = int(value)
-    except (TypeError, ValueError):
-        return KAHOOT_DEFAULT_TIMER
-    if candidate in KAHOOT_ALLOWED_TIMERS:
-        return candidate
-    return KAHOOT_DEFAULT_TIMER
-
-
-def _sanitize_sheet_name(name: str) -> str:
-    sanitized = name.strip() or "Kahoot"
-    sanitized = sanitized.replace("/", "-").replace("\\", "-")
-    return sanitized[:31]
-
-
-def _excel_column_name(index: int) -> str:
-    if index < 0:
-        raise ValueError("Index muss >= 0 sein.")
-    result = ""
-    remainder = index + 1
-    while remainder:
-        remainder, mod = divmod(remainder - 1, 26)
-        result = chr(65 + mod) + result
-    return result
-
-
-def _build_sheet_xml(rows: Sequence[Sequence[Any]]) -> str:  # noqa: C901
-    num_cols = max((len(row) for row in rows), default=0)
-    num_rows = len(rows)
-    last_col_letter = _excel_column_name(num_cols - 1) if num_cols else "A"
-    last_row_number = num_rows if num_rows else 1
-    dimension_ref = f"A1:{last_col_letter}{last_row_number}"
-
-    lines = [
-        '<?xml version="1.0" encoding="UTF-8"?>',
-        '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">',
-        f'<dimension ref="{dimension_ref}"/>',
-        '<sheetViews><sheetView workbookViewId="0"/></sheetViews>',
-        '<sheetFormatPr defaultRowHeight="15"/>',
-        '<sheetData>',
-    ]
-
-    for row_idx, row in enumerate(rows, start=1):
-        lines.append(f'<row r="{row_idx}">')
-        for col_idx in range(num_cols):
-            cell_ref = f"{_excel_column_name(col_idx)}{row_idx}"
-            value = row[col_idx] if col_idx < len(row) else ""
-
-            if isinstance(value, (int, float)) and not isinstance(value, bool):
-                lines.append(f'<c r="{cell_ref}"><v>{value}</v></c>')
-            else:
-                text = "" if value is None else str(value)
-                if text == "":
-                    lines.append(f'<c r="{cell_ref}"/>')
-                else:
-                    escaped = escape(text)
-                    lines.append(
-                        f'<c r="{cell_ref}" t="inlineStr"><is><t>{escaped}</t></is></c>'
-                    )
-        lines.append('</row>')
-
-    lines.extend([
-        '</sheetData>',
-        '<pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/>',
-        '</worksheet>',
-    ])
-
-    return "".join(lines)
-
-
-def _write_simple_xlsx(rows: Sequence[Sequence[Any]], sheet_name: str) -> bytes:
-    created_ts = datetime.now(timezone.utc).isoformat(timespec="seconds")
-    sheet_xml = _build_sheet_xml(rows)
-    workbook_xml = (
-        '<?xml version="1.0" encoding="UTF-8"?>'
-        '<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" '
-        'xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">'
-        '<sheets>'
-        f'<sheet name="{escape(sheet_name)}" sheetId="1" r:id="rId1"/>'
-        '</sheets>'
-        '</workbook>'
-    )
-
-    workbook_rels = (
-        '<?xml version="1.0" encoding="UTF-8"?>'
-        '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
-        '<Relationship Id="rId1" '
-        'Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" '
-        'Target="worksheets/sheet1.xml"/>'
-        '<Relationship Id="rId2" '
-        'Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" '
-        'Target="styles.xml"/>'
-        '</Relationships>'
-    )
-
-    styles_xml = (
-        '<?xml version="1.0" encoding="UTF-8"?>'
-        '<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'
-        '<fonts count="1"><font><sz val="11"/><color theme="1"/><name val="Calibri"/><family val="2"/></font></fonts>'
-        '<fills count="2"><fill><patternFill patternType="none"/></fill>'
-        '<fill><patternFill patternType="gray125"/></fill></fills>'
-        '<borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders>'
-        '<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>'
-        '<cellXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/></cellXfs>'
-        '<cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles>'
-        '</styleSheet>'
-    )
-
-    content_types_xml = (
-        '<?xml version="1.0" encoding="UTF-8"?>'
-        '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'
-        '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'
-        '<Default Extension="xml" ContentType="application/xml"/>'
-        '<Override PartName="/xl/workbook.xml" '
-        'ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>'
-        '<Override PartName="/xl/worksheets/sheet1.xml" '
-        'ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'
-        '<Override PartName="/xl/styles.xml" '
-        'ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>'
-        '<Override PartName="/docProps/app.xml" '
-        'ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/>'
-        '<Override PartName="/docProps/core.xml" '
-        'ContentType="application/vnd.openxmlformats-package.core-properties+xml"/>'
-        '</Types>'
-    )
-
-    app_xml = (
-        '<?xml version="1.0" encoding="UTF-8"?>'
-        '<Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" '
-        'xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes">'
-        '<Application>MC-Test</Application>'
-        '<DocSecurity>0</DocSecurity>'
-        '<ScaleCrop>false</ScaleCrop>'
-        '<HeadingPairs>'
-        '<vt:vector size="2" baseType="variant">'
-        '<vt:variant><vt:lpstr>Worksheets</vt:lpstr></vt:variant>'
-        '<vt:variant><vt:i4>1</vt:i4></vt:variant>'
-        '</vt:vector>'
-        '</HeadingPairs>'
-        '<TitlesOfParts>'
-        '<vt:vector size="1" baseType="lpstr">'
-        f'<vt:lpstr>{escape(sheet_name)}</vt:lpstr>'
-        '</vt:vector>'
-        '</TitlesOfParts>'
-        '</Properties>'
-    )
-
-    core_xml = (
-        '<?xml version="1.0" encoding="UTF-8"?>'
-        '<cp:coreProperties '
-        'xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" '
-        'xmlns:dc="http://purl.org/dc/elements/1.1/" '
-        'xmlns:dcterms="http://purl.org/dc/terms/" '
-        'xmlns:dcmitype="http://purl.org/dc/dcmitype/" '
-        'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
-        '<dc:title>Kahoot Export</dc:title>'
-        '<dc:creator>MC-Test Export</dc:creator>'
-        '<cp:lastModifiedBy>MC-Test Export</cp:lastModifiedBy>'
-        f'<dcterms:created xsi:type="dcterms:W3CDTF">{created_ts}</dcterms:created>'
-        f'<dcterms:modified xsi:type="dcterms:W3CDTF">{created_ts}</dcterms:modified>'
-        '</cp:coreProperties>'
-    )
-
-    rels_root = (
-        '<?xml version="1.0" encoding="UTF-8"?>'
-        '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
-        '<Relationship Id="rId1" '
-        'Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" '
-        'Target="xl/workbook.xml"/>'
-        '<Relationship Id="rId2" '
-        'Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" '
-        'Target="docProps/core.xml"/>'
-        '<Relationship Id="rId3" '
-        'Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties" '
-        'Target="docProps/app.xml"/>'
-        '</Relationships>'
-    )
-
-    with io.BytesIO() as buffer:
-        with ZipFile(buffer, "w", ZIP_DEFLATED) as zf:
-            zf.writestr("[Content_Types].xml", content_types_xml)
-            zf.writestr("_rels/.rels", rels_root)
-            zf.writestr("docProps/app.xml", app_xml)
-            zf.writestr("docProps/core.xml", core_xml)
-            zf.writestr("xl/workbook.xml", workbook_xml)
-            zf.writestr("xl/_rels/workbook.xml.rels", workbook_rels)
-            zf.writestr("xl/styles.xml", styles_xml)
-            zf.writestr("xl/worksheets/sheet1.xml", sheet_xml)
-        return buffer.getvalue()

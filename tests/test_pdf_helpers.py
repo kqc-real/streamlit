@@ -183,3 +183,93 @@ def test_generate_pdf_report_renders_block_markdown_in_questions_and_options(mon
     assert "### Korrekt" not in html
     assert "ul.options &gt; li" not in html
     assert "ul.options > li" in html
+
+
+def test_build_glossary_html_renders_block_markdown_definitions():
+    glossary = {
+        "Markdown-Tabellen": {
+            "Tabelle": (
+                "| Element | Erwartung |\n"
+                "|---|---|\n"
+                "| Tabelle | wird als HTML-Tabelle gerendert |\n"
+            ),
+            "Code-Fence": "```python\nprint('ok')\n```",
+        }
+    }
+
+    html = pdf_export._build_glossary_html(glossary)
+
+    assert "<table>" in html
+    assert "<th>Element</th>" in html
+    assert "<td>wird als HTML-Tabelle gerendert</td>" in html
+    assert "<pre><code" in html
+    assert "| Element |" not in html
+    assert "```python" not in html
+
+
+def test_generate_musterloesung_pdf_renders_block_markdown_options(monkeypatch):
+    questions = [
+        {
+            "question": (
+                "1. ## Formatierungs-Mix\n"
+                "Welche Option erhaelt Block-Markdown?"
+            ),
+            "options": [
+                (
+                    "### Markdown-Konventionen\n"
+                    "- **Fett** nutzt zwei Sternchen.\n"
+                    "- `Inline-Code` nutzt Backticks."
+                ),
+                (
+                    "| Feld | Status |\n"
+                    "|---|---|\n"
+                    "| Tabelle | bleibt Tabelle |"
+                ),
+            ],
+            "answer": 0,
+            "explanation": "Kurz",
+            "weight": 1,
+            "topic": "Markdown",
+            "concept": "Block-Markdown",
+            "cognitive_level": "Reproduktion",
+            "mini_glossary": [
+                {"term": "Tabelle", "definition": "| A | B |\n|---|---|\n| 1 | 2 |"}
+            ],
+        }
+    ]
+
+    class DummyHTML:
+        def __init__(self, string=None):
+            self.string = string
+
+        def write_pdf(self, **kwargs):
+            return b"%PDF-TEST%"
+
+    container = {}
+
+    def factory(string=None, **kwargs):
+        inst = DummyHTML(string)
+        container["inst"] = inst
+        return inst
+
+    import config
+
+    monkeypatch.setattr(config, "load_questions", lambda *args, **kwargs: None)
+    monkeypatch.setattr(pdf_export, "HTML", factory)
+
+    result = pdf_export.generate_musterloesung_pdf(
+        "questions_Markdown_Stress.json",
+        questions,
+        SimpleNamespace(scoring_mode="default"),
+    )
+
+    assert result == b"%PDF-TEST%"
+    html = container["inst"].string
+    assert "<h2>Formatierungs-Mix</h2>" in html
+    assert '<div class="option-content"><h3>Markdown-Konventionen</h3>' in html
+    assert "<li><strong>Fett</strong> nutzt zwei Sternchen.</li>" in html
+    assert "<table>" in html
+    assert "<td>bleibt Tabelle</td>" in html
+    assert '<span class="option-marker">\u2714</span>' in html
+    assert "### Markdown-Konventionen" not in html
+    assert "| Feld | Status |" not in html

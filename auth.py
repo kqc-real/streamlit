@@ -64,7 +64,8 @@ def initialize_session_state(question_set: QuestionSet, app_config: AppConfig | 
             "progress_loaded", "optionen_shuffled", "answer_outcomes",
             "bookmarked_questions",
             "test_time_expired", "show_pseudonym_reminder",
-            "login_attempts", "last_answered_idx", "resume_next_idx", "jump_to_idx_active"
+            "login_attempts", "last_answered_idx", "resume_next_idx", "jump_to_idx_active",
+            "test_start_time", "test_end_time"
         ]:
             del state[key]
 

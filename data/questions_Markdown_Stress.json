@@ -63,11 +63,11 @@
       "mini_glossary": [
         {
           "term": "Markdown-Link",
-          "definition": "Syntax der Form [Text](URL), die einen anklickbaren Verweis beschreibt."
+          "definition": "Syntax der Form `[Text](URL)`, die einen anklickbaren Verweis beschreibt."
         },
         {
           "term": "Markdown-Bild",
-          "definition": "Syntax der Form ![Alternativtext](URL), die ein Bild referenziert."
+          "definition": "Syntax der Form `![Alternativtext](URL)`, die ein Bild referenziert."
         }
       ]
     },

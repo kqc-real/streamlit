@@ -1116,6 +1116,109 @@ def _build_css_footer(footer_template: str) -> str:
     return ' '.join(tokens)
 
 
+def _build_markdown_pdf_css(*containers: str) -> str:
+    """Gemeinsame PDF-Regeln für Markdown-Blöcke in Exporten."""
+    scoped_containers = tuple(c.strip() for c in containers if c and c.strip())
+    if not scoped_containers:
+        return ""
+
+    def each(suffix: str) -> str:
+        return ", ".join(f"{container} {suffix}" for container in scoped_containers)
+
+    return f"""
+            {each("p")} {{
+                margin: 0 0 6px 0;
+                padding: 0;
+            }}
+            {each("p:last-child")} {{
+                margin-bottom: 0;
+            }}
+            {each("h1")}, {each("h2")}, {each("h3")}, {each("h4")} {{
+                margin: 0 0 8px 0;
+                color: #2d3748;
+                line-height: 1.25;
+            }}
+            {each("h1")} {{
+                font-size: 17pt;
+            }}
+            {each("h2")} {{
+                font-size: 15pt;
+            }}
+            {each("h3")}, {each("h4")} {{
+                font-size: 12pt;
+            }}
+            {each("blockquote")} {{
+                margin: 8px 0;
+                padding: 6px 12px;
+                border-left: 3px solid #94a3b8;
+                background: #f8fafc;
+                color: #475569;
+            }}
+            {each("table")} {{
+                width: 100%;
+                border-collapse: collapse;
+                margin: 8px 0;
+                font-size: 10pt;
+            }}
+            {each("th")}, {each("td")} {{
+                border: 1px solid #cbd5e0;
+                padding: 5px 7px;
+                text-align: left;
+                vertical-align: top;
+            }}
+            {each("th")} {{
+                background: #edf2f7;
+                font-weight: 700;
+            }}
+            {each("ul")}, {each("ol")} {{
+                margin: 6px 0 8px 0;
+                padding-left: 18px;
+            }}
+            {each("li")} {{
+                margin: 2px 0;
+                padding: 0;
+                background: transparent;
+                border-radius: 0;
+                text-indent: 0;
+                line-height: 1.5;
+                font-size: inherit;
+            }}
+            {each("code")} {{
+                background-color: #f1f3f5;
+                padding: 2px 6px;
+                border-radius: 3px;
+                font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+                font-size: 9pt;
+                color: #c2255c;
+            }}
+            {each("pre")} {{
+                margin: 8px 0;
+                padding: 10px 12px;
+                border: 1px solid #d9e2ec;
+                border-radius: 4px;
+                background: #f8fafc;
+                white-space: pre-wrap;
+                overflow-wrap: anywhere;
+            }}
+            {each("pre code")} {{
+                display: block;
+                padding: 0;
+                border-radius: 0;
+                background: transparent;
+                color: #1f2937;
+                font-size: 8.8pt;
+            }}
+            {each("img")} {{
+                max-width: 100%;
+                height: auto;
+                max-height: 180px;
+            }}
+            {each("sub")}, {each("sup")} {{
+                line-height: 0;
+            }}
+    """
+
+
 def _generate_qr_code(url: str) -> str:
     """Generiert QR-Code als Base64-String."""
     if not QR_AVAILABLE:
@@ -1392,7 +1495,7 @@ def _build_glossary_html(
 
         for term, definition in terms.items():
             parsed_term = _render_latex_in_html(smart_quotes_de(term), md_inline=True)
-            parsed_definition = _render_latex_in_html(smart_quotes_de(definition), md_inline=True)
+            parsed_definition = _render_latex_in_html(smart_quotes_de(definition))
 
             glossary_html_parts.append('<div class="glossary-item">')
             glossary_html_parts.append(f'<div class="glossary-term">{parsed_term}</div>')
@@ -2967,7 +3070,8 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         except (ValueError, IndexError):
             original_number = original_index + 1
         
-        frage_text = _render_latex_in_html(smart_quotes_de((frage_obj.get("question", frage_obj.get("frage", ""))).split(". ", 1)[-1]))
+        raw_question_text = _strip_leading_numbering(str(frage_obj.get("question", frage_obj.get("frage", ""))))
+        frage_text = _render_latex_in_html(smart_quotes_de(raw_question_text))
         
         # Bestimme Farbe und Status basierend auf richtig/falsch/unbeantwortet
         gegebene_antwort = get_answer_for_question(original_index)
@@ -3041,7 +3145,8 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
         
         # Thema-Badge (falls vorhanden)
         if thema:
-            html_body += f'<div class="question-topic">{thema}</div>'
+            thema_html = _render_latex_in_html(smart_quotes_de(str(thema)), md_inline=True)
+            html_body += f'<div class="question-topic">{thema_html}</div>'
         # Konzept anzeigen (falls vorhanden)
         try:
             concept_val = frage_obj.get("concept") or frage_obj.get("konzept")
@@ -3052,7 +3157,8 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 label = translate_ui('metadata.concept', default='Konzept')
             except Exception:
                 label = 'Konzept'
-            html_body += f"<div style='margin-top:6px;margin-bottom:8px;color:#555;font-size:0.95em;'><strong>{_html.escape(label)}:</strong> {smart_quotes_de(str(concept_val))}</div>"
+            concept_html = _render_latex_in_html(smart_quotes_de(str(concept_val)), md_inline=True)
+            html_body += f"<div style='margin-top:6px;margin-bottom:8px;color:#555;font-size:0.95em;'><strong>{_html.escape(label)}:</strong> {concept_html}</div>"
             # Decorative separator after meta-lines to visually separate
             # the concept line from the question text (kept aria-hidden).
             try:
@@ -3641,9 +3747,8 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                large gaps before the first glossary entry when authors
                supply paragraphs in definitions. */
             .glossary-item p, .glossary-definition p, .glossary-term p {{
-                margin: 0;
+                margin: 0 0 6px 0;
                 padding: 0;
-                display: inline;
             }}
             .stage-label {{
                 font-size: 9pt;
@@ -3857,6 +3962,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
                 line-height: 1.7;
                 font-weight: 400;
             }}
+            {_build_markdown_pdf_css(".question-text", ".option-content", ".explanation", ".glossary-term", ".glossary-definition")}
         </style>
     </head>
     <body>
@@ -4077,6 +4183,7 @@ def generate_mini_glossary_pdf(q_file: str, questions: List[Dict[str, Any]]) -> 
                 line-height: 1.7;
                 font-weight: 400;
             }}
+            {_build_markdown_pdf_css(".glossary-term", ".glossary-definition")}
         </style>
     </head>
     <body>
@@ -4244,7 +4351,7 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
         frage_text = frage.get("question", frage.get("frage", ""))
         # Parst Markdown/LaTeX in sicheres HTML
         parsed_frage = _render_latex_in_html(
-            smart_quotes_de(frage_text.split('. ', 1)[-1] if '. ' in frage_text else frage_text),
+            smart_quotes_de(_strip_leading_numbering(str(frage_text))),
             total_timeout=total_timeout,
         )
 
@@ -4281,7 +4388,8 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
         topic_val = frage.get("topic") or frage.get("thema") or ''
         if topic_val:
             topic_label = translate_ui('pdf.meta.topic', default='Topic:')
-            html_parts.append(f'<div class="muster-meta-line">{_html.escape(topic_label)} {_html.escape(str(topic_val))}</div>')
+            topic_html = _render_latex_in_html(smart_quotes_de(str(topic_val)), total_timeout=total_timeout, md_inline=True)
+            html_parts.append(f'<div class="muster-meta-line">{_html.escape(topic_label)} {topic_html}</div>')
 
         # Concept line (if present) — otherwise insert a subtle separator
         try:
@@ -4297,7 +4405,8 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
                 c_label = translate_ui('metadata.concept', default='Concept')
             except Exception:
                 c_label = 'Concept'
-            html_parts.append(f'<div class="muster-meta-line">{_html.escape(c_label)}: {smart_quotes_de(str(concept_val))}</div>')
+            concept_html = _render_latex_in_html(smart_quotes_de(str(concept_val)), total_timeout=total_timeout, md_inline=True)
+            html_parts.append(f'<div class="muster-meta-line">{_html.escape(c_label)}: {concept_html}</div>')
 
         # Always insert a very light separator after the meta-lines.
         # Decorative only; keep `aria-hidden` so screen readers ignore it.
@@ -4311,7 +4420,7 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
         html_parts.append('<ul class="options">')
 
         opts = _get_options(frage)
-        correct_idx_raw = frage.get("loesung")
+        correct_idx_raw = frage.get("loesung", frage.get("answer"))
         correct_idx = None
         try:
             correct_idx = int(correct_idx_raw)
@@ -4335,11 +4444,11 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
                 pass
 
         for oi, opt in enumerate(opts):
-            parsed_opt = _render_latex_in_html(smart_quotes_de(opt), total_timeout=total_timeout, md_inline=True)
+            parsed_opt = _render_latex_in_html(smart_quotes_de(opt), total_timeout=total_timeout)
             if oi == correct_idx:
-                html_parts.append(f'<li class="option correct">✔ {parsed_opt}</li>')
+                html_parts.append(f'<li class="option correct"><span class="option-marker">✔</span><div class="option-content">{parsed_opt}</div></li>')
             else:
-                html_parts.append(f'<li class="option">{parsed_opt}</li>')
+                html_parts.append(f'<li class="option"><div class="option-content">{parsed_opt}</div></li>')
 
         html_parts.append('</ul>')
 
@@ -4417,17 +4526,15 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
             /* Reset paragraph margins inside question/explanation/option containers
                to avoid large vertical gaps from Markdown-produced <p> tags. */
             .question-text p, .explanation p, ul.options li p, .bookmark-preview p {{
-                margin: 0;
+                margin: 0 0 6px 0;
                 padding: 0;
-                display: inline;
             }}
             /* Also reset paragraph margins inside glossary items to avoid
                large gaps before the first glossary entry when authors
                supply paragraphs in definitions. */
             .glossary-item p, .glossary-definition p, .glossary-term p {{
-                margin: 0;
+                margin: 0 0 6px 0;
                 padding: 0;
-                display: inline;
             }}
             /* For the Musterlösung we render meta-info lines (stage/topic/concept)
                as normal-weight, light-gray text (not uppercased). */
@@ -4459,8 +4566,21 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
             }}
             ul.options {{ list-style: disc; padding-left: 1.2rem; margin: 0 0 8px 0; }}
             ul.options li.option {{ padding: 4px 6px; margin-bottom:6px; background: transparent; border-radius:4px; }}
-            ul.options li.option .opt-content {{ display: inline; }}
-            ul.options li.correct {{ background: #ecfdf5; border-left: 4px solid #15803d; padding-left: 8px; }}
+            ul.options li.option .option-content {{ display: block; }}
+            ul.options li.correct {{
+                position: relative;
+                list-style-type: none;
+                background: #ecfdf5;
+                border-left: 4px solid #15803d;
+                padding-left: 28px;
+            }}
+            ul.options li.correct .option-marker {{
+                position: absolute;
+                left: 8px;
+                top: 4px;
+                color: #15803d;
+                font-weight: 700;
+            }}
                 /* Neutralize inherited bold on the correct option but keep
                     explicit <strong>/<b> tags bold so authors can highlight
                     individual words intentionally. */
@@ -4480,6 +4600,7 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
             .glossary-item:nth-child(even) {{ background: #f7fafc; }}
             .glossary-term {{ font-size: 12pt; font-weight: 800; color: #2d3748; margin-bottom: 6px; display: block; }}
             .glossary-definition {{ font-size: 10pt; color: #4a5568; line-height: 1.6; font-weight: 400; }}
+            {_build_markdown_pdf_css(".question-text", ".option-content", ".explanation", ".glossary-term", ".glossary-definition")}
         </style>
     </head>
     <body>

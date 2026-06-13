@@ -46,16 +46,6 @@ try:
 except Exception:  # pragma: no cover - bleach optional in some environments
     bleach = None
 
-# For robust math token fallback when MarkdownIt parsing doesn't convert
-# $...$ into \(...\) as expected in some environments, reuse the
-# conversion helper from the examples math utilities.
-try:
-    from examples.math_utils import _convert_math_tokens
-except Exception:
-    def _convert_math_tokens(s: str) -> str:
-        return s
-
-
 logger = logging.getLogger(__name__)
 
 
@@ -78,6 +68,10 @@ DEFAULT_ALLOWED_TAGS = [
     "h4",
     "h5",
     "h6",
+    "blockquote",
+    "br",
+    "sub",
+    "sup",
     "table",
     "thead",
     "tbody",
@@ -126,7 +120,6 @@ def _sanitize(html_content: str) -> str:
     # NICHT durch ein weiteres Escaping zu `\\langle` werden.
     # Daher wird hier nur noch eine minimale Bereinigung vorgenommen, die
     # LaTeX-Befehle intakt lässt.
-    cleaned = bleach.clean(html_content, tags=DEFAULT_ALLOWED_TAGS, attributes=DEFAULT_ALLOWED_ATTRS, strip=True)
     cleaned = bleach.clean(
         html_content, tags=DEFAULT_ALLOWED_TAGS, attributes=DEFAULT_ALLOWED_ATTRS, strip=True
     )
@@ -138,9 +131,26 @@ def _sanitize(html_content: str) -> str:
     # bereits durch das amsmath-Plugin geschützt wurde und keine Backslash-Probleme
     # mehr verursachen sollte. Die Verwendung von r"\\(" + r"\1" + r"\\)" war ein
     # Versuch, eine SyntaxWarning zu umgehen, ist aber nicht die korrekte Lösung.
-    cleaned = re.sub(r"(?<!\$)\$([^\$]+?)\$(?!\$)", r"\\(\1\\)", cleaned)
+    cleaned = _convert_single_dollar_math_outside_code(cleaned)
 
     return _restore_math_backslash_breaks(cleaned)
+
+
+def _convert_single_dollar_math_outside_code(html: str) -> str:
+    """Normalize fallback $...$ math without touching code/pre blocks."""
+    if not html or "$" not in html:
+        return html
+
+    parts = re.split(r"(<pre[\s\S]*?</pre>|<code[\s\S]*?</code>)", html, flags=re.I)
+    rendered_parts: list[str] = []
+    for part in parts:
+        if not part:
+            continue
+        if re.match(r"<(?:pre|code)\b", part, flags=re.I):
+            rendered_parts.append(part)
+        else:
+            rendered_parts.append(re.sub(r"(?<!\$)\$([^\$]+?)\$(?!\$)", r"\\(\1\\)", part))
+    return "".join(rendered_parts)
 
 
 # Regex, um einzelne Backslashes, die für Zeilenumbrüche in LaTeX
@@ -167,7 +177,9 @@ def _strip_wrapping_paragraph(html: str) -> str:
     stripped = html.strip()
     # Remove wrapping <p>...</p>
     if stripped.startswith("<p>") and stripped.endswith("</p>"):
-        return stripped[3:-4]
+        inner = stripped[3:-4]
+        if "<p" not in inner.lower() and "</p>" not in inner.lower():
+            return inner
 
     # If the content is wrapped in an ordered/unordered list (e.g. produced
     # from markdown like `1. Question`), extract the inner <li> content and
@@ -188,6 +200,22 @@ def _strip_wrapping_paragraph(html: str) -> str:
             return joined
 
     return stripped
+
+
+def _strip_leading_question_numbering(text: Any) -> str:
+    """Remove leading numbering like '1. ' before Markdown rendering."""
+    if text is None:
+        return ""
+    return re.sub(r"^\s*\d+[\.\)]\s+", "", str(text))
+
+
+def _build_markdown_it_for_anki() -> MarkdownIt:
+    md = MarkdownIt("commonmark", {"html": True, "breaks": True}).use(amsmath_plugin)
+    try:
+        md.enable("table")
+    except Exception:
+        pass
+    return md
 
 
 def _render_extended_explanation(md: MarkdownIt, value: Any) -> str:
@@ -261,28 +289,10 @@ def _render_metadata_value(md: MarkdownIt, value: Any) -> str:
 
 def _render_options(md: MarkdownIt, options: list[Any]) -> str:
     if not options:
-        return "<ol type=\"A\"></ol>"
+        return "<ol class=\"answer-options\" type=\"A\"></ol>"
     items = []
     for opt in options:
-        try:
-            if isinstance(opt, str) and opt.strip().startswith("```"):
-                # Preserve code-fence blocks verbatim (do NOT convert $...$ inside code blocks)
-                # Strip the fence markers and any optional language tag
-                inner = re.sub(r"^```[a-zA-Z0-9]*\n?|\n?```$", "", opt.strip(), flags=re.MULTILINE)
-                code_html = f"<pre><code>{_html_module.escape(inner)}</code></pre>"
-                items.append(f"<li>{code_html}</li>")
-                continue
-        except Exception:
-            pass
         rendered_inner = _sanitize(render_markdown_with_math(md, opt).strip())
-        # If original contains $...$ but rendered still contains literal $,
-        # attempt a conversion fallback to normalize math tokens.
-        try:
-            if isinstance(opt, str) and "$" in opt and r"\(" not in rendered_inner and "$" in rendered_inner:
-                converted = _convert_math_tokens(opt)
-                rendered_inner = _sanitize(render_markdown_with_math(md, converted).strip())
-        except Exception:
-            pass
         items.append(f"<li>{rendered_inner}</li>")
     rendered = "".join(items)
     # Fallback: if sanitizer/renderer produced empty items (some test envs
@@ -295,18 +305,10 @@ def _render_options(md: MarkdownIt, options: list[Any]) -> str:
     if not any(_li_inner_nonempty(it) for it in items):
         items = []
         for opt in options:
-            try:
-                if isinstance(opt, str) and opt.strip().startswith("```"):
-                    inner = re.sub(r"^```[a-zA-Z0-9]*\n?|\n?```$", "", opt.strip(), flags=re.MULTILINE)
-                    code_html = f"<pre><code>{_html_module.escape(inner)}</code></pre>"
-                    items.append(f"<li>{code_html}</li>")
-                    continue
-            except Exception:
-                pass
             items.append(f"<li>{_html_module.escape(str(opt))}</li>")
         rendered = "".join(items)
 
-    return "<ol type=\"A\">" + rendered + "</ol>"
+    return "<ol class=\"answer-options\" type=\"A\">" + rendered + "</ol>"
 
 
 def _render_correct_answer(md: MarkdownIt, options: list[Any], index: Any) -> str:
@@ -322,6 +324,18 @@ def _render_correct_answer(md: MarkdownIt, options: list[Any], index: Any) -> st
 
 
 def _render_glossary(md: MarkdownIt, glossary: Any) -> str:
+    if not glossary:
+        return ""
+    if isinstance(glossary, list):
+        normalized: dict[str, Any] = {}
+        for entry in glossary:
+            if not isinstance(entry, dict):
+                continue
+            term = entry.get("term") or entry.get("begriff")
+            definition = entry.get("definition") or entry.get("erklaerung") or entry.get("description")
+            if term and definition:
+                normalized[str(term)] = definition
+        glossary = normalized
     if not isinstance(glossary, dict) or not glossary:
         return ""
     parts = ["<dl>"]
@@ -344,7 +358,10 @@ def _build_tags(title: Any, thema: Any, gewichtung: Any) -> str:
 
 
 def _build_row(md: MarkdownIt, question: dict[str, Any], title: str) -> list[str]:
-    frage_html = render_markdown_with_math(md, question.get("question", "")).strip()
+    frage_html = render_markdown_with_math(
+        md,
+        _strip_leading_question_numbering(question.get("question", "")),
+    ).strip()
     frage_field = _sanitize(_strip_wrapping_paragraph(frage_html))
 
     options = question.get("options", []) or []
@@ -435,12 +452,9 @@ def transform_to_anki_tsv(json_bytes: bytes, *, source_name: str | None = None) 
         # If helpers cannot be imported (rare in tests), skip normalization
         pass
 
-    # Erstelle eine spezielle Markdown-Instanz für Anki.
-    # WICHTIG: Wir deaktivieren die 'emphasis'-Regel explizit. Dies verhindert,
-    # dass Unterstriche `_` in LaTeX-Formeln (z.B. `x_i`) fälschlicherweise
-    # als Markdown für Kursivschrift interpretiert und in `<em>`-Tags umgewandelt werden.
-    # Das `amsmath_plugin` kümmert sich um die korrekte Erkennung der LaTeX-Blöcke.
-    md = MarkdownIt("commonmark", {"html": True}).use(amsmath_plugin).disable("emphasis")
+    # Erstelle eine spezielle Markdown-Instanz für Anki: Anki rendert HTML,
+    # deshalb muss Markdown vollständig vor dem Import konvertiert werden.
+    md = _build_markdown_it_for_anki()
 
     out = io.StringIO()
     writer = csv.writer(out, delimiter="\t", quoting=csv.QUOTE_MINIMAL, lineterminator="\n")

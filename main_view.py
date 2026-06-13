@@ -134,27 +134,6 @@ DOWNLOAD_BUTTON_DEFAULT = "Download starten"
 MIME_PDF = "application/pdf"
 
 
-def _kahoot_import_rules() -> list[str]:
-    return [
-        _summary_text(
-            "export_kahoot_rule_question_length",
-            default="Fragetext max. 95 Zeichen, keine Formatierung/Bilder",
-        ),
-        _summary_text(
-            "export_kahoot_rule_option_length",
-            default="Bis zu 4 Antwortoptionen à max. 60 Zeichen",
-        ),
-        _summary_text(
-            "export_kahoot_rule_time_limits",
-            default="Zeitlimit nur 5/10/20/30/60/90/120/240 Sekunden",
-        ),
-        _summary_text(
-            "export_kahoot_rule_max_questions",
-            default="Datei darf höchstens 500 Fragen enthalten",
-        ),
-    ]
-
-
 def _has_cognitive_stages(qs: QuestionSet) -> bool:
     """Checks if any question in the set has a cognitive stage."""
     if not qs:
@@ -1036,24 +1015,22 @@ def _open_anki_preview_dialog(questions: QuestionSet, selected_file: str) -> Non
     @st.dialog(translate_ui("dialogs.anki_preview"), width="large")
     def _show_anki_preview_dialog() -> None:
         try:
-            from markdown_it import MarkdownIt
+            from exporters.anki_tsv import (
+                _build_markdown_it_for_anki,
+                _sanitize,
+                _strip_leading_question_numbering,
+                _strip_wrapping_paragraph,
+            )
+            from examples.math_utils import render_markdown_with_math
         except ImportError:
             st.error(translate_ui("messages.markdown_dependency", default="Für die Vorschau wird das Paket 'markdown-it-py' benötigt."))
             return
 
-        try:
-            import streamlit.components.v1 as components
-        except ImportError:
-            st.error(translate_ui("messages.streamlit_component_missing", default="Streamlit-Komponentenmodul ist nicht verfügbar."))
-            return
-
-        md = MarkdownIt()
+        md = _build_markdown_it_for_anki()
 
         def _render_md(value: str | None) -> str:
-            html = md.render(value or "").strip()
-            if html.startswith("<p>") and html.endswith("</p>"):
-                return html[3:-4]
-            return html
+            html = render_markdown_with_math(md, str(value or "")).strip()
+            return _sanitize(_strip_wrapping_paragraph(html))
 
         meta_obj = getattr(questions, "meta", None)
         all_previews_html: list[str] = []
@@ -1070,6 +1047,14 @@ def _open_anki_preview_dialog(questions: QuestionSet, selected_file: str) -> Non
     .anki-preview .question-block { margin-top: 4px; margin-bottom: 6px; font-weight: 600; color: #111; }
         .anki-preview .options-block ol { list-style-type: upper-alpha; padding-left: 3.8em; margin: 0; }
         .anki-preview .options-block li { margin-bottom: 6px; }
+        .anki-preview table { width: 100%; border-collapse: collapse; margin: 8px 0; }
+        .anki-preview th, .anki-preview td { border: 1px solid #d1d5db; padding: 5px 7px; text-align: left; vertical-align: top; }
+        .anki-preview th { background: #f3f4f6; font-weight: 700; }
+        .anki-preview blockquote { margin: 8px 0; padding: 6px 10px; border-left: 3px solid #94a3b8; background: #f8fafc; color: #475569; }
+        .anki-preview pre { margin: 8px 0; padding: 8px 10px; border: 1px solid #d1d5db; border-radius: 4px; background: #f8fafc; white-space: pre-wrap; }
+        .anki-preview code { background: #f1f5f9; border-radius: 3px; padding: 1px 4px; font-family: "SF Mono", "Menlo", "Consolas", monospace; }
+        .anki-preview pre code { background: transparent; padding: 0; }
+        .anki-preview img { max-width: 100%; height: auto; max-height: 220px; }
         .anki-preview .question-repeat { margin-bottom: 12px; }
         .anki-preview .question-repeat .section-title { margin-top: 0; }
         .anki-preview .question-repeat .question-content { font-weight: 600; color: #111; margin-bottom: 6px; }
@@ -1094,6 +1079,10 @@ def _open_anki_preview_dialog(questions: QuestionSet, selected_file: str) -> Non
             .anki-preview .section-title { color: #60a5fa; }
             .anki-preview .answer-content { color: #4ade80; }
             .anki-preview .anki-divider { border-top: 1px solid #334155; }
+            .anki-preview th { background: #1e293b; }
+            .anki-preview th, .anki-preview td { border-color: #334155; }
+            .anki-preview blockquote, .anki-preview pre { background: #111827; border-color: #334155; color: #cbd5e1; }
+            .anki-preview code { background: #1e293b; color: #e2e8f0; }
         }
         </style>
         """
@@ -1140,9 +1129,13 @@ def _open_anki_preview_dialog(questions: QuestionSet, selected_file: str) -> Non
             except Exception:
                 pass
 
-            q_html = _render_md(preview_q.get("question", preview_q.get("frage", "")) if isinstance(preview_q, dict) else "")
+            q_html = _render_md(
+                _strip_leading_question_numbering(
+                    preview_q.get("question", preview_q.get("frage", "")) if isinstance(preview_q, dict) else ""
+                )
+            )
 
-            opts = preview_q.get("optionen") if isinstance(preview_q, dict) else []
+            opts = (preview_q.get("options") or preview_q.get("optionen") or []) if isinstance(preview_q, dict) else []
             options_html = ""
             if opts:
                 rendered_opts = [f"<li>{_render_md(str(opt))}</li>" for opt in opts]
@@ -1185,7 +1178,7 @@ def _open_anki_preview_dialog(questions: QuestionSet, selected_file: str) -> Non
             correct_html = ""
             try:
                 if opts:
-                    lo = int(preview_q.get("loesung", 0))
+                    lo = int(preview_q.get("loesung", preview_q.get("answer", 0)))
                     if 0 <= lo < len(opts):
                         correct_html = _render_md(str(opts[lo]))
             except Exception:
@@ -1286,7 +1279,7 @@ window.MathJax = {
 <script id="mathjax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>"""
 
         try:
-            components.html(css + math_assets + "".join(all_previews_html), height=480, scrolling=True)
+            st.iframe(css + math_assets + "".join(all_previews_html), height=480)
         except Exception:
             st.markdown(css + math_assets + "".join(all_previews_html), unsafe_allow_html=True)
 
@@ -1334,12 +1327,459 @@ def _format_countdown_warning(remaining_seconds: int) -> str | None:
             default="⚠️ Attention, only a few seconds left!",
         )
 
-    minutes = max(1, math.ceil(remaining_seconds / 60))
+    minutes = max(1, remaining_seconds // 60)
     minutes_text = _format_minutes_text(minutes)
     return translate_ui(
         "test_view.countdown.warning_minutes",
         default="⚠️ Warning, only {minutes_text} left!",
     ).format(minutes_text=minutes_text)
+
+
+def _compute_countdown_remaining_seconds(start_zeit: Any, test_time_limit: Any, now: Any | None = None) -> int:
+    try:
+        limit_seconds = int(test_time_limit or 0)
+    except (TypeError, ValueError):
+        return 0
+
+    if not start_zeit:
+        return limit_seconds
+
+    try:
+        current_time = pd.Timestamp.now() if now is None else pd.Timestamp(now)
+        start_time = pd.Timestamp(start_zeit)
+        elapsed_seconds = (current_time - start_time).total_seconds()
+        return int(limit_seconds - elapsed_seconds)
+    except Exception:
+        return limit_seconds
+
+
+def _set_countdown_start_time(start_time: Any | None = None) -> pd.Timestamp:
+    """Setzt alle Startzeit-Anker fuer einen neuen Testlauf konsistent."""
+    resolved_start = pd.Timestamp.now() if start_time is None else pd.Timestamp(start_time)
+    st.session_state.start_zeit = resolved_start
+    st.session_state.test_start_time = resolved_start.to_pydatetime()
+    st.session_state.test_started = True
+    st.session_state.test_time_expired = False
+    st.session_state.pop("test_end_time", None)
+    return resolved_start
+
+
+def _ensure_countdown_start_time(now: Any | None = None) -> pd.Timestamp:
+    """Liefert eine stabile Startzeit fuer den Countdown der laufenden Sitzung."""
+    start_zeit = st.session_state.get("start_zeit")
+    if start_zeit:
+        try:
+            start_time = pd.Timestamp(start_zeit)
+        except Exception:
+            start_time = None
+        else:
+            st.session_state.start_zeit = start_time
+            if not st.session_state.get("test_start_time"):
+                st.session_state.test_start_time = start_time.to_pydatetime()
+            st.session_state.test_started = True
+            return start_time
+
+    test_start_time = st.session_state.get("test_start_time")
+    if test_start_time:
+        try:
+            start_time = pd.Timestamp(test_start_time)
+        except Exception:
+            start_time = None
+        else:
+            st.session_state.start_zeit = start_time
+            st.session_state.test_started = True
+            return start_time
+
+    start_time = pd.Timestamp.now() if now is None else pd.Timestamp(now)
+    st.session_state.start_zeit = start_time
+    st.session_state.test_start_time = start_time.to_pydatetime()
+    st.session_state.test_started = True
+    return start_time
+
+
+def _build_countdown_timer_html(
+    label: str,
+    remaining_seconds: int,
+    expired_text: str,
+    warning_seconds_text: str,
+    warning_minutes_template: str,
+) -> str:
+    label_json = json.dumps(label)
+    expired_json = json.dumps(expired_text)
+    warning_seconds_json = json.dumps(warning_seconds_text)
+    warning_minutes_json = json.dumps(warning_minutes_template)
+    remaining = max(0, int(remaining_seconds))
+    return f"""
+<div class="mc-countdown" role="timer" aria-live="polite">
+  <div class="mc-countdown-label" id="mc-countdown-label"></div>
+  <div class="mc-countdown-value" id="mc-countdown-value">--:--</div>
+  <div class="mc-countdown-warning" id="mc-countdown-warning"></div>
+  <div class="mc-countdown-expired" id="mc-countdown-expired"></div>
+</div>
+<style>
+  :root {{
+    --mc-countdown-label: #e2e8f0;
+    --mc-countdown-value: #ffffff;
+    --mc-countdown-urgent: #fb7185;
+    --mc-countdown-warning-bg: rgba(251, 191, 36, 0.18);
+    --mc-countdown-warning-border: #fbbf24;
+    --mc-countdown-warning-text: #fde68a;
+  }}
+  body {{
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: transparent;
+    color: var(--mc-countdown-value);
+  }}
+  body.mc-light {{
+    --mc-countdown-label: #475569;
+    --mc-countdown-value: #0f172a;
+    --mc-countdown-urgent: #b00020;
+    --mc-countdown-warning-bg: #fff7ed;
+    --mc-countdown-warning-border: #f59e0b;
+    --mc-countdown-warning-text: #7c2d12;
+  }}
+  .mc-countdown {{
+    min-height: 100px;
+    box-sizing: border-box;
+    padding: 0.25rem 0 0.35rem 0;
+  }}
+  .mc-countdown-label {{
+    color: var(--mc-countdown-label);
+    font-size: 0.875rem;
+    font-weight: 650;
+    line-height: 1.25;
+    margin-bottom: 0.1rem;
+  }}
+  .mc-countdown-value {{
+    color: var(--mc-countdown-value);
+    font-size: 2.15rem;
+    font-weight: 800;
+    line-height: 1.15;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0;
+  }}
+  .mc-countdown-value.mc-urgent {{
+    color: var(--mc-countdown-urgent);
+  }}
+  .mc-countdown-warning {{
+    display: none;
+    box-sizing: border-box;
+    width: fit-content;
+    max-width: 100%;
+    color: var(--mc-countdown-warning-text);
+    font-size: 0.95rem;
+    font-weight: 800;
+    line-height: 1.25;
+    margin-top: 0.35rem;
+  }}
+  .mc-countdown-expired {{
+    display: none;
+    box-sizing: border-box;
+    width: fit-content;
+    max-width: 100%;
+    border: 1px solid var(--mc-countdown-warning-border);
+    border-radius: 6px;
+    background: var(--mc-countdown-warning-bg);
+    color: var(--mc-countdown-warning-text);
+    font-size: 0.875rem;
+    font-weight: 750;
+    line-height: 1.25;
+    padding: 0.35rem 0.5rem;
+    margin-top: 0.35rem;
+  }}
+</style>
+<script>
+  const label = {label_json};
+  const expiredText = {expired_json};
+  const warningSecondsText = {warning_seconds_json};
+  const warningMinutesTemplate = {warning_minutes_json};
+  const initialRemainingSeconds = {remaining};
+  const startedAt = Date.now();
+  const labelEl = document.getElementById("mc-countdown-label");
+  const valueEl = document.getElementById("mc-countdown-value");
+  const warningEl = document.getElementById("mc-countdown-warning");
+  const expiredEl = document.getElementById("mc-countdown-expired");
+
+  function relativeLuminance(rgb) {{
+    const values = rgb.match(/\\d+(?:\\.\\d+)?/g);
+    if (!values || values.length < 3) {{
+      return 1;
+    }}
+    const channel = values.slice(0, 3).map((value) => {{
+      const normalized = Number(value) / 255;
+      return normalized <= 0.03928
+        ? normalized / 12.92
+        : Math.pow((normalized + 0.055) / 1.055, 2.4);
+    }});
+    return 0.2126 * channel[0] + 0.7152 * channel[1] + 0.0722 * channel[2];
+  }}
+
+  function applyParentTheme() {{
+    try {{
+      const parentDoc = window.parent.document;
+      const parentWindow = window.parent;
+      const app = parentDoc.querySelector('[data-testid="stAppViewContainer"]') || parentDoc.body;
+      const styles = parentWindow.getComputedStyle(app);
+      const bg = styles.backgroundColor || "";
+      const isDark = relativeLuminance(bg) < 0.45;
+      document.body.classList.toggle("mc-dark", isDark);
+      document.body.classList.toggle("mc-light", !isDark);
+    }} catch (error) {{
+      if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {{
+        document.body.classList.add("mc-dark");
+      }}
+    }}
+  }}
+
+  function formatTime(totalSeconds) {{
+    const clamped = Math.max(0, Math.floor(totalSeconds));
+    const minutes = Math.floor(clamped / 60);
+    const seconds = clamped % 60;
+    return String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+  }}
+
+  function formatWarning(totalSeconds) {{
+    if (totalSeconds <= 0 || totalSeconds > 600) {{
+      return "";
+    }}
+    if (totalSeconds <= 60) {{
+      return warningSecondsText;
+    }}
+    const minutes = Math.max(1, Math.floor(totalSeconds / 60));
+    return warningMinutesTemplate.replace("{{minutes_text}}", minutes + " min");
+  }}
+
+  function tick() {{
+    const elapsed = Math.floor((Date.now() - startedAt) / 1000);
+    const remaining = Math.max(0, initialRemainingSeconds - elapsed);
+    labelEl.textContent = label;
+    valueEl.textContent = formatTime(remaining);
+    valueEl.classList.toggle("mc-urgent", remaining <= 60);
+    const warning = formatWarning(remaining);
+    if (warning) {{
+      warningEl.textContent = warning;
+      warningEl.style.display = "block";
+    }} else {{
+      warningEl.textContent = "";
+      warningEl.style.display = "none";
+    }}
+    if (remaining <= 0) {{
+      expiredEl.textContent = expiredText;
+      expiredEl.style.display = "block";
+      window.clearInterval(timerId);
+    }}
+  }}
+
+  applyParentTheme();
+  tick();
+  const timerId = window.setInterval(tick, 1000);
+</script>
+"""
+
+
+def _render_countdown_component_html(html_doc: str) -> None:
+    st.iframe(html_doc, height=126)
+
+
+def _build_pacing_status_html(
+    elapsed_seconds: int,
+    ideal_times: list[int],
+    current_index: int,
+    total_allowed_seconds: int,
+    status_text_map: dict[str, str],
+) -> str:
+    ideal_times_json = json.dumps([int(v) for v in ideal_times])
+    status_text_json = json.dumps(status_text_map)
+    elapsed = max(0, int(elapsed_seconds))
+    current_idx = int(current_index)
+    total_allowed = max(0, int(total_allowed_seconds))
+    return f"""
+<div class="mc-pacer" aria-live="polite">
+  <div class="mc-pacer-track" aria-hidden="true">
+    <div class="mc-pacer-bar" id="mc-pacer-bar"></div>
+  </div>
+  <div class="mc-pacer-status" id="mc-pacer-status"></div>
+</div>
+<style>
+  body {{
+    margin: 0;
+    background: transparent;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }}
+  .mc-pacer {{
+    box-sizing: border-box;
+    min-height: 56px;
+    padding: 0.25rem 0 0.35rem 0;
+  }}
+  .mc-pacer-track {{
+    height: 0.55rem;
+    border-radius: 999px;
+    background: rgba(148, 163, 184, 0.35);
+    overflow: hidden;
+    margin-bottom: 0.45rem;
+  }}
+  .mc-pacer-bar {{
+    height: 100%;
+    width: 0%;
+    border-radius: 999px;
+    background: #22c55e;
+    transition: width 180ms linear, background-color 180ms linear;
+  }}
+  .mc-pacer-status {{
+    box-sizing: border-box;
+    min-height: 32px;
+    padding: 0.4rem 0.55rem;
+    border-radius: 6px;
+    color: #ffffff;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 750;
+    line-height: 1.2;
+  }}
+</style>
+<script>
+  const idealTimes = {ideal_times_json};
+  const currentIndex = {current_idx};
+  const totalAllowedSeconds = {total_allowed};
+  const initialElapsedSeconds = {elapsed};
+  const statusTextMap = {status_text_json};
+  const startedAt = Date.now();
+  const barEl = document.getElementById("mc-pacer-bar");
+  const statusEl = document.getElementById("mc-pacer-status");
+  const colorMap = {{
+    ahead: "#0B3D91",
+    green: "#006400",
+    yellow: "#B45309",
+    red: "#8B0000"
+  }};
+  const barColorMap = {{
+    ahead: "#2563eb",
+    green: "#22c55e",
+    yellow: "#f59e0b",
+    red: "#ef4444"
+  }};
+
+  function sum(values) {{
+    return values.reduce((acc, value) => acc + Number(value || 0), 0);
+  }}
+
+  function expectedCumulative(index) {{
+    if (index < 0) {{
+      return 0;
+    }}
+    return sum(idealTimes.slice(0, index + 1));
+  }}
+
+  function pacingStatus(elapsedSeconds) {{
+    const remainingSeconds = totalAllowedSeconds - elapsedSeconds;
+    if (remainingSeconds <= 60) {{
+      return "red";
+    }}
+
+    const remainingQuestions = idealTimes.length - currentIndex - 1;
+    if (remainingSeconds < remainingQuestions * 10) {{
+      return "red";
+    }}
+
+    const remainingExpected = sum(idealTimes.slice(currentIndex + 1));
+    if (elapsedSeconds + remainingExpected > totalAllowedSeconds) {{
+      return "red";
+    }}
+
+    const expected = expectedCumulative(currentIndex);
+    if (expected <= 0) {{
+      return "green";
+    }}
+
+    const delta = elapsedSeconds - expected;
+    const pct = delta / expected;
+    const aheadThresholdSeconds = Math.max(5, Math.round(0.05 * expected));
+    if (delta < 0 && Math.abs(delta) >= aheadThresholdSeconds) {{
+      return "ahead";
+    }}
+    if (pct <= 0.25) {{
+      return "green";
+    }}
+    if (pct <= 0.50) {{
+      return "yellow";
+    }}
+    return "red";
+  }}
+
+  function tick() {{
+    const elapsed = initialElapsedSeconds + Math.floor((Date.now() - startedAt) / 1000);
+    const pct = totalAllowedSeconds > 0
+      ? Math.min(100, Math.max(0, (elapsed / totalAllowedSeconds) * 100))
+      : 0;
+    const status = pacingStatus(elapsed);
+    barEl.style.width = pct.toFixed(2) + "%";
+    barEl.style.background = barColorMap[status] || "#22c55e";
+    statusEl.textContent = statusTextMap[status] || status;
+    statusEl.style.background = colorMap[status] || "#006400";
+  }}
+
+  tick();
+  window.setInterval(tick, 1000);
+</script>
+"""
+
+
+def _render_pacing_component_html(html_doc: str) -> None:
+    st.iframe(html_doc, height=68)
+
+
+def _render_countdown_timer(start_zeit: Any, test_time_limit: Any, now: Any | None = None) -> int:
+    remaining_time = _compute_countdown_remaining_seconds(start_zeit, test_time_limit, now=now)
+    if remaining_time > 0:
+        minutes, seconds = divmod(remaining_time, 60)
+        st.metric(
+            _test_view_text("timer_metric", default="⏳ Verbleibende Zeit"),
+            f"{minutes:02d}:{seconds:02d}",
+        )
+        warning_text = _format_countdown_warning(remaining_time)
+        if warning_text:
+            st.warning(warning_text)
+        return remaining_time
+
+    st.session_state.test_time_expired = True
+    if not st.session_state.get("test_end_time"):
+        end_time = pd.Timestamp.now() if now is None else pd.Timestamp(now)
+        st.session_state["test_end_time"] = end_time.to_pydatetime()
+    st.error(_test_view_text("time_up_error", default="⏰ Zeit ist um!"))
+    st.rerun()
+    return remaining_time
+
+
+def _render_countdown_timer_auto_refresh(start_zeit: Any, test_time_limit: Any) -> int:
+    """Rendert den Countdown mit clientseitigem Sekundenlauf."""
+    remaining_time = _compute_countdown_remaining_seconds(start_zeit, test_time_limit)
+    if remaining_time > 0 and not st.session_state.get("test_time_expired", False):
+        label = _test_view_text("timer_metric", default="⏳ Verbleibende Zeit")
+        expired_text = _test_view_text("time_up_error", default="⏰ Zeit ist um!")
+        warning_seconds_text = translate_ui(
+            "test_view.countdown.warning_seconds",
+            default="⚠️ Attention, only a few seconds left!",
+        )
+        warning_minutes_template = translate_ui(
+            "test_view.countdown.warning_minutes",
+            default="⚠️ Warning, only {minutes_text} left!",
+        )
+        html_doc = _build_countdown_timer_html(
+            label,
+            remaining_time,
+            expired_text,
+            warning_seconds_text,
+            warning_minutes_template,
+        )
+        try:
+            _render_countdown_component_html(html_doc)
+        except Exception:
+            return _render_countdown_timer(start_zeit, test_time_limit)
+
+        return remaining_time
+
+    return _render_countdown_timer(start_zeit, test_time_limit)
 
 
 def _steps_have_numbering(steps: list) -> bool:
@@ -1933,7 +2373,7 @@ def _render_history_table(history_rows, filename_base: str):
                                     pass
                                 st.session_state['test_started'] = True
                                 try:
-                                    st.session_state.start_zeit = pd.Timestamp.now()
+                                    _set_countdown_start_time()
                                 except Exception:
                                     pass
                                 st.rerun()
@@ -4056,7 +4496,7 @@ def render_welcome_page(app_config: AppConfig):
                             st.session_state["session_id"] = session_id
                             initialize_session_state(questions, app_config)
                             st.session_state["test_started"] = True
-                            st.session_state["start_zeit"] = pd.Timestamp.now()
+                            _set_countdown_start_time()
                             try:
                                 st.query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
                             except Exception:
@@ -4293,17 +4733,17 @@ def render_welcome_page(app_config: AppConfig):
                                         # Record session and mark that we started immediately
                                         st.session_state['session_id'] = session_id
                                         try:
-                                            st.session_state.test_started = True
-                                            st.session_state.start_zeit = pd.Timestamp.now()
-                                        except Exception:
-                                            pass
-                                        try:
                                             query_params = st.query_params
                                             query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
                                         except Exception:
                                             pass
                                         try:
                                             initialize_session_state(questions, app_config)
+                                        except Exception:
+                                            pass
+                                        try:
+                                            st.session_state.test_started = True
+                                            _set_countdown_start_time()
                                         except Exception:
                                             pass
                                         # Set the pseudonym reminder after initializing session state
@@ -4464,7 +4904,7 @@ def render_welcome_page(app_config: AppConfig):
                                     query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
                                     initialize_session_state(questions, app_config)
                                     st.session_state.test_started = True
-                                    st.session_state.start_zeit = pd.Timestamp.now()
+                                    _set_countdown_start_time()
                                     st.session_state.show_pseudonym_reminder = True
                                     st.success(_welcome_pseudonym_recover_success())
                                     st.rerun()
@@ -4599,7 +5039,7 @@ def render_welcome_page(app_config: AppConfig):
                             initialize_session_state(questions, app_config)
                             try:
                                 st.session_state.test_started = True
-                                st.session_state.start_zeit = pd.Timestamp.now()
+                                _set_countdown_start_time()
                             except Exception:
                                 pass
                             # Only set the pseudonym reminder if the pseudonym is actually reserved
@@ -4660,17 +5100,17 @@ def render_welcome_page(app_config: AppConfig):
                                                 st.session_state['session_id'] = session_id
                                                 st.session_state['show_pseudonym_reminder'] = True
                                                 try:
-                                                    st.session_state.test_started = True
-                                                    st.session_state.start_zeit = pd.Timestamp.now()
-                                                except Exception:
-                                                    pass
-                                                try:
                                                     query_params = st.query_params
                                                     query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
                                                 except Exception:
                                                     pass
                                                 try:
                                                     initialize_session_state(questions, app_config)
+                                                except Exception:
+                                                    pass
+                                                try:
+                                                    st.session_state.test_started = True
+                                                    _set_countdown_start_time()
                                                 except Exception:
                                                     pass
                                                 st.session_state['_reserve_started_now'] = True
@@ -4768,7 +5208,7 @@ def _show_welcome_container(app_config: AppConfig):
         ):
             st.session_state.test_started = True
             # Starte den Countdown sofort
-            st.session_state.start_zeit = pd.Timestamp.now()
+            _set_countdown_start_time()
             st.rerun()
 
 def render_question_view(questions: QuestionSet, frage_idx: int, app_config: AppConfig):
@@ -5625,8 +6065,12 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     remaining = len(questions) - num_answered
 
     try:
-        if st.session_state.get("start_zeit"):
-            remaining_time = int(st.session_state.test_time_limit - (pd.Timestamp.now() - st.session_state.start_zeit).total_seconds())
+        countdown_start = st.session_state.get("start_zeit") or st.session_state.get("test_start_time")
+        if countdown_start:
+            remaining_time = _compute_countdown_remaining_seconds(
+                countdown_start,
+                st.session_state.get("test_time_limit", 0),
+            )
         else:
             remaining_time = int(st.session_state.get("test_time_limit", 0))
     except Exception:
@@ -5783,12 +6227,8 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     with st.container(border=True):
 
         # --- Countdown-Timer ---
-        # Safety: ensure start_zeit is set if test is running (fixes missing timer on question 1)
-        start_zeit = st.session_state.get("start_zeit")
-        if not start_zeit:
-            start_zeit = pd.Timestamp.now()
-            st.session_state.start_zeit = start_zeit
-            st.session_state.test_started = True
+        # Safety: keep the timer anchored to the test start across reruns/question changes.
+        start_zeit = _ensure_countdown_start_time()
 
         # Safety: ensure test_time_limit is set
         test_time_limit = st.session_state.get("test_time_limit")
@@ -5799,26 +6239,11 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         # Timer logic: only check/show in exam mode
         if start_zeit and current_mode == 'exam':
             elapsed_time = (pd.Timestamp.now() - start_zeit).total_seconds()
-            remaining_time = int(test_time_limit - elapsed_time)
+            remaining_time = _compute_countdown_remaining_seconds(start_zeit, test_time_limit)
 
             col1, col2 = st.columns([1, 1])
             with col1:
-                if remaining_time > 0:
-                    minutes, seconds = divmod(remaining_time, 60)
-                    st.metric(
-                        _test_view_text("timer_metric", default="⏳ Verbleibende Zeit"),
-                        f"{minutes:02d}:{seconds:02d}",
-                    )
-                    warning_text = _format_countdown_warning(remaining_time)
-                    if warning_text:
-                        st.warning(warning_text)
-                else:
-                    st.session_state.test_time_expired = True
-                    # Setze test_end_time, falls noch nicht gesetzt
-                    if not st.session_state.get("test_end_time"):
-                        st.session_state["test_end_time"] = pd.Timestamp.now().to_pydatetime()
-                    st.error(_test_view_text("time_up_error", default="⏰ Zeit ist um!"))
-                    st.rerun()
+                remaining_time = _render_countdown_timer_auto_refresh(start_zeit, test_time_limit)
             with col2:
                 # Timing coach UI (non-intrusive): show pacing status, small progress and recommendation
                 try:
@@ -5897,28 +6322,35 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                         # Render the progress indicator and the status pill only when visible
                         try:
                             if st.session_state.get("pacing_visible") and idx >= 0:
-                                st.progress(pct)
-
-                                # Dark-themed, desaturated but distinct colors
-                                color_map = {
-                                    "ahead": "#0B3D91",  # dark blue
-                                    "green": "#006400",  # dark green
-                                    "yellow": "#B45309",  # dark orange / amber
-                                    "red": "#8B0000",    # dark red
-                                }
-                                color = color_map.get(status, "#16a34a")
-                                # Localized, user-friendly status messages
                                 status_text_map = {
                                     "ahead": translate_ui("test_view.pacing.ahead", default="You're ahead of schedule"),
                                     "green": translate_ui("test_view.pacing.on_track", default="On track"),
                                     "yellow": translate_ui("test_view.pacing.slightly_behind", default="Slightly behind schedule"),
                                     "red": translate_ui("test_view.pacing.behind", default="You are behind schedule"),
                                 }
-                                display_text = status_text_map.get(status, str(status).capitalize())
-                                st.markdown(
-                                    f"<div style='padding:6px;border-radius:6px;background:{color};color:white;text-align:center;font-weight:600'>{display_text}</div>",
-                                    unsafe_allow_html=True,
-                                )
+                                try:
+                                    pacing_html = _build_pacing_status_html(
+                                        int(et),
+                                        ideal_times,
+                                        idx,
+                                        total_allowed,
+                                        status_text_map,
+                                    )
+                                    _render_pacing_component_html(pacing_html)
+                                except Exception:
+                                    st.progress(pct)
+                                    color_map = {
+                                        "ahead": "#0B3D91",
+                                        "green": "#006400",
+                                        "yellow": "#B45309",
+                                        "red": "#8B0000",
+                                    }
+                                    color = color_map.get(status, "#16a34a")
+                                    display_text = status_text_map.get(status, str(status).capitalize())
+                                    st.markdown(
+                                        f"<div style='padding:6px;border-radius:6px;background:{color};color:white;text-align:center;font-weight:600'>{display_text}</div>",
+                                        unsafe_allow_html=True,
+                                    )
 
                                 # Recommendation box when not on track
                                 try:
@@ -6901,7 +7333,7 @@ def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_
     # directly to answer handling.
 
     if st.session_state.start_zeit is None:
-        st.session_state.start_zeit = pd.Timestamp.now()
+        _ensure_countdown_start_time()
 
     try:
         st.session_state[f"frage_{frage_idx}_confidence"] = confidence
@@ -9193,119 +9625,6 @@ def render_review_mode(questions: QuestionSet, app_config=None):
                             key=tsv_download_key,
                             type="secondary",
                         )
-
-        # Kahoot
-        def handle_kahoot_export():
-            try:
-                from export_jobs import generate_kahoot_xlsx
-            except ImportError:
-                st.info(_export_unavailable_msg())
-                return
-            try:
-                xlsx_bytes = generate_kahoot_xlsx(export_selected_file, list(export_questions))
-                st.download_button(
-                    label=_summary_text("export_kahoot_download_label", default="💾 Kahoot-Quiz herunterladen"),
-                    data=xlsx_bytes,
-                    file_name=f"kahoot_export_{export_file_stem}.xlsx",
-                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                    key=kahoot_dl_key,
-                )
-            except Exception as exc:
-                st.error(
-                    _summary_text(
-                        "export_kahoot_generation_error",
-                        default="Fehler beim Erzeugen des Kahoot-Exports: {error}",
-                    ).format(error=exc)
-                )
-
-        with st.expander(
-            _summary_text("export_kahoot_expander", default="📦 Kahoot-Quiz (für Live-Quizze)")
-        ):
-            st.markdown(_summary_text(
-                "export_kahoot_description",
-                default="Erstelle ein Kahoot-Quiz aus deinen Fragen. Perfekt für Gruppen- oder Unterrichtssituationen.",
-            ))
-            st.caption(_summary_text(
-                "export_kahoot_caption",
-                default="Format: .xlsx  |  [Kahoot Import-Anleitung](https://support.kahoot.com/hc/en-us/articles/115002812547-How-to-import-questions-from-a-spreadsheet-to-your-kahoot)",
-            ))
-            st.warning(
-                _summary_text(
-                    "export_kahoot_formula_warning",
-                    default="Kahoot unterstützt keine Formeldarstellung (LaTeX/KaTeX/MathJax). "
-                    "Mathematische Inhalte werden nach dem Import nur als einfacher Text angezeigt.",
-                ),
-                icon="🧮",
-            )
-            kahoot_btn_key = f"download_kahoot_review_{export_selected_file}"
-            kahoot_dl_key = f"dl_kahoot_direct_{export_selected_file}"
-            kahoot_errors: list[str] = []
-            kahoot_warnings: list[str] = []
-            validate_fn = None
-            try:
-                from export_jobs import validate_kahoot_questions as _validate_kahoot
-            except ImportError:
-                st.info(_export_unavailable_msg())
-            else:
-                validate_fn = _validate_kahoot
-
-            def _format_limited(messages: list[str], limit: int = 5) -> str:
-                if len(messages) <= limit:
-                    return "\n".join(f"• {msg}" for msg in messages)
-                remaining = len(messages) - limit
-                truncated = "\n".join(f"• {msg}" for msg in messages[:limit])
-                return f"{truncated}\n• … {remaining} weitere Hinweise"
-
-            if validate_fn:
-                try:
-                    kahoot_errors, kahoot_warnings = validate_fn(list(export_questions))
-                except Exception as exc:
-                    st.error(
-                        _summary_text(
-                            "export_kahoot_validation_error",
-                            default="Fehler bei der Kahoot-Validierung: {error}",
-                        ).format(error=exc)
-                    )
-                    kahoot_errors = ["Die Validierung konnte nicht abgeschlossen werden."]
-
-            if kahoot_warnings:
-                st.warning(
-                    _summary_text(
-                        "export_kahoot_warning",
-                        default="{count} Hinweis(e) für Kahoot",
-                    ).format(count=len(kahoot_warnings)),
-                    icon="⚠️",
-                )
-                st.caption(_format_limited(kahoot_warnings))
-            if kahoot_errors:
-                st.error(
-                    _summary_text(
-                        "export_kahoot_error",
-                        default="Kahoot-Export nicht möglich – {count} Regelverletzung(en).",
-                    ).format(count=len(kahoot_errors)),
-                    icon="🚫",
-                )
-                st.caption(_format_limited(kahoot_errors))
-                st.info(
-                    _summary_text(
-                        "export_kahoot_limits_info",
-                        default="Kahoot akzeptiert nur Fragensets, die alle Import-Limits einhalten. "
-                        "Passe den Inhalt an oder nutze alternativ Anki / arsnova.eu / PDF.",
-                    )
-                )
-                st.markdown(
-                    "{}\n".format(
-                        _summary_text(
-                            "export_kahoot_import_heading",
-                            default="**Import-Bedingungen (Kahoot):**",
-                        )
-                    ) +
-                    "\n".join(f"• {rule}" for rule in _kahoot_import_rules())
-                )
-
-            button_disabled = bool(kahoot_errors)
-            if st.button(_download_button_label(), key=kahoot_btn_key, disabled=button_disabled):
-                handle_kahoot_export()
 
         # arsnova.eu
         with st.expander(_summary_text(

@@ -9,9 +9,6 @@ try:
 except Exception:  # pragma: no cover - tests run without pykatex installed in some CI
     pykatex_render = None
 
-from helpers.text import smart_quotes_de
-
-
 def _convert_math_tokens(content: str) -> str:
     if not content or '$' not in content:
         return content
@@ -86,7 +83,9 @@ def render_markdown_with_math(md: MarkdownIt, s: str) -> str:
     # Display math: \[...\]
     html = re.sub(r"\\\[(.*?)\\\]", _strip_tags_in_display, html, flags=re.S)
 
-    return smart_quotes_de(html)
+    # Return generated HTML unchanged. Applying typography helpers to HTML
+    # would also rewrite attribute quotes in links/images, which breaks Anki.
+    return html
 
 
 def _render_math_html_outside_code(html: str) -> str:

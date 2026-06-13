@@ -7,15 +7,13 @@ skinparam activity {
 
 start
 :Export-Dialog oeffnen;
-:Exporttyp waehlen (PDF/Anki/Kahoot/arsnova/JSON);
+:Exporttyp waehlen (PDF/Anki/arsnova/JSON);
 :Metadaten & Fragen laden;
 
 if (PDF?) then (ja)
   :PDF rendern;
 elseif (Anki?) then (ja)
   :TSV/APKG erzeugen;
-elseif (Kahoot?) then (ja)
-  :XLSX erzeugen;
 elseif (arsnova?) then (ja)
   :JSON erzeugen;
 else (JSON)

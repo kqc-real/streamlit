@@ -2,14 +2,14 @@
 
 ## Zusammenfassung
 Version 2.0.0 buendelt die groessten Features seit 1.4.0: Diagnostik per
-Konfidenz-Matrix, neue Exporte (Kahoot/arsnova/JSON), verbesserte
+Konfidenz-Matrix, neue Exporte (arsnova/JSON), verbesserte
 Validierung und ein stabilerer Upload-Flow fuer temporäre Fragensets.
 Zusaetzlich wurde die Dokumentation konsolidiert und die CI erweitert.
 
 ## Highlights
 - Kumulative Konfidenz-Matrix + Konfidenz-Hinweise im PDF-Report
 - Panikmodus zum Deaktivieren von Cooldowns bei Zeitdruck
-- Exporte: Kahoot-XLSX, arsnova.click, JSON-Export temporärer Sets
+- Exporte: arsnova.click, JSON-Export temporärer Sets
 - Validierung: Length-Bias, erweiterte Meta-Checks, bessere Fehlermeldungen
 - Upload-Flow: Retention-Policy, Ownership-Checks, Cleanup fuer temp. Sets
 - Repo-/Docs-Konsolidierung inkl. Docs-Index und UML-Diagrammen

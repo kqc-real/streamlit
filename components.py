@@ -8,28 +8,6 @@ Verantwortlichkeiten:
 - Rendern von Diagrammen.
 """
 import streamlit as st
-try:
-    # Prefer the official subpackage if available (external Streamlit).
-    import streamlit.components.v1 as components
-except Exception:
-    # In test environments or when the local package shadows the real
-    # Streamlit, provide a minimal shim that implements `html()` which is
-    # the only components API used by this module.
-    class _ComponentsShim:
-        def html(self, html_str, height=0, key=None):
-            try:
-                # Try to render via the primary Streamlit API first.
-                return getattr(st, "components", None).html(html_str, height=height, key=key)
-            except Exception:
-                # Best-effort fallback: render as unsafe HTML so tests / runtimes
-                # that don't provide the components API don't crash.
-                try:
-                    st.markdown(html_str, unsafe_allow_html=True)
-                except Exception:
-                    pass
-                return None
-
-    components = _ComponentsShim()
 import pandas as pd
 import os
 import time
@@ -478,9 +456,11 @@ def _start_test_with_user_set(identifier: str, app_config: AppConfig) -> None:
 
     initialize_session_state(questions, app_config)
     try:
+        start_time = pd.Timestamp.now()
         st.session_state.test_started = True
         st.session_state.test_time_expired = False
-        st.session_state.start_zeit = pd.Timestamp.now()
+        st.session_state.start_zeit = start_time
+        st.session_state.test_start_time = start_time.to_pydatetime()
         st.session_state.test_end_time = None
     except Exception:
         pass
@@ -795,7 +775,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
 }})();
 </script>
 """
-                            st.components.v1.html(copy_html, height=80, scrolling=False)
+                            st.iframe(copy_html, height=80)
                         with cols[1]:
                             st.download_button(
                                 prompt_download_label,
@@ -1081,7 +1061,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
 }})();
 </script>
 """
-                    components.html(copy_html, height=80, scrolling=False)
+                    st.iframe(copy_html, height=80)
                 with cols[1]:
                     st.download_button(
                         _dialog_text("prompt_download_button", default="⬇️ Download"),
@@ -1321,7 +1301,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
 }})();
 </script>
 """
-                    components.html(copy_html, height=80, scrolling=False)
+                    st.iframe(copy_html, height=80)
                 with cols[1]:
                     st.download_button(
                         _dialog_text("prompt_download_button", default="⬇️ Download"),
@@ -1588,7 +1568,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
 }})();
 </script>
 """
-                    components.html(copy_html, height=80, scrolling=False)
+                    st.iframe(copy_html, height=80)
                 with cols[1]:
                     st.download_button(
                         _dialog_text("prompt_download_button", default="⬇️ Download"),
