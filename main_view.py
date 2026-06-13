@@ -3045,7 +3045,7 @@ def _render_welcome_splash():
                 st.session_state._welcome_splash_dismissed = True
                 st.rerun()
 
-        paper_path = Path(get_package_dir()) / "docs" / "mc-test-paper" / "EDULEARN26.md"
+        paper_path = Path(get_package_dir()) / "docs" / "mc-test-paper" / "EDULEARN26_52.pdf"
         st.divider()
         if paper_path.exists():
             bottom_left, bottom_right = st.columns([1, 1])
@@ -3072,53 +3072,13 @@ def _render_welcome_splash():
                         )
                     )
 
-                    @st.dialog(
-                        translate_ui("sidebar.about_paper_button", default="📄 Paper (EDULEARN26)"),
-                        width="medium",
+                    st.download_button(
+                        translate_ui("sidebar.about_paper_button", default="📄 Paper PDF (EDULEARN26)"),
+                        data=paper_path.read_bytes(),
+                        file_name=paper_path.name,
+                        mime=MIME_PDF,
+                        key="splash_about_paper_download",
                     )
-                    def _show_paper_dialog_splash():
-                        raw_md = paper_path.read_text(encoding="utf-8")
-                        base_dir = paper_path.parent
-
-                        def _render_inline_image(match: re.Match[str]) -> str:
-                            alt_text = _html.escape(match.group(1) or "")
-                            rel_path = match.group(2).strip()
-                            img_path = (base_dir / rel_path).resolve()
-                            if not img_path.exists():
-                                return match.group(0)
-                            suffix = img_path.suffix.lower()
-                            mime = "image/png"
-                            if suffix in {".jpg", ".jpeg"}:
-                                mime = "image/jpeg"
-                            elif suffix == ".gif":
-                                mime = "image/gif"
-                            elif suffix == ".svg":
-                                mime = "image/svg+xml"
-                            data = base64.b64encode(img_path.read_bytes()).decode("ascii")
-                            return (
-                                f'<img src="data:{mime};base64,{data}" alt="{alt_text}" '
-                                'style="max-width: 100%; height: auto;" loading="lazy" />'
-                            )
-
-                        rendered_md = re.sub(r"!\[([^\]]*)\]\(([^)]+)\)", _render_inline_image, raw_md)
-                        st.markdown(rendered_md, unsafe_allow_html=True)
-
-                    active_dialog = st.session_state.get("_active_dialog")
-                    paper_blocked = bool(active_dialog)
-                    if paper_blocked:
-                        st.caption(
-                            translate_ui(
-                                "sidebar.about_paper_blocked",
-                                default="Schließe zuerst den offenen Dialog, um das Paper zu öffnen.",
-                            )
-                        )
-
-                    if st.button(
-                        translate_ui("sidebar.about_paper_button", default="📄 Paper (EDULEARN26)"),
-                        key="splash_about_paper_btn",
-                        disabled=paper_blocked,
-                    ):
-                        _show_paper_dialog_splash()
 
         return
 

@@ -3497,7 +3497,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             st.rerun()
 
     # Paper download (About section)
-    paper_path = Path(get_package_dir()) / "docs" / "mc-test-paper" / "EDULEARN26.md"
+    paper_path = Path(get_package_dir()) / "docs" / "mc-test-paper" / "EDULEARN26_52.pdf"
     if paper_path.exists():
         st.sidebar.divider()
         with st.sidebar.expander(_sidebar_text("about_expander", default="ℹ️ Über MC-Test")):
@@ -3506,50 +3506,13 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                 default="MC-Test ist eine Open-Source-Plattform für formative Multiple-Choice-Übung.\n\nSie verbindet schema-gebundene LLM-Itemgenerierung, Bloom-1-3-Metadaten, Lernenden-Dashboards, Feedback mit Mini-Glossaren und konfigurierbares Pacing inklusive Time-Critical Override (Panikmodus).\n\nDas EDULEARN26-Paper beschreibt die lokale Ollama-Migration und eine erste SUS-Usability-Erhebung (N=20, M=70,38).",
             ))
 
-            @st.dialog(_sidebar_text("about_paper_button", default="📄 Paper (EDULEARN26)"), width="medium")
-            def _show_paper_dialog():
-                raw_md = paper_path.read_text(encoding="utf-8")
-                base_dir = paper_path.parent
-
-                def _render_inline_image(match: re.Match[str]) -> str:
-                    alt_text = html.escape(match.group(1) or "")
-                    rel_path = match.group(2).strip()
-                    img_path = (base_dir / rel_path).resolve()
-                    if not img_path.exists():
-                        return match.group(0)
-                    suffix = img_path.suffix.lower()
-                    mime = "image/png"
-                    if suffix in {".jpg", ".jpeg"}:
-                        mime = "image/jpeg"
-                    elif suffix == ".gif":
-                        mime = "image/gif"
-                    elif suffix == ".svg":
-                        mime = "image/svg+xml"
-                    data = base64.b64encode(img_path.read_bytes()).decode("ascii")
-                    return (
-                        f'<img src="data:{mime};base64,{data}" alt="{alt_text}" '
-                        'style="max-width: 100%; height: auto;" loading="lazy" />'
-                    )
-
-                rendered_md = re.sub(r"!\[([^\]]*)\]\(([^)]+)\)", _render_inline_image, raw_md)
-                st.markdown(rendered_md, unsafe_allow_html=True)
-
-            active_dialog = st.session_state.get("_active_dialog")
-            paper_blocked = bool(active_dialog)
-            if paper_blocked:
-                st.caption(
-                    _sidebar_text(
-                        "about_paper_blocked",
-                        default="Schließe zuerst den offenen Dialog, um das Paper zu öffnen.",
-                    )
-                )
-
-            if st.button(
-                _sidebar_text("about_paper_button", default="📄 Paper (EDULEARN26)"),
-                key="about_paper_btn",
-                disabled=paper_blocked,
-            ):
-                _show_paper_dialog()
+            st.download_button(
+                _sidebar_text("about_paper_button", default="📄 Paper PDF (EDULEARN26)"),
+                data=paper_path.read_bytes(),
+                file_name=paper_path.name,
+                mime="application/pdf",
+                key="about_paper_download",
+            )
 
 def render_admin_switch(app_config: AppConfig, questions: QuestionSet):
     """Rendert den Umschalter für das Admin-Panel in der Sidebar."""

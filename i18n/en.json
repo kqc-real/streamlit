@@ -144,7 +144,7 @@
         "history_show_more": "Show more",
         "history_expander": "📚 My sessions",
         "about_expander": "ℹ️ About MC-Test",
-        "about_paper_button": "📄 Paper (EDULEARN26)",
+        "about_paper_button": "📄 Paper PDF (EDULEARN26)",
         "about_project_text": "MC-Test is an open-source platform for formative multiple-choice practice.\n\nIt combines schema-bound LLM item generation, Bloom 1-3 metadata, learner dashboards, feedback with mini-glossaries, and configurable pacing including a Time-Critical Override.\n\nThe EDULEARN26 paper describes the local Ollama migration and an initial SUS usability study (N=20, M=70.38).",
         "about_paper_blocked": "Close the open dialog first to open the paper.",
         "user_qset_delete_expander": "🗑️ Delete temporary question set",

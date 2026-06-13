@@ -144,7 +144,7 @@
         "history_show_less": "显示较少",
         "history_show_more": "显示更多",
         "about_expander": "ℹ️ 关于 MC-Test",
-        "about_paper_button": "📄 文章 (EDULEARN26)",
+        "about_paper_button": "📄 论文 PDF (EDULEARN26)",
         "about_project_text": "MC-Test 是一个开源平台，用于形成性多项选择练习。\n\n它结合了受 Schema 约束的 LLM 题目生成、Bloom 1-3 元数据、学习者仪表板、带迷你术语表的反馈，以及可配置的节奏控制（含 Time-Critical Override）。\n\nEDULEARN26 论文介绍了本地 Ollama 迁移和首轮 SUS 可用性研究（N=20，M=70.38）。",
         "about_paper_blocked": "请先关闭已打开的对话框，然后再打开文章。",
         "user_qset_delete_expander": "🗑️ 删除临时题集",

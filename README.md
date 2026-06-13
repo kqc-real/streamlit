@@ -26,7 +26,7 @@ MC-Test is part of a teaching and research project on formative assessment, LLM-
 
 The EDULEARN26 paper describes MC-Test as a formative MC platform with schema-bound LLM item generation, Bloom 1-3 metadata, learner dashboards, pacing mechanisms, a local Ollama migration path, and an initial SUS usability study (`N=20`, mean `70.38`).
 
-Paper draft: [docs/mc-test-paper/EDULEARN26.md](docs/mc-test-paper/EDULEARN26.md)
+Paper draft: [docs/mc-test-paper/EDULEARN26_52.pdf](docs/mc-test-paper/EDULEARN26_52.pdf)
 
 ## Current Status
 
@@ -311,7 +311,7 @@ BENCH_EXPORTS_N=5 PYTHONPATH=. python tools/benchmark_exports.py
 - Anki export specification: [docs/README_EXPORT_ANKI.md](docs/README_EXPORT_ANKI.md)
 - Glossary schema: [docs/GLOSSARY_SCHEMA.md](docs/GLOSSARY_SCHEMA.md)
 - Release process: [docs/RELEASE_PROCESS.md](docs/RELEASE_PROCESS.md)
-- EDULEARN26 paper draft: [docs/mc-test-paper/EDULEARN26.md](docs/mc-test-paper/EDULEARN26.md)
+- EDULEARN26 paper draft: [docs/mc-test-paper/EDULEARN26_52.pdf](docs/mc-test-paper/EDULEARN26_52.pdf)
 
 ## Privacy and Operational Notes
 

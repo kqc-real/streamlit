@@ -5,7 +5,7 @@
 - Admin-Guide: [docs/ADMIN_PANEL_ANLEITUNG.md](ADMIN_PANEL_ANLEITUNG.md)
 - Exporte (Anki): [docs/README_EXPORT_ANKI.md](README_EXPORT_ANKI.md)
 - Glossar-Schema: [docs/GLOSSARY_SCHEMA.md](GLOSSARY_SCHEMA.md)
-- Paper (EDULEARN26): [docs/mc-test-paper/EDULEARN26.md](mc-test-paper/EDULEARN26.md)
+- Paper (EDULEARN26): [docs/mc-test-paper/EDULEARN26_52.pdf](mc-test-paper/EDULEARN26_52.pdf)
 
 ## Planung & Studium
 - Planung: [docs/planning/](planning/)
