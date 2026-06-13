@@ -64,8 +64,7 @@ class PromptResource:
 
 
 PROMPT_FILES: List[tuple[str, str]] = [
-    ("Anki-Prompt", "prompts/KI_PROMPT.md"),
-    ("arsnova.click-Prompt", "prompts/KI_PROMPT_ARSNOVA_CLICK.md"),
+    ("MC-Test-Prompt", "prompts/KI_PROMPT.md"),
     ("Lernziele-Prompt", "prompts/KI_PROMPT_MICRO_LEARNING_OBJECTIVES.md"),
 ]
 

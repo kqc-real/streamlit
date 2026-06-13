@@ -121,13 +121,94 @@ def _inject_main_container_padding() -> None:
         st.markdown(
             """
             <style>
-            .stMainBlockContainer.block-container { padding: 3rem 1rem 2em; }
+            .stMainBlockContainer.block-container { padding: 2rem 1rem 1.5rem; }
             </style>
             """,
             unsafe_allow_html=True,
         )
     except Exception:
         pass
+
+
+def _inject_question_view_compact_styles() -> None:
+    """Reduce vertical whitespace in the active question view."""
+    try:
+        st.markdown(
+            """
+            <style>
+            .mc-question-progress-heading {
+              margin: 0.15rem 0 0.35rem;
+              font-size: 1.08rem;
+              font-weight: 750;
+              line-height: 1.25;
+            }
+            .mc-question-meta-line,
+            .mc-question-weight-line {
+              color: inherit;
+              opacity: 0.72;
+              font-size: 0.94em;
+              margin: 0 0 0.25rem;
+              line-height: 1.18;
+            }
+            .stMainBlockContainer div[data-testid="stMarkdownContainer"]:has(.mc-question-progress-heading),
+            .stMainBlockContainer div[data-testid="stMarkdownContainer"]:has(.mc-question-meta-line),
+            .stMainBlockContainer div[data-testid="stMarkdownContainer"]:has(.mc-question-weight-line),
+            .stMainBlockContainer div[data-testid="stMarkdownContainer"]:has(.mc-answer-option-label) {
+              margin-bottom: 0;
+            }
+            .stMainBlockContainer div[data-testid="stMarkdownContainer"] p {
+              margin-bottom: 0.4rem;
+            }
+            .stMainBlockContainer button div[data-testid="stMarkdownContainer"],
+            .stMainBlockContainer button div[data-testid="stMarkdownContainer"] p {
+              margin: 0;
+              line-height: inherit;
+            }
+            .stMainBlockContainer div[data-testid="stMarkdownContainer"] h1,
+            .stMainBlockContainer div[data-testid="stMarkdownContainer"] h2,
+            .stMainBlockContainer div[data-testid="stMarkdownContainer"] h3,
+            .stMainBlockContainer div[data-testid="stMarkdownContainer"] h4 {
+              margin-top: 0.5rem;
+              margin-bottom: 0.35rem;
+              line-height: 1.25;
+            }
+            .stMainBlockContainer div[data-testid="stMarkdownContainer"] ul,
+            .stMainBlockContainer div[data-testid="stMarkdownContainer"] ol {
+              margin-top: 0.25rem;
+              margin-bottom: 0.4rem;
+            }
+            .stMainBlockContainer div[data-testid="stMarkdownContainer"] blockquote {
+              margin: 0.35rem 0;
+              padding-top: 0.05rem;
+              padding-bottom: 0.05rem;
+            }
+            .stMainBlockContainer div[data-testid="stRadio"] {
+              margin-top: 0.15rem;
+            }
+            .stMainBlockContainer div[data-testid="stRadio"] > label {
+              padding-bottom: 0.15rem;
+            }
+            .stMainBlockContainer div[data-testid="stRadio"] div[role="radiogroup"] {
+              gap: 0.35rem;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True,
+        )
+    except Exception:
+        pass
+
+
+def _strip_markdown_heading_marker(text: str) -> str:
+    return re.sub(r"^\s*#{1,6}\s+", "", str(text or "").strip())
+
+
+def _render_question_progress_heading(text: str) -> None:
+    clean_text = _strip_markdown_heading_marker(text)
+    st.markdown(
+        f"<div class='mc-question-progress-heading'>{_html.escape(clean_text)}</div>",
+        unsafe_allow_html=True,
+    )
 
 
 def _set_page_reload_guard(active: bool) -> None:
@@ -1502,17 +1583,24 @@ def _build_countdown_timer_html(
     expired_text: str,
     warning_seconds_text: str,
     warning_minutes_template: str,
+    panic_text: str = "",
+    panic_threshold_seconds: int = 0,
+    remaining_questions: int = 0,
 ) -> str:
     label_json = json.dumps(label)
     expired_json = json.dumps(expired_text)
     warning_seconds_json = json.dumps(warning_seconds_text)
     warning_minutes_json = json.dumps(warning_minutes_template)
+    panic_text_json = json.dumps(panic_text)
     remaining = max(0, int(remaining_seconds))
+    panic_threshold = max(0, int(panic_threshold_seconds or 0))
+    panic_question_count = max(0, int(remaining_questions or 0))
     return f"""
 <div class="mc-countdown" role="timer" aria-live="polite">
   <div class="mc-countdown-label" id="mc-countdown-label"></div>
   <div class="mc-countdown-value" id="mc-countdown-value">--:--</div>
   <div class="mc-countdown-warning" id="mc-countdown-warning"></div>
+  <div class="mc-countdown-panic" id="mc-countdown-panic"></div>
   <div class="mc-countdown-expired" id="mc-countdown-expired"></div>
 </div>
 <style>
@@ -1523,6 +1611,7 @@ def _build_countdown_timer_html(
     --mc-countdown-warning-bg: rgba(251, 191, 36, 0.18);
     --mc-countdown-warning-border: #fbbf24;
     --mc-countdown-warning-text: #fde68a;
+    --mc-countdown-panic-text: #fca5a5;
   }}
   body {{
     margin: 0;
@@ -1537,24 +1626,25 @@ def _build_countdown_timer_html(
     --mc-countdown-warning-bg: #fff7ed;
     --mc-countdown-warning-border: #f59e0b;
     --mc-countdown-warning-text: #7c2d12;
+    --mc-countdown-panic-text: #b00020;
   }}
   .mc-countdown {{
-    min-height: 100px;
+    min-height: 88px;
     box-sizing: border-box;
-    padding: 0.25rem 0 0.35rem 0;
+    padding: 0.15rem 0 0.25rem 0;
   }}
   .mc-countdown-label {{
     color: var(--mc-countdown-label);
     font-size: 0.875rem;
     font-weight: 650;
     line-height: 1.25;
-    margin-bottom: 0.1rem;
+    margin-bottom: 0.05rem;
   }}
   .mc-countdown-value {{
     color: var(--mc-countdown-value);
-    font-size: 2.15rem;
+    font-size: 2.05rem;
     font-weight: 800;
-    line-height: 1.15;
+    line-height: 1.1;
     font-variant-numeric: tabular-nums;
     letter-spacing: 0;
   }}
@@ -1570,7 +1660,18 @@ def _build_countdown_timer_html(
     font-size: 0.95rem;
     font-weight: 800;
     line-height: 1.25;
-    margin-top: 0.35rem;
+    margin-top: 0.25rem;
+  }}
+  .mc-countdown-panic {{
+    display: none;
+    box-sizing: border-box;
+    width: fit-content;
+    max-width: 100%;
+    color: var(--mc-countdown-panic-text);
+    font-size: 0.92rem;
+    font-weight: 850;
+    line-height: 1.25;
+    margin-top: 0.18rem;
   }}
   .mc-countdown-expired {{
     display: none;
@@ -1584,8 +1685,8 @@ def _build_countdown_timer_html(
     font-size: 0.875rem;
     font-weight: 750;
     line-height: 1.25;
-    padding: 0.35rem 0.5rem;
-    margin-top: 0.35rem;
+    padding: 0.3rem 0.5rem;
+    margin-top: 0.25rem;
   }}
 </style>
 <script>
@@ -1593,11 +1694,15 @@ def _build_countdown_timer_html(
   const expiredText = {expired_json};
   const warningSecondsText = {warning_seconds_json};
   const warningMinutesTemplate = {warning_minutes_json};
+  const panicText = {panic_text_json};
   const initialRemainingSeconds = {remaining};
+  const panicThresholdSeconds = {panic_threshold};
+  const panicRemainingQuestions = {panic_question_count};
   const startedAt = Date.now();
   const labelEl = document.getElementById("mc-countdown-label");
   const valueEl = document.getElementById("mc-countdown-value");
   const warningEl = document.getElementById("mc-countdown-warning");
+  const panicEl = document.getElementById("mc-countdown-panic");
   const expiredEl = document.getElementById("mc-countdown-expired");
 
   function relativeLuminance(rgb) {{
@@ -1649,6 +1754,14 @@ def _build_countdown_timer_html(
     return warningMinutesTemplate.replace("{{minutes_text}}", minutes + " min");
   }}
 
+  function panicActive(totalSeconds) {{
+    return panicText
+      && panicThresholdSeconds > 0
+      && panicRemainingQuestions > 0
+      && totalSeconds > 0
+      && totalSeconds < panicRemainingQuestions * panicThresholdSeconds;
+  }}
+
   function tick() {{
     const elapsed = Math.floor((Date.now() - startedAt) / 1000);
     const remaining = Math.max(0, initialRemainingSeconds - elapsed);
@@ -1662,6 +1775,13 @@ def _build_countdown_timer_html(
     }} else {{
       warningEl.textContent = "";
       warningEl.style.display = "none";
+    }}
+    if (panicActive(remaining)) {{
+      panicEl.textContent = panicText;
+      panicEl.style.display = "block";
+    }} else {{
+      panicEl.textContent = "";
+      panicEl.style.display = "none";
     }}
     if (remaining <= 0) {{
       expiredEl.textContent = expiredText;
@@ -1678,7 +1798,7 @@ def _build_countdown_timer_html(
 
 
 def _render_countdown_component_html(html_doc: str) -> None:
-    st.iframe(html_doc, height=126)
+    st.iframe(html_doc, height=124)
 
 
 def _build_pacing_status_html(
@@ -1708,15 +1828,15 @@ def _build_pacing_status_html(
   }}
   .mc-pacer {{
     box-sizing: border-box;
-    min-height: 56px;
-    padding: 0.25rem 0 0.35rem 0;
+    min-height: 50px;
+    padding: 0.15rem 0 0.25rem 0;
   }}
   .mc-pacer-track {{
     height: 0.55rem;
     border-radius: 999px;
     background: rgba(148, 163, 184, 0.35);
     overflow: hidden;
-    margin-bottom: 0.45rem;
+    margin-bottom: 0.35rem;
   }}
   .mc-pacer-bar {{
     height: 100%;
@@ -1727,8 +1847,8 @@ def _build_pacing_status_html(
   }}
   .mc-pacer-status {{
     box-sizing: border-box;
-    min-height: 32px;
-    padding: 0.4rem 0.55rem;
+    min-height: 28px;
+    padding: 0.32rem 0.5rem;
     border-radius: 6px;
     color: #ffffff;
     text-align: center;
@@ -1825,7 +1945,7 @@ def _build_pacing_status_html(
 
 
 def _render_pacing_component_html(html_doc: str) -> None:
-    st.iframe(html_doc, height=68)
+    st.iframe(html_doc, height=62)
 
 
 def _render_countdown_timer(start_zeit: Any, test_time_limit: Any, now: Any | None = None) -> int:
@@ -1850,7 +1970,12 @@ def _render_countdown_timer(start_zeit: Any, test_time_limit: Any, now: Any | No
     return remaining_time
 
 
-def _render_countdown_timer_auto_refresh(start_zeit: Any, test_time_limit: Any) -> int:
+def _render_countdown_timer_auto_refresh(
+    start_zeit: Any,
+    test_time_limit: Any,
+    remaining_questions: int = 0,
+    panic_threshold_seconds: int | None = None,
+) -> int:
     """Rendert den Countdown mit clientseitigem Sekundenlauf."""
     remaining_time = _compute_countdown_remaining_seconds(start_zeit, test_time_limit)
     if remaining_time > 0 and not st.session_state.get("test_time_expired", False):
@@ -1864,12 +1989,21 @@ def _render_countdown_timer_auto_refresh(start_zeit: Any, test_time_limit: Any) 
             "test_view.countdown.warning_minutes",
             default="⚠️ Warning, only {minutes_text} left!",
         )
+        panic_text = translate_ui(
+            "test_view.countdown.panic_mode_live",
+            default="⚡ Panic mode active: cooldowns are skipped on your next action.",
+        )
+        if panic_threshold_seconds is None:
+            panic_threshold_seconds = getattr(AppConfig(), "panic_mode_threshold_seconds", 15)
         html_doc = _build_countdown_timer_html(
             label,
             remaining_time,
             expired_text,
             warning_seconds_text,
             warning_minutes_template,
+            panic_text,
+            int(panic_threshold_seconds or 0),
+            int(remaining_questions or 0),
         )
         try:
             _render_countdown_component_html(html_doc)
@@ -1970,9 +2104,13 @@ def _render_markdown_answer_options(optionen: list, selected_index: int | None =
         """
 <style>
 .mc-answer-option-label {
-  margin: 0.9rem 0 0.2rem 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin: 0.55rem 0 0.08rem 0;
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.18;
 }
 .mc-answer-option-label .mc-answer-option-letter {
   display: inline-flex;
@@ -1980,7 +2118,7 @@ def _render_markdown_answer_options(optionen: list, selected_index: int | None =
   justify-content: center;
   width: 1.65rem;
   height: 1.65rem;
-  margin-right: 0.35rem;
+  margin-right: 0.1rem;
   border-radius: 999px;
   background: rgba(37, 99, 235, 0.12);
   color: #1d4ed8;
@@ -2890,7 +3028,7 @@ def _render_welcome_splash():
                 st.rerun()
         with col_right:
             if st.button(
-                translate_ui("welcome.splash.create_ai", default="Fragenset mit KI erstellen"),
+                translate_ui("welcome.splash.create_ai", default="Fragenset mit externem LLM erstellen"),
                 type="primary",
                 width="stretch",
                 icon="✨",
@@ -2927,10 +3065,10 @@ def _render_welcome_splash():
                 with st.expander(
                     translate_ui("sidebar.about_expander", default="ℹ️ Über MC-Test")
                 ):
-                    st.caption(
+                    st.markdown(
                         translate_ui(
                             "sidebar.about_project_text",
-                            default="Ein Forschungsprojekt zur formativen MC-Übung.",
+                            default="MC-Test ist eine Open-Source-Plattform für formative Multiple-Choice-Übung.\n\nSie verbindet schema-gebundene LLM-Itemgenerierung, Bloom-1-3-Metadaten, Lernenden-Dashboards, Feedback mit Mini-Glossaren und konfigurierbares Pacing inklusive Time-Critical Override (Panikmodus).\n\nDas EDULEARN26-Paper beschreibt die lokale Ollama-Migration und eine erste SUS-Usability-Erhebung (N=20, M=70,38).",
                         )
                     )
 
@@ -3466,7 +3604,7 @@ def render_welcome_page(app_config: AppConfig):
         cta_col_left, cta_col_right = st.columns([1, 1])
         with cta_col_left:
             if st.button(
-                translate_ui("welcome.create_own_set", default="🧠 Eigenen Fragenset erstellen"),
+                translate_ui("welcome.create_own_set", default="🧠 Eigenes Fragenset erzeugen"),
                 key="welcome_create_own_set_btn",
                 disabled=not user_has_pseudonym,
             ):
@@ -3497,7 +3635,7 @@ def render_welcome_page(app_config: AppConfig):
             st.caption(
                 translate_ui(
                     "welcome.create_own_set_hint",
-                    default="Wähle nur dein Pseudonym; du kannst anschließend JSON hochladen oder einfügen.",
+                    default="Wähle dein Pseudonym; anschließend kannst du extern erzeugtes JSON hochladen oder einfügen.",
                 )
             )
 
@@ -3506,7 +3644,7 @@ def render_welcome_page(app_config: AppConfig):
         st.info(
             translate_ui(
                 "welcome.empty_state",
-                default="Kein Fragenset aktiv. Du kannst ein bestehendes Set wählen oder ein eigenes Fragenset erstellen.",
+                default="Kein Fragenset aktiv. Du kannst ein bestehendes Set wählen oder ein eigenes Fragenset erzeugen.",
             )
         )
         st.button(
@@ -5317,6 +5455,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     _process_queued_rerun()
     # Apply single padding declaration to main container
     _inject_main_container_padding()
+    _inject_question_view_compact_styles()
     _set_page_reload_guard(True)
 
     if st.session_state.get("_delete_success_msg"):
@@ -6344,7 +6483,12 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
 
             col1, col2 = st.columns([1, 1])
             with col1:
-                remaining_time = _render_countdown_timer_auto_refresh(start_zeit, test_time_limit)
+                remaining_time = _render_countdown_timer_auto_refresh(
+                    start_zeit,
+                    test_time_limit,
+                    remaining_questions=remaining,
+                    panic_threshold_seconds=getattr(app_config, "panic_mode_threshold_seconds", 15),
+                )
             with col2:
                 # Timing coach UI (non-intrusive): show pacing status, small progress and recommendation
                 try:
@@ -6546,7 +6690,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
 
         # Logik für die Fortschrittsanzeige
         if num_answered == 0:
-            st.markdown(
+            _render_question_progress_heading(
                 _test_view_text(
                     "header_total_questions",
                     default="### {count} Fragen insgesamt",
@@ -6558,10 +6702,10 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             # Hier ist keine Anzeige mehr nötig.
             pass
         elif remaining == 1 and not is_test_finished(questions):
-            st.markdown(_test_view_text("header_last_question", default="### Letzte Frage"))
+            _render_question_progress_heading(_test_view_text("header_last_question", default="### Letzte Frage"))
         else:
             if remaining > 1:
-                st.markdown(
+                _render_question_progress_heading(
                     _test_view_text(
                         "header_remaining_plural",
                         default="### Noch {count} Fragen",
@@ -6569,7 +6713,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     )
                 )
             else:
-                st.markdown(
+                _render_question_progress_heading(
                     _test_view_text(
                         "header_remaining_single",
                         default="### Noch {count} Frage",
@@ -6592,7 +6736,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             # Render topic in a compact inline block to reduce spacing
             topic_label = _test_view_text('topic_label', default='Thema')
             st.markdown(
-                f"<div style='color:#555; font-size:0.95em; margin:0 0 4px 0; line-height:1.15;'><strong>{topic_label}:</strong> {thema}</div>",
+                f"<div class='mc-question-meta-line'><strong>{topic_label}:</strong> {thema}</div>",
                 unsafe_allow_html=True,
             )
 
@@ -6626,7 +6770,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             if concept_val and str(concept_val).strip():
                 label = translate_ui('metadata.concept', default='Konzept')
                 st.markdown(
-                    f"<div style='color:#555; font-size:0.95em; margin:0 0 4px 0; line-height:1.15;'><strong>{label}:</strong> {concept_val}</div>",
+                    f"<div class='mc-question-meta-line'><strong>{label}:</strong> {concept_val}</div>",
                     unsafe_allow_html=True,
                 )
 
@@ -6637,13 +6781,13 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     normalized_stage_local = _normalize_stage_label(raw_stage_value_local)
                     translated_stage_local = translate_ui(f"pdf.stage_name.{normalized_stage_local}", default=normalized_stage_local)
                     st.markdown(
-                        f"<div style='color:#666; font-size:0.95em; margin:0 0 6px 0; line-height:1.12;'>{cog_label}: {translated_stage_local}</div>",
+                        f"<div class='mc-question-meta-line'>{cog_label}: {translated_stage_local}</div>",
                         unsafe_allow_html=True,
                     )
                     stage_rendered = True
                 except Exception:
                     # fallback: show the raw stage value compactly
-                    st.markdown(f"<div style='color:#666; font-size:0.95em; margin:0 0 6px 0; line-height:1.12;'>{str(raw_stage_value_local)}</div>", unsafe_allow_html=True)
+                    st.markdown(f"<div class='mc-question-meta-line'>{str(raw_stage_value_local)}</div>", unsafe_allow_html=True)
             # Persist a small marker so downstream renderers (explanation
             # block) can avoid emitting duplicate meta-lines for the same
             # question during the same render cycle.
@@ -6722,11 +6866,11 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     if stage_key:
                         stage_label = translate_ui(f"pdf.stage_name.{stage_key}", default=stage_key)
                         cognitive_label = translate_ui("metadata.cognitive_stage", default="Kognitive Stufe")
-                        st.markdown(f"<div style='color:#888; font-size:0.9em; margin-bottom:6px;'>{cognitive_label}: {stage_label}</div>", unsafe_allow_html=True)
+                        st.markdown(f"<div class='mc-question-weight-line'>{cognitive_label}: {stage_label}</div>", unsafe_allow_html=True)
                     else:
-                        st.markdown(f"<div style='color:#888; font-size:0.9em; margin-bottom:6px;'>({weight_label}: {gewichtung}{stage_suffix})</div>", unsafe_allow_html=True)
+                        st.markdown(f"<div class='mc-question-weight-line'>({weight_label}: {gewichtung}{stage_suffix})</div>", unsafe_allow_html=True)
                 else:
-                    st.markdown(f"<div style='color:#888; font-size:0.9em; margin-bottom:6px;'>({weight_label}: {gewichtung}{stage_suffix})</div>", unsafe_allow_html=True)
+                    st.markdown(f"<div class='mc-question-weight-line'>({weight_label}: {gewichtung}{stage_suffix})</div>", unsafe_allow_html=True)
         except Exception:
             pass
 

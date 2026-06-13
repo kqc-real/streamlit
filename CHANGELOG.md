@@ -17,7 +17,7 @@ und dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 - Diagnostik: kumulative Konfidenz-Matrix inkl. Auswertungshinweisen.
 - Konfidenz-Assessment & Hinweise im PDF-Report (Over-/Underconfidence).
 - Panikmodus zum temporären Deaktivieren von Cooldowns bei Zeitdruck.
-- Exporte: arsnova.click, JSON-Export für temporäre Fragensets.
+- Exporte: arsnova.eu, JSON-Export für temporäre Fragensets.
 - Lernziele: PDF-Export für Lernziele (mehrsprachig).
 - Upload-Flow: temporäre Fragensets mit Retention-Policy, Ownership-Checks und Cleanup.
 - Validierung: Length-Bias-Prüfung, erweiterte Meta-Checks, bessere Fehlertexte.
@@ -46,7 +46,7 @@ und dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 - Sidebar: Neues Feature **"Fragenset erstellen"** mit KI-Prompt-Übersicht, Datei-Upload und JSON-Einfügefeld in einem Dialog.
 - UX: JSON-Einfügepfad für temporäre Fragensets inklusive Inline-Validierung und Statusmeldungen im Dialog.
-- Docs: Prompt-Vorlagen für arsnova.click präzisiert, damit Antwortoptionen konsistent und gleich lang bleiben.
+- Docs: Prompt-Vorlagen für arsnova.eu präzisiert, damit Antwortoptionen konsistent und gleich lang bleiben.
 
 ### Changed
 

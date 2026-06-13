@@ -450,15 +450,16 @@ def format_datetime_locale(ts, fmt: str = FMT_DATETIME_SECONDS, locale: str | No
         if _pd is None:
             return series_obj
         try:
-            # If the series seems to contain day-first dotted dates, force dayfirst=True to avoid warnings.
+            # ISO year-month-day timestamps must not be parsed with dayfirst=True;
+            # pandas warns about that combination for localized day-first UIs.
             series_dayfirst = dayfirst_flag
             try:
-                if not series_dayfirst and _pd.api.types.is_object_dtype(series_obj):
+                if _pd.api.types.is_object_dtype(series_obj):
                     sample = series_obj.dropna().astype(str).head(5)
-                    if any(_looks_dayfirst_string(v) for v in sample):
-                        series_dayfirst = True
                     if any(_looks_iso_ymd_string(v) for v in sample):
                         series_dayfirst = False
+                    elif any(_looks_dayfirst_string(v) for v in sample):
+                        series_dayfirst = True
             except Exception:
                 pass
             if _pd.api.types.is_numeric_dtype(series_obj):

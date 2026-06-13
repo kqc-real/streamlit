@@ -9,7 +9,7 @@ Zusaetzlich wurde die Dokumentation konsolidiert und die CI erweitert.
 ## Highlights
 - Kumulative Konfidenz-Matrix + Konfidenz-Hinweise im PDF-Report
 - Panikmodus zum Deaktivieren von Cooldowns bei Zeitdruck
-- Exporte: arsnova.click, JSON-Export temporärer Sets
+- Exporte: arsnova.eu, JSON-Export temporärer Sets
 - Validierung: Length-Bias, erweiterte Meta-Checks, bessere Fehlermeldungen
 - Upload-Flow: Retention-Policy, Ownership-Checks, Cleanup fuer temp. Sets
 - Repo-/Docs-Konsolidierung inkl. Docs-Index und UML-Diagrammen

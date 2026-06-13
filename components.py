@@ -482,11 +482,11 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             _dialog_text(
                 "intro",
                 default=(
-                    "In diesem Dialog führst du vier Schritte aus:\n\n"
-                    "1) **Fragenset erstellen** – Prompt nutzen, JSON erzeugen, Fragenset speichern.\n"
-                    "2) **Lernziele** – Prompt nutzen, Lernziele als Markdown erzeugen und speichern (erforderlich).\n"
-                    "3) **QA des Fragensets** – Set + Prompt an die KI geben, optimiertes JSON speichern.\n"
-                    "4) **QA der Lernziele** – Lernziele + optimiertes Set an die KI geben, Lernziele speichern und Test starten."
+                    "Dieser Dialog führt dich mit einem externen LLM (z. B. ChatGPT, Claude oder Gemini) durch vier Schritte:\n"
+                    "1) **Fragenset erzeugen**: Prompt kopieren, im LLM beantworten lassen, JSON hier speichern.\n"
+                    "2) **Lernziele erzeugen**: gespeichertes JSON mit dem Lernziele-Prompt an das LLM geben, Markdown hier speichern.\n"
+                    "3) **Fragenset prüfen**: JSON mit dem Prüf-Prompt verbessern und erneut speichern.\n"
+                    "4) **Lernziele prüfen**: Lernziele auf das geprüfte Set abstimmen und speichern."
                 ),
             )
         )
@@ -494,9 +494,8 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             _dialog_text(
                 "intro_info",
                 default=(
-                    "Kurz erklärt: **JSON** ist die Datei für dein Fragenset, **Markdown** ist das Textformat "
-                    "für Lernziele. **QA** bedeutet Qualitätsprüfung/Überarbeitung. "
-                    "Die **KI** (z. B. ChatGPT/Gemini) erzeugt oder verbessert Inhalte anhand der Prompts."
+                    "Kurz erklärt: Die App erzeugt selbst keine Inhalte. Du nutzt ein externes LLM, "
+                    "kopierst Prompt und Daten dorthin und fügst hier nur JSON bzw. Markdown ein."
                 ),
             ),
             icon="ℹ️"
@@ -504,7 +503,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
         st.info(
             _dialog_text(
                 "ai_bias_explanation",
-                default="Warum dieser Prozess? KI-Modelle sind darauf trainiert, hilfreich zu sein. Deshalb formulieren sie richtige Antworten oft länger und detaillierter als falsche (Length-Bias). Die Schritte 3 & 4 (QA) sind notwendig, um diesen Bias zu korrigieren und faire Distraktoren zu erzeugen."
+                default="Warum die Prüf-Schritte? LLMs liefern oft hilfreiche, aber unausgewogene Items: richtige Antworten sind manchmal länger, Distraktoren schwächer und Lernziele zu vage. Schritt 3 und 4 machen Set und Lernziele prüfbarer."
             ),
             icon="🧠"
         )
@@ -633,10 +632,10 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             except Exception:
                 return ""
 
-        tab_questionset = _dialog_text("tab_questionset", default="1. Fragenset erstellen")
-        tab_learning_objectives = _dialog_text("tab_learning_objectives", default="2. Lernziele definieren")
-        tab_postproduction = _dialog_text("tab_postproduction", default="3. Fragenset optimieren")
-        tab_postproduction_lo = _dialog_text("tab_postproduction_lo", default="4. Lernziele optimieren")
+        tab_questionset = _dialog_text("tab_questionset", default="1. Fragenset erzeugen")
+        tab_learning_objectives = _dialog_text("tab_learning_objectives", default="2. Lernziele erzeugen")
+        tab_postproduction = _dialog_text("tab_postproduction", default="3. Fragenset prüfen")
+        tab_postproduction_lo = _dialog_text("tab_postproduction_lo", default="4. Lernziele prüfen")
 
         # Status für Fortschrittsanzeige ermitteln
         status = st.session_state.get("user_qset_last_result")
@@ -704,61 +703,66 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             tab_index = 0
 
         if tab_index == 0:
-            st.subheader(_dialog_text("questionset_heading", default="Schritt 1: Fragenset erstellen"))
+            st.subheader(_dialog_text("questionset_heading", default="Schritt 1: Fragenset erzeugen"))
             st.caption(
                 _dialog_text(
                     "questionset_caption",
-                    default="Hier erstellst und speicherst du dein Fragenset (JSON). Danach geht es mit den Lernzielen weiter.",
+                    default="Kopiere den MC-Test-Prompt in dein externes LLM. Beantworte dort die Rückfragen und füge das erzeugte JSON anschließend hier ein oder lade es hoch.",
                 )
             )
-            with st.expander(_dialog_text("prompt_expander_title", default="Prompts anzeigen"), expanded=False):
-                st.markdown(
-                    _dialog_text(
-                        "prompt_guide",
-                        default="Wähle einen Prompt, erstelle das Fragenset in deiner KI und lade es hier hoch oder füge es ein.",
-                    )
-                )
-                qset_prompts = [
+            qset_prompt = next(
+                (
                     prompt for prompt in prompt_resources
                     if prompt.filename != "prompts/KI_PROMPT_MICRO_LEARNING_OBJECTIVES.md"
-                ]
-                for prompt in qset_prompts:
-                    prompt_empty = not prompt.content.strip()
-                    with st.expander(f"📄 {prompt.title}", expanded=False):
-                        if prompt_empty:
-                            st.warning(
-                                _dialog_text(
-                                    "prompt_load_failed",
-                                    default="{filename} konnte nicht geladen werden.",
-                                    filename=prompt.filename,
-                                )
+                ),
+                None,
+            )
+            prompt_title = qset_prompt.title if qset_prompt else "MC-Test-Prompt"
+            with st.expander(_dialog_text("prompt_expander_title", default=prompt_title), expanded=False):
+                if qset_prompt is None:
+                    st.warning(
+                        _dialog_text(
+                            "prompt_load_failed",
+                            default="{filename} konnte nicht geladen werden.",
+                            filename="prompts/KI_PROMPT.md",
+                        )
+                    )
+                else:
+                    prompt_empty = not qset_prompt.content.strip()
+                    if prompt_empty:
+                        st.warning(
+                            _dialog_text(
+                                "prompt_load_failed",
+                                default="{filename} konnte nicht geladen werden.",
+                                filename=qset_prompt.filename,
                             )
+                        )
+                    else:
+                        view_key = f"user_prompt_view_toggle_{qset_prompt.filename}"
+                        if prompt_views.get(qset_prompt.filename) is None:
+                            prompt_views[qset_prompt.filename] = False
+                        if st.toggle("Anzeigen", key=view_key, value=prompt_views.get(qset_prompt.filename)):
+                            prompt_views[qset_prompt.filename] = True
+                            st.code(qset_prompt.content, language="markdown")
                         else:
-                            view_key = f"user_prompt_view_toggle_{prompt.filename}"
-                            if prompt_views.get(prompt.filename) is None:
-                                prompt_views[prompt.filename] = False
-                            if st.toggle("Anzeigen", key=view_key, value=prompt_views.get(prompt.filename)):
-                                prompt_views[prompt.filename] = True
-                                st.code(prompt.content, language="markdown")
-                            else:
-                                prompt_views[prompt.filename] = False
+                            prompt_views[qset_prompt.filename] = False
 
-                        cols = st.columns(2)
-                        with cols[0]:
-                            safe_filename = "".join(c if c.isalnum() else "_" for c in prompt.filename)
-                            copy_button_id = f"copy_prompt_btn_{safe_filename}"
-                            copy_status_id = f"copy_prompt_status_{safe_filename}"
-                            escaped_copy_label = html.escape(copy_button_label)
-                            escaped_copy_success = html.escape(copy_status_success)
-                            escaped_copy_error = html.escape(copy_status_error)
-                            copy_html = f"""
+                    cols = st.columns(2)
+                    with cols[0]:
+                        safe_filename = "".join(c if c.isalnum() else "_" for c in qset_prompt.filename)
+                        copy_button_id = f"copy_prompt_btn_{safe_filename}"
+                        copy_status_id = f"copy_prompt_status_{safe_filename}"
+                        escaped_copy_label = html.escape(copy_button_label)
+                        escaped_copy_success = html.escape(copy_status_success)
+                        escaped_copy_error = html.escape(copy_status_error)
+                        copy_html = f"""
 <div style="display:flex; align-items:center; gap:0.5rem;">
     <button id="{copy_button_id}" type="button" style="font:inherit; padding:0.45rem 0.8rem; border-radius:0.3rem; background:#a21313; color:#fff; border:none; cursor:pointer;">{escaped_copy_label}</button>
     <span id="{copy_status_id}" style="opacity:0; transition:opacity 0.3s; font-size:0.9rem; color:#0b69ff;">{escaped_copy_success}</span>
 </div>
 <script>
 (function(){{
-    const text = {_json.dumps(prompt.content)};
+    const text = {_json.dumps(qset_prompt.content)};
     const button = document.getElementById("{copy_button_id}");
     const status = document.getElementById("{copy_status_id}");
     button.addEventListener('click', async () => {{
@@ -775,16 +779,16 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
 }})();
 </script>
 """
-                            st.iframe(copy_html, height=80)
-                        with cols[1]:
-                            st.download_button(
-                                prompt_download_label,
-                                prompt.content.encode("utf-8"),
-                                file_name=prompt.filename,
-                                mime="text/markdown",
-                                key=f"user_prompt_download_{prompt.filename}",
-                                disabled=prompt_empty,
-                            )
+                        st.iframe(copy_html, height=80)
+                    with cols[1]:
+                        st.download_button(
+                            prompt_download_label,
+                            qset_prompt.content.encode("utf-8"),
+                            file_name=qset_prompt.filename,
+                            mime="text/markdown",
+                            key=f"user_prompt_download_{qset_prompt.filename}",
+                            disabled=prompt_empty,
+                        )
 
             try:
                 hours = int(getattr(app_config, "user_qset_cleanup_hours", 24))
@@ -798,7 +802,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             st.caption(
                 _dialog_text(
                     "upload_info",
-                    default="Fragensets werden nach {hours} Stunden (reservierte Pseudonyme: {days} Tage) aufgeräumt.",
+                    default="Temporäre Sets werden nach {hours} Stunden gelöscht; mit reserviertem Pseudonym nach {days} Tagen.",
                     hours=hours,
                     days=days,
                 )
@@ -840,7 +844,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     st.session_state.pop("user_qset_last_uploaded_name", None)
 
                 if uploader and st.button(
-                    _dialog_text("upload_validate_button", default="✅ Fragenset speichern"),
+                    _dialog_text("upload_validate_button", default="✅ JSON speichern"),
                     key="user_qset_validate_btn",
                 ):
                     payload = uploader.getvalue()
@@ -849,7 +853,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 st.caption(
                     _dialog_text(
                         "alternative_caption",
-                        default="Kopiere den JSON-Text deiner KI hier hinein.",
+                        default="Füge hier nur den JSON-Codeblock aus dem externen LLM ein, ohne Erklärung davor oder danach.",
                     )
                 )
                 pasted_text = st.text_area(
@@ -872,7 +876,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 )
 
                 if st.button(
-                    _dialog_text("upload_validate_button", default="✅ Fragenset speichern"),
+                    _dialog_text("upload_validate_button", default="✅ JSON speichern"),
                     key="user_qset_validate_text_btn",
                     disabled=not pasted_text.strip(),
                 ):
@@ -970,7 +974,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                         st.info(
                             _dialog_text(
                                 "status_json_repair_hint",
-                                default="Tipp: Kopiere die Fehlermeldung und gib sie deiner KI, sie kann das JSON meistens reparieren.",
+                                default="Tipp: Kopiere die Fehlermeldung in dein externes LLM; es kann das JSON meistens reparieren.",
                             )
                         )
                     with st.expander(
@@ -985,11 +989,11 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
         elif tab_index == 1:
             # status is already loaded at top scope
             lo_status = st.session_state.get("user_qset_lo_result")
-            st.subheader(_dialog_text("learning_objectives_heading", default="Schritt 2: Lernziele definieren"))
+            st.subheader(_dialog_text("learning_objectives_heading", default="Schritt 2: Lernziele erzeugen"))
             st.caption(
                 _dialog_text(
                     "learning_objectives_caption",
-                    default="Nutze den Prompt auf diesem Tab, gib ihn an eine externe KI (z. B. ChatGPT oder Gemini), lass dir die Lernziele als Markdown erzeugen und lade diese Datei hier hoch.",
+                    default="Gib das gespeicherte JSON mit dem Lernziele-Prompt an dein externes LLM. Speichere hier das Markdown-Ergebnis.",
                 )
             )
 
@@ -1005,7 +1009,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 st.info(
                     _dialog_text(
                         "learning_objectives_save_set_first",
-                        default="Bitte zuerst dein Fragenset im Tab „Fragenset erstellen“ speichern.",
+                        default="Bitte zuerst dein Fragenset im Tab „Fragenset erzeugen“ speichern.",
                     )
                 )
 
@@ -1083,7 +1087,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 except Exception:
                     original_set_json = ""
             st.download_button(
-                _dialog_text("learning_objectives_original_set_download", default="⬇️ Original-Set (JSON)"),
+                _dialog_text("learning_objectives_original_set_download", default="⬇️ JSON fürs LLM herunterladen"),
                 original_set_json.encode("utf-8") if original_set_json else b"",
                 file_name=original_set_filename,
                 mime="application/json",
@@ -1183,7 +1187,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     st.success(
                         _dialog_text(
                             "learning_objectives_save_success",
-                            default="Lernziele gespeichert. Du kannst jetzt den Test starten oder mit der QA des Fragensets fortfahren.",
+                            default="Lernziele gespeichert. Du kannst jetzt den Test starten oder mit Schritt 3 „Fragenset prüfen“ fortfahren.",
                         )
                     )
                 else:
@@ -1225,18 +1229,18 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     _start_test_with_user_set(status["identifier"], app_config)
             with cols[1]:
                 if st.button(
-                    _dialog_text("learning_objectives_next_qa_button", default="➡️ Weiter mit QA des Sets"),
+                    _dialog_text("learning_objectives_next_qa_button", default="➡️ Weiter zu Schritt 3"),
                     key="user_qset_lo_next_qa_btn",
                 ):
                     st.session_state["user_qset_tab_pending"] = base_tab_options[2]
                     st.rerun()
 
         elif tab_index == 2:
-            st.subheader(_dialog_text("postproduction_heading", default="Schritt 3: Fragenset optimieren"))
+            st.subheader(_dialog_text("postproduction_heading", default="Schritt 3: Fragenset prüfen"))
             st.caption(
                 _dialog_text(
                     "postproduction_caption",
-                    default="Hier prüfst du dein Fragenset mit externer KI, speicherst das optimierte JSON und gehst weiter zur QA der Lernziele.",
+                    default="Lade dein gespeichertes JSON herunter, gib es mit dem Prüf-Prompt an das externe LLM und speichere das bereinigte JSON hier.",
                 )
             )
 
@@ -1245,7 +1249,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 st.info(
                     _dialog_text(
                         "learning_objectives_save_set_first",
-                        default="Bitte zuerst dein Fragenset im Tab „Fragenset erstellen“ speichern.",
+                        default="Bitte zuerst dein Fragenset im Tab „Fragenset erzeugen“ speichern.",
                     )
                 )
 
@@ -1254,7 +1258,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             prompt_empty = not postprod_prompt.strip()
 
             with st.expander(
-                _dialog_text("postproduction_prompt_expander", default="QA-Postproduction-Prompt anzeigen"),
+                _dialog_text("postproduction_prompt_expander", default="Prüf-Prompt (Fragenset) anzeigen"),
                 expanded=False,
             ):
                 if prompt_empty:
@@ -1315,7 +1319,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             st.caption(
                 _dialog_text(
                     "postproduction_set_for_ai_caption",
-                    default="Gib Prompt und Set gemeinsam an die KI, um das Fragenset zu optimieren.",
+                    default="Nutze genau dieses JSON als Datenbasis im externen LLM.",
                 )
             )
             original_set_json = ""
@@ -1329,7 +1333,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 except Exception:
                     original_set_json = ""
             st.download_button(
-                _dialog_text("postproduction_set_for_ai_download", default="⬇️ Set für KI (JSON)"),
+                _dialog_text("postproduction_set_for_ai_download", default="⬇️ JSON fürs LLM herunterladen"),
                 original_set_json.encode("utf-8") if original_set_json else b"",
                 file_name=original_set_filename,
                 mime="application/json",
@@ -1340,11 +1344,11 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             st.caption(
                 _dialog_text(
                     "postproduction_paste_caption",
-                    default="Füge das optimierte JSON hier ein und speichere es. Danach geht es zur QA der Lernziele.",
+                    default="Füge hier nur den bereinigten JSON-Codeblock ein.",
                 )
             )
             postprod_text = st.text_area(
-                _dialog_text("postproduction_text_area_label", default="📋 Optimiertes JSON"),
+                _dialog_text("postproduction_text_area_label", default="📋 Geprüftes JSON"),
                 key="user_qset_postprod_json",
                 height=220,
                 placeholder=_dialog_text(
@@ -1437,14 +1441,14 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     st.success(
                         _dialog_text(
                             "postproduction_save_success",
-                            default="Optimiertes Fragenset gespeichert. Falls ein vorheriges Set existierte, wurde es ersetzt. Du kannst jetzt mit der QA der Lernziele fortfahren.",
+                            default="Geprüftes Fragenset gespeichert. Falls ein vorheriges Set existierte, wurde es ersetzt. Du kannst jetzt mit Schritt 4 „Lernziele prüfen“ fortfahren.",
                         )
                     )
                 else:
                     st.error(
                         _dialog_text(
                             "postproduction_save_error",
-                            default="Optimiertes Fragenset konnte nicht gespeichert werden: {error}",
+                            default="Geprüftes Fragenset konnte nicht gespeichert werden: {error}",
                             error=(status or {}).get("error", "Unbekannter Fehler"),
                         )
                     )
@@ -1474,7 +1478,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             cols = st.columns(2)
             with cols[0]:
                 if st.button(
-                    _dialog_text("postproduction_save_button", default="💾 Optimiertes Set speichern"),
+                    _dialog_text("postproduction_save_button", default="💾 Geprüftes Set speichern"),
                     key="user_qset_postprod_save_btn",
                     type="primary",
                     disabled=not postprod_text.strip(),
@@ -1482,7 +1486,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     _save_postproduction_payload()
             with cols[1]:
                 if st.button(
-                    _dialog_text("postproduction_next_lo_button", default="➡️ Weiter mit QA der Lernziele"),
+                    _dialog_text("postproduction_next_lo_button", default="➡️ Weiter zu Schritt 4"),
                     key="user_qset_postprod_next_lo_btn",
                     disabled=not postprod_text.strip(),
                 ):
@@ -1492,11 +1496,11 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                         st.rerun()
 
         elif tab_index == 3:
-            st.subheader(_dialog_text("postproduction_lo_heading", default="Schritt 4: Lernziele optimieren"))
+            st.subheader(_dialog_text("postproduction_lo_heading", default="Schritt 4: Lernziele prüfen"))
             st.caption(
                 _dialog_text(
                     "postproduction_lo_caption",
-                    default="Hier prüfst du die Lernziele mit externer KI, speicherst sie und startest den Test.",
+                    default="Gib geprüftes JSON und aktuelle Lernziele mit dem Lernziel-Prüf-Prompt an das externe LLM. Speichere hier das bereinigte Markdown.",
                 )
             )
 
@@ -1505,14 +1509,14 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 st.info(
                     _dialog_text(
                         "learning_objectives_save_set_first",
-                        default="Bitte zuerst dein Fragenset im Tab „Fragenset erstellen“ speichern.",
+                        default="Bitte zuerst dein Fragenset im Tab „Fragenset erzeugen“ speichern.",
                     )
                 )
             elif not step3_done:
                 st.info(
                     _dialog_text(
                         "postproduction_lo_need_set",
-                        default="Bitte zuerst die QA des Fragensets im Tab „QA des Fragensets“ abschließen.",
+                        default="Bitte zuerst Schritt 3 „Fragenset prüfen“ abschließen.",
                     )
                 )
 
@@ -1521,7 +1525,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             lo_prompt_empty = not postprod_lo_prompt.strip()
 
             with st.expander(
-                _dialog_text("postproduction_lo_prompt_expander", default="QA-Postproduction-Prompt (Lernziele) anzeigen"),
+                _dialog_text("postproduction_lo_prompt_expander", default="Prüf-Prompt (Lernziele) anzeigen"),
                 expanded=False,
             ):
                 if lo_prompt_empty:
@@ -1582,7 +1586,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             st.caption(
                 _dialog_text(
                     "postproduction_lo_inputs_caption",
-                    default="Gib optimiertes Set und Lernziele gemeinsam an die KI, um die Lernziele zu prüfen.",
+                    default="Lade beide Dateien herunter und gib sie zusammen mit dem Prompt an das externe LLM.",
                 )
             )
             optimized_set_json = st.session_state.get("user_qset_postprod_json", "")
@@ -1599,7 +1603,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 except Exception:
                     pass
             st.download_button(
-                _dialog_text("postproduction_lo_set_download", default="⬇️ Download optimiertes Set für KI"),
+                _dialog_text("postproduction_lo_set_download", default="⬇️ Geprüftes JSON fürs LLM herunterladen"),
                 optimized_set_json.encode("utf-8") if optimized_set_json.strip() else b"",
                 file_name=optimized_set_filename,
                 mime="application/json",
@@ -1610,11 +1614,11 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             st.caption(
                 _dialog_text(
                     "postproduction_lo_paste_caption",
-                    default="Füge die optimierten Lernziele als Markdown hier ein.",
+                    default="Füge hier nur den bereinigten Markdown-Codeblock ein.",
                 )
             )
             postprod_lo_text = st.text_area(
-                _dialog_text("postproduction_lo_text_area_label", default="📋 Optimierte Lernziele (Markdown)"),
+                _dialog_text("postproduction_lo_text_area_label", default="📋 Geprüfte Lernziele (Markdown)"),
                 key="user_qset_postprod_lo_markdown",
                 height=220,
                 placeholder=_dialog_text(
@@ -1639,7 +1643,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     st.success(
                         _dialog_text(
                             "postproduction_lo_save_success",
-                            default="Optimierte Lernziele gespeichert. Du kannst jetzt den Test starten.",
+                            default="Geprüfte Lernziele gespeichert. Du kannst jetzt den Test starten.",
                         )
                     )
                     st.session_state["user_qset_step4_done"] = True
@@ -1647,7 +1651,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     st.error(
                         _dialog_text(
                             "postproduction_lo_save_error",
-                            default="Optimierte Lernziele konnten nicht gespeichert werden: {error}",
+                            default="Geprüfte Lernziele konnten nicht gespeichert werden: {error}",
                             error=detail,
                         )
                     )
@@ -1723,10 +1727,10 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
 
     if force_inline:
         with st.container(border=True):
-            st.subheader(_dialog_text("title", default="✨ Fragenset mit KI erstellen"))
+            st.subheader(_dialog_text("title", default="✨ Fragenset mit externem LLM erstellen"))
             _render_body()
     else:
-        @st.dialog(_dialog_text("title", default="✨ Fragenset mit KI erstellen"), width="small")
+        @st.dialog(_dialog_text("title", default="✨ Fragenset mit externem LLM erstellen"), width="small")
         def _dialog() -> None:
             # Deaktiviert den Standard-Schließen-Button (X) des Dialogs, damit nur unser eigener
             # "Dialog schließen"-Button den Flow beendet.
@@ -3120,7 +3124,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
         pass
 
     if st.sidebar.button(
-        _sidebar_text("create_user_qset", default="Fragenset mit KI erstellen"),
+        _sidebar_text("create_user_qset", default="Fragenset mit externem LLM"),
         key="user_qset_open_btn",
         type="primary",
         width="stretch",
@@ -3497,7 +3501,10 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
     if paper_path.exists():
         st.sidebar.divider()
         with st.sidebar.expander(_sidebar_text("about_expander", default="ℹ️ Über MC-Test")):
-            st.caption(_sidebar_text("about_project_text", default="Ein Forschungsprojekt zur formativen MC-Übung."))
+            st.markdown(_sidebar_text(
+                "about_project_text",
+                default="MC-Test ist eine Open-Source-Plattform für formative Multiple-Choice-Übung.\n\nSie verbindet schema-gebundene LLM-Itemgenerierung, Bloom-1-3-Metadaten, Lernenden-Dashboards, Feedback mit Mini-Glossaren und konfigurierbares Pacing inklusive Time-Critical Override (Panikmodus).\n\nDas EDULEARN26-Paper beschreibt die lokale Ollama-Migration und eine erste SUS-Usability-Erhebung (N=20, M=70,38).",
+            ))
 
             @st.dialog(_sidebar_text("about_paper_button", default="📄 Paper (EDULEARN26)"), width="medium")
             def _show_paper_dialog():

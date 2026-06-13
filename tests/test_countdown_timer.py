@@ -145,6 +145,8 @@ def test_countdown_renders_client_side_timer(monkeypatch):
     assert "window.setInterval" in rendered_html[0]
     assert "initialRemainingSeconds" in rendered_html[0]
     assert "mc-countdown-warning" in rendered_html[0]
+    assert "mc-countdown-panic" in rendered_html[0]
+    assert "panicActive" in rendered_html[0]
     assert "formatWarning" in rendered_html[0]
     assert "totalSeconds > 600" in rendered_html[0]
     assert "Math.floor(totalSeconds / 60)" in rendered_html[0]
@@ -155,6 +157,26 @@ def test_countdown_renders_client_side_timer(monkeypatch):
     assert not fake_st.fragment_calls
     assert not fake_st.metric_calls
     assert not fake_st.warning_calls
+
+
+def test_countdown_embeds_live_panic_mode_threshold():
+    html = mv._build_countdown_timer_html(
+        label="⏳ Time Left",
+        remaining_seconds=44,
+        expired_text="Time up",
+        warning_seconds_text="Almost done",
+        warning_minutes_template="Only {minutes_text} left",
+        panic_text="Panic mode live",
+        panic_threshold_seconds=15,
+        remaining_questions=3,
+    )
+
+    assert "Panic mode live" in html
+    assert "const panicThresholdSeconds = 15;" in html
+    assert "const panicRemainingQuestions = 3;" in html
+    assert "totalSeconds < panicRemainingQuestions * panicThresholdSeconds" in html
+    assert "panicEl.style.display = \"block\"" in html
+    assert "background:" not in html.split(".mc-countdown-panic", 1)[1].split("}", 1)[0]
 
 
 def test_pacing_status_renders_client_side_component():
@@ -186,8 +208,8 @@ def test_timer_and_pacer_embed_with_st_iframe(monkeypatch):
     mv._render_pacing_component_html("<p>Pacer</p>")
 
     assert fake_st.iframe_calls == [
-        (("<p>Timer</p>",), {"height": 126}),
-        (("<p>Pacer</p>",), {"height": 68}),
+        (("<p>Timer</p>",), {"height": 124}),
+        (("<p>Pacer</p>",), {"height": 62}),
     ]
 
 

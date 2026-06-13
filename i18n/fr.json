@@ -1,5 +1,8 @@
 {
     "app": {
+        "title": "Application MC-Test",
+        "subtitle": "Gérer et analyser les tests",
+        "dialog_multiple_warning": "Un seul dialogue peut être ouvert à la fois. Ferme le dialogue ouvert, puis réessaie.",
         "warning": {
             "locale_not_found": "Aucune locale appropriée trouvée pour le tri correct. Les trémas peuvent être mal triés."
         },
@@ -36,7 +39,7 @@
     "admin": {
         "expanders": {
             "reset_user_results": "Sélectionnez un utilisateur :",
-            "admin_key": "Clé Admin pour confirmation :",
+            "admin_key": "Clé d’administration pour confirmation :",
             "confirm_checkbox": "Oui, je suis sûr.",
             "metrics_glossary": "Glossaire des métriques",
             "delete_single_pseudonym": "Sélectionnez un pseudonyme :",
@@ -46,7 +49,7 @@
             "delete_multiple_reports": "🔴 Zone de danger : supprimer plusieurs rapports",
             "delete_old_logs": "🗑️ Supprimer les anciens logs (RGPD)",
             "about_audit_logging": "ℹ️ À propos de l'audit logging",
-            "delete_questionset": "🗑️ Supprimer un lot de questions"
+            "delete_questionset": "🗑️ Supprimer un jeu de questions"
         },
         "dashboard_title": "🛠 Tableau de bord administrateur",
         "glossary_header": "📚 Mini-glossaires en PDF",
@@ -56,19 +59,19 @@
             "pdf_generating": "Génération du PDF...",
             "pdf_download": "💾 Télécharger le PDF"
         },
-        "no_questionsets": "Aucun ensemble de questions trouvé.",
+        "no_questionsets": "Aucun jeu de questions trouvé.",
         "glossary_caption": "PDF avec mini-glossaires pour tous les sujets.",
         "glossary_generate_button": "📄 Générer les glossaires",
         "glossary_generate_single_button": "📄 Créer mini-glossaire en PDF",
         "glossary_spinner": "Génération des glossaires...",
         "glossary_success": "Glossaires prêts !",
         "glossary_download_button": "💾 Télécharger les glossaires",
-        "glossary_generation_caption": "Chargez un ensemble de questions, vérifiez les entrées de mini-glossaire existantes et créez un PDF si nécessaire.",
-        "questionsets_overview_header": "📂 Aperçu de tous les ensembles de questions",
+        "glossary_generation_caption": "Chargez un jeu de questions, vérifiez les entrées de mini-glossaire existantes et créez un PDF si nécessaire.",
+        "questionsets_overview_header": "📂 Aperçu de tous les jeux de questions",
         "questionsets": {
             "overview_counts_caption": "🔢 {questions} questions  •  📝 {answers} réponses  •  👥 {participants} participants",
-            "count": "Nombre d'ensembles de questions",
-            "topics_per_set": "Sujets par ensemble",
+            "count": "Nombre de jeux de questions",
+            "topics_per_set": "Sujets par jeu",
             "topics_label": "Sujets",
             "columns": {
                 "name": "Nom",
@@ -81,26 +84,26 @@
                 "topics": "Sujets"
             },
             "delete_source": "Source",
-            "delete_select": "Sélectionner un lot de questions",
-            "delete_select_temp": "Sélectionner un lot de questions temporaire",
+            "delete_select": "Sélectionner un jeu de questions",
+            "delete_select_temp": "Sélectionner un jeu de questions temporaire",
             "delete_lo_hint": "Fichier d’objectifs d’apprentissage : {status}",
             "delete_lo_missing": "introuvable",
-            "delete_no_temp_sets": "Aucun lot de questions temporaire trouvé.",
-            "delete_no_target": "Veuillez sélectionner un lot de questions.",
-            "delete_confirm": "Je comprends : le lot de questions sera définitivement supprimé.",
-            "delete_button": "Supprimer le lot de questions",
+            "delete_no_temp_sets": "Aucun jeu de questions temporaire trouvé.",
+            "delete_no_target": "Veuillez sélectionner un jeu de questions.",
+            "delete_confirm": "Je comprends : le jeu de questions sera définitivement supprimé.",
+            "delete_button": "Supprimer le jeu de questions",
             "delete_success": "Supprimé : {files}",
             "delete_nothing": "Aucun fichier supprimé (rien trouvé).",
             "delete_error": "Échec de la suppression : {error}",
-            "delete_redirect_notice": "Le lot de questions actif a été supprimé. Vous avez été redirigé vers la page d’accueil.",
-            "delete_active_warning": "⚠️ Ce lot de questions est actuellement sélectionné. Le supprimer vous redirigera vers la page d’accueil.",
-            "delete_active_confirm": "Je comprends : le lot de questions actuellement sélectionné sera supprimé.",
-            "delete_active_confirm_required": "Veuillez également confirmer la suppression du lot de questions actuellement sélectionné."
+            "delete_redirect_notice": "Le jeu de questions actif a été supprimé. Vous avez été redirigé vers la page d’accueil.",
+            "delete_active_warning": "⚠️ Ce jeu de questions est actuellement sélectionné. Le supprimer vous redirigera vers la page d’accueil.",
+            "delete_active_confirm": "Je comprends : le jeu de questions actuellement sélectionné sera supprimé.",
+            "delete_active_confirm_required": "Veuillez également confirmer la suppression du jeu de questions actuellement sélectionné."
         },
-        "highscores_by_questionset_header": "🏆 Meilleurs scores par ensemble de questions",
+        "highscores_by_questionset_header": "🏆 Meilleurs résultats par jeu de questions",
         "item_analysis_header": "📊 Analyse des items",
         "analysis": {
-            "select_set": "Sélectionner l'ensemble pour l'analyse :",
+            "select_set": "Sélectionner le jeu pour l'analyse :",
             "select_question": "Sélectionner une question pour l'analyse détaillée :",
             "show_chart": "Afficher en graphique à barres",
             "columns": {
@@ -128,16 +131,16 @@
             "delete_popover": "Supprimer",
             "delete_confirm": "Oui, supprimer définitivement",
             "question_heading": "**Question {number} :** {text}",
-            "question_meta": "**Type :** {type} | **Ensemble :** {qset} | **De :** {user} | {date}",
+            "question_meta": "**Type :** {type} | **Jeu :** {qset} | **De :** {user} | {date}",
             "columns": {
                 "date": "Signalé le",
                 "question_nr": "N° Question",
                 "type": "Type de problème",
-                "set": "Ensemble",
+                "set": "Jeu",
                 "user": "Signalé par"
             },
             "filters": {
-                "set": "Ensemble :",
+                "set": "Jeu :",
                 "type": "Type de problème :"
             }
         },
@@ -145,14 +148,14 @@
         "export": {
             "download_csv": "⬇️ Télécharger le journal des réponses (CSV)",
             "csv_header": "Journal des réponses (CSV)",
-            "question_sets_header": "Téléchargements de sets de questions",
-            "question_set_select": "Sélectionner un set de questions",
-            "download_json": "💾 Télécharger le set (JSON)",
-            "json_missing": "Fichier JSON introuvable pour ce set.",
+            "question_sets_header": "Téléchargements des jeux de questions",
+            "question_set_select": "Sélectionner un jeu de questions",
+            "download_json": "💾 Télécharger le jeu (JSON)",
+            "json_missing": "Fichier JSON introuvable pour ce jeu.",
             "download_lo_md": "💾 Télécharger les objectifs (Markdown)",
             "lo_md_error": "Impossible de charger les objectifs d’apprentissage.",
             "lo_md_missing": "Aucun fichier d’objectifs d’apprentissage.",
-            "no_question_sets": "Aucun set trouvé."
+            "no_question_sets": "Aucun jeu trouvé."
         },
         "login_generator_header": "🔑 Générateur de connexion pour pseudonymes réservés",
         "login_generator": {
@@ -162,10 +165,10 @@
             "reserved_pseudonyms_caption": "{count} pseudonymes sont actuellement réservés.",
             "available_pseudonyms_caption": "{count} pseudonymes sont libres et peuvent être réservés.",
             "delete_select": "Pseudonyme à supprimer",
-            "admin_key": "Clé Admin pour confirmation :",
+            "admin_key": "Clé d’administration pour confirmation :",
             "confirm_single": "Je comprends : Ce pseudonyme réservé et ses données de test seront supprimés.",
             "delete_button": "Supprimer le pseudonyme",
-            "wrong_key": "Clé Admin incorrecte. Opération annulée.",
+            "wrong_key": "Clé d’administration incorrecte. Opération annulée.",
             "confirm_all_used": "Je comprends : Toutes les données de test et pseudonymes (sauf admin) seront supprimés.",
             "delete_all_used_button": "Supprimer tous les pseudonymes utilisés maintenant",
             "confirm_all_reserved": "Je comprends : Tous les pseudonymes réservés et données de test (sauf admin) seront supprimés.",
@@ -203,7 +206,7 @@
             "delete_all_button": "SUPPRIMER TOUTES LES DONNÉES DE TEST MAINTENANT",
             "delete_all_success": "✅ Toutes les données de test ont été réinitialisées.",
             "delete_all_error": "❌ Échec de la suppression. Vérifiez les logs du serveur.",
-            "delete_all_wrong_key": "🔒 Clé Admin incorrecte. Suppression globale annulée.",
+            "delete_all_wrong_key": "🔒 Clé d’administration incorrecte. Suppression globale annulée.",
             "stats": {
                 "completed_tests": "Tests terminés",
                 "unique_users": "Participants uniques",
@@ -219,21 +222,21 @@
                 "active_users_last_7_days": "7 derniers jours",
                 "active_users_last_month": "Dernier mois",
                 "active_users_total": "Total",
-                "avg_performance": "📈 Performance moyenne par ensemble de questions",
+                "avg_performance": "📈 Résultat moyen par jeu de questions",
                 "avg_chart": {
-                    "title": "Score moyen par ensemble de questions",
-                    "xaxis": "Ensemble de questions",
-                    "yaxis": "Score moyen",
-                    "legend": "Score moyen",
+                    "title": "Résultat moyen par jeu de questions",
+                    "xaxis": "Jeu de questions",
+                    "yaxis": "Résultat moyen",
+                    "legend": "Résultat moyen",
                     "bar_text": "{score} pts<br>({count} tests)",
                     "hover": "<b>{qset}</b><br>Moyenne : {score} points"
                 }
             },
             "avg_chart": {
-                "title": "Score moyen par jeu de questions",
+                "title": "Résultat moyen par jeu de questions",
                 "xaxis": "Jeu de questions",
-                "yaxis": "Score moyen",
-                "legend": "Score moyen",
+                "yaxis": "Résultat moyen",
+                "legend": "Résultat moyen",
                 "bar_text": "{score} pts<br>({count} tests)",
                 "hover": "<b>{qset}</b><br>Moyenne : {score} points"
             }
@@ -241,8 +244,8 @@
         "user_results": {
             "columns": {
                 "date": "Date",
-                "set": "Set",
-                "score": "Score",
+                "set": "Jeu",
+                "score": "Résultat",
                 "duration": "Durée"
             }
         },
@@ -299,7 +302,7 @@
             "login_generator": "🔑 Générateur de connexion",
             "system": "⚙️ Système",
             "glossary": "📚 Mini-glossaires",
-            "questionsets": "📂 Ensembles de questions",
+            "questionsets": "📂 Jeux de questions",
             "audit_log": "🔒 Journal d'audit"
         },
         "leaderboard": {
@@ -310,11 +313,11 @@
                 "date": "Date"
             },
             "tempo": {
-                "label": "Tempo",
-                "help": "Filtrer le classement par tempo",
+                "label": "Rythme",
+                "help": "Filtrer le classement par rythme",
                 "select_user": "Sélectionner un utilisateur :",
-                "admin_key_confirm": "Clé Admin pour confirmation :",
-                "admin_key_help": "La clé Admin doit être saisie à nouveau pour la sécurité.",
+                "admin_key_confirm": "Clé d’administration pour confirmation :",
+                "admin_key_help": "La clé d’administration doit être saisie à nouveau pour la sécurité.",
                 "confirm_checkbox": "Oui, je suis sûr.",
                 "delete_button": "Supprimer les résultats maintenant",
                 "options": {
@@ -328,9 +331,9 @@
         },
         "messages": {
             "no_answers_recorded": "Aucune réponse enregistrée pour le moment.",
-            "no_results_for_set": "Aucun résultat disponible pour cet ensemble.",
+            "no_results_for_set": "Aucun résultat disponible pour ce jeu.",
             "no_answers_for_analysis": "Aucune réponse disponible pour l'analyse pour le moment.",
-            "no_answers_for_questionset": "Aucune réponse disponible pour cet ensemble de questions.",
+            "no_answers_for_questionset": "Aucune réponse disponible pour ce jeu de questions.",
             "min_participants_required": "Au moins 2 participants sont requis pour le calcul de la discrimination.",
             "no_answers_for_question": "Aucune réponse disponible pour cette question pour le moment.",
             "no_problems_reported": "Aucun problème n'a été signalé jusqu'à présent.",
@@ -359,7 +362,7 @@
             "generate_logins_failed": "Aucun login n'a pu être généré. Veuillez vérifier la sélection.",
             "generate_logins_success": "{count} login(s) créé(s) et réservé(s).",
             "expanders": {
-                "reset_user_results": "Réinitialiser les résultats utilisateur pour cet ensemble",
+                "reset_user_results": "Réinitialiser les résultats utilisateur pour ce jeu",
                 "metrics_glossary": "Glossaire des métriques",
                 "delete_multiple_reports": "🔴 Zone de danger : Supprimer plusieurs rapports",
                 "delete_single_pseudonym": "🧹 Supprimer un seul pseudonyme réservé",
@@ -404,11 +407,11 @@
             "discrimination_medium": " : La question discrimine de manière acceptable.",
             "discrimination_low": " : La question discrimine mal. Elle peut être confuse, trop facile/difficile ou avoir une erreur dans la réponse."
         },
-        "manage_question_owner": "✏️ Assurance qualité (auteur du set — sets temporaires, Human-in-the-Loop)",
-        "manage_question_admin": "✏️ Assurance qualité (Admin — collection principale / Core‑sets)",
+        "manage_question_owner": "✏️ Assurance qualité (créateur du jeu — jeux temporaires, validation humaine)",
+        "manage_question_admin": "✏️ Assurance qualité (administration — collection principale)",
         "edit_json_label": "Modifier JSON",
         "json_schema_help_title": "💡 Aide : modifier le schéma de la question",
-        "json_schema_help_text": "Bref et clair :\n\nModifiez uniquement la VALEUR de texte — le contenu entre les guillemets après les deux‑points.\nNe changez pas les noms de champs, les crochets, les virgules ni la structure.\n\nBoutons (ce qu'ils font) :\n- Vérifier & Enregistrer : Exécute le validateur et enregistre la question modifiée si aucune erreur n'est détectée. En cas d'erreurs de validation, l'enregistrement est bloqué et les erreurs sont affichées.\n- Enregistrer malgré les avertissements : Si la validation a produit des avertissements (non bloquants), ce bouton force l'enregistrement malgré ces avertissements. À utiliser avec précaution.\n- Publier dans la collection principale : Copie l'ensemble actuel dans `data/` et crée d'abord une sauvegarde ; cela publie l'ensemble dans la collection officielle.\n- Réinitialiser au JSON d'origine : Recharge la question d'origine depuis le fichier source et restaure l'éditeur à ce JSON d'origine.\n- Annuler : Abandonne les modifications non enregistrées et ferme l'éditeur.\n\nRemarque : Cliquer sur les boutons d'action (Enregistrer/Réinitialiser/Annuler/Publier) maintient l'éditeur ouvert afin que vous puissiez continuer à travailler. Pour le fermer, cliquez sur 'Fermer' ou repliez l'expander manuellement.\n\nExemple (modifiez uniquement la partie marquée) :\n\"question\": \"Quel est 2+2 ?\"  ← modifiez uniquement le texte entre les guillemets\n\nImportant :\n- Modifiez uniquement les valeurs entre guillemets (ex. \"question\": \"Nouveau texte de la question\").\n- Ne changez pas les noms de champs (ex. \"question\"), la structure des listes (\"options\": [...]) ou les champs numériques (\"answer\": 0).\n- Après enregistrement : testez rapidement la question pour vérifier que tout fonctionne.\n\nEn cas de doute : corrigez les coquilles ou envoyez un retour.",
+        "json_schema_help_text": "Bref et clair :\n\nModifiez uniquement la VALEUR de texte — le contenu entre les guillemets après les deux‑points.\nNe changez pas les noms de champs, les crochets, les virgules ni la structure.\n\nBoutons (ce qu'ils font) :\n- Vérifier & Enregistrer : Exécute le validateur et enregistre la question modifiée si aucune erreur n'est détectée. En cas d'erreurs de validation, l'enregistrement est bloqué et les erreurs sont affichées.\n- Enregistrer malgré les avertissements : Si la validation a produit des avertissements (non bloquants), ce bouton force l'enregistrement malgré ces avertissements. À utiliser avec précaution.\n- Publier dans la collection principale : Copie le jeu actuel dans `data/` et crée d'abord une sauvegarde ; cela publie le jeu dans la collection officielle.\n- Réinitialiser au JSON d'origine : Recharge la question d'origine depuis le fichier source et restaure l'éditeur à ce JSON d'origine.\n- Annuler : Abandonne les modifications non enregistrées et ferme l'éditeur.\n\nRemarque : Cliquer sur les boutons d'action (Enregistrer/Réinitialiser/Annuler/Publier) maintient l'éditeur ouvert afin que vous puissiez continuer à travailler. Pour le fermer, cliquez sur 'Fermer' ou repliez l'expander manuellement.\n\nExemple (modifiez uniquement la partie marquée) :\n\"question\": \"Quel est 2+2 ?\"  ← modifiez uniquement le texte entre les guillemets\n\nImportant :\n- Modifiez uniquement les valeurs entre guillemets (ex. \"question\": \"Nouveau texte de la question\").\n- Ne changez pas les noms de champs (ex. \"question\"), la structure des listes (\"options\": [...]) ou les champs numériques (\"answer\": 0).\n- Après enregistrement : testez rapidement la question pour vérifier que tout fonctionne.\n\nEn cas de doute : corrigez les coquilles ou envoyez un retour.",
         "save_button": "💾 Vérifier & Enregistrer",
         "reset_button": "Réinitialiser au JSON d'origine",
         "reset_success": "Réinitialisé au JSON d'origine dans le fichier source.",
@@ -421,15 +424,15 @@
         "save_validation_warnings": "Avertissements de validation",
         "save_force_button": "Enregistrer malgré les avertissements",
         "promote_button": "🚀 Publier dans la collection principale",
-        "promote_help": "Copie le set dans la collection principale et crée d'abord une sauvegarde. Cela publie le set dans la collection officielle.",
+        "promote_help": "Copie le jeu dans la collection principale et crée d'abord une sauvegarde. Cela publie le jeu dans la collection officielle.",
         "promote_exists_info": "Un fichier nommé {new_filename} existe déjà dans la collection principale. Le fichier existant a été sauvegardé sous le nom {backup_name} et a été remplacé par votre fichier.",
         "last_saved": "Dernière sauvegarde : {ts}",
         "needs_promote": "Pas encore dans la collection principale",
         "promoted": "Publié dans la collection principale",
-        "promote_success": "Set publié avec succès dans la collection principale sous le nom {new_filename} ! (Sauvegarde : {backup_name})",
+        "promote_success": "Jeu publié avec succès dans la collection principale sous le nom {new_filename} ! (Sauvegarde : {backup_name})",
         "promote_error": "Erreur lors de la promotion : {e}",
         "delete_button": "🗑️ Supprimer la question",
-        "delete_help": "Supprime irréversiblement cette question du set.",
+        "delete_help": "Supprime irréversiblement cette question du jeu.",
         "delete_confirm_warning": "Êtes-vous sûr ? Cette question sera supprimée immédiatement.",
         "delete_success": "Question supprimée.",
         "delete_index_error": "Erreur d'index lors de la suppression.",
@@ -445,13 +448,13 @@
         "language_selector_label": "Choisis ta langue",
         "pseudonym_locale_assignment": "Réglage lié à ton pseudo.",
         "greeting": "👋 **{user}**",
-        "temp_set_notice": "Set temp actif.",
+        "temp_set_notice": "Jeu de questions temporaire actif.",
         "reserved_pseudonym": "Pseudo réservé pour toi.",
         "pseudonym_reserved": "Ton pseudo réservé.",
         "pseudonym_info": "👤 Infos pseudo",
         "user_qset": {
-            "caption_default": "🗂️ Les sets temporaires sont supprimés après {hours} heures.",
-            "caption_reserved": "Avec un pseudo réservé, tes sets temporaires 🗂️ sont conservés {days} jours."
+            "caption_default": "🗂️ Les jeux de questions temporaires sont supprimés après {hours} heures.",
+            "caption_reserved": "Avec un pseudo réservé, tes jeux de questions temporaires 🗂️ sont conservés {days} jours."
         },
         "history_button": "Mes sessions",
         "history_expander": "📚 Mes sessions",
@@ -463,8 +466,8 @@
         "history_csv_unavailable": "Export CSV inactif.",
         "history_dialog_title": "Mes sessions",
         "history_header": "Ton historique",
-        "history_unnamed_set": "Set sans nom",
-        "history_start_button": "Start",
+        "history_unnamed_set": "Jeu sans nom",
+        "history_start_button": "Démarrer",
         "history_delete_notice": "Sessions supprimées. Rafraîchis la vue.",
         "history_delete_all_button": "🗑️ Tout supprimer",
         "history_delete_all_warning": "Attention : Supprime définitivement toutes tes sessions, réponses et favoris.",
@@ -473,14 +476,14 @@
         "history_delete_cancel_button": "Annuler",
         "history_columns": {
             "date": "Date",
-            "question_set": "Set",
+            "question_set": "Jeu",
             "actions": "Actions",
-            "points": "Score (%)",
+            "points": "Résultat (%)",
             "duration": "Temps",
             "tempo": "Mode"
         },
-        "current_set": "Set : <strong>{name}</strong>",
-        "current_set_marker": "Set : {marker} <strong>{name}</strong>",
+        "current_set": "Jeu : <strong>{name}</strong>",
+        "current_set_marker": "Jeu : {marker} <strong>{name}</strong>",
         "glossary_download": "💾 Télécharger glossaire",
         "glossary_cooldown": "Export en cours. Attends {wait}s.",
         "glossary_generate_button": "📄 Créer glossaire",
@@ -488,7 +491,7 @@
         "glossary_spinner_with_formulas": "Création PDF – rendu de {count} formules (patience).",
         "glossary_render_count": "Rendu d'env. {count} formules. Ça peut prendre un moment.",
         "glossary_success": "Glossaire prêt !",
-        "glossary_no_entries": "Pas de glossaire dispo pour ce set.",
+        "glossary_no_entries": "Pas de glossaire disponible pour ce jeu.",
         "glossary_error": "Erreur PDF : {error}",
         "progress_line": "⏳ Statut : {status}",
         "progress": {
@@ -498,19 +501,19 @@
         },
         "test_end": "Finir le test",
         "score": {
-            "heading": "🎯 Ton Score"
+            "heading": "🎯 Ton résultat"
         },
         "review_back": "⬅️ Retour révision",
-        "create_user_qset": "Créer set avec IA",
+        "create_user_qset": "Jeu avec LLM externe",
         "user_qset_dialog_warning": "Ferme d'abord la fenêtre ouverte.",
-        "user_qset_deleted": "Set supprimé par le créateur. Recharge et choisis-en un autre.",
-        "user_qset_preserved": "Tes sets sont saufs car ton pseudo est réservé.",
+        "user_qset_deleted": "Le jeu a été supprimé par son créateur. Recharge la page et choisis-en un autre.",
+        "user_qset_preserved": "Tes jeux sont conservés parce que ton pseudo est réservé.",
         "session_expander": "⚠️ Finir session",
-        "session_reserved_info": "Finir sauve le set **{set_name}** pour {days} jours.",
+        "session_reserved_info": "À la fin, le jeu **{set_name}** est conservé pendant {days} jours.",
         "session_choose_new": "Change de pseudo pour retenter.",
-        "session_keep_warning": "⚠️ Score sauvegardé & fin du test.",
+        "session_keep_warning": "⚠️ Résultat sauvegardé et test terminé.",
         "session_end_button": "Finir session",
-        "admin_remote_warning": "🔒 Admin : localhost uniquement.",
+        "admin_remote_warning": "🔒 Administration : localhost uniquement.",
         "admin_remote_warning_ip": "\n\nTon IP : `{ip}`",
         "admin_mode_info": "Mode admin actif.",
         "admin_solution_download": "💾 Télécharger solution",
@@ -520,10 +523,10 @@
         "admin_solution_success": "Solution prête !",
         "admin_back_to_test": "⬅️ Retour au test",
         "close_expander_button": "Fermer",
-        "admin_key_missing": "⚠️ **Pas de Clé Admin !**\n\nDev local seulement. Set `MC_TEST_ADMIN_KEY` en prod.",
-        "admin_open_panel": "📊 Panel Admin (UNSAFE)",
-        "admin_expander": "🔓 Panel Admin",
-        "admin_key_label": "Clé Admin",
+        "admin_key_missing": "⚠️ **Aucune clé d’administration !**\n\nUniquement en développement local. Définissez `MC_TEST_ADMIN_KEY` en production.",
+        "admin_open_panel": "📊 Panneau d’administration (local uniquement)",
+        "admin_expander": "🔓 Panneau d’administration",
+        "admin_key_label": "Clé d’administration",
         "admin_activate_button": "Activer",
         "admin_locked": "⛔ Bloqué jusqu'à {locked_until}",
         "admin_wrong_key": "Mauvaise clé.",
@@ -537,32 +540,35 @@
         "skipped_expander": "↪️ Sautées",
         "skipped_empty": "Aucune question sautée.",
         "skipped_disabled": "Sauts désactivés après le test.",
-        "skipped_clear": "Reset liste",
+        "skipped_clear": "Réinitialiser la liste",
         "skipped_clear_help": "Réinitialise la liste des questions sautées.",
         "tempo": {
-            "label": "Ton Tempo",
+            "label": "Ton rythme",
             "options": {
                 "normal": "Normal",
-                "speed": "Speed (1/2 temps)",
-                "power": "Power (1/4 temps)"
+                "speed": "Rapide (1/2 temps)",
+                "power": "Intensif (1/4 temps)"
             }
         },
         "history_show_all": "Tout afficher",
         "history_show_less": "Afficher moins",
         "history_show_more": "Afficher plus",
         "title": "Navigation",
-        "about_paper_blocked": "Ferme d’abord le dialogue ouvert pour ouvrir le paper.",
-        "user_qset_delete_expander": "🗑️ Supprimer un lot de questions temporaire",
-        "user_qset_delete_warning": "Supprime ton lot de questions temporaire et ses objectifs d’apprentissage. Cette action est irréversible.",
-        "user_qset_delete_confirm": "Je comprends : le lot de questions temporaire sera supprimé définitivement.",
-        "user_qset_delete_button": "Supprimer le lot de questions",
-        "user_qset_delete_success": "Ton lot de questions temporaire a été supprimé.",
+        "about_expander": "ℹ️ À propos de MC-Test",
+        "about_paper_button": "📄 Article (EDULEARN26)",
+        "about_project_text": "MC-Test est une plateforme open source d'entraînement formatif par QCM.\n\nElle combine génération d'items par LLM contrainte par schéma, métadonnées Bloom 1-3, tableaux de bord pour les apprenants, feedback avec mini-glossaires et pacing configurable, dont un Time-Critical Override.\n\nL'article EDULEARN26 décrit la migration locale vers Ollama et une première étude d'utilisabilité SUS (N=20, M=70,38).",
+        "about_paper_blocked": "Ferme d’abord le dialogue ouvert pour ouvrir l’article.",
+        "user_qset_delete_expander": "🗑️ Supprimer un jeu de questions temporaire",
+        "user_qset_delete_warning": "Supprime ton jeu de questions temporaire et ses objectifs d’apprentissage. Cette action est irréversible.",
+        "user_qset_delete_confirm": "Je comprends : le jeu de questions temporaire sera supprimé définitivement.",
+        "user_qset_delete_button": "Supprimer le jeu de questions",
+        "user_qset_delete_success": "Ton jeu de questions temporaire a été supprimé.",
         "user_qset_delete_error": "Échec de la suppression : {error}"
     },
     "dialog": {
-        "title": "✨ Créer un ensemble de questions avec l’IA",
-        "intro": "Ce dialogue vous guide en quatre étapes :\n1) **Créer le set** : Utiliser le prompt, générer le JSON, enregistrer.\n2) **Définir les objectifs** : Utiliser le prompt, dériver les objectifs, enregistrer.\n3) **Optimiser le set** : Contrôle qualité IA des questions.\n4) **Optimiser les objectifs** : Ajustement des objectifs pour le set final.",
-        "prompt_guide": "Si tu veux seulement faire des QCM dans cette app, utilise le **prompt Anki**. Il correspond au format JSON de l’app. Le prompt arsnova n’est nécessaire que pour les exports vers arsnova.eu.",
+        "title": "✨ Créer un jeu avec un LLM externe",
+        "intro": "Ce dialogue te guide en quatre étapes avec un LLM externe, par exemple ChatGPT, Claude ou Gemini :\n1) **Générer le jeu de questions** : copie le prompt, réponds aux questions du LLM, puis enregistre le JSON ici.\n2) **Générer les objectifs d’apprentissage** : envoie le JSON enregistré avec le prompt des objectifs au LLM, puis enregistre le Markdown ici.\n3) **Relire le jeu** : améliore le JSON avec le prompt de relecture et enregistre-le à nouveau.\n4) **Relire les objectifs** : aligne les objectifs sur le jeu relu et enregistre-les.",
+        "prompt_guide": "Utilise le **prompt MC-Test**. Il génère le format JSON de l’app ; ce format sert aux tests, aux cartes Anki et aux exports arsnova.eu.",
         "prompt_toggle_button": "👁️ Afficher / Masquer",
         "prompt_download_button": "⬇️ Télécharger",
         "prompt_load_failed": "Impossible de charger {filename}.",
@@ -570,21 +576,21 @@
         "prompt_copy_button": "Copier Prompt",
         "prompt_copy_success": "Copié !",
         "prompt_copy_error": "Échec copie",
-        "tab_questionset": "1. Créer l’ensemble de questions",
-        "tab_learning_objectives": "2. Définir les objectifs",
-        "questionset_heading": "Étape 1 : Créer le set de questions",
-        "prompt_expander_title": "Afficher les prompts",
-        "upload_heading": "Uploader un set",
-        "upload_warning": "⚠️ Max 30 questions & 5 Mo.",
-        "upload_info": "ℹ️ Ton ensemble est public. Les ensembles temporaires durent {hours} h (ou {days} jours s’il a été créé avec un pseudonyme réservé).",
-        "uploader_mode": "Comment ajouter ton set ?",
+        "tab_questionset": "1. Générer les questions",
+        "tab_learning_objectives": "2. Générer les objectifs",
+        "questionset_heading": "Étape 1 : Générer le jeu de questions",
+        "prompt_expander_title": "Prompt MC-Test",
+        "upload_heading": "Enregistrer le JSON",
+        "upload_warning": "⚠️ Max. 30 questions et 5 Mo.",
+        "upload_info": "Les jeux temporaires sont supprimés après {hours} heures ; avec un pseudonyme réservé, après {days} jours.",
+        "uploader_mode": "Comment veux-tu ajouter le JSON ?",
         "uploader_mode_upload": "📁 Uploader un fichier",
         "uploader_mode_paste": "📋 Coller le JSON",
         "uploader_label": "📁 Uploader fichier JSON",
-        "uploader_help": "Doit respecter le format. Max 30 questions, max 5 Mo.",
-        "upload_validate_button": "✅ Valider & Sauver",
+        "uploader_help": "Max. 30 questions, max. 5 Mo. Le JSON doit suivre le schéma MC-Test.",
+        "upload_validate_button": "✅ Enregistrer le JSON",
         "alternative_heading": "### Ou : Coller le JSON",
-        "alternative_caption": "Colle directement la réponse JSON de ton IA ici.",
+        "alternative_caption": "Colle uniquement le bloc de code JSON du LLM externe, sans explication avant ni après.",
         "text_area_label": "📋 Contenu JSON",
         "text_area_placeholder": "{\"meta\": {...}, \"questions\": [...]}",
         "clear_text_button": "🧹 Effacer le contenu",
@@ -594,89 +600,89 @@
         "status_unknown_error": "Erreur inconnue.",
         "status_error_hint": "Échec de l’enregistrement. Voir les détails.",
         "status_error_friendly_json": "Impossible de traiter le fichier. Vérifie la syntaxe JSON (structure, guillemets, virgules).",
-        "status_json_repair_hint": "Astuce : Copie le message d'erreur et donne-le à ton IA ; elle peut généralement réparer le JSON.",
+        "status_json_repair_hint": "Astuce : copie le message d’erreur dans ton LLM externe ; il peut généralement réparer le JSON.",
         "status_error_friendly_generic": "Enregistrement échoué. Vérifie ta saisie ou réessaie.",
         "status_error_title": "❌ Afficher les détails de l’erreur",
-        "lo_optional_info": "Optionnel : Téléverse les objectifs dans l’onglet « Lernziele » ou confirme que tu démarres sans.",
+        "lo_optional_info": "Optionnel : téléverse les objectifs dans l’onglet « Générer les objectifs » ou confirme que tu démarres sans.",
         "lo_skip_checkbox": "Démarrer sans objectifs d’apprentissage",
         "close_button": "Fermer",
-        "learning_objectives_heading": "Étape 2 : Définir les objectifs",
-        "learning_objectives_caption": "Laisse l'IA formuler des objectifs d'apprentissage adaptés. Téléverse en Markdown ou colle-les.",
-        "learning_objectives_hint_save_first": "Enregistre d’abord ton ensemble de questions, puis téléverse les objectifs.",
+        "learning_objectives_heading": "Étape 2 : Générer les objectifs",
+        "learning_objectives_caption": "Envoie le JSON enregistré avec le prompt des objectifs d’apprentissage à ton LLM externe. Enregistre ici le résultat Markdown.",
+        "learning_objectives_hint_save_first": "Enregistre d’abord ton jeu de questions, puis importe les objectifs.",
         "learning_objectives_mode": "Comment souhaites-tu ajouter les objectifs d’apprentissage ?",
         "learning_objectives_upload_label": "📁 Téléverser un fichier",
         "learning_objectives_paste_label": "📋 Coller le Markdown",
-        "learning_objectives_paste_caption": "Colle ici les objectifs d’apprentissage en Markdown.",
+        "learning_objectives_paste_caption": "Colle ici uniquement le bloc de code Markdown avec les objectifs d’apprentissage.",
         "learning_objectives_uploader": "📘 Téléverser les objectifs (Markdown)",
-        "learning_objectives_help": "Nous nommons automatiquement le fichier pour correspondre à ton ensemble.",
+        "learning_objectives_help": "Nous nommons automatiquement le fichier pour correspondre à ton jeu.",
         "learning_objectives_clear_button": "🧹 Effacer le contenu",
         "learning_objectives_save_button": "💾 Enregistrer les objectifs",
-        "learning_objectives_success": "Objectifs enregistrés sous {filename}. Ils apparaîtront via le bouton des objectifs pour ton ensemble.",
+        "learning_objectives_success": "Objectifs enregistrés sous {filename}. Ils apparaîtront via le bouton des objectifs pour ton jeu.",
         "learning_objectives_error": "Les objectifs n’ont pas pu être enregistrés : {error}",
-        "tab_postproduction": "3. Optimiser le set",
-        "tab_postproduction_lo": "4. Optimiser les objectifs",
-        "questionset_caption": "Crée ton set de questions avec l'aide de l'IA et enregistre-le en JSON. C'est la base.",
-        "questionset_next_step": "Étape suivante : créer les objectifs d’apprentissage dans l’onglet « Objectifs d’apprentissage ».",
+        "tab_postproduction": "3. Relire les questions",
+        "tab_postproduction_lo": "4. Relire les objectifs",
+        "questionset_caption": "Copie le prompt MC-Test dans ton LLM externe. Réponds-y aux questions, puis colle ou téléverse ici le JSON généré.",
+        "questionset_next_step": "Étape suivante : créer les objectifs d’apprentissage dans l’onglet « Générer les objectifs ».",
         "questionset_next_button": "➡️ Suivant : Étape 2",
         "learning_objectives_prompt_expander": "Afficher le prompt des objectifs d’apprentissage",
         "learning_objectives_prompt_load_failed": "{filename} n’a pas pu être chargé.",
-        "learning_objectives_original_set_download": "⬇️ Ensemble original pour l’IA (JSON)",
-        "learning_objectives_save_set_first": "Enregistre d’abord ton ensemble de questions dans l’onglet « Créer l’ensemble de questions ».",
+        "learning_objectives_original_set_download": "⬇️ Télécharger le JSON pour le LLM",
+        "learning_objectives_save_set_first": "Enregistre d’abord ton jeu de questions dans l’onglet « Générer les questions ».",
         "learning_objectives_start_button": "🚀 Démarrer le test",
         "learning_objectives_next_qa_button": "➡️ Suivant : Étape 3",
-        "postproduction_heading": "Étape 3 : Optimiser le set de questions",
-        "postproduction_caption": "Laisse l'IA vérifier et améliorer ton set de questions. Enregistre le résultat optimisé.",
-        "postproduction_prompt_expander": "Afficher le prompt QA (ensemble de questions)",
+        "postproduction_heading": "Étape 3 : Relire le jeu de questions",
+        "postproduction_caption": "Télécharge ton JSON enregistré, envoie-le avec le prompt de relecture au LLM externe, puis enregistre ici le JSON corrigé.",
+        "postproduction_prompt_expander": "Afficher le prompt de relecture (jeu de questions)",
         "postproduction_prompt_load_failed": "{filename} n’a pas pu être chargé.",
-        "postproduction_set_for_ai_caption": "Télécharge l’ensemble de questions et donne‑le à l’IA avec le prompt.",
-        "postproduction_set_for_ai_download": "⬇️ Ensemble pour l’IA (JSON)",
-        "postproduction_paste_caption": "Colle ici le JSON optimisé de l’IA et enregistre‑le.",
-        "postproduction_text_area_label": "📋 JSON optimisé",
+        "postproduction_set_for_ai_caption": "Utilise exactement ce JSON comme base de données dans le LLM externe.",
+        "postproduction_set_for_ai_download": "⬇️ Télécharger le JSON pour le LLM",
+        "postproduction_paste_caption": "Colle ici uniquement le bloc de code JSON corrigé.",
+        "postproduction_text_area_label": "📋 JSON relu",
         "postproduction_json_parse_warning": "Remarque : le JSON n’est pas encore valide ({error}).",
-        "postproduction_overwrite_warning": "Un ensemble temporaire intitulé « {title} » existe déjà. Le remplacer ?",
-        "postproduction_overwrite_confirm": "Remplacer l’ensemble existant",
+        "postproduction_overwrite_warning": "Un jeu temporaire intitulé « {title} » existe déjà. Le remplacer ?",
+        "postproduction_overwrite_confirm": "Remplacer le jeu existant",
         "postproduction_overwrite_required": "Merci de confirmer le remplacement avant d’enregistrer.",
-        "postproduction_save_button": "💾 Enregistrer l’ensemble optimisé",
+        "postproduction_save_button": "💾 Enregistrer le jeu relu",
         "postproduction_next_lo_button": "➡️ Suivant : Étape 4",
-        "postproduction_lo_heading": "Étape 4 : Optimiser les objectifs",
-        "postproduction_lo_caption": "Vérification finale : Aligner les objectifs d'apprentissage avec le set optimisé.",
-        "postproduction_lo_prompt_expander": "Afficher le prompt QA (objectifs d’apprentissage)",
+        "postproduction_lo_heading": "Étape 4 : Relire les objectifs",
+        "postproduction_lo_caption": "Envoie le JSON relu et les objectifs actuels avec le prompt de relecture des objectifs au LLM externe. Enregistre ici le Markdown corrigé.",
+        "postproduction_lo_prompt_expander": "Afficher le prompt de relecture (objectifs d’apprentissage)",
         "postproduction_lo_prompt_load_failed": "{filename} n’a pas pu être chargé.",
-        "postproduction_lo_inputs_caption": "Télécharge l’ensemble optimisé et les objectifs actuels, puis donne les deux à l’IA.",
-        "postproduction_lo_set_download": "⬇️ Ensemble optimisé pour l’IA (JSON)",
-        "postproduction_lo_download": "⬇️ Objectifs d’apprentissage pour l’IA (Markdown)",
-        "postproduction_lo_paste_caption": "Colle ici les objectifs optimisés en Markdown.",
-        "postproduction_lo_text_area_label": "📋 Objectifs d’apprentissage optimisés (Markdown)",
+        "postproduction_lo_inputs_caption": "Télécharge les deux fichiers et envoie-les au LLM externe avec le prompt.",
+        "postproduction_lo_set_download": "⬇️ Télécharger le JSON relu pour le LLM",
+        "postproduction_lo_download": "⬇️ Télécharger les objectifs pour le LLM",
+        "postproduction_lo_paste_caption": "Colle ici uniquement le bloc de code Markdown corrigé.",
+        "postproduction_lo_text_area_label": "📋 Objectifs d’apprentissage relus (Markdown)",
         "postproduction_lo_save_button": "💾 Enregistrer les objectifs d’apprentissage",
         "postproduction_lo_show_button": "👁️ Afficher les objectifs d’apprentissage",
         "postproduction_lo_hide_button": "🚫 Fermer l’affichage des objectifs d’apprentissage",
-        "postproduction_lo_not_found": "Aucun objectif d’apprentissage n’a encore été enregistré pour cet ensemble.",
-        "postproduction_lo_need_set": "Merci de terminer la QA de l’ensemble de questions dans l’onglet « QA de l’ensemble de questions ».",
+        "postproduction_lo_not_found": "Aucun objectif d’apprentissage n’a encore été enregistré pour ce jeu.",
+        "postproduction_lo_need_set": "Termine d’abord l’étape 3 « Relire les questions ».",
         "postproduction_lo_need_save": "Merci d’enregistrer les objectifs d’apprentissage avant de démarrer.",
-        "postproduction_lo_start_button": "🚀 Démarrer le test maintenant",
-        "intro_info": "En bref : **JSON** est le format pour les questions, **Markdown** pour les objectifs. **Optimiser** signifie révision qualité par l'IA.",
-        "ai_bias_explanation": "Pourquoi ce processus ? Les modèles d'IA sont entraînés pour être utiles. Cela conduit souvent à un « biais de longueur » (la bonne réponse est la plus longue) et à des objectifs d'apprentissage vagues. Les étapes QA 3 et 4 sont nécessaires pour générer des distracteurs équitables et aligner précisément les objectifs avec le set final.",
-        "questionset_save_success": "Ensemble de questions enregistré. Tu peux maintenant créer et importer les objectifs d’apprentissage dans l’onglet « Objectifs d’apprentissage ».",
-        "questionset_save_error": "Impossible d’enregistrer l’ensemble de questions : {error}",
-        "learning_objectives_save_success": "Objectifs d’apprentissage enregistrés. Tu peux maintenant démarrer le test ou continuer avec la QA de l’ensemble de questions.",
+        "postproduction_lo_start_button": "🚀 Démarrer le test",
+        "intro_info": "En bref : l’app ne génère pas le contenu elle-même. Utilise un LLM externe, copie le prompt et les données dans ce LLM, puis colle ici uniquement le JSON ou le Markdown.",
+        "ai_bias_explanation": "Pourquoi les étapes de relecture ? Les LLM produisent souvent des questions utiles mais inégales : la bonne réponse peut être plus longue, les distracteurs plus faibles et les objectifs trop vagues. Les étapes 3 et 4 rendent le jeu et les objectifs plus faciles à vérifier.",
+        "questionset_save_success": "Jeu de questions enregistré. Tu peux maintenant créer et importer les objectifs d’apprentissage dans l’onglet « Générer les objectifs ».",
+        "questionset_save_error": "Impossible d’enregistrer le jeu de questions : {error}",
+        "learning_objectives_save_success": "Objectifs d’apprentissage enregistrés. Tu peux maintenant démarrer le test ou continuer avec l’étape 3 « Relire les questions ».",
         "learning_objectives_save_error": "Impossible d’enregistrer les objectifs d’apprentissage : {error}",
-        "learning_objectives_set_loaded": "L'ensemble '{label}' est actif.",
-        "postproduction_save_success": "Ensemble optimisé enregistré. Si un ensemble existait déjà, il a été remplacé. Tu peux maintenant continuer avec la QA des objectifs d’apprentissage.",
-        "postproduction_save_error": "Impossible d’enregistrer l’ensemble optimisé : {error}",
-        "postproduction_lo_save_success": "Objectifs d’apprentissage optimisés enregistrés. Tu peux maintenant démarrer le test.",
-        "postproduction_lo_save_error": "Impossible d’enregistrer les objectifs d’apprentissage optimisés : {error}",
+        "learning_objectives_set_loaded": "Le jeu « {label} » est actif.",
+        "postproduction_save_success": "Jeu relu enregistré. Si un jeu existait déjà, il a été remplacé. Tu peux maintenant continuer avec l’étape 4 « Relire les objectifs ».",
+        "postproduction_save_error": "Impossible d’enregistrer le jeu relu : {error}",
+        "postproduction_lo_save_success": "Objectifs d’apprentissage relus enregistrés. Tu peux maintenant démarrer le test.",
+        "postproduction_lo_save_error": "Impossible d’enregistrer les objectifs d’apprentissage relus : {error}",
         "tab_selector_label": "Étape (1–4)",
         "tab_selector_hint": "Choisis l’étape (1–4) que tu veux traiter maintenant.",
         "questionset_start_without_lo_warning": "⚠️ Démarrer sans objectifs d’apprentissage — tu pourras les ajouter plus tard.",
         "questionset_start_without_lo_confirm": "OK, j’ai compris.",
         "questionset_start_without_lo_confirm_required": "Merci de confirmer que tu veux démarrer sans objectifs d’apprentissage.",
         "questionset_start_without_lo_button": "🚀 Démarrer le test",
-        "questionset_start_without_lo_hint": "Remarque : tu peux ajouter les objectifs d’apprentissage plus tard dans l’onglet « Définir les objectifs d’apprentissage »."
+        "questionset_start_without_lo_hint": "Remarque : tu peux ajouter les objectifs d’apprentissage plus tard dans l’onglet « Générer les objectifs »."
     },
     "user_qset": {
         "login_required": "Connecte-toi pour commencer.",
-        "not_found": "Set temporaire introuvable.",
-        "no_questions": "Ce set est vide.",
+        "not_found": "Jeu temporaire introuvable.",
+        "no_questions": "Ce jeu est vide.",
         "session_failed": "Échec lancement session."
     },
     "test_view": {
@@ -719,7 +725,7 @@
         "correct_label": "Correct :",
         "explanation_label": "Pourquoi :",
         "extended_button": "🧠 Explication détaillée",
-        "extended_panel": "Deep Dive",
+        "extended_panel": "Approfondissement",
         "feedback_thanks": "✔️ Merci, on regarde ça.",
         "feedback_popover": "Signaler un souci",
         "feedback_prompt": "**Qu'est-ce qui cloche ?**",
@@ -740,7 +746,8 @@
         "countdown": {
             "warning_seconds": "⚠️ C'est bientôt fini !",
             "warning_minutes": "⚠️ Plus que {minutes_text} !",
-            "cooldown_remaining": "(encore {seconds}s)"
+            "cooldown_remaining": "(encore {seconds}s)",
+            "panic_mode_live": "⚡ Mode urgence actif : les délais sont ignorés à la prochaine action."
         },
         "pacing": {
             "ahead": "En avance",
@@ -766,7 +773,7 @@
         "panic_mode_active": "⚡ **Mode Panique :** Délais désactivés en raison du manque de temps.",
         "panic_mode_skipped": "⚡ **Mode Panique :** Temps d'attente ignoré.",
         "pseudonym_welcome": "**Salut {user} !** Retiens bien ton pseudo exact.",
-        "question_set_change_warning": "⚠️ Changement de set, je redémarre...",
+        "question_set_change_warning": "⚠️ Changement de jeu, redémarrage...",
         "feedback_option": {
             "content_error": "Erreur de contenu",
             "typo": "Coquille / Grammaire",
@@ -813,7 +820,7 @@
         },
         "zuspruch": {
             "learn_from_it": "Presque – apprends de ça.",
-            "mistakes_are_learning": "L'erreur fait progresser. Go !",
+            "mistakes_are_learning": "L’erreur fait progresser. Continue !",
             "close_analyze": "Pas loin – analyse et continue.",
             "ok_next": "C'est rien. La prochaine.",
             "reset_focus": "T'inquiète. Refocus.",
@@ -827,7 +834,7 @@
             "mistakes_grow": "Erreur = progrès. Avance.",
             "missed_but_persist": "Raté – mais tu lâches rien.",
             "stay_calm": "Calme. La suite arrive.",
-            "score_strong": "Score solide – une erreur c'est rien.",
+            "score_strong": "Résultat solide : une erreur ne pèse pas lourd.",
             "keep_rate_high": "Bon rythme – t'énerve pas.",
             "overall_performance": "Belle perf globale – continue."
         },
@@ -835,7 +842,7 @@
             "almost_done": "Dernière question ! Courage.",
             "nearly_goal": "Presque au but ! Plus qu'une.",
             "final_question": "La finale ! Reste focus.",
-            "final_sprint": "Sprint final ! Go.",
+            "final_sprint": "Sprint final ! Continue.",
             "one_more": "Plus qu'une et c'est bon !",
             "finish_in_sight": "Dernier effort ! L'arrivée est là.",
             "focus_once_more": "Presque fini ! Un dernier focus.",
@@ -864,17 +871,17 @@
         "cognitive_stage": "Niveau cognitif",
         "topic": "Sujet",
         "concept": "Concept",
-        "question_set": "Set",
+        "question_set": "Jeu",
         "difficulty": "Difficulté",
-        "questionset_title": "Ensemble"
+        "questionset_title": "Jeu"
     },
     "export": {
         "musterloesung": "Solution type",
-        "bloom_table": "Perf (Niveau cognitif)"
+        "bloom_table": "Performance (niveau cognitif)"
     },
     "actions": {
         "run_export": "Lancer export",
-        "reset": "Reset",
+        "reset": "Réinitialiser",
         "download": "Télécharger"
     },
     "locales": {
@@ -895,7 +902,7 @@
         "markdown_dependency": "'markdown-it-py' requis pour l'aperçu.",
         "streamlit_component_missing": "Composant Streamlit manquant.",
         "session_saved": {
-            "leaderboard": "🎉 Bravo {user} ! Tu entres au classement (Score : {score}) !",
+            "leaderboard": "🎉 Bravo {user} ! Tu entres au classement (résultat : {score}) !",
             "saved_not_on_leaderboard": "Résultat pour \"{user}\" sauvé, mais hors classement car {reason}.",
             "reason_zero_score": "0 point ne compte pas",
             "reason_too_short": "Trop rapide. Minimum : {min_duration} min (Conseillé : {recommended_minutes} min)",
@@ -907,7 +914,7 @@
         "anki_preview": "Aperçu Anki"
     },
     "anki": {
-        "fragenset": "Set",
+        "fragenset": "Jeu",
         "thema": "Sujet",
         "schwierigkeit": "Difficulté",
         "konzept": "Concept",
@@ -931,7 +938,7 @@
             "medium": "Moyen",
             "hard": "Difficile"
         },
-        "stage_section_title": "Perf (Niveau cognitif)",
+        "stage_section_title": "Performance (niveau cognitif)",
         "stage_table": {
             "header": {
                 "stage": "Niveau",
@@ -962,7 +969,7 @@
         },
         "question_header": "Question {current} / {total}",
         "bookmarks_title": "Questions marquées",
-        "questionset_number": "(Set n° {n})",
+        "questionset_number": "(Jeu n° {n})",
         "stage_label": "Niveau : {stage}",
         "detailed_explanation": {
             "title": "Titre",
@@ -975,9 +982,9 @@
             "participant": "Participant :",
             "test_date": "Date :",
             "duration": "Durée :",
-            "questionset": "Set :",
+            "questionset": "Jeu :",
             "generated_at": "Généré le :",
-            "tempo": "Tempo :",
+            "tempo": "Rythme :",
             "allowed": "Max :",
             "topic": "Sujet"
         },
@@ -990,7 +997,7 @@
         "glossary": {
             "title": "Mini-Glossaire",
             "intro": "Termes clés, par sujet",
-            "alt_intro": "Termes clés du set"
+            "alt_intro": "Termes clés du jeu"
         },
         "musterloesung": {
             "title": "Solution type"
@@ -1007,7 +1014,7 @@
             "title": "À améliorer",
             "multiple": "Questions {list}"
         },
-        "difficulty_section_title": "Perf par difficulté",
+        "difficulty_section_title": "Performance par difficulté",
         "difficulty_table": {
             "header": {
                 "difficulty": "Difficulté",
@@ -1049,14 +1056,14 @@
             "caption": "Part par sujet (100 % = toutes les questions du sujet)",
             "title": "Performance par sujet"
         },
-        "unnamed_set": "Set sans nom"
+        "unnamed_set": "Jeu sans nom"
     },
     "mini_glossary": {
         "title": "Termes : \"{name}\"",
         "empty_error": "Pas de glossaire.",
         "expander_label": "Rechercher des termes"
     },
-    "unnamed_set": "Set sans nom",
+    "unnamed_set": "Jeu sans nom",
     "summary": {
         "prefix": {
             "manual_end": "⚠️ Interrompu — "
@@ -1070,7 +1077,7 @@
             "time_expired": "Temps dépassé. Autorisé ({tempo_label}) : {allowed_min} min",
             "early_finish": "Fini {early_delta} min en avance. Durée : {duration_display}. Max ({tempo_label}) : {allowed_min} min"
         },
-        "metric_caption": "Score Final",
+        "metric_caption": "Résultat final",
         "score_display": "{current} / {max} points",
         "max_streak_display": "Meilleure série : {count} réponses correctes consécutives",
         "subheader": {
@@ -1099,7 +1106,7 @@
         "performance_chart": {
             "label": "{topic} ({answered}/{total})",
             "xaxis": "Sujet (répondu/total)",
-            "yaxis": "Perf (%)",
+            "yaxis": "Performance (%)",
             "legend": {
                 "correct": "Juste",
                 "wrong": "Faux",
@@ -1107,7 +1114,7 @@
             },
             "hover": {
                 "topic": "Sujet",
-                "performance": "Perf",
+                "performance": "Performance",
                 "correct_total": "Juste / Total",
                 "wrong": "Faux",
                 "answered": "Répondu",
@@ -1121,7 +1128,7 @@
             "name": "Niveaux Cognitifs (Bloom)",
             "header": "Tes Processus de Pensée en un Coup d'Œil",
             "hover": {
-                "performance": "Perf",
+                "performance": "Performance",
                 "achieved": "Points",
                 "questions": "Questions"
             },
@@ -1141,9 +1148,9 @@
         "review_export_arsnova": "ars nova",
         "export_header": "📦 Exporter pour apprendre & documenter",
         "export_intro": "Choisis ce que tu veux emporter : apprentissage, cours ou preuve.",
-        "export_admin_select_label": "Set d'export :",
-        "export_admin_current_set": "Set actif : **{set_name}**",
-        "export_admin_no_sets": "Aucun autre set.",
+        "export_admin_select_label": "Jeu à exporter :",
+        "export_admin_current_set": "Jeu actif : **{set_name}**",
+        "export_admin_no_sets": "Aucun autre jeu.",
         "export_anki_expander": "🧠 Cartes Anki (révision)",
         "export_anki_description": "Deck Anki prêt à l’emploi pour s’entraîner chaque jour. Import direct dans Anki.",
         "export_anki_caption": "Inclut mise en page, styles et tags. TSV pour import CSV.",
@@ -1167,14 +1174,14 @@
         "export_arsnova_generation_error": "Erreur Export : {error}",
         "export_arsnova_option_too_long": "{label} : Réponse {index} dépasse {max} caractères (actuel {length}).",
         "export_user_qset_expander": "🧩 Sauvegarder les fichiers temporaires (JSON & objectifs)",
-        "export_user_qset_description": "Sauvegarde les fichiers temporaires (JSON du set et Markdown des objectifs) avant leur suppression automatique.",
-        "export_user_qset_retention": "Remarque : les sets temporaires sont supprimés après {hours} heures. Avec un pseudonyme réservé, ils sont conservés jusqu’à {days} jours. Après suppression, les fichiers ne sont plus accessibles.",
+        "export_user_qset_description": "Sauvegarde les fichiers temporaires (JSON du jeu et Markdown des objectifs) avant leur suppression automatique.",
+        "export_user_qset_retention": "Remarque : les jeux temporaires sont supprimés après {hours} heures. Avec un pseudonyme réservé, ils sont conservés jusqu’à {days} jours. Après suppression, les fichiers ne sont plus accessibles.",
         "export_user_qset_source_hint": "Tant que les fichiers existent, tu peux les réimporter plus tard.",
         "export_user_qset_lo_description": "Si disponible, télécharge les objectifs d’apprentissage au format Markdown.",
         "export_user_qset_lo_not_found": "Fichier des objectifs d’apprentissage introuvable.",
         "export_user_qset_lo_error": "Erreur lors du chargement des objectifs d’apprentissage : {error}",
         "export_user_qset_lo_download_label": "💾 Télécharger les objectifs d’apprentissage (Markdown)",
-        "export_user_qset_lo_missing": "Aucun objectif d’apprentissage n’a encore été enregistré pour ce set.",
+        "export_user_qset_lo_missing": "Aucun objectif d’apprentissage n’a encore été enregistré pour ce jeu.",
         "export_user_qset_lo_prompt_warning": "Un fichier de prompt a été trouvé, mais pas d’objectifs d’apprentissage. Enregistre d’abord les objectifs d’apprentissage.",
         "export_user_qset_not_found": "Fichier source introuvable.",
         "export_user_qset_error": "Erreur lors du chargement du fichier source : {error}",
@@ -1275,16 +1282,16 @@
     "welcome": {
         "splash": {
             "title": "🎓 MC-Test App",
-            "button": "🚀 Go",
-            "choose_set": "📂 Choisir un set",
-            "create_ai": "Créer un set avec l’IA"
+            "button": "🚀 Commencer",
+            "choose_set": "📂 Choisir un jeu",
+            "create_ai": "Créer un jeu avec un LLM externe"
         },
         "cleanup": {
-            "toast": "{removed} sets temporaires nettoyés.",
-            "info": "Suppression de {removed} sets temporaires."
+            "toast": "{removed} jeux temporaires nettoyés.",
+            "info": "Suppression de {removed} jeux temporaires."
         },
         "errors": {
-            "no_sets": "Aucun set (ex: `questions_Data.json`) trouvé."
+            "no_sets": "Aucun jeu (ex. `questions_Data.json`) trouvé."
         },
         "info": {
             "ensure_files": "Vérifie les fichiers JSON dans le dossier."
@@ -1293,32 +1300,32 @@
             "session_expired": "⚠️ Session expirée. Recharge ou relance."
         },
         "select": {
-            "label": "Choisis un set :",
+            "label": "Choisis un jeu :",
             "placeholder": "🗂️ Choisir...",
             "count_one": "{n} question",
             "count_many": "{n} questions",
-            "sets_one": "{n} set",
-            "sets_many": "{n} sets",
+            "sets_one": "{n} jeu",
+            "sets_many": "{n} jeux",
             "label_with_counts": "{base} ({sets}, {questions})",
-            "start_button": "Start"
+            "start_button": "Démarrer"
         },
-        "create_own_set": "🧠 Créer ton propre set de questions",
-        "create_own_set_hint": "Choisis seulement ton pseudo ; ensuite, téléverse ou colle le JSON.",
-        "empty_state": "Aucun set actif. Choisis un set existant ou crée le tien.",
-        "empty_state_select": "📂 Choisir un set existant",
+        "create_own_set": "🧠 Créer ton propre jeu de questions",
+        "create_own_set_hint": "Choisis ton pseudo ; ensuite, téléverse ou colle le JSON de ton LLM externe.",
+        "empty_state": "Aucun jeu actif. Choisis un jeu existant ou crée le tien.",
+        "empty_state_select": "📂 Choisir un jeu existant",
         "search": {
             "label": "🔎 Recherche rapide (titre/slug)",
             "placeholder": "ex. \"maths\" ou \"scrum\"",
-            "no_results": "Aucun résultat pour \"{term}\" – tous les sets sont affichés.",
+            "no_results": "Aucun résultat pour \"{term}\" – tous les jeux sont affichés.",
             "too_short": "Merci d’entrer au moins 3 caractères pour chercher."
         },
         "languages_available": "Langues disponibles : {languages}",
         "section": {
-            "header": "🗂️ Choix du Set"
+            "header": "🗂️ Choix du jeu"
         },
         "distribution": {
             "expander": "⚖️ Sujets & Niveaux Cognitifs",
-            "warning": "⚠️ Set vide ou cassé.",
+            "warning": "⚠️ Jeu vide ou endommagé.",
             "summary": {
                 "test_time": "⏱️ Temps : {minutes} min",
                 "cognition": "🧠 Niveaux : {summary}",
@@ -1343,15 +1350,15 @@
                 "pseudonym": "👤 Pseudo",
                 "date": "📅 Date",
                 "duration": "⏱️ Temps",
-                "score": "Score"
+                "score": "Résultat"
             },
             "refreshing": "Chargement...",
             "updated": "Mis à jour",
             "last_updated": "Au : {ts}",
-            "refresh_button": "Refresh",
-            "refresh_failed": "Échec maj",
-            "tempo_label": "Tempo",
-            "tempo_help": "Filtre Classement",
+            "refresh_button": "Actualiser",
+            "refresh_failed": "Échec de l’actualisation",
+            "tempo_label": "Rythme",
+            "tempo_help": "Filtre du classement",
             "tempo_all": "Tous",
             "hidden_runs_fallback": "{count} tentatives cachées : trop courtes (<{min_duration_seconds} s) ou score minimal non atteint.",
             "no_date": "inconnu"
@@ -1359,8 +1366,8 @@
         "pseudonym": {
             "heading": "👤 Ton Pseudo",
             "dialog_intro": "Choisis un pseudo libre. Tu peux optionnellement définir un secret de connexion pour le réserver.",
-            "dialog_start": "Start",
-            "no_available": "⚠️ Plus de pseudos. Vois avec l'Admin.",
+            "dialog_start": "Démarrer",
+            "no_available": "⚠️ Plus de pseudos disponibles. Demande à l’admin.",
             "select_label": "Ton pseudo :",
             "select_placeholder": "👤 Sélectionner...",
             "count_one": "{n} libre",
@@ -1371,7 +1378,7 @@
             "reservation_placeholder": "Mon 🔒 Secret...",
             "secret_too_short": "🔒 Secret trop court (min {min_len}).",
             "reserve_button": "Réserver & Lancer",
-            "reserve_success": "Réservé ! Choisis un set.",
+            "reserve_success": "Réservé ! Choisis un jeu.",
             "reserve_success_message": "",
             "reserve_error": "Erreur sauvegarde.",
             "reserve_error_with_reason": "Erreur résa : {error}",
@@ -1380,16 +1387,16 @@
             "recover_expander": "J'en ai un...",
             "recover_pseudonym": "👤 Pseudo",
             "recover_secret": "🔒 Secret",
-            "recover_missing": "Remplis les deux svp.",
+            "recover_missing": "Remplis les deux champs.",
             "recover_button": "Lancer",
             "recover_locked": "Bloqué jusqu'à {locked_until}",
             "recover_success": "Restauré ! Lancement...",
             "recover_failure": "Mauvaise combi.",
-            "database_error": "Erreur BDD : Session impossible.",
+            "database_error": "Erreur de base de données : démarrage impossible.",
             "test_button": "Lancer le test",
-            "dialog_start_choose_set": "Continuer vers le choix du set",
+            "dialog_start_choose_set": "Continuer vers le choix du jeu",
             "admin_no_secret": "Ce pseudonyme ne peut pas avoir de secret.",
-            "question_required": "Choisis un set d'abord."
+            "question_required": "Choisis d’abord un jeu."
         },
         "tempo": {
             "label": "Ton rythme :",
@@ -1418,7 +1425,7 @@
             "exam": "🏆 Démarrer le Test",
             "practice": "🧘 Démarrer l'Exercice"
         },
-        "test_intro": "Choisis un set et lance-toi quand tu es prêt.",
+        "test_intro": "Choisis un jeu et démarre quand tu es prêt.",
         "mode": {
             "label": "Mode :",
             "exam": "🏆 Mode Examen (Minuteur, Classement)",
@@ -1442,7 +1449,7 @@
             "load_failed": "Chargement de la configuration impossible.",
             "scientists_load_failed": "Impossible de charger la liste des scientifiques.",
             "scientists_not_found": "Liste des scientifiques introuvable.",
-            "temp_set_removed": "Set temporaire supprimé."
+            "temp_set_removed": "Jeu temporaire supprimé."
         },
         "warning": {
             "html_sanitized": "Contenu HTML nettoyé.",
@@ -1450,7 +1457,7 @@
             "question_skipped": "Une question a été ignorée à cause derreurs."
         }
     },
-    "glossary_no_entries": "Aucun glossaire disponible pour ce set.",
+    "glossary_no_entries": "Aucun glossaire disponible pour ce jeu.",
     "performance_chart": {
         "legend": {
             "correct": "Correct",
@@ -1506,15 +1513,15 @@
         }
     },
     "database": {
-        "overloaded": "The database is currently heavily loaded. Please try again later."
+        "overloaded": "La base de données est très sollicitée en ce moment. Réessaie plus tard."
     },
     "validate_sets": {
         "errors": {
-            "invalid_json": "Invalid JSON: {error}",
-            "could_not_read": "Could not read file: {error}"
+            "invalid_json": "JSON non valide : {error}",
+            "could_not_read": "Impossible de lire le fichier : {error}"
         },
         "warnings": {
-            "missing_top_level_keys": "Top-level keys \"meta\" and \"questions\" must exist; further checks skipped for this file."
+            "missing_top_level_keys": "Les clés principales \"meta\" et \"questions\" doivent exister ; les autres contrôles sont ignorés pour ce fichier."
         }
     }
 }

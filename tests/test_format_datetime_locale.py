@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+import warnings
 
 import pandas as pd
 
@@ -24,6 +25,22 @@ def test_series_formats_and_converts_timezone():
     formatted = format_datetime_locale(series, fmt=FMT_DATETIME, locale="de")
     # UTC noon should become 13:00 in Europe/Berlin (winter time)
     assert formatted.iloc[0] == "02.01.2024 13:00"
+
+
+def test_series_iso_strings_do_not_warn_with_dayfirst_locale():
+    series = pd.Series(["2026-06-12T08:43:30+0000"])
+
+    with warnings.catch_warnings(record=True) as caught:
+        warnings.simplefilter("always")
+        formatted = format_datetime_locale(series, fmt=FMT_DATETIME, locale="de")
+
+    assert formatted.iloc[0] == "12.06.2026 10:43"
+    assert not [
+        warning
+        for warning in caught
+        if "dayfirst=True" in str(warning.message)
+        and "Parsing dates in %Y-%m-%dT%H:%M:%S%z format" in str(warning.message)
+    ]
 
 
 def test_unknown_locale_falls_back_to_en_format():

@@ -288,6 +288,18 @@ def test_answer_option_selected_marker_does_not_reuse_letter_circle(monkeypatch)
     assert "<span class='mc-answer-option-selected-text'>(ausgewählt)</span>" in rendered
 
 
+def test_compact_question_styles_do_not_shift_button_labels(monkeypatch):
+    fake_st = _FakeStreamlit()
+    monkeypatch.setattr(mv, "st", fake_st)
+
+    mv._inject_question_view_compact_styles()
+
+    rendered = "\n".join(fake_st.markdown_calls)
+    assert '.stMainBlockContainer div[data-testid="stMarkdownContainer"] p' in rendered
+    assert '.stMainBlockContainer button div[data-testid="stMarkdownContainer"] p' in rendered
+    assert "line-height: inherit;" in rendered
+
+
 def test_render_question_view_keeps_block_markdown_in_question_and_options(monkeypatch):
     fake_st = _FakeStreamlit()
     monkeypatch.setattr(mv, "st", fake_st)

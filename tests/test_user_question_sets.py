@@ -68,3 +68,12 @@ def test_is_owner_of_user_qset(mock_package_dir):
     # Fall 4: Set nicht gefunden
     with patch("user_question_sets.get_user_question_set", return_value=None):
         assert user_question_sets.is_owner_of_user_qset("user::test.json", "owner", "hash") is False
+
+
+def test_prompt_resources_use_single_mc_test_generation_prompt():
+    prompts = user_question_sets.PROMPT_FILES
+    legacy_click_name = "arsnova" + ".click"
+
+    assert ("MC-Test-Prompt", "prompts/KI_PROMPT.md") in prompts
+    assert all("ARSNOVA_CLICK" not in filename for _, filename in prompts)
+    assert all(legacy_click_name not in title.lower() for title, _ in prompts)

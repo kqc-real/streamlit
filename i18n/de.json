@@ -1,5 +1,8 @@
 {
     "app": {
+        "title": "MC-Test-App",
+        "subtitle": "Tests verwalten und auswerten",
+        "dialog_multiple_warning": "Nur ein Dialog gleichzeitig erlaubt. Bitte schließe offene Dialoge und versuche es erneut.",
         "warning": {
             "locale_not_found": "Kein passendes Locale für korrekte Sortierung gefunden. Umlaute werden evtl. falsch sortiert."
         },
@@ -35,7 +38,7 @@
         "language_selector_label": "Wähle deine Sprache",
         "pseudonym_locale_assignment": "Diese Einstellung wird an dein Pseudonym geknüpft.",
         "greeting": "👋 **{user}**",
-        "temp_set_notice": "Temporäres Set aktiv.",
+        "temp_set_notice": "Temporäres Fragenset aktiv.",
         "reserved_pseudonym": "Pseudonym ist für dich reserviert.",
         "pseudonym_reserved": "Dein reserviertes Pseudonym.",
         "pseudonym_info": "👤 Infos zum Pseudonym",
@@ -43,34 +46,34 @@
             "caption_default": "🗂️ Temporäre Fragensets werden nach {hours} Stunden automatisch gelöscht.",
             "caption_reserved": "Mit einem reservierten Pseudonym werden deine temporären 🗂️ Fragensets {days} Tage lang aufbewahrt."
         },
-        "history_button": "Meine Sessions",
-        "history_expander": "📚 Meine Sessions",
+        "history_button": "Meine Testläufe",
+        "history_expander": "📚 Meine Testläufe",
         "history_empty": "Noch keine Ergebnisse vorhanden.",
         "history_error": "Konnte Historie nicht laden.",
         "history_load_error": "Laden der Historie fehlgeschlagen.",
         "history_showing": "Zeige {shown} von {total}.",
         "history_csv_download": "CSV laden",
         "history_csv_unavailable": "CSV-Export inaktiv.",
-        "history_dialog_title": "Meine Sessions",
-        "history_header": "Deine bisherigen Sessions",
-        "history_unnamed_set": "Unbenanntes Set",
-        "history_start_button": "Start",
-        "history_delete_notice": "Sessions gelöscht. Aktualisiere die Ansicht.",
+        "history_dialog_title": "Meine Testläufe",
+        "history_header": "Deine bisherigen Testläufe",
+        "history_unnamed_set": "Unbenanntes Fragenset",
+        "history_start_button": "Starten",
+        "history_delete_notice": "Testläufe gelöscht. Aktualisiere die Ansicht.",
         "history_delete_all_button": "🗑️ Alles löschen",
-        "history_delete_all_warning": "Achtung: Löscht alle deine Sessions inkl. Antworten & Feedback unwiderruflich.",
+        "history_delete_all_warning": "Achtung: Löscht alle deine Testläufe inklusive Antworten und Feedback unwiderruflich.",
         "history_delete_confirm_button": "Ja, löschen",
         "history_delete_failed": "Löschen fehlgeschlagen.",
         "history_delete_cancel_button": "Abbrechen",
         "history_columns": {
             "date": "Datum",
-            "question_set": "Set",
+            "question_set": "Fragenset",
             "actions": "Aktionen",
-            "points": "Score (%)",
+            "points": "Ergebnis (%)",
             "duration": "Zeit",
             "tempo": "Modus"
         },
-        "current_set": "Set: <strong>{name}</strong>",
-        "current_set_marker": "Set: {marker} <strong>{name}</strong>",
+        "current_set": "Fragenset: <strong>{name}</strong>",
+        "current_set_marker": "Fragenset: {marker} <strong>{name}</strong>",
         "glossary_download": "💾 Glossar laden",
         "glossary_cooldown": "Glossar-Export läuft. Geduld ({wait} s).",
         "glossary_generate_button": "📄 Glossar erstellen",
@@ -78,7 +81,7 @@
         "glossary_spinner_with_formulas": "Erstelle PDF – rendere {count} Formeln (kann etwas dauern).",
         "glossary_render_count": "Rendere ca. {count} Formeln. Geduld, das dauert kurz.",
         "glossary_success": "Glossar fertig!",
-        "glossary_no_entries": "Kein Mini-Glossar für dieses Set verfügbar.",
+        "glossary_no_entries": "Kein Mini-Glossar für dieses Fragenset verfügbar.",
         "glossary_error": "PDF-Fehler: {error}",
         "progress_line": "⏳ Status: {status}",
         "progress": {
@@ -88,31 +91,31 @@
         },
         "test_end": "Test beenden",
         "score": {
-            "heading": "🎯 Dein Score"
+            "heading": "🎯 Dein Ergebnis"
         },
         "review_back": "⬅️ Zurück zum Review",
-        "create_user_qset": "Fragenset mit KI bauen",
-        "user_qset_dialog_warning": "Mach erst den offenen Dialog zu, bevor du ein neues Set baust.",
-        "user_qset_deleted": "Set wurde vom Ersteller entfernt. Bitte neu laden und anderes Set wählen.",
-        "user_qset_preserved": "Deine Sets sind sicher, da dein Pseudonym reserviert ist.",
-        "session_expander": "⚠️ Session beenden",
-        "session_reserved_info": "Beim Beenden bleibt das Set **{set_name}** erhalten ({days} Tage gespeichert).",
-        "session_choose_new": "Wähl ein neues Pseudonym für den nächsten Versuch.",
-        "session_keep_warning": "⚠️ Score wird gespeichert & Test beendet.",
-        "session_end_button": "Session beenden",
+        "create_user_qset": "Fragenset mit externem LLM",
+        "user_qset_dialog_warning": "Schließe zuerst den offenen Dialog, bevor du ein neues Fragenset erstellst.",
+        "user_qset_deleted": "Das Fragenset wurde vom Ersteller entfernt. Bitte lade neu und wähle ein anderes Fragenset.",
+        "user_qset_preserved": "Deine Fragensets bleiben erhalten, weil dein Pseudonym reserviert ist.",
+        "session_expander": "⚠️ Testlauf beenden",
+        "session_reserved_info": "Beim Beenden bleibt das Fragenset **{set_name}** erhalten ({days} Tage gespeichert).",
+        "session_choose_new": "Wähle ein neues Pseudonym für den nächsten Versuch.",
+        "session_keep_warning": "⚠️ Ergebnis wird gespeichert und der Test beendet.",
+        "session_end_button": "Testlauf beenden",
         "admin_remote_warning": "🔒 Admin-Zugang nur via localhost.",
         "admin_remote_warning_ip": "\n\nDeine IP: `{ip}`",
         "admin_mode_info": "Admin-Modus aktiv.",
         "admin_solution_download": "💾 Musterlösung laden",
-        "admin_solution_generate": "📄 Musterlösung (PDF) bauen",
+        "admin_solution_generate": "📄 Musterlösung (PDF) erstellen",
         "admin_solution_spinner": "Generiere Musterlösung-PDF...",
         "admin_solution_error": "Fehler beim Erzeugen der Musterlösung: {error}",
         "admin_solution_success": "Musterlösung fertig!",
         "admin_back_to_test": "⬅️ Zurück zum Test",
         "close_expander_button": "Schließen",
-        "admin_key_missing": "⚠️ **Kein Admin-Key!**\n\nNur für Dev-Umgebung. Setze `MC_TEST_ADMIN_KEY` für Prod.",
+        "admin_key_missing": "⚠️ **Kein Admin-Key!**\n\nNur für die Entwicklungsumgebung. Setze `MC_TEST_ADMIN_KEY` für Produktion.",
         "admin_open_panel": "📊 Admin-Panel (UNSICHER)",
-        "admin_expander": "🔓 Admin Panel",
+        "admin_expander": "🔓 Admin-Panel",
         "admin_key_label": "Admin-Key",
         "admin_activate_button": "Aktivieren",
         "admin_locked": "⛔ Zu viele Versuche! Sperre bis: {locked_until}",
@@ -133,17 +136,17 @@
             "label": "Tempo-Modus",
             "options": {
                 "normal": "Normal",
-                "speed": "Speed (1/2 Zeit)",
-                "power": "Power (1/4 Zeit)"
+                "speed": "Schnell (1/2 Zeit)",
+                "power": "Intensiv (1/4 Zeit)"
             }
         },
         "history_show_all": "Alle anzeigen",
         "history_show_less": "Weniger anzeigen",
         "history_show_more": "Mehr anzeigen",
         "about_expander": "ℹ️ Über MC-Test",
-        "about_paper_button": "📄 Paper (EDULEARN26)",
-        "about_project_text": "Ein Forschungsprojekt zur formativen MC-Übung.",
-        "about_paper_blocked": "Schließe zuerst den offenen Dialog, um das Paper zu öffnen.",
+        "about_paper_button": "📄 Artikel (EDULEARN26)",
+        "about_project_text": "MC-Test ist eine Open-Source-Plattform für formative Multiple-Choice-Übung.\n\nSie verbindet schema-gebundene LLM-Itemgenerierung, Bloom-1-3-Metadaten, Lernenden-Dashboards, Feedback mit Mini-Glossaren und konfigurierbares Pacing inklusive Time-Critical Override (Panikmodus).\n\nDas EDULEARN26-Paper beschreibt die lokale Ollama-Migration und eine erste SUS-Usability-Erhebung (N=20, M=70,38).",
+        "about_paper_blocked": "Schließe zuerst den offenen Dialog, um den Artikel zu öffnen.",
         "user_qset_delete_expander": "🗑️ Temporäres Fragenset löschen",
         "user_qset_delete_warning": "Löscht dein temporäres Fragenset und die zugehörigen Lernziele. Dies kann nicht rückgängig gemacht werden.",
         "user_qset_delete_confirm": "Ich verstehe: Das temporäre Fragenset wird endgültig gelöscht.",
@@ -365,7 +368,7 @@
             "columns": {
                 "date": "Datum",
                 "set": "Set",
-                "score": "Score",
+                "score": "Ergebnis",
                 "duration": "Dauer"
             }
         },
@@ -434,7 +437,7 @@
             },
             "tempo": {
                 "label": "Tempo",
-                "help": "Ranking nach Tempo filtern",
+                "help": "Bestenliste nach Tempo filtern",
                 "select_user": "Wähle einen Benutzer:",
                 "admin_key_confirm": "Admin-Key zur Bestätigung:",
                 "admin_key_help": "Zur Sicherheit muss der Admin-Key erneut eingegeben werden.",
@@ -443,15 +446,15 @@
                 "options": {
                     "all": "Alle",
                     "normal": "Normal",
-                    "speed": "Speed (1/2 Zeit)",
-                    "power": "Power (1/4 Zeit)"
+                    "speed": "Schnell (1/2 Zeit)",
+                    "power": "Intensiv (1/4 Zeit)"
                 }
             },
             "admin_key_help": "Zur Sicherheit muss der Admin-Key erneut eingegeben werden."
         },
         "messages": {
             "no_answers_recorded": "Noch keine Antworten aufgezeichnet.",
-            "no_results_for_set": "Für dieses Set liegen keine Ergebnisse vor.",
+            "no_results_for_set": "Für dieses Fragenset liegen keine Ergebnisse vor.",
             "no_answers_for_analysis": "Noch keine Antworten für eine Analyse vorhanden.",
             "no_answers_for_questionset": "Keine Antworten für dieses Fragenset vorhanden.",
             "min_participants_required": "Für die Berechnung der Trennschärfe sind mindestens 2 Teilnehmer erforderlich.",
@@ -482,7 +485,7 @@
             "generate_logins_failed": "Es konnten keine Logins erzeugt werden. Bitte prüfe die Auswahl.",
             "generate_logins_success": "{count} Login(s) erstellt und reserviert.",
             "expanders": {
-                "reset_user_results": "Benutzerergebnisse für dieses Set zurücksetzen",
+                "reset_user_results": "Benutzerergebnisse für dieses Fragenset zurücksetzen",
                 "metrics_glossary": "Glossar der Metriken",
                 "delete_multiple_reports": "🔴 Gefahrenzone: Mehrere Meldungen löschen",
                 "delete_single_pseudonym": "🧹 Einzelnes reserviertes Pseudonym löschen",
@@ -563,9 +566,9 @@
         "editor_error": "Bearbeitungsfehler: {e}"
     },
     "dialog": {
-        "title": "✨ Fragenset mit KI erstellen",
-        "intro": "Dieser Dialog führt dich in vier Schritten zum Ziel:\n1) **Fragenset erstellen**: Prompt nutzen, JSON erzeugen und speichern.\n2) **Lernziele definieren**: Prompt nutzen, Lernziele ableiten und speichern.\n3) **Fragenset optimieren**: KI-Qualitätscheck für deine Fragen.\n4) **Lernziele optimieren**: Feinabstimmung der Lernziele auf das finale Set.",
-        "prompt_guide": "Wenn du nur in dieser App MC‑Tests durchführen willst, nutze den **Anki‑Prompt**. Er passt zum JSON‑Format der App. Den arsnova‑Prompt brauchst du nur für Exporte nach arsnova.eu.",
+        "title": "✨ Fragenset mit externem LLM erstellen",
+        "intro": "Dieser Dialog führt dich mit einem externen LLM (z. B. ChatGPT, Claude oder Gemini) durch vier Schritte:\n1) **Fragenset erzeugen**: Prompt kopieren, im LLM beantworten lassen, JSON hier speichern.\n2) **Lernziele erzeugen**: gespeichertes JSON mit dem Lernziele-Prompt an das LLM geben, Markdown hier speichern.\n3) **Fragenset prüfen**: JSON mit dem Prüf-Prompt verbessern und erneut speichern.\n4) **Lernziele prüfen**: Lernziele auf das geprüfte Set abstimmen und speichern.",
+        "prompt_guide": "Nutze den **MC-Test-Prompt**. Er erzeugt das JSON-Format der App; daraus entstehen Tests, Anki-Karten und arsnova.eu-Exporte.",
         "prompt_toggle_button": "👁️ Anzeigen / Verbergen",
         "prompt_download_button": "⬇️ Download",
         "prompt_load_failed": "Konnte {filename} nicht laden.",
@@ -573,114 +576,114 @@
         "prompt_copy_button": "Prompt kopieren",
         "prompt_copy_success": "Kopiert!",
         "prompt_copy_error": "Kopieren fehlgeschlagen",
-        "tab_questionset": "1. Fragenset erstellen",
-        "tab_learning_objectives": "2. Lernziele definieren",
-        "tab_postproduction": "3. Fragenset optimieren",
-        "tab_postproduction_lo": "4. Lernziele optimieren",
-        "questionset_heading": "Schritt 1: Fragenset erstellen",
-        "prompt_expander_title": "Prompts für die KI anzeigen",
-        "upload_heading": "Set hochladen",
-        "upload_warning": "⚠️ Max. 30 Fragen & 5 MB erlaubt.",
-        "upload_info": "Fragensets werden nach {hours} Stunden automatisch aufgeräumt (bei Erstellung mit reserviertem Pseudonym: {days} Tage).",
-        "uploader_mode": "Wie möchtest du dein Fragenset hinzufügen?",
+        "tab_questionset": "1. Fragenset erzeugen",
+        "tab_learning_objectives": "2. Lernziele erzeugen",
+        "tab_postproduction": "3. Fragenset prüfen",
+        "tab_postproduction_lo": "4. Lernziele prüfen",
+        "questionset_heading": "Schritt 1: Fragenset erzeugen",
+        "prompt_expander_title": "MC-Test-Prompt",
+        "upload_heading": "JSON speichern",
+        "upload_warning": "⚠️ Max. 30 Fragen und 5 MB.",
+        "upload_info": "Temporäre Fragensets werden nach {hours} Stunden gelöscht; mit reserviertem Pseudonym nach {days} Tagen.",
+        "uploader_mode": "Wie möchtest du das JSON übernehmen?",
         "uploader_mode_upload": "📁 Datei hochladen",
         "uploader_mode_paste": "📋 JSON einfügen",
         "uploader_label": "📁 JSON‑Datei hochladen",
-        "uploader_help": "Max. 30 Fragen, max. 5 MB. Format muss dem Schema entsprechen.",
-        "upload_validate_button": "✅ Fragenset speichern",
+        "uploader_help": "Max. 30 Fragen, max. 5 MB. Das JSON muss dem MC-Test-Schema entsprechen.",
+        "upload_validate_button": "✅ JSON speichern",
         "alternative_heading": "### Oder: JSON direkt einfügen",
-        "alternative_caption": "Füge den JSON‑Output deiner KI hier ein.",
+        "alternative_caption": "Füge hier nur den JSON-Codeblock aus dem externen LLM ein, ohne Erklärung davor oder danach.",
         "text_area_label": "📋 JSON‑Inhalt",
         "text_area_placeholder": "{\"meta\": {...}, \"questions\": [...]}",
         "clear_text_button": "🧹 Inhalt leeren",
         "status_success": "{label} gespeichert ({count} Fragen).",
         "login_required": "Bitte erst anmelden, dann starten.",
         "start_test_button": "🚀 Loslegen",
-        "status_unknown_error": "Unbekannter Fehler im Set.",
+        "status_unknown_error": "Unbekannter Fehler im Fragenset.",
         "status_error_hint": "Speichern fehlgeschlagen. Details öffnen.",
         "status_error_friendly_json": "Die Datei konnte nicht verarbeitet werden. Bitte JSON prüfen (gültige Struktur, Anführungszeichen, Kommata).",
-        "status_json_repair_hint": "Tipp: Kopiere die Fehlermeldung und gib sie deiner KI, sie kann das JSON meistens reparieren.",
+        "status_json_repair_hint": "Tipp: Kopiere die Fehlermeldung in dein externes LLM; es kann das JSON meistens reparieren.",
         "status_error_friendly_generic": "Speichern fehlgeschlagen. Bitte Eingabe prüfen oder erneut versuchen.",
         "status_error_title": "❌ Fehlerdetails anzeigen",
-        "lo_optional_info": "Optional: Lade jetzt Lernziele im Tab \"Lernziele\" hoch oder bestätige, dass du ohne startest.",
+        "lo_optional_info": "Optional: Lade jetzt Lernziele im Tab „Lernziele erzeugen“ hoch oder bestätige, dass du ohne startest.",
         "lo_skip_checkbox": "Ohne Lernziele starten",
         "close_button": "Dialog schließen",
-        "learning_objectives_heading": "Schritt 2: Lernziele definieren",
-        "learning_objectives_caption": "Lass die KI passende Lernziele zu deinem Fragenset formulieren. Lade das Ergebnis als Markdown hoch oder füge es ein.",
-        "learning_objectives_hint_save_first": "Bitte zuerst dein Fragenset im Tab „Fragenset erstellen“ speichern.",
+        "learning_objectives_heading": "Schritt 2: Lernziele erzeugen",
+        "learning_objectives_caption": "Gib das gespeicherte JSON mit dem Lernziele-Prompt an dein externes LLM. Speichere hier das Markdown-Ergebnis.",
+        "learning_objectives_hint_save_first": "Bitte zuerst dein Fragenset im Tab „Fragenset erzeugen“ speichern.",
         "learning_objectives_mode": "Wie möchtest du die Lernziele hinzufügen?",
         "learning_objectives_upload_label": "📁 Datei hochladen",
         "learning_objectives_paste_label": "📋 Markdown einfügen",
-        "learning_objectives_paste_caption": "Füge die Lernziele als Markdown hier ein.",
+        "learning_objectives_paste_caption": "Füge hier nur den Markdown-Codeblock mit den Lernzielen ein.",
         "learning_objectives_uploader": "📘 Lernziele als Markdown hochladen",
         "learning_objectives_help": "Die Datei wird automatisch passend zum Fragenset benannt.",
         "learning_objectives_clear_button": "🧹 Inhalt leeren",
         "learning_objectives_save_button": "💾 Lernziele speichern",
         "learning_objectives_success": "Lernziele gespeichert als {filename}.",
         "learning_objectives_error": "Lernziele konnten nicht gespeichert werden: {error}",
-        "questionset_caption": "Erstelle dein Fragenset mit KI-Hilfe und speichere es als JSON. Dies ist die Basis für die weiteren Schritte.",
-        "questionset_next_step": "Nächster Schritt: Lernziele im Tab „Lernziele“ erstellen.",
+        "questionset_caption": "Kopiere den MC-Test-Prompt in dein externes LLM. Beantworte dort die Rückfragen und füge das erzeugte JSON anschließend hier ein oder lade es hoch.",
+        "questionset_next_step": "Nächster Schritt: Lernziele im Tab „Lernziele erzeugen“ erstellen.",
         "questionset_next_button": "➡️ Weiter zu Schritt 2",
         "learning_objectives_prompt_expander": "Lernziele‑Prompt anzeigen",
         "learning_objectives_prompt_load_failed": "{filename} konnte nicht geladen werden.",
-        "learning_objectives_original_set_download": "⬇️ Original‑Set für KI (JSON)",
-        "learning_objectives_save_set_first": "Bitte zuerst dein Fragenset im Tab „Fragenset erstellen“ speichern.",
+        "learning_objectives_original_set_download": "⬇️ JSON fürs LLM herunterladen",
+        "learning_objectives_save_set_first": "Bitte zuerst dein Fragenset im Tab „Fragenset erzeugen“ speichern.",
         "learning_objectives_start_button": "🚀 Test starten",
         "learning_objectives_next_qa_button": "➡️ Weiter zu Schritt 3",
-        "postproduction_heading": "Schritt 3: Fragenset optimieren",
-        "postproduction_caption": "Lass die KI dein Fragenset prüfen und verbessern. Speichere das optimierte Ergebnis.",
-        "postproduction_prompt_expander": "QA‑Prompt (Fragenset) anzeigen",
+        "postproduction_heading": "Schritt 3: Fragenset prüfen",
+        "postproduction_caption": "Lade dein gespeichertes JSON herunter, gib es mit dem Prüf-Prompt an das externe LLM und speichere das bereinigte JSON hier.",
+        "postproduction_prompt_expander": "Prüf-Prompt (Fragenset) anzeigen",
         "postproduction_prompt_load_failed": "{filename} konnte nicht geladen werden.",
-        "postproduction_set_for_ai_caption": "Lade das Fragenset herunter und gib es zusammen mit dem Prompt an die KI.",
-        "postproduction_set_for_ai_download": "⬇️ Set für KI (JSON)",
-        "postproduction_paste_caption": "Füge das optimierte JSON der KI hier ein und speichere es.",
-        "postproduction_text_area_label": "📋 Optimiertes JSON",
+        "postproduction_set_for_ai_caption": "Nutze genau dieses JSON als Datenbasis im externen LLM.",
+        "postproduction_set_for_ai_download": "⬇️ JSON fürs LLM herunterladen",
+        "postproduction_paste_caption": "Füge hier nur den bereinigten JSON-Codeblock ein.",
+        "postproduction_text_area_label": "📋 Geprüftes JSON",
         "postproduction_json_parse_warning": "Hinweis: Das JSON ist noch nicht gültig ({error}).",
         "postproduction_overwrite_warning": "Es existiert bereits ein temporäres Fragenset mit dem Titel „{title}“. Überschreiben?",
-        "postproduction_overwrite_confirm": "Bestehendes Set überschreiben",
+        "postproduction_overwrite_confirm": "Bestehendes Fragenset überschreiben",
         "postproduction_overwrite_required": "Bitte bestätige das Überschreiben, bevor du speicherst.",
-        "postproduction_save_button": "💾 Optimiertes Set speichern",
+        "postproduction_save_button": "💾 Geprüftes Fragenset speichern",
         "postproduction_next_lo_button": "➡️ Weiter zu Schritt 4",
-        "postproduction_lo_heading": "Schritt 4: Lernziele optimieren",
-        "postproduction_lo_caption": "Finaler Check: Lass die KI die Lernziele auf das optimierte Fragenset abstimmen.",
-        "postproduction_lo_prompt_expander": "QA‑Prompt (Lernziele) anzeigen",
+        "postproduction_lo_heading": "Schritt 4: Lernziele prüfen",
+        "postproduction_lo_caption": "Gib geprüftes JSON und aktuelle Lernziele mit dem Lernziel-Prüf-Prompt an das externe LLM. Speichere hier das bereinigte Markdown.",
+        "postproduction_lo_prompt_expander": "Prüf-Prompt (Lernziele) anzeigen",
         "postproduction_lo_prompt_load_failed": "{filename} konnte nicht geladen werden.",
-        "postproduction_lo_inputs_caption": "Lade optimiertes Set und aktuelle Lernziele herunter und gib beides an die KI.",
-        "postproduction_lo_set_download": "⬇️ Optimiertes Set für KI (JSON)",
-        "postproduction_lo_download": "⬇️ Lernziele für KI (Markdown)",
-        "postproduction_lo_paste_caption": "Füge die optimierten Lernziele als Markdown hier ein.",
-        "postproduction_lo_text_area_label": "📋 Optimierte Lernziele (Markdown)",
+        "postproduction_lo_inputs_caption": "Lade beide Dateien herunter und gib sie zusammen mit dem Prompt an das externe LLM.",
+        "postproduction_lo_set_download": "⬇️ Geprüftes JSON fürs LLM herunterladen",
+        "postproduction_lo_download": "⬇️ Lernziele fürs LLM herunterladen",
+        "postproduction_lo_paste_caption": "Füge hier nur den bereinigten Markdown-Codeblock ein.",
+        "postproduction_lo_text_area_label": "📋 Geprüfte Lernziele (Markdown)",
         "postproduction_lo_save_button": "💾 Lernziele speichern",
         "postproduction_lo_show_button": "👁️ Lernziele anzeigen",
         "postproduction_lo_hide_button": "🚫 Anzeige Lernziele schließen",
         "postproduction_lo_not_found": "Für dieses Fragenset wurden noch keine Lernziele gespeichert.",
-        "postproduction_lo_need_set": "Bitte zuerst die QA des Fragensets im Tab „QA des Fragensets“ abschließen.",
+        "postproduction_lo_need_set": "Bitte zuerst Schritt 3 „Fragenset prüfen“ abschließen.",
         "postproduction_lo_need_save": "Bitte Lernziele speichern, bevor du startest.",
         "postproduction_lo_start_button": "🚀 Test jetzt starten",
-        "intro_info": "Kurz erklärt: **JSON** ist das Format für Fragen, **Markdown** für Lernziele. **Optimieren** bedeutet Qualitätsprüfung durch die KI (z. B. ChatGPT/Gemini).",
-        "ai_bias_explanation": "Warum dieser Prozess? Generative KI-Modelle sind darauf trainiert, hilfreich zu sein. Das führt oft zu einem „Length-Bias“ (richtige Antwort ist am längsten) und zu vagen Lernzielen. Die QA-Schritte 3 und 4 sind notwendig, um faire Distraktoren zu erzeugen und die Lernziele präzise auf das finale Fragenset abzustimmen.",
-        "questionset_save_success": "Fragenset gespeichert. Du kannst jetzt im Tab „Lernziele“ die Lernziele erstellen und hochladen.",
+        "intro_info": "Kurz erklärt: Die App erzeugt selbst keine Inhalte. Du nutzt ein externes LLM, kopierst Prompt und Daten dorthin und fügst hier nur JSON bzw. Markdown ein.",
+        "ai_bias_explanation": "Warum die Prüf-Schritte? LLMs liefern oft hilfreiche, aber unausgewogene Fragen: richtige Antworten sind manchmal länger, Distraktoren schwächer und Lernziele zu vage. Schritt 3 und 4 machen Fragenset und Lernziele prüfbarer.",
+        "questionset_save_success": "Fragenset gespeichert. Du kannst jetzt im Tab „Lernziele erzeugen“ die Lernziele erstellen und hochladen.",
         "questionset_save_error": "Fragenset konnte nicht gespeichert werden: {error}",
-        "learning_objectives_save_success": "Lernziele gespeichert. Du kannst jetzt den Test starten oder mit der QA des Fragensets fortfahren.",
+        "learning_objectives_save_success": "Lernziele gespeichert. Du kannst jetzt den Test starten oder mit Schritt 3 „Fragenset prüfen“ fortfahren.",
         "learning_objectives_save_error": "Lernziele konnten nicht gespeichert werden: {error}",
         "learning_objectives_set_loaded": "Fragenset '{label}' ist aktiv.",
-        "postproduction_save_success": "Optimiertes Fragenset gespeichert. Falls ein vorheriges Set existierte, wurde es ersetzt. Du kannst jetzt mit der QA der Lernziele fortfahren.",
-        "postproduction_save_error": "Optimiertes Fragenset konnte nicht gespeichert werden: {error}",
-        "postproduction_lo_save_success": "Optimierte Lernziele gespeichert. Du kannst jetzt den Test starten.",
-        "postproduction_lo_save_error": "Optimierte Lernziele konnten nicht gespeichert werden: {error}",
+        "postproduction_save_success": "Geprüftes Fragenset gespeichert. Falls ein vorheriges Set existierte, wurde es ersetzt. Du kannst jetzt mit Schritt 4 „Lernziele prüfen“ fortfahren.",
+        "postproduction_save_error": "Geprüftes Fragenset konnte nicht gespeichert werden: {error}",
+        "postproduction_lo_save_success": "Geprüfte Lernziele gespeichert. Du kannst jetzt den Test starten.",
+        "postproduction_lo_save_error": "Geprüfte Lernziele konnten nicht gespeichert werden: {error}",
         "tab_selector_label": "Schritt (1–4)",
         "tab_selector_hint": "Wähle den Schritt (1–4), den du jetzt bearbeiten möchtest.",
-        "questionset_start_without_lo_warning": "⚠️ Start ohne Lernziele – du kannst sie später nachreichen.",
+        "questionset_start_without_lo_warning": "⚠️ Ohne Lernziele starten – du kannst sie später nachreichen.",
         "questionset_start_without_lo_confirm": "Okay, habe ich verstanden.",
         "questionset_start_without_lo_confirm_required": "Bitte bestätige, dass du ohne Lernziele startest.",
         "questionset_start_without_lo_button": "🚀 Test starten",
-        "questionset_start_without_lo_hint": "Hinweis: Du kannst Lernziele später im Tab „Lernziele definieren“ ergänzen."
+        "questionset_start_without_lo_hint": "Hinweis: Du kannst Lernziele später im Tab „Lernziele erzeugen“ ergänzen."
     },
     "user_qset": {
         "login_required": "Bitte anmelden zum Starten.",
-        "not_found": "Temporäres Set nicht gefunden.",
-        "no_questions": "Set enthält keine Fragen.",
-        "session_failed": "Start der Session fehlgeschlagen."
+        "not_found": "Temporäres Fragenset nicht gefunden.",
+        "no_questions": "Fragenset enthält keine Fragen.",
+        "session_failed": "Testlauf konnte nicht gestartet werden."
     },
     "test_view": {
         "bookmark_toggle": "🔖 Merken",
@@ -706,7 +709,7 @@
         "review_tag": {
             "skipped": "Review: Übersprungen",
             "bookmarked": "Review: Markiert",
-            "panic": "Panic Mode"
+            "panic": "Zeitdruckmodus"
         },
         "onboarding_tip": {
             "title": "So navigierst du",
@@ -722,7 +725,7 @@
         "correct_label": "Richtig:",
         "explanation_label": "Erklärung:",
         "extended_button": "🧠 Detaillierte Erklärung",
-        "extended_panel": "Deep Dive",
+        "extended_panel": "Vertiefung",
         "feedback_thanks": "✔️ Danke, gucken wir uns an.",
         "feedback_popover": "Problem melden",
         "feedback_prompt": "**Was stimmt nicht?**",
@@ -743,7 +746,8 @@
         "countdown": {
             "warning_seconds": "⚠️ Gleich vorbei!",
             "warning_minutes": "⚠️ Nur noch {minutes_text}!",
-            "cooldown_remaining": "(noch {seconds}s)"
+            "cooldown_remaining": "(noch {seconds}s)",
+            "panic_mode_live": "⚡ Zeitdruckmodus aktiv: Wartezeiten werden beim nächsten Klick übersprungen."
         },
         "pacing": {
             "ahead": "Gut in der Zeit",
@@ -766,10 +770,10 @@
             "avg_time_per_question": "Ø-Zeit pro Frage",
             "not_1min": "Unter 1 Minute"
         },
-        "panic_mode_active": "⚡ **Panic Mode:** Cooldowns deaktiviert wegen Zeitdruck.",
-        "panic_mode_skipped": "⚡ **Panic Mode:** Wartezeit übersprungen.",
+        "panic_mode_active": "⚡ **Zeitdruckmodus:** Wartezeiten wegen Zeitdruck deaktiviert.",
+        "panic_mode_skipped": "⚡ **Zeitdruckmodus:** Wartezeit übersprungen.",
         "pseudonym_welcome": "**Hi {user}!** Merk dir dein Pseudonym genau (Schreibweise!).",
-        "question_set_change_warning": "⚠️ Set gewechselt, starte neu...",
+        "question_set_change_warning": "⚠️ Fragenset gewechselt, starte neu...",
         "feedback_option": {
             "content_error": "Inhaltlicher Fehler",
             "typo": "Tippfehler / Grammatik",
@@ -792,10 +796,10 @@
     "metadata": {
         "weight_label": "Gewichtung",
         "cognitive_stage": "Kognitive Stufe",
-        "questionset_title": "Set",
+        "questionset_title": "Fragenset",
         "topic": "Thema",
         "concept": "Konzept",
-        "question_set": "Set",
+        "question_set": "Fragenset",
         "difficulty": "Schwierigkeit"
     },
     "export": {
@@ -804,7 +808,8 @@
     },
     "actions": {
         "run_export": "Export starten",
-        "reset": "Reset"
+        "reset": "Zurücksetzen",
+        "download": "Herunterladen"
     },
     "locales": {
         "de": "Deutsch",
@@ -824,8 +829,8 @@
         "markdown_dependency": "Vorschau benötigt 'markdown-it-py'.",
         "streamlit_component_missing": "Streamlit-Komponente fehlt.",
         "session_saved": {
-            "leaderboard": "🎉 Glückwunsch {user}! Du bist im Leaderboard (Score: {score})!",
-            "saved_not_on_leaderboard": "Ergebnis für \"{user}\" gespeichert, aber nicht im Leaderboard, {reason}.",
+            "leaderboard": "🎉 Glückwunsch {user}! Du bist in der Bestenliste (Ergebnis: {score})!",
+            "saved_not_on_leaderboard": "Ergebnis für \"{user}\" gespeichert, aber nicht in der Bestenliste, {reason}.",
             "reason_zero_score": "0 Punkte zählen nicht",
             "reason_too_short": "Zu schnell fertig. Minimum: {min_duration} min (Empfohlen: {recommended_minutes} min)",
             "reason_not_top10": "reichte nicht für Top 10"
@@ -836,7 +841,7 @@
         "anki_preview": "Anki-Vorschau"
     },
     "anki": {
-        "fragenset": "Set",
+        "fragenset": "Fragenset",
         "thema": "Thema",
         "schwierigkeit": "Schwierigkeit",
         "konzept": "Konzept",
@@ -891,7 +896,7 @@
         },
         "question_header": "Frage {current} / {total}",
         "bookmarks_title": "Markierte Fragen",
-        "questionset_number": "(Set-Nr. {n})",
+        "questionset_number": "(Fragenset Nr. {n})",
         "stage_label": "Stufe: {stage}",
         "detailed_explanation": {
             "title": "Titel",
@@ -904,7 +909,7 @@
             "participant": "Teilnehmer:",
             "test_date": "Datum:",
             "duration": "Dauer:",
-            "questionset": "Set:",
+            "questionset": "Fragenset:",
             "generated_at": "Erstellt am:",
             "tempo": "Tempo:",
             "allowed": "Limit:",
@@ -918,8 +923,8 @@
         },
         "glossary": {
             "title": "Mini-Glossar",
-            "intro": "Wichtige Begriffe aus diesem Set, thematisch sortiert",
-            "alt_intro": "Schlüsselbegriffe aus dem Set"
+            "intro": "Wichtige Begriffe aus diesem Fragenset, thematisch sortiert",
+            "alt_intro": "Schlüsselbegriffe aus dem Fragenset"
         },
         "musterloesung": {
             "title": "Musterlösung"
@@ -978,14 +983,14 @@
             "caption": "Anteil pro Thema (100 % = alle Fragen des Themas)",
             "title": "Leistung nach Thema"
         },
-        "unnamed_set": "Unbenanntes Set"
+        "unnamed_set": "Unbenanntes Fragenset"
     },
     "mini_glossary": {
         "title": "Begriffe zur Frage",
         "expander_label": "Begriffe nachschlagen",
         "empty_error": "Kein Glossar verfügbar."
     },
-    "unnamed_set": "Unbenanntes Set",
+    "unnamed_set": "Unbenanntes Fragenset",
     "summary": {
         "prefix": {
             "manual_end": "⚠️ Vorzeitig beendet — "
@@ -1010,6 +1015,7 @@
         }
     },
     "summary_view": {
+        "review_export_header": "Exportieren",
         "review_header": "🧐 Deine Antworten im Check",
         "review_filter_label": "Filtere nach Status:",
         "review_topic_label": "Filtere nach Thema:",
@@ -1205,7 +1211,7 @@
             "title": "🎓 MC-Test App",
             "button": "🚀 Starten",
             "choose_set": "📂 Fragenset auswählen",
-            "create_ai": "Fragenset mit KI erstellen"
+            "create_ai": "Fragenset mit externem LLM erstellen"
         },
         "cleanup": {
             "toast": "{removed} temporäre Sets aufgeräumt.",
@@ -1218,17 +1224,17 @@
             "ensure_files": "Check bitte, ob gültige JSON-Dateien im Projekt liegen."
         },
         "warning": {
-            "session_expired": "⚠️ Session abgelaufen. Bitte neu laden oder neu starten."
+            "session_expired": "⚠️ Testlauf abgelaufen. Bitte neu laden oder neu starten."
         },
         "select": {
-            "label": "Wähle ein Set:",
+            "label": "Wähle ein Fragenset:",
             "placeholder": "🗂️ Bitte auswählen...",
             "count_one": "{n} Frage",
             "count_many": "{n} Fragen",
             "sets_one": "{n} Fragenset",
             "sets_many": "{n} Fragensets",
             "label_with_counts": "{base} ({sets}, {questions})",
-            "start_button": "Start"
+            "start_button": "Starten"
         },
         "search": {
             "label": "🔎 Schnellsuche (Titel/Slug)",
@@ -1236,17 +1242,17 @@
             "no_results": "Keine Treffer für \"{term}\" – zeige alle Fragensets.",
             "too_short": "Bitte mindestens 3 Zeichen für die Suche eingeben."
         },
-        "create_own_set": "🧠 Eigenen Fragenset erstellen",
-        "create_own_set_hint": "Wähle nur dein Pseudonym; du kannst anschließend JSON hochladen oder einfügen.",
-        "empty_state": "Kein Fragenset aktiv. Du kannst ein bestehendes Set wählen oder ein eigenes Fragenset erstellen.",
+        "create_own_set": "🧠 Eigenes Fragenset erzeugen",
+        "create_own_set_hint": "Wähle dein Pseudonym; anschließend kannst du extern erzeugtes JSON hochladen oder einfügen.",
+        "empty_state": "Kein Fragenset aktiv. Du kannst ein bestehendes Set wählen oder ein eigenes Fragenset erzeugen.",
         "empty_state_select": "📂 Vorhandenes Fragenset wählen",
         "languages_available": "Sprachen der Fragensets: {languages}",
         "section": {
-            "header": "🗂️ Set-Auswahl"
+            "header": "🗂️ Fragenset-Auswahl"
         },
         "distribution": {
             "expander": "⚖️ Themen & Kognitive Stufen",
-            "warning": "⚠️ Set leer oder defekt.",
+            "warning": "⚠️ Fragenset leer oder defekt.",
             "summary": {
                 "test_time": "⏱️ Zeit: {minutes} min",
                 "cognition": "🧠 Stufen: {summary}",
@@ -1276,8 +1282,8 @@
             "refreshing": "Lade...",
             "updated": "Aktualisiert",
             "last_updated": "Stand: {ts}",
-            "refresh_button": "Refresh",
-            "refresh_failed": "Update fehlgeschlagen",
+            "refresh_button": "Aktualisieren",
+            "refresh_failed": "Aktualisierung fehlgeschlagen",
             "tempo_label": "Tempo",
             "tempo_help": "Ranking-Filter",
             "tempo_all": "Alle",
@@ -1287,7 +1293,7 @@
         "pseudonym": {
             "heading": "👤 Dein Pseudonym",
             "dialog_intro": "Wähle ein freies Pseudonym. Optional kannst du ein Login-Secret setzen, um es zu reservieren.",
-            "dialog_start": "Start",
+            "dialog_start": "Starten",
             "no_available": "⚠️ Keine Pseudonyme frei. Frag den Admin.",
             "select_label": "Wähle dein Pseudonym:",
             "select_placeholder": "👤 Bitte auswählen...",
@@ -1299,7 +1305,7 @@
             "reservation_placeholder": "Mein 🔒 Geheimwort...",
             "secret_too_short": "🔒 Geheimwort zu kurz (min. {min_len}).",
             "reserve_button": "Sichern & Starten",
-            "reserve_success": "Reserviert! Wähl jetzt ein Set.",
+            "reserve_success": "Reserviert! Wähle jetzt ein Fragenset.",
             "reserve_success_message": "",
             "reserve_error": "Konnte Geheimwort nicht speichern.",
             "reserve_error_with_reason": "Reservierungsfehler: {error}",
@@ -1311,19 +1317,19 @@
             "recover_missing": "Beides eingeben, bitte.",
             "recover_button": "Starten",
             "recover_locked": "Gesperrt bis {locked_until}",
-            "recover_success": "Wiederhergestellt! Geht los...",
-            "recover_failure": "Falsche Kombi. Check das Geheimwort.",
-            "database_error": "DB-Fehler: Session-Start nicht möglich.",
+            "recover_success": "Wiederhergestellt! Es geht los...",
+            "recover_failure": "Falsche Kombination. Prüfe das Geheimwort.",
+            "database_error": "Datenbankfehler: Testlauf kann nicht gestartet werden.",
             "test_button": "Test starten",
-            "dialog_start_choose_set": "Weiter zur Set-Auswahl",
+            "dialog_start_choose_set": "Weiter zur Fragenset-Auswahl",
             "admin_no_secret": "Für dieses Pseudonym kann kein Geheimwort gesetzt werden.",
-            "question_required": "Erst Set wählen."
+            "question_required": "Wähle zuerst ein Fragenset."
         },
         "tempo": {
             "label": "Dein Tempo:",
             "normal": "Normal",
-            "speed": "Speed (1/2 Zeit)",
-            "power": "Power (1/4 Zeit)"
+            "speed": "Schnell (1/2 Zeit)",
+            "power": "Intensiv (1/4 Zeit)"
         },
         "learning_objectives": {
             "button": "Lernziele anzeigen",
@@ -1346,7 +1352,7 @@
             "exam": "🏆 Test starten",
             "practice": "🧘 Übung starten"
         },
-        "test_intro": "Wähle ein Set und starte, wenn du bereit bist.",
+        "test_intro": "Wähle ein Fragenset und starte, wenn du bereit bist.",
         "mode": {
             "label": "Modus:",
             "exam": "🏆 Prüfungs-Modus (Timer, Leaderboard)",
@@ -1370,7 +1376,7 @@
             "load_failed": "Konfiguration konnte nicht geladen werden.",
             "scientists_load_failed": "Wissenschaftler-Liste konnte nicht geladen werden.",
             "scientists_not_found": "Wissenschaftler-Liste nicht gefunden.",
-            "temp_set_removed": "Temporäres Set entfernt."
+            "temp_set_removed": "Temporäres Fragenset entfernt."
         },
         "warning": {
             "html_sanitized": "HTML-Inhalt wurde bereinigt.",
@@ -1378,7 +1384,7 @@
             "question_skipped": "Eine Frage wurde wegen Fehlern übersprungen."
         }
     },
-    "glossary_no_entries": "Kein Glossar für dieses Set verfügbar.",
+    "glossary_no_entries": "Kein Glossar für dieses Fragenset verfügbar.",
     "performance_chart": {
         "legend": {
             "correct": "Richtig",
@@ -1413,7 +1419,7 @@
         },
         "zuspruch": {
             "learn_from_it": "Knapp – lerne daraus.",
-            "mistakes_are_learning": "Fehler bringen dich weiter. Go!",
+            "mistakes_are_learning": "Fehler bringen dich weiter. Weiter!",
             "close_analyze": "Knapp daneben – analysieren & weiter.",
             "ok_next": "Okay, nächste Chance nutzen.",
             "reset_focus": "Kein Ding. Fokus neu setzen.",
@@ -1427,7 +1433,7 @@
             "mistakes_grow": "Fehler = Wachstum. Weiter!",
             "missed_but_persist": "Nicht getroffen – aber du bleibst dran.",
             "stay_calm": "Ruhig bleiben. Nächste kommt.",
-            "score_strong": "Score bleibt gut – ein Fehler macht nix.",
+            "score_strong": "Dein Ergebnis bleibt gut – ein Fehler macht nichts.",
             "keep_rate_high": "Quote ist gut – nicht ärgern.",
             "overall_performance": "Gute Leistung insgesamt – weiter so."
         },
