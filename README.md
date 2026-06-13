@@ -313,6 +313,7 @@ BENCH_EXPORTS_N=5 PYTHONPATH=. python tools/benchmark_exports.py
 
 - Documentation index: [docs/README.md](https://github.com/kqc-real/streamlit/blob/main/docs/README.md)
 - Admin guide: [docs/ADMIN_PANEL_ANLEITUNG.md](https://github.com/kqc-real/streamlit/blob/main/docs/ADMIN_PANEL_ANLEITUNG.md)
+- Style guidelines: [docs/STYLE_GUIDELINES.md](https://github.com/kqc-real/streamlit/blob/main/docs/STYLE_GUIDELINES.md)
 - Anki export specification: [docs/README_EXPORT_ANKI.md](https://github.com/kqc-real/streamlit/blob/main/docs/README_EXPORT_ANKI.md)
 - Glossary schema: [docs/GLOSSARY_SCHEMA.md](https://github.com/kqc-real/streamlit/blob/main/docs/GLOSSARY_SCHEMA.md)
 - Release process: [docs/RELEASE_PROCESS.md](https://github.com/kqc-real/streamlit/blob/main/docs/RELEASE_PROCESS.md)

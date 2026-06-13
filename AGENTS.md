@@ -1,4 +1,4 @@
-# 🤖 Agent Instructions: MC-Test-App
+# Agent Instructions: MC-Test-App
 
 Du bist ein KI-Assistent, der an der **MC-Test-App** arbeitet. Deine Antworten und Code-Aenderungen sollen zuverlaessig, nachvollziehbar und fuer Studierende ohne IT-Vorkenntnisse verstaendlich sein. Die UI-Sprache ist **Deutsch**.
 
@@ -7,11 +7,12 @@ Du bist ein KI-Assistent, der an der **MC-Test-App** arbeitet. Deine Antworten u
 - **Ziel:** Multiple-Choice-Fragensets pflegen, verbessern, validieren und passende Lernziele erstellen.
 - **Klarheit:** Formulierungen kurz und eindeutig; keine Fachjargon-Orgie.
 - **Sicherheit:** Keine echten Personendaten verwenden, keine API-Keys hardcoden.
-- **Transparenz:** KI als Assistent nutzen (siehe `prompts/KI_PROMPT.md`).
+- **Transparenz:** KI als Assistent nutzen. Externe LLM-Prompts liegen in `prompts/`, sind in US English formuliert und duerfen kein Wissen ueber App, Repo oder lokale Architektur voraussetzen.
 
 ## 2) Tech-Stack & Rahmenbedingungen
 
 - **Framework:** Streamlit (Python 3.10–3.12). **Python 3.14 ist nicht unterstuetzt.**
+- **Streamlit-Version:** aktuell auf Streamlit 1.58 ausgerichtet. Neue UI-Elemente mit `width="stretch"` oder `width="content"` statt `use_container_width` bauen. Neue HTML-Snippets mit `st.html` bzw. `st.iframe` statt `st.components.v1.html` umsetzen.
 - **Datenhaltung:** SQLite (`db/mc_test_data.db`) fuer Sessions/Statistiken.
 - **Frageninhalte:** JSON-/Markdown-Dateien im Ordner `data/`.
 
@@ -33,6 +34,7 @@ Empfohlen/optional:
 - `extended_explanation` (falls vorhanden, inhaltlich konsistent halten)
 
 Validierungs-Hinweise (zusammengefuehrt aus `validate_sets.py` und `question_set_validation.py`):
+- Neue Fragensets nutzen die kanonischen englischen Keys. Deutsche Legacy-Aliasse (`frage`, `optionen`, `loesung`, ...) sind nur Kompatibilitaet, kein Ziel-Format.
 - `answer` ist **0-basiert** und muss innerhalb der `options` liegen.
 - `weight` in {1,2,3}.
 - `meta.title` und `meta.question_count` muessen passen.
@@ -65,6 +67,8 @@ Erstellung strikt nach `prompts/KI_PROMPT_MICRO_LEARNING_OBJECTIVES.md`:
 
 - Struktur strikt einhalten (Kontext/Frage/Antworten/korrekt/Erklaerung).
 - Mathe immer in `$...$` oder `$$...$$`, kein LaTeX in Backticks.
+- Sichere HTML-Tags wie `code`, `sub`, `sup`, `strong` und `em` duerfen eingesetzt werden. Unsichere HTML-/Script-Inhalte nie zulassen.
+- Markdown-Tabellen sind in Fragenstaemmen moeglich, aber in Antwortoptionen und Exportzielen fragil. Fuer arsnova.eu und Anki nicht auf Tabellendarstellung in Antwortoptionen setzen.
 
 ## 8) Systematischer Workflow: Fragensatz optimieren
 
@@ -78,10 +82,20 @@ Wenn ein Fragensatz ueberarbeitet werden soll, immer in dieser Reihenfolge:
 7. **Cognitive-Level syncen:** `cognitive_level` im JSON mit Lernzielen abgleichen.
 8. **Finale Validierung:** `python validate_sets.py data/<set>.json` und Warnungen minimieren.
 
+Bei Erstellung mit externem LLM:
+- App-Prompt aus `prompts/KI_PROMPT.md` als Rohtext kopieren oder herunterladen.
+- Ergebnis als kanonisches JSON speichern und lokal validieren.
+- Lernziele mit `prompts/KI_PROMPT_MICRO_LEARNING_OBJECTIVES.md` erzeugen.
+- Beide Postproduction-Prompts zur Qualitaetssicherung nutzen.
+- Prompt-Preview in der App ist nur gerenderte, read-only Vorschau; Copy/Download liefern den ungerenderten Rohprompt.
+
 ## 9) QA & Tests
 
 - **Bei Fragen-JSON:** Immer `python validate_sets.py data/<set>.json`.
 - **Bei Codeaenderungen:** Relevante Tests aus `tests/` ausfuehren. Wenn unklar, mindestens `pytest -q`.
+- **Bei i18n-/Wording-Aenderungen:** `python scripts/i18n/check_i18n.py`.
+- **Bei UI-Aenderungen:** App im Browser pruefen, besonders Layout, Mobile-Verhalten, Timer/Pacer, Prompt-Preview und Export-Dialoge.
+- **Bei Prompt-Aenderungen:** Prompt-Architekturtests ausfuehren und sicherstellen, dass keine App-/Repo-Vorkenntnis im Prompt vorausgesetzt wird.
 
 ## 10) Definition of Done (DoD) fuer Fragensets
 
@@ -100,7 +114,10 @@ Wenn ein Fragensatz ueberarbeitet werden soll, immer in dieser Reihenfolge:
 
 ## 12) Export & LaTeX/HTML
 
-- Export: `.apkg` (genanki) oder `.tsv`.
+- Export: PDF, CSV/Analyse, Anki (`.apkg`/`.tsv`) und arsnova.eu JSON.
+- Kahoot und arsnova.click sind entfernt und duerfen nicht wieder eingefuehrt werden.
+- Anki: keine verschachtelte ABCD-Nummerierung erzeugen, die Antwortreihenfolgen verfaelschen kann.
+- arsnova.eu: didaktisch sinnvolle Metadaten wie Beschreibung, Topics, Schwierigkeitsprofil und Mini-Glossar-Zusammenfassungen uebernehmen, soweit das Importschema es erlaubt.
 - HTML/CSS-Struktur:
   - `<div class="card-container">`
   - `<div class="question">`
@@ -113,6 +130,9 @@ Wenn ein Fragensatz ueberarbeitet werden soll, immer in dieser Reihenfolge:
 
 - Lokal: `.env` mit `MC_TEST_ADMIN_KEY=""` erlaubt Login als "Albert Einstein".
 - Cloud: Passwort aus `st.secrets`.
+- `.streamlit/secrets.toml` nie committen. Vorlage ist `.streamlit/secrets.example.toml`.
+- Lokale DBs, generierte Reports, Downloads und `tmp/`-Artefakte nicht versionieren.
+- Falls ein Secret versehentlich committed wurde: Secret ausserhalb des Repos rotieren. History-Rewrite ist ein eigener, destruktiver Wartungsschritt.
 - **DB-Reset ist destruktiv:** immer auf Backup hinweisen (siehe `docs/ADMIN_PANEL_ANLEITUNG.md`).
 
 ## 14) Release/Changelog
@@ -136,8 +156,21 @@ Wenn ein Fragensatz ueberarbeitet werden soll, immer in dieser Reihenfolge:
 - Deutsch, klar und knapp.
 - Keine Mehrdeutigkeit; eindeutige Fachbegriffe.
 - Erklaerungen: sachlich, kurz, auf Studierende zugeschnitten.
+- UI-Wording fuer medienaffine Nutzerinnen und Nutzer: handlungsnah, aktiv, nicht akademisch ueberladen.
+- Externe Prompt-Texte: US English, praezise, schemaorientiert, ohne Bezug auf MC-Test, App, Repo oder lokale Dateien.
 
-## 17) Troubleshooting
+## 17) UI- und Layout-Konventionen
+
+- Kompakte vertikale Margins sind erwuenscht, solange Labels, Buttons und Antwortoptionen nicht gedrueckt wirken.
+- Button-Labels muessen vertikal mittig bleiben.
+- Auf Mobile keine virtuelle Tastatur ausloesen, wenn ein Feld nicht wirklich editierbar ist.
+- Widget-Keys eindeutig halten, besonders bei wiederholten Buttons wie Sprung-, Bookmark- oder Export-Aktionen.
+- Keine verschachtelten `st.expander`.
+- Timer/Pacer-Anzeigen muessen rechnerisch zur aktuellen Restzeit passen. Hinweise wie "nur noch 4 Minuten" duerfen nicht erst nach Fragenwechsel aktualisieren.
+- Dark Theme: ausreichender Kontrast, aber keine zusaetzlichen Panels/Hintergruende einfuehren, wenn die UI dadurch schwerer wird.
+- Browser-Reloads waehrend aktiver Tests moeglichst mit `beforeunload` absichern; eigene Browser-Dialogtexte sind browserseitig nicht verlaesslich erzwingbar.
+
+## 18) Troubleshooting
 
 - **Port 8501:** Hinweise aus Installationsanleitungen nutzen.
 - **Pfad-Leerzeichen:** In der Shell Anfuehrungszeichen nutzen.

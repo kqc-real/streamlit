@@ -73,6 +73,121 @@ def _dialog_text(key: str, default: str, **kwargs) -> str:
     return template.format(**kwargs) if kwargs else template
 
 
+def _build_prompt_preview_html(prompt_text: str) -> str:
+    """Render a prompt as read-only preview HTML while preserving raw copy/download."""
+    try:
+        import markdown as _markdown
+
+        rendered = _markdown.markdown(
+            prompt_text,
+            extensions=["fenced_code", "tables", "sane_lists"],
+            output_format="html5",
+        )
+    except Exception:
+        rendered = f"<pre><code>{html.escape(prompt_text)}</code></pre>"
+
+    try:
+        import bleach
+
+        rendered = bleach.clean(
+            rendered,
+            tags=[
+                "a",
+                "blockquote",
+                "br",
+                "code",
+                "dd",
+                "div",
+                "dl",
+                "dt",
+                "em",
+                "h1",
+                "h2",
+                "h3",
+                "h4",
+                "h5",
+                "h6",
+                "hr",
+                "li",
+                "ol",
+                "p",
+                "pre",
+                "span",
+                "strong",
+                "table",
+                "tbody",
+                "td",
+                "th",
+                "thead",
+                "tr",
+                "ul",
+            ],
+            attributes={"a": ["href", "title"]},
+            protocols=["http", "https", "mailto"],
+            strip=True,
+        )
+    except Exception:
+        rendered = f"<pre><code>{html.escape(prompt_text)}</code></pre>"
+
+    return f"""
+<style>
+.mc-prompt-preview {{
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    cursor: default;
+    max-height: min(58vh, 720px);
+    overflow: auto;
+    padding: 0.85rem 1rem;
+    border: 1px solid rgba(49, 51, 63, 0.22);
+    border-radius: 0.45rem;
+    background: rgba(49, 51, 63, 0.035);
+}}
+.mc-prompt-preview * {{
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}}
+.mc-prompt-preview pre {{
+    white-space: pre-wrap;
+    overflow-x: auto;
+}}
+.mc-prompt-preview table {{
+    border-collapse: collapse;
+    width: 100%;
+}}
+.mc-prompt-preview th,
+.mc-prompt-preview td {{
+    border: 1px solid rgba(49, 51, 63, 0.2);
+    padding: 0.35rem 0.5rem;
+    vertical-align: top;
+}}
+</style>
+<div
+    class="mc-prompt-preview"
+    aria-readonly="true"
+    oncopy="return false"
+    oncut="return false"
+    ondragstart="return false"
+    oncontextmenu="return false"
+>
+{rendered}
+</div>
+"""
+
+
+def _render_prompt_preview(prompt_text: str) -> None:
+    html_renderer = getattr(st, "html", None)
+    if callable(html_renderer):
+        html_renderer(_build_prompt_preview_html(prompt_text))
+    else:
+        st.markdown(_build_prompt_preview_html(prompt_text), unsafe_allow_html=True)
+
+
 def _user_qset_text(key: str, default: str, **kwargs) -> str:
     template = translate_ui(f"user_qset.{key}", default=default)
     return template.format(**kwargs) if kwargs else template
@@ -743,7 +858,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                             prompt_views[qset_prompt.filename] = False
                         if st.toggle("Anzeigen", key=view_key, value=prompt_views.get(qset_prompt.filename)):
                             prompt_views[qset_prompt.filename] = True
-                            st.code(qset_prompt.content, language="markdown")
+                            _render_prompt_preview(qset_prompt.content)
                         else:
                             prompt_views[qset_prompt.filename] = False
 
@@ -1030,7 +1145,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                         )
                     )
                 else:
-                    st.code(lo_prompt, language="markdown")
+                    _render_prompt_preview(lo_prompt)
 
                 cols = st.columns(2)
                 with cols[0]:
@@ -1270,7 +1385,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                         )
                     )
                 else:
-                    st.code(postprod_prompt, language="markdown")
+                    _render_prompt_preview(postprod_prompt)
 
                 cols = st.columns(2)
                 with cols[0]:
@@ -1537,7 +1652,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                         )
                     )
                 else:
-                    st.code(postprod_lo_prompt, language="markdown")
+                    _render_prompt_preview(postprod_lo_prompt)
 
                 cols = st.columns(2)
                 with cols[0]:

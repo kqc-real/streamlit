@@ -1,10 +1,9 @@
-# Tech Stack
+# Tech stack
 
-- Python-App fuer Python 3.10-3.12; CI nutzt Python 3.11. Python 3.14 ist nicht unterstuetzt.
-- Framework: Streamlit (`streamlit>=1.25,<2.0`), mit `st.session_state`, `st.cache_data`, `st.cache_resource`.
-- Daten: SQLite via stdlib `sqlite3`, WAL-Modus, DB-Datei `db/mc_test_data.db`.
-- Kernlibs: pandas, numpy, plotly, requests, python-dotenv, filelock.
-- Export/PDF: WeasyPrint, qrcode[pil], markdown/markdown-it-py/bleach, pykatex, genanki.
-- Tests: pytest 8.x; `pytest.ini` sammelt nur `test_*.py` und ignoriert `.venv scripts tools out var __pycache__ tmp_hold`.
-- Lint-Konfig vorhanden fuer flake8 mit `max-line-length = 120`, `E501` ignoriert; kein pyproject-basierter Formatter gefunden.
-- CI: `python -m compileall -q .`, dann `PYTHONPATH=. pytest -q`, danach Streamlit-Smoke auf Port 9999.
+- Python 3.10-3.12; Python 3.14 is not supported.
+- Streamlit app, currently pinned/aligned with Streamlit 1.58. Prefer current APIs: `width="stretch"` / `width="content"`; use `st.html` or `st.iframe`; avoid new `st.components.v1.html` and `use_container_width`.
+- SQLite stores local sessions/statistics in `db/mc_test_data.db`.
+- Core data is JSON/Markdown in `data/`, with temporary user uploads in `data-user/`.
+- Main Python dependencies include Streamlit, pandas, Plotly, WeasyPrint, markdown/markdown-it-py, bleach, genanki, qrcode/Pillow, and pytest.
+- Tests use pytest. i18n checks use `python scripts/i18n/check_i18n.py`. Question-set validation uses `python validate_sets.py` and targeted `python validate_sets.py data/<set>.json`.
+- Browser verification is important for Streamlit UI changes because layout, mobile behavior, timer/pacer updates, prompt preview rendering, and export dialogs can regress without unit-test failures.

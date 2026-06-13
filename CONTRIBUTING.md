@@ -1,531 +1,163 @@
-# 🤝 Contributing zu MC-Test-App
+# Contributing to MC-Test
 
-Vielen Dank für dein Interesse, zur MC-Test-App beizutragen! 🎉
+Thanks for contributing to MC-Test. Please keep changes focused, documented where needed, and easy to validate locally.
 
-Dieses Projekt ist ein **studentisches Open-Source-Projekt** und lebt von eurer Mitarbeit. Ob Bug-Fixes, neue Features, bessere Dokumentation oder neue Fragensets – jeder Beitrag ist willkommen!
+MC-Test is a multilingual Streamlit application for formative multiple-choice learning, question-set quality assurance, mini glossaries, learning analytics, and exports to PDF, CSV, Anki, and arsnova.eu.
 
----
+## Development Setup
 
-## 📋 Inhaltsverzeichnis
-
-- [Wie kann ich beitragen?](#wie-kann-ich-beitragen)
-- [Release (Kurzfassung)](#release-kurzfassung)
-- [Entwicklungsumgebung einrichten](#entwicklungsumgebung-einrichten)
-- [Workflow für Contributions](#workflow-für-contributions)
-- [Code-Standards](#code-standards)
-- [Fragensets erstellen](#fragensets-erstellen)
-- [Bug Reports](#bug-reports)
-- [Feature Requests](#feature-requests)
-- [Community & Support](#community--support)
-
----
-
-## 🚀 Wie kann ich beitragen?
-
-Es gibt viele Möglichkeiten, zur MC-Test-App beizutragen:
-
-### 1. **Neue Fragensets erstellen** 📝
-- Erstelle MC-Tests für deine Fächer (Mathe, Informatik, BWL, etc.)
-- Folge dem [JSON-Format](#fragensets-erstellen)
-- Ergänze Mini-Glossare mit Fachbegriffen
-
-### 2. **Bugs finden und melden** 🐛
-- Nutze die App und teste Features
-- Erstelle [Bug Reports](#bug-reports) mit Details
-- Bonus: Schreibe Tests, die den Bug reproduzieren
-
-### 3. **Features entwickeln** ✨
-- Schaue in die [Issues](https://github.com/kqc-real/streamlit/issues)
-- Arbeite an der Vision 2.0 Roadmap (Datei entfernt)
-- Schlage eigene Features vor
-
----
-
-## 📦 Release (Kurzfassung)
-
-Siehe [docs/RELEASE_PROCESS.md](docs/RELEASE_PROCESS.md).
-
-### 4. **Dokumentation verbessern** 📚
-- Ergänze Beispiele in der Anleitung
-- Korrigiere Tippfehler
-- Übersetze Dokumentation (z.B. Englisch)
-
-### 5. **Code-Reviews** 👀
-- Reviewe Pull Requests anderer
-- Gib konstruktives Feedback
-- Teste neue Features vor dem Merge
-
----
-
-## 🛠️ Entwicklungsumgebung einrichten
-
-### Voraussetzungen
-
-- **Python 3.10+** ([Download](https://www.python.org/downloads/))
-- **Git** ([Download](https://git-scm.com/downloads))
-- **Code-Editor** (empfohlen: VS Code mit Python-Extension)
-
-### Setup-Schritte
+Use Python 3.10, 3.11, or 3.12. Python 3.14 is not supported.
 
 ```bash
-# 1. Repository forken (auf GitHub: "Fork"-Button klicken)
-
-# 2. Dein Fork klonen
-git clone https://github.com/<DEIN-USERNAME>/streamlit.git
-cd streamlit
-
-# 3. Upstream-Remote hinzufügen (für Updates)
-git remote add upstream https://github.com/kqc-real/streamlit.git
-
-# 4. Virtual Environment erstellen
 python3 -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-
-# 5. Dependencies installieren
+source venv/bin/activate
 pip install -r requirements.txt
-
-# 6. App starten
 streamlit run app.py
 ```
 
-Die App öffnet sich unter: **http://localhost:8501** 🚀
+The default Streamlit URL is `http://localhost:8501`. Use another port only when 8501 is already occupied, for example `streamlit run app.py --server.port 8502`.
 
----
+## Contribution Workflow
 
-## 🔄 Workflow für Contributions
+1. Create a focused branch, for example `feature/export-improvement`, `fix/timer-display`, or `docs/readme-update`.
+2. Keep commits small enough to review.
+3. Run the relevant checks before opening a pull request.
+4. Update documentation when behavior, workflow, exports, prompts, or schemas change.
 
-### 1. **Issue erstellen oder wählen**
-
-- Checke [bestehende Issues](https://github.com/kqc-real/streamlit/issues)
-- Kommentiere: *"Ich arbeite daran!"*
-- Oder erstelle ein neues Issue mit deiner Idee
-
-### 2. **Branch erstellen**
+Recommended checks:
 
 ```bash
-# Upstream-Updates holen
-git fetch upstream
-git checkout main
-git merge upstream/main
-
-# Feature-Branch erstellen
-git checkout -b feature/mein-neues-feature
-# Oder für Bugfixes:
-git checkout -b fix/bug-beschreibung
+python validate_sets.py
+python scripts/i18n/check_i18n.py
+python -m pytest -q
 ```
 
-**Branch-Namenskonvention:**
-- `feature/xyz` – Neue Features
-- `fix/xyz` – Bug-Fixes
-- `docs/xyz` – Dokumentation
-- `test/xyz` – Tests
+For Streamlit UI changes, also run the app and verify the affected workflow in a browser. For layout, prompt preview, timer, or export changes, use a realistic question set such as `data/questions_Markdown_Stress.json` when available.
 
-### 3. **Code schreiben**
+## Code Guidelines
 
-- Arbeite an deinem Feature/Fix
-- Teste deine Änderungen gründlich
-- Committe regelmäßig mit aussagekräftigen Messages
+- Follow existing local patterns before introducing new abstractions.
+- Prefer small, testable helper functions over large UI blocks.
+- Use explicit imports from helper modules, for example `from helpers.text import sanitize_html`.
+- Keep Streamlit widget keys stable and unique.
+- Do not nest `st.expander` blocks.
+- With Streamlit 1.58, use `width="stretch"` or `width="content"` instead of `use_container_width`.
+- Use `st.html` for safe inline HTML snippets and `st.iframe` when an iframe is needed. Do not add new `st.components.v1.html` usage.
+- Keep dark-theme contrast readable without adding heavy panels unless the design needs them.
 
-**Commit-Message-Format:**
-```
-<type>: <kurze Beschreibung>
+## Question-Set Format
 
-<optionale Details>
-
-<optionale Footer (z.B. "Fixes #123")>
-```
-
-**Types:**
-- `feat:` – Neues Feature
-- `fix:` – Bug-Fix
-- `docs:` – Dokumentation
-- `style:` – Formatierung (kein Code-Change)
-- `refactor:` – Code-Umstrukturierung
-- `test:` – Tests hinzufügen/ändern
-- `chore:` – Build/Dependencies
-
-**Beispiele:**
-```bash
-git commit -m "feat: Add KI-Fragengenerator mit OpenAI API
-
-- Integriere GPT-4 für automatische Fragenerstellung
-- Füge Prompt-Templates für verschiedene Schwierigkeitsgrade hinzu
-- Implementiere Kostenlimit (max 100 Fragen/Tag)
-
-Fixes #42"
-```
-
-```bash
-git commit -m "fix: Behebe LaTeX-Rendering in Safari
-
-Das \frac{}{}-Kommando wurde nicht korrekt gerendert.
-Nutze nun MathJax v3 statt v2.
-
-Closes #87"
-```
-
-### 4. **Tests durchführen**
-
-```bash
-# Unit-Tests laufen lassen
-pytest tests/
-
-# App manuell testen
-streamlit run app.py
-
-# Checklist:
-# ✅ Feature funktioniert wie erwartet?
-# ✅ Keine Fehler in der Konsole?
-# ✅ PDF-Export funktioniert?
-# ✅ Admin-Panel zeigt korrekte Daten?
-```
-
-### 5. **Pull Request erstellen**
-
-```bash
-# Pushe deinen Branch
-git push origin feature/mein-neues-feature
-```
-
-Gehe auf GitHub und klicke **"Create Pull Request"**.
-
-**PR-Template ausfüllen:**
-```markdown
-## 📝 Beschreibung
-Kurze Beschreibung des Features/Fixes.
-
-## 🔗 Related Issue
-Fixes #123 (oder: Related to #123)
-
-## ✅ Checklist
-- [ ] Code funktioniert lokal
-- [ ] Tests geschrieben (falls nötig)
-- [ ] Dokumentation aktualisiert
-- [ ] CHANGELOG.md erweitert (für größere Features)
-
-## 📸 Screenshots (falls UI-Änderungen)
-<Füge hier Screenshots ein>
-
-## 🧪 Test-Anleitung
-1. App starten: `streamlit run app.py`
-2. Feature testen: ...
-3. Erwartetes Verhalten: ...
-```
-
-### 6. **Code-Review & Merge**
-
-- Maintainer (KQC) reviewt deinen Code
-- Ggf. Feedback umsetzen (weitere Commits pushen)
-- Nach Approval: **Merge in main** 🎉
-
----
-
-## 📏 Code-Standards
-
-### Python-Style
-
-- **PEP 8** einhalten ([Guide](https://pep8.org/))
-- **Funktionen dokumentieren** (Docstrings)
-- **Typ-Hints verwenden** (wo sinnvoll)
-
-**Beispiel:**
-```python
-def calculate_score(answers: dict[int, int], questions: list[dict]) -> float:
-    """
-    Berechnet die Gesamtpunktzahl basierend auf Antworten.
-
-    Args:
-        answers: Dict mit {frage_index: gewählte_option}
-        questions: Liste aller Fragen mit Lösungen
-
-    Returns:
-        float: Erreichte Punktzahl (0.0 bis max_score)
-    """
-    score = 0.0
-    for idx, user_answer in answers.items():
-        if user_answer == questions[idx]["loesung"]:
-            score += questions[idx]["gewichtung"]
-    return score
-```
-
-### Streamlit-Best Practices
-
-- **Session State nutzen** für persistente Daten
-- **st.cache_data** für teure Berechnungen
-- **Komponenten modularisieren** (siehe `components.py`)
-- **Keine Secrets im Code** (nutze `.streamlit/secrets.toml`)
-
-## **Module Layout**
-
-- **Helpers package:** Common utilities live under the `helpers/` package. Prefer importing the specific submodules to keep dependencies explicit and easier to test.
-- **Preferred imports:** Use `from helpers.text import sanitize_html` or `from helpers.security import is_request_from_localhost` instead of broad `from helpers import *`.
-- **Compatibility note:** The top-level `helpers` module currently provides a compatibility surface, but importing from `helpers.text` / `helpers.security` is the recommended, long-term approach.
-
-### Datenbank-Regeln
-
-- **Nie direkt SQL-Strings bauen** → SQL-Injection-Gefahr
-- **Immer Parameterized Queries** nutzen:
-  ```python
-  cursor.execute("SELECT * FROM sessions WHERE user = ?", (username,))
-  ```
-- **Transaktionen nutzen** bei mehreren Writes:
-  ```python
-  conn.execute("BEGIN TRANSACTION")
-  # ... mehrere Inserts/Updates ...
-  conn.commit()
-  ```
-
----
-
-## 📝 Fragensets erstellen
-
-Neue Fragensets sind immer willkommen! 🎓
-
-### JSON-Format
-
-Erstelle eine Datei: `data/questions_<Thema>.json`
-
-**Minimales Beispiel:**
-```json
-[
-    {
-        "frage": "Was ist 2 + 2?",
-        "optionen": [
-            "3",
-            "4",
-            "5",
-            "6"
-        ],
-        "loesung": 1,
-        "erklaerung": "2 + 2 = 4 (zweite Option, Index 1)",
-        "gewichtung": 1,
-        "thema": "Grundrechenarten"
-    }
-]
-```
-
-### Vollständiges Beispiel mit allen Features
+New question sets must use the canonical JSON structure with English field names:
 
 ```json
-[
+{
+  "meta": {
+    "title": "Example Set",
+    "description": "Short learner-friendly description.",
+    "language": "de",
+    "question_count": 1,
+    "difficulty_profile": {
+      "easy": 1,
+      "medium": 0,
+      "hard": 0
+    },
+    "test_duration_minutes": 5
+  },
+  "questions": [
     {
-        "frage": "Berechne: $\\int_0^1 x^2 \\, dx$",
-        "optionen": [
-            "$\\frac{1}{2}$",
-            "$\\frac{1}{3}$",
-            "$\\frac{2}{3}$",
-            "$1$"
-        ],
-        "loesung": 1,
-        "erklaerung": "Mit der Potenzregel: $\\int x^n \\, dx = \\frac{x^{n+1}}{n+1} + C$. Also: $\\left[\\frac{x^3}{3}\\right]_0^1 = \\frac{1}{3}$",
-        "gewichtung": 2,
-        "thema": "Integralrechnung",
-        "mini_glossary": {
-            "Integral": "Flächenberechnung unter einer Funktion: $\\int f(x) \\, dx$",
-            "Potenzregel": "Regel für Integration von $x^n$: $\\int x^n \\, dx = \\frac{x^{n+1}}{n+1} + C$"
-        }
+      "question": "Was beschreibt ein Mini-Glossar?",
+      "options": [
+        "Eine kurze Sammlung zentraler Begriffe",
+        "Eine Ergebnisdatenbank",
+        "Eine Exportvorlage",
+        "Eine zufällige Antwortliste"
+      ],
+      "answer": 0,
+      "explanation": "Ein Mini-Glossar erklärt zentrale Begriffe direkt am Fragenset.",
+      "weight": 1,
+      "topic": "Lernunterstützung",
+      "concept": "Mini-Glossar",
+      "cognitive_level": "Reproduktion",
+      "mini_glossary": {
+        "Mini-Glossar": "Kurze Erklärung zentraler Fachbegriffe.",
+        "Fragenset": "Sammlung zusammengehöriger Multiple-Choice-Fragen."
+      }
     }
-]
+  ]
+}
 ```
 
-### Feld-Beschreibungen
+Rules:
 
-| Feld | Typ | Pflicht | Beschreibung |
-|------|-----|---------|--------------|
-| `frage` | String | ✅ | Die Fragestellung (LaTeX mit `$...$` möglich) |
-| `optionen` | Array[String] | ✅ | Genau 4 Antwortoptionen (A, B, C, D) |
-| `loesung` | Integer | ✅ | Index der richtigen Antwort (0=A, 1=B, 2=C, 3=D) |
-| `erklaerung` | String | ✅ | Erklärung der richtigen Antwort (LaTeX möglich) |
-| `gewichtung` | Integer | ✅ | Schwierigkeit: 1 (★), 2 (★★), 3 (★★★) |
-| `thema` | String | ✅ | Themenbereich (z.B. "Analysis", "Lineare Algebra") |
-| `mini_glossary` | Object | ⚪ | Optional: 2-4 Fachbegriffe mit Definitionen |
+- Top-level `meta` and `questions` are required. Do not submit raw list-only question sets.
+- `answer` is zero-based.
+- `options` should contain 3 to 5 plausible answer options.
+- `weight` must be `1`, `2`, or `3`.
+- `topic`, `concept`, `question`, and `explanation` must be non-empty.
+- `mini_glossary` should contain 2 to 6 useful entries when present.
+- Legacy German aliases may be accepted by compatibility loaders, but new files should not use them.
 
-### LaTeX-Tipps
+Validate question sets with:
 
-**Inline-Formeln:** `$E = mc^2$`  
-**Brüche:** `$\frac{a}{b}$`  
-**Integrale:** `$\int_a^b f(x) \, dx$`  
-**Griechische Buchstaben:** `$\alpha, \beta, \gamma$`  
-**Matrizen:**
-```latex
-$\begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}$
+```bash
+python validate_sets.py data/questions_<Set>.json
 ```
 
-### Qualitätskriterien für Fragen
+## Question Quality
 
-✅ **Gute MC-Fragen:**
-- Eindeutig formuliert
-- Eine klar richtige Antwort
-- 3 plausible Distraktoren (basierend auf typischen Fehlern)
-- Schwierigkeit angemessen für Zielgruppe
-- Erklärung hilft beim Lernen
+- Use clear, student-friendly wording.
+- Keep one clearly correct answer and plausible distractors.
+- Avoid trick questions that rely on wording traps rather than subject knowledge.
+- Reduce length bias: the correct answer should not systematically be longer or shorter than the distractors.
+- Keep topics coherent. Avoid splitting a set into too many one-off topics.
+- Align `cognitive_level` with the intended task:
+  - `Reproduktion`: recall or identify facts.
+  - `Anwendung`: apply, calculate, classify, or select in context.
+  - `Strukturelle Analyse`: reason, diagnose, evaluate, or justify.
 
-❌ **Vermeide:**
-- "Alle oben genannten" / "Keine der genannten"
-- Triviale Fragen (zu einfach)
-- Trick-Fragen (unfaire Fallstricke)
-- Zu lange Textwüsten (>3 Zeilen pro Option)
+## Markdown, HTML, and LaTeX
 
-### Fragenset einreichen
+- Use Markdown for readable stems, explanations, and answer options where supported.
+- Avoid Markdown tables in answer options. They are fragile in exports and not reliably rendered by all target systems.
+- Use only safe HTML when needed, such as `code`, `sub`, `sup`, `strong`, and `em`.
+- Do not use unsafe HTML or scripts.
+- Put LaTeX in `$...$` or `$$...$$`.
+- Do not put LaTeX inside backticks.
+- Avoid raw `<` and `>` inside LaTeX; use `\langle` and `\rangle`.
 
-**Option 1: Pull Request**
-1. Erstelle `data/questions_<Thema>.json`
-2. Teste das Fragenset in der App
-3. Committe mit: `feat: Add Fragenset <Thema> (X Fragen)`
-4. Erstelle PR
+## Prompt Workflow
 
-**Option 2: Issue**
-- Erstelle ein Issue mit Label `content`
-- Hänge die JSON-Datei an
-- Maintainer fügt sie hinzu
+The prompt files in `prompts/` are written for external LLMs. They must stay in US English and must not assume that the LLM knows this repository, this app, or any local architecture.
 
----
+The generated content language is controlled by the user request and `meta.language`. JSON keys remain English.
 
-## 🐛 Bug Reports
+Prompt preview in the app is rendered read-only to prevent accidental copying from the rendered view. Copy and download actions must provide the raw, unrendered prompt text.
 
-Einen Bug gefunden? Erstelle ein [Issue](https://github.com/kqc-real/streamlit/issues/new) mit:
+## Exports
 
-### Bug-Report-Template
+Supported export targets include PDF, CSV/database analysis, Anki, and arsnova.eu JSON.
 
-```markdown
-**Beschreibung:**
-Kurze Beschreibung des Problems.
+- Do not reintroduce Kahoot or arsnova.click workflows.
+- For Anki, preserve meaningful Markdown where compatible and avoid nested ABCD numbering that can reorder options.
+- For arsnova.eu, keep descriptions readable and transfer useful metadata such as topics, difficulty, mini-glossary summaries, and didactic notes where the import schema allows it.
+- Treat export compatibility as a tested behavior, not only a formatting preference.
 
-**Reproduktion:**
-1. Gehe zu '...'
-2. Klicke auf '...'
-3. Scrolle nach unten zu '...'
-4. Beobachte Fehler
+## Security and Repository Hygiene
 
-**Erwartetes Verhalten:**
-Was sollte stattdessen passieren?
+- Do not commit API keys, real personal data, or local secrets.
+- Do not commit `.streamlit/secrets.toml`; use `.streamlit/secrets.example.toml` as the template.
+- Do not commit local SQLite databases, generated reports, temporary exports, or `tmp/` artifacts.
+- If a secret was committed, rotate it outside the repository. History rewriting is a separate, destructive maintenance task.
+- Admin and database-reset workflows must clearly warn about destructive effects and backups.
 
-**Screenshots:**
-Falls relevant, füge Screenshots hinzu.
+## Documentation
 
-**Umgebung:**
-- OS: [z.B. macOS 14.1, Windows 11, Ubuntu 22.04]
-- Browser: [z.B. Chrome 120, Safari 17]
-- Python-Version: [z.B. 3.11.6]
-- App-Version: [z.B. v1.2.0]
+Keep public documentation concise and aligned with the actual app:
 
-**Zusätzlicher Kontext:**
-Weitere relevante Informationen.
+- Repository overview: `README.md`
+- Documentation index: `docs/README.md`
+- Style guide: `docs/STYLE_GUIDELINES.md`
+- Agent instructions: `AGENTS.md`
+- Prompt files: `prompts/`
 
-**Logs/Fehlermeldungen:**
-```
-Füge hier Fehlermeldungen aus der Konsole ein
-```
-```
-
----
-
-## ✨ Feature Requests
-
-Idee für ein neues Feature? Erstelle ein [Issue](https://github.com/kqc-real/streamlit/issues/new) mit:
-
-### Feature-Request-Template
-
-```markdown
-**Feature-Beschreibung:**
-Klare Beschreibung des gewünschten Features.
-
-**Problem/Use Case:**
-Welches Problem löst dieses Feature?
-
-**Vorgeschlagene Lösung:**
-Wie könnte das Feature umgesetzt werden?
-
-**Alternativen:**
-Hast du alternative Ansätze überlegt?
-
-**Mockups/Skizzen:**
-Falls vorhanden, füge UI-Skizzen hinzu.
-
-**Priorität:**
-- [ ] Nice-to-have
-- [ ] Wichtig
-- [ ] Kritisch
-
-**Bereit zur Implementierung:**
-- [ ] Ich möchte das selbst umsetzen
-- [ ] Ich brauche Hilfe dabei
-- [ ] Jemand anderes soll es machen
-```
-
----
-
-## 🌐 Community & Support
-
-### GitHub Discussions
-Hauptkanal für Fragen, Ideen und Diskussionen:  
-👉 **https://github.com/kqc-real/streamlit/discussions**
-
-**Kategorien:**
-- 💡 **Ideas** – Feature-Vorschläge diskutieren
-- 🙋 **Q&A** – Fragen zur Nutzung/Entwicklung
-- 📣 **Announcements** – News zu Releases
-- 🎓 **Show & Tell** – Zeige deine Fragensets!
-
-### Issue-Tracker
-Für Bugs und konkrete Feature-Requests:  
-👉 **https://github.com/kqc-real/streamlit/issues**
-
-### Direkter Kontakt
-Bei dringenden Fragen: **KQC direkt ansprechen** (z.B. im Kurs)
-
----
-
-## 🎯 Was als Nächstes?
-
-### Für Anfänger 🌱
-1. **Lese die [Installation-Anleitung](docs/installation/INSTALLATION_ANLEITUNG.md)**
-2. **Erstelle dein erstes Fragenset** (kleines Thema, 5-10 Fragen)
-3. **Finde einen kleinen Bug** und melde ihn
-4. **Reviewe einen PR** und lerne vom Code anderer
-
-### Für Fortgeschrittene 🚀
-1. **Schau in die Vision 2.0 (Datei entfernt)**
-2. **Implementiere ein Feature** aus dem Backlog
-3. **Schreibe Unit-Tests** für bestehenden Code
-4. **Verbessere die Dokumentation** (z.B. API-Docs)
-
-### Für Experten 🧙
-1. **KI-Fragengenerator entwickeln** (OpenAI API)
-2. **Gamification implementieren** (Badges, Leaderboards)
-3. **Performance optimieren** (Caching, DB-Queries)
-4. **Login-System bauen** (ersetzt Pseudonyme)
-
----
-
-## 📜 Code of Conduct
-
-- **Respektvoll:** Behandle alle Contributors freundlich
-- **Konstruktiv:** Gib hilfreiches Feedback, keine Flames
-- **Inklusiv:** Alle sind willkommen, egal welcher Background
-- **Open-Source-Spirit:** Teile dein Wissen, lerne von anderen
-
-Bei Problemen: Kontaktiere KQC direkt.
-
----
-
-## 📄 Lizenz
-
-Alle Beiträge werden unter der **MIT License** veröffentlicht.  
-Siehe [LICENSE](LICENSE) für Details.
-
-Mit deinem Pull Request erklärst du dich damit einverstanden, dass dein Code unter dieser Lizenz geteilt wird.
-
----
-
-## 🙏 Danke!
-
-Vielen Dank, dass du zur MC-Test-App beitragen möchtest! 💙
-
-Jeder Contribution – egal ob klein oder groß – hilft, die App besser zu machen.
-
-**Happy Coding!** 🚀
-
----
-
-_Fragen zu diesem Guide? Erstelle ein [Issue](https://github.com/kqc-real/streamlit/issues) mit Label `documentation`._
+Update these files when workflows, schemas, export behavior, or prompt architecture changes.
