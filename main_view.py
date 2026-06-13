@@ -135,7 +135,9 @@ def _set_page_reload_guard(active: bool) -> None:
 
     The browser controls the actual confirmation text. We only enable the
     native beforeunload guard and reduce mobile pull-to-refresh while a
-    test question is visible.
+    test question is visible. The same injection also marks Streamlit's
+    non-text select widgets as read-only on touch devices so mobile browsers
+    do not show a virtual keyboard for dropdown-only fields.
     """
     enabled = "true" if active else "false"
     html = f"""
@@ -180,6 +182,41 @@ def _set_page_reload_guard(active: bool) -> None:
 
         if (active) {{
             window.addEventListener("beforeunload", beforeUnloadHandler);
+        }}
+
+        const selectInputSelector = [
+            '[data-baseweb="select"] input[role="combobox"]',
+            '[data-testid="stSelectbox"] input[role="combobox"]',
+            '[data-testid="stMultiSelect"] input[role="combobox"]'
+        ].join(", ");
+        const isTouchDevice = (
+            window.matchMedia("(pointer: coarse)").matches ||
+            (window.navigator && window.navigator.maxTouchPoints > 0) ||
+            "ontouchstart" in window
+        );
+        const applyMobileSelectKeyboardGuard = () => {{
+            if (!isTouchDevice) {{
+                return;
+            }}
+            document.querySelectorAll(selectInputSelector).forEach((input) => {{
+                input.setAttribute("readonly", "readonly");
+                input.setAttribute("inputmode", "none");
+                input.setAttribute("autocomplete", "off");
+                input.setAttribute("autocorrect", "off");
+                input.dataset.mcTestKeyboardGuard = "true";
+            }});
+        }};
+
+        applyMobileSelectKeyboardGuard();
+        if (window.__mcTestKeyboardGuardObserver) {{
+            window.__mcTestKeyboardGuardObserver.disconnect();
+        }}
+        if (isTouchDevice && document.body) {{
+            window.__mcTestKeyboardGuardObserver = new MutationObserver(applyMobileSelectKeyboardGuard);
+            window.__mcTestKeyboardGuardObserver.observe(document.body, {{
+                childList: true,
+                subtree: true
+            }});
         }}
     }})();
     </script>

@@ -39,4 +39,5 @@ data/*_backup_*.json
 data-user/*_backup_*.json
 
 # Temporäre Ablage
+tmp/
 tmp_hold/

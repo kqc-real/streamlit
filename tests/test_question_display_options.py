@@ -191,6 +191,10 @@ def test_page_reload_guard_injects_beforeunload_and_can_disable(monkeypatch):
     assert "beforeunload" in active_html
     assert "overscroll-behavior-y: contain" in active_html
     assert "dataset.mcTestReloadGuardActive" in active_html
+    assert "input[role=\"combobox\"]" in active_html
+    assert "inputmode\", \"none\"" in active_html
+    assert "dataset.mcTestKeyboardGuard" in active_html
+    assert "MutationObserver" in active_html
     assert "const active = true;" in active_html
     assert "const active = false;" in disabled_html
 
