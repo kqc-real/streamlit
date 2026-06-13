@@ -453,8 +453,9 @@ def format_datetime_locale(ts, fmt: str = FMT_DATETIME_SECONDS, locale: str | No
             # ISO year-month-day timestamps must not be parsed with dayfirst=True;
             # pandas warns about that combination for localized day-first UIs.
             series_dayfirst = dayfirst_flag
+            series_is_numeric = _pd.api.types.is_numeric_dtype(series_obj)
             try:
-                if _pd.api.types.is_object_dtype(series_obj):
+                if not series_is_numeric:
                     sample = series_obj.dropna().astype(str).head(5)
                     if any(_looks_iso_ymd_string(v) for v in sample):
                         series_dayfirst = False
@@ -462,7 +463,7 @@ def format_datetime_locale(ts, fmt: str = FMT_DATETIME_SECONDS, locale: str | No
                         series_dayfirst = True
             except Exception:
                 pass
-            if _pd.api.types.is_numeric_dtype(series_obj):
+            if series_is_numeric:
                 # Heuristic: values above 1e12 are likely milliseconds
                 try:
                     max_val = series_obj.max()

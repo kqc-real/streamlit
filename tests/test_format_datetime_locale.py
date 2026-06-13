@@ -28,7 +28,7 @@ def test_series_formats_and_converts_timezone():
 
 
 def test_series_iso_strings_do_not_warn_with_dayfirst_locale():
-    series = pd.Series(["2026-06-12T08:43:30+0000"])
+    series = pd.Series(["2026-06-12T08:43:30+0000"], dtype="string")
 
     with warnings.catch_warnings(record=True) as caught:
         warnings.simplefilter("always")
