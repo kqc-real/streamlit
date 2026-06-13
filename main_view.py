@@ -130,6 +130,68 @@ def _inject_main_container_padding() -> None:
         pass
 
 
+def _set_page_reload_guard(active: bool) -> None:
+    """Warn before browser reloads while a test is active.
+
+    The browser controls the actual confirmation text. We only enable the
+    native beforeunload guard and reduce mobile pull-to-refresh while a
+    test question is visible.
+    """
+    enabled = "true" if active else "false"
+    html = f"""
+    <style>
+    html.mc-test-reload-guard-active,
+    body.mc-test-reload-guard-active,
+    html.mc-test-reload-guard-active .stApp,
+    html.mc-test-reload-guard-active [data-testid="stAppViewContainer"],
+    html.mc-test-reload-guard-active [data-testid="stMain"] {{
+        overscroll-behavior-y: contain;
+        overscroll-behavior-x: none;
+    }}
+    </style>
+    <div id="mc-test-reload-guard-sentinel" style="display:none"></div>
+    <script>
+    (() => {{
+        const active = {enabled};
+        const beforeUnloadHandler = (event) => {{
+            if (!window.__mcTestReloadGuardActive) {{
+                return;
+            }}
+            event.preventDefault();
+            event.returnValue = "";
+            return "";
+        }};
+
+        if (window.__mcTestBeforeUnloadHandler) {{
+            window.removeEventListener("beforeunload", window.__mcTestBeforeUnloadHandler);
+        }}
+
+        window.__mcTestReloadGuardActive = active;
+        window.__mcTestBeforeUnloadHandler = beforeUnloadHandler;
+
+        const root = document.documentElement;
+        const body = document.body;
+        [root, body].forEach((element) => {{
+            if (element) {{
+                element.classList.toggle("mc-test-reload-guard-active", active);
+                element.dataset.mcTestReloadGuardActive = active ? "true" : "false";
+            }}
+        }});
+
+        if (active) {{
+            window.addEventListener("beforeunload", beforeUnloadHandler);
+        }}
+    }})();
+    </script>
+    """
+    try:
+        html_fn = getattr(st, "html", None)
+        if callable(html_fn):
+            html_fn(html, width="content", unsafe_allow_javascript=True)
+    except Exception:
+        pass
+
+
 DOWNLOAD_BUTTON_DEFAULT = "Download starten"
 MIME_PDF = "application/pdf"
 
@@ -3087,6 +3149,7 @@ def render_welcome_page(app_config: AppConfig):
     _process_queued_rerun()
     # Apply single padding declaration to main container
     _inject_main_container_padding()
+    _set_page_reload_guard(False)
 
     # Wenn ein Pseudonym-Reminder gesetzt ist (z.B. nach Reservierung),
     # zeigen wir einen Hinweis zentral im Hauptbereich statt in der Sidebar.
@@ -5217,6 +5280,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     _process_queued_rerun()
     # Apply single padding declaration to main container
     _inject_main_container_padding()
+    _set_page_reload_guard(True)
 
     if st.session_state.get("_delete_success_msg"):
         st.success(st.session_state.pop("_delete_success_msg"))
@@ -7916,6 +7980,8 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int, remainin
 
 def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     """Zeigt die finale Zusammenfassung und den Review-Modus an."""
+    _set_page_reload_guard(False)
+
     # Mark that we are currently showing the final summary. Sidebar logic
     # will use this flag to hide per-question navigation widgets like
     # bookmarks/skip-lists which don't make sense in the summary view.

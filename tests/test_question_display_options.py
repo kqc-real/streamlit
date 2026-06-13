@@ -31,6 +31,7 @@ class _FakeStreamlit:
     def __init__(self):
         self.session_state = _Session()
         self.markdown_calls = []
+        self.html_calls = []
         self.expander_labels = []
         self.button_calls = []
         self.radio_calls = []
@@ -54,6 +55,9 @@ class _FakeStreamlit:
 
     def markdown(self, text, **kwargs):
         self.markdown_calls.append(text)
+
+    def html(self, text, **kwargs):
+        self.html_calls.append((text, kwargs))
 
     def toggle(self, label, value=False, key=None):
         return value
@@ -169,6 +173,26 @@ def test_render_explanation_renders_extended_and_glossary(monkeypatch):
     assert any("Minimalprinzip" in text for text in fake_st.markdown_calls)
     # Mini-glossary content should render after the explanation
     assert any("Ressource" in text for text in fake_st.markdown_calls)
+
+
+def test_page_reload_guard_injects_beforeunload_and_can_disable(monkeypatch):
+    fake_st = _FakeStreamlit()
+    monkeypatch.setattr(mv, "st", fake_st)
+
+    mv._set_page_reload_guard(True)
+    mv._set_page_reload_guard(False)
+
+    assert len(fake_st.html_calls) == 2
+    active_html, active_kwargs = fake_st.html_calls[0]
+    disabled_html, disabled_kwargs = fake_st.html_calls[1]
+
+    assert active_kwargs["unsafe_allow_javascript"] is True
+    assert disabled_kwargs["unsafe_allow_javascript"] is True
+    assert "beforeunload" in active_html
+    assert "overscroll-behavior-y: contain" in active_html
+    assert "dataset.mcTestReloadGuardActive" in active_html
+    assert "const active = true;" in active_html
+    assert "const active = false;" in disabled_html
 
 
 def test_render_question_view_smoke(monkeypatch):
