@@ -122,7 +122,7 @@ def _inject_main_container_padding() -> None:
         st.markdown(
             """
             <style>
-            .stMainBlockContainer.block-container { padding: 2rem 1rem 1.5rem; }
+            .stMainBlockContainer.block-container { padding: 0.5rem 1rem 1.5rem; }
             </style>
             """,
             unsafe_allow_html=True,
@@ -247,6 +247,40 @@ def _inject_question_view_compact_styles() -> None:
               height: 0;
               margin: 0.85rem 0 0.45rem;
               width: 100%;
+            }
+            .mc-timer-pacing-row-marker {
+              display: none;
+            }
+            div[data-testid="stElementContainer"]:has(.mc-timer-pacing-row-marker)
+              + div[data-testid="stHorizontalBlock"],
+            div[data-testid="stElementContainer"]:has(.mc-timer-pacing-row-marker)
+              + div[data-testid="stLayoutWrapper"] div[data-testid="stHorizontalBlock"] {
+              display: flex !important;
+              flex-direction: row !important;
+              align-items: flex-start !important;
+              gap: 0.65rem !important;
+            }
+            div[data-testid="stElementContainer"]:has(.mc-timer-pacing-row-marker)
+              + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"],
+            div[data-testid="stElementContainer"]:has(.mc-timer-pacing-row-marker)
+              + div[data-testid="stLayoutWrapper"] div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {
+              flex: 1 1 0 !important;
+              min-width: 0 !important;
+              width: calc(50% - 0.325rem) !important;
+            }
+            @media (max-width: 640px) {
+              div[data-testid="stElementContainer"]:has(.mc-timer-pacing-row-marker)
+                + div[data-testid="stHorizontalBlock"],
+              div[data-testid="stElementContainer"]:has(.mc-timer-pacing-row-marker)
+                + div[data-testid="stLayoutWrapper"] div[data-testid="stHorizontalBlock"] {
+                gap: 0.45rem !important;
+              }
+              div[data-testid="stElementContainer"]:has(.mc-timer-pacing-row-marker)
+                + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"],
+              div[data-testid="stElementContainer"]:has(.mc-timer-pacing-row-marker)
+                + div[data-testid="stLayoutWrapper"] div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {
+                width: calc(50% - 0.225rem) !important;
+              }
             }
             .stMainBlockContainer div[data-testid="stMarkdownContainer"]:has(.mc-question-feedback-bottom-spacer) {
               margin: 0;
@@ -2259,6 +2293,13 @@ def _build_pacing_status_html(
     font-size: 0.9rem;
     font-weight: 750;
     line-height: 1.2;
+    overflow-wrap: anywhere;
+  }}
+  @media (max-width: 360px) {{
+    .mc-pacer-status {{
+      font-size: 0.78rem;
+      padding: 0.3rem 0.35rem;
+    }}
   }}
 </style>
 <script>
@@ -6035,9 +6076,6 @@ def _show_welcome_container(app_config: AppConfig):
             default="Richtig: +Gewichtung, falsch: -Gewichtung.",
         )
 
-    # Großer, zentraler Container mit klarer Aufforderung
-    st.markdown("<br>" * 3, unsafe_allow_html=True)  # Abstand nach oben
-
     with st.container(border=True):
         st.markdown(
             translate_ui(
@@ -6980,16 +7018,15 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
 
     # Einmaliges Onboarding-Tip nach Teststart anzeigen
     if st.session_state.get("test_started") and not st.session_state.get("onboarding_tip_shown"):
-        with st.container(border=True):
-            st.markdown(f"### {_test_view_text('onboarding_tip.title', default='How navigation works')}")
-            st.markdown(_test_view_text("onboarding_tip.body", default=(
-                "- Skip: moves the question to the skipped list; you'll see it again.\n"
-                "- Bookmark: keeps the question handy in the sidebar.\n"
-                "- Panic: when time is low, cooldowns are off."
-            )))
-            if st.button(_test_view_text("onboarding_tip.button", default="Got it"), key="onboarding_tip_ack"):
-                st.session_state["onboarding_tip_shown"] = True
-                st.rerun()
+        st.markdown(f"### {_test_view_text('onboarding_tip.title', default='How navigation works')}")
+        st.markdown(_test_view_text("onboarding_tip.body", default=(
+            "- Skip: moves the question to the skipped list; you'll see it again.\n"
+            "- Bookmark: keeps the question handy in the sidebar.\n"
+            "- Panic: when time is low, cooldowns are off."
+        )))
+        if st.button(_test_view_text("onboarding_tip.button", default="Got it"), key="onboarding_tip_ack"):
+            st.session_state["onboarding_tip_shown"] = True
+            st.rerun()
 
     # --- Sicherheitscheck und Re-Initialisierung ---
     # Dieser Block fängt den Zustand ab, in dem ein neues Fragenset ausgewählt wurde,
@@ -7108,7 +7145,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         else:
             st.success(translate_ui("test_view.mode_info.practice", default="🧘 **Übungs-Modus:** Kein Zeitdruck. Sofortiges Feedback nach jeder Frage."))
 
-    with st.container(border=True):
+    with st.container():
 
         # --- Countdown-Timer ---
         # Safety: keep the timer anchored to the test start across reruns/question changes.
@@ -7125,6 +7162,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             elapsed_time = (pd.Timestamp.now() - start_zeit).total_seconds()
             remaining_time = _compute_countdown_remaining_seconds(start_zeit, test_time_limit)
 
+            st.markdown("<span class='mc-timer-pacing-row-marker' aria-hidden='true'></span>", unsafe_allow_html=True)
             col1, col2 = st.columns([1, 1])
             with col1:
                 remaining_time = _render_countdown_timer_auto_refresh(
@@ -10091,7 +10129,7 @@ def render_review_mode(questions: QuestionSet, app_config=None):
         "export_intro",
         default="Exportiere deine Testergebnisse & Lernmaterialien",
     )
-    with st.container(border=True):
+    with st.container():
         st.caption(export_intro_label)
 
         export_selected_file = selected_file

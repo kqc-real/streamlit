@@ -79,6 +79,26 @@ def _legal_button_label(kind: LegalKind) -> str:
     return _legal_t("legal.datenschutz.button", default="Datenschutzerklärung")
 
 
+def _strip_leading_markdown_h1(content: str) -> str:
+    """Remove a document-level H1 when the page already renders st.title."""
+    lines = str(content or "").splitlines()
+    first_content_idx = 0
+    while first_content_idx < len(lines) and not lines[first_content_idx].strip():
+        first_content_idx += 1
+
+    if first_content_idx >= len(lines):
+        return content
+
+    first_line = lines[first_content_idx].lstrip()
+    if not first_line.startswith("# ") or first_line.startswith("## "):
+        return content
+
+    remaining = lines[first_content_idx + 1 :]
+    while remaining and not remaining[0].strip():
+        remaining.pop(0)
+    return "\n".join(remaining)
+
+
 def _emit_html(target, html: str) -> None:
     html_fn = getattr(target, "html", None)
     if callable(html_fn):
@@ -191,8 +211,9 @@ def render_legal_page(kind: LegalKind) -> None:
     except Exception:
         st.error(_legal_t("legal.missing", default="Rechtstext konnte nicht geladen werden."))
         return
+    content = _strip_leading_markdown_h1(content)
 
-    with st.container(border=True):
+    with st.container():
         st.markdown(content)
 
     st.button(
