@@ -16,7 +16,12 @@ from datetime import datetime, timedelta
 from typing import Optional, List, Dict, Tuple, Any
 import streamlit as st
 import logging
-from database import get_db_connection, with_db_retry
+from database import (
+    db_write_transaction,
+    get_db_connection,
+    raise_if_db_locked,
+    with_db_retry,
+)
 
 try:
     from helpers.security import get_client_ip as helpers_get_client_ip
@@ -108,15 +113,15 @@ def log_admin_action(
         conn = _get_connection()
         timestamp = datetime.now().isoformat()
         
-        conn.execute("""
-            INSERT INTO admin_audit_log 
-            (timestamp, user_id, action, details, ip_address, success)
-            VALUES (?, ?, ?, ?, ?, ?)
-        """, (timestamp, user_id, action, details, ip_address, success))
-        
-        conn.commit()
+        with db_write_transaction(conn):
+            conn.execute("""
+                INSERT INTO admin_audit_log
+                (timestamp, user_id, action, details, ip_address, success)
+                VALUES (?, ?, ?, ?, ?, ?)
+            """, (timestamp, user_id, action, details, ip_address, success))
         return True
     except Exception as e:
+        raise_if_db_locked(e)
         logging.exception("Audit-Log Fehler")
         return False
 
@@ -238,15 +243,15 @@ def cleanup_old_audit_logs(days: int = 90) -> int:
         conn = _get_connection()
         cutoff_date = (datetime.now() - timedelta(days=days)).isoformat()
         
-        cursor = conn.execute("""
-            DELETE FROM admin_audit_log 
-            WHERE timestamp < ?
-        """, (cutoff_date,))
-        
-        conn.commit()
+        with db_write_transaction(conn):
+            cursor = conn.execute("""
+                DELETE FROM admin_audit_log
+                WHERE timestamp < ?
+            """, (cutoff_date,))
         return cursor.rowcount
     
     except Exception as e:
+        raise_if_db_locked(e)
         logging.exception("Audit-Log Cleanup Fehler")
         return 0
 
@@ -276,15 +281,15 @@ def log_login_attempt(
         conn = _get_connection()
         timestamp = datetime.now().isoformat()
         
-        conn.execute("""
-            INSERT INTO admin_login_attempts 
-            (user_id, timestamp, success, ip_address)
-            VALUES (?, ?, ?, ?)
-        """, (user_id, timestamp, success, ip_address))
-        
-        conn.commit()
+        with db_write_transaction(conn):
+            conn.execute("""
+                INSERT INTO admin_login_attempts
+                (user_id, timestamp, success, ip_address)
+                VALUES (?, ?, ?, ?)
+            """, (user_id, timestamp, success, ip_address))
     
     except Exception as e:
+        raise_if_db_locked(e)
         logging.exception("Login-Attempt Log Fehler")
 
 
@@ -351,24 +356,24 @@ def check_rate_limit(
                 datetime.now() + timedelta(minutes=window_minutes)
             ).isoformat()
             
-            conn.execute("""
-                UPDATE admin_login_attempts 
-                SET locked_until = ?
-                WHERE user_id = ? AND id IN (
-                    SELECT id FROM admin_login_attempts
-                    WHERE user_id = ?
-                    ORDER BY timestamp DESC
-                    LIMIT 1
-                )
-            """, (locked_until, user_id, user_id))
-            
-            conn.commit()
+            with db_write_transaction(conn):
+                conn.execute("""
+                    UPDATE admin_login_attempts
+                    SET locked_until = ?
+                    WHERE user_id = ? AND id IN (
+                        SELECT id FROM admin_login_attempts
+                        WHERE user_id = ?
+                        ORDER BY timestamp DESC
+                        LIMIT 1
+                    )
+                """, (locked_until, user_id, user_id))
             
             return False, locked_until
         
         return True, None
     
     except Exception as e:
+        raise_if_db_locked(e)
         logging.exception("Rate-Limit Check Fehler")
         return True, None  # Bei Fehler: Erlaube Login (Fail-Open)
 
@@ -385,14 +390,14 @@ def reset_login_attempts(user_id: str) -> None:
         conn = _get_connection()
         
         # Lösche alte Versuche (behalte nur letzten erfolgreichen Login)
-        conn.execute("""
-            DELETE FROM admin_login_attempts
-            WHERE user_id = ? AND success = 0
-        """, (user_id,))
-        
-        conn.commit()
+        with db_write_transaction(conn):
+            conn.execute("""
+                DELETE FROM admin_login_attempts
+                WHERE user_id = ? AND success = 0
+            """, (user_id,))
     
     except Exception as e:
+        raise_if_db_locked(e)
         logging.exception("Reset Login-Attempts Fehler")
 
 
@@ -411,15 +416,15 @@ def cleanup_old_login_attempts(days: int = 30) -> int:
         conn = _get_connection()
         cutoff_date = (datetime.now() - timedelta(days=days)).isoformat()
         
-        cursor = conn.execute("""
-            DELETE FROM admin_login_attempts 
-            WHERE timestamp < ?
-        """, (cutoff_date,))
-        
-        conn.commit()
+        with db_write_transaction(conn):
+            cursor = conn.execute("""
+                DELETE FROM admin_login_attempts
+                WHERE timestamp < ?
+            """, (cutoff_date,))
         return cursor.rowcount
     
     except Exception as e:
+        raise_if_db_locked(e)
         logging.exception("Login-Attempts Cleanup Fehler")
         return 0
 

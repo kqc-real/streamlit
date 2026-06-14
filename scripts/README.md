@@ -23,6 +23,7 @@ Stable CLI tools live in `tools/`.
 - `scripts/migrations/convert_question_sets.py`
 - `scripts/migrations/fill_all_cognitive_levels.py`
 - `scripts/migrations/migrate_explanations.py`
+- `scripts/qa/load_test_users.py`
 - `scripts/qa/pdf_smoke_test.py`
 - `scripts/qa/run_tests.sh`
 - `scripts/qa/test_pacing_status.py`

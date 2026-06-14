@@ -8,6 +8,9 @@ import os
 import hashlib
 import binascii
 import secrets
+from contextlib import contextmanager
+from functools import wraps
+import threading
 from helpers.text import get_user_id_hash
 from config import get_package_dir, get_question_counts
 from pacing_helper import compute_total_cooldown_seconds
@@ -39,22 +42,114 @@ if not hasattr(st, "cache_resource"):
 # mit Tools und in Cloud-Umgebungen zu vermeiden.
 DATABASE_FILE = os.path.join(get_package_dir(), "db", "mc_test_data.db")
 
-@st.cache_resource
+_SQLITE_TIMEOUT_SECONDS = 5.0
+_SQLITE_BUSY_TIMEOUT_MS = int(_SQLITE_TIMEOUT_SECONDS * 1000)
+_DB_LOCAL = threading.local()
+_DB_WRITE_LOCK = threading.RLock()
+
+
+def _current_database_file() -> str:
+    return os.fspath(DATABASE_FILE)
+
+
+def _is_sqlite_lock_error(error: BaseException) -> bool:
+    message = str(error).lower()
+    return isinstance(error, sqlite3.OperationalError) and (
+        "database is locked" in message
+        or "database table is locked" in message
+        or "database is busy" in message
+        or "database table is busy" in message
+    )
+
+
+def raise_if_db_locked(error: BaseException) -> None:
+    """Re-raise SQLite lock errors so retry decorators can handle them."""
+    if _is_sqlite_lock_error(error):
+        raise error
+
+
+def _handle_db_error(context: str, error: sqlite3.Error, default=None):
+    raise_if_db_locked(error)
+    print(f"Datenbankfehler in {context}: {error}")
+    return default
+
+
+def _get_streamlit_session_value(key: str, default=None):
+    try:
+        from streamlit.runtime.scriptrunner_utils.script_run_context import get_script_run_ctx
+
+        if get_script_run_ctx(suppress_warning=True) is None:
+            return default
+    except Exception:
+        pass
+    try:
+        return st.session_state.get(key, default)
+    except Exception:
+        return default
+
+
+def _configure_connection(conn: sqlite3.Connection) -> sqlite3.Connection:
+    conn.execute("PRAGMA journal_mode=WAL;")
+    conn.execute("PRAGMA synchronous=NORMAL;")
+    conn.execute(f"PRAGMA busy_timeout={_SQLITE_BUSY_TIMEOUT_MS};")
+    conn.row_factory = sqlite3.Row
+    return conn
+
+
 def get_db_connection():
     """
-    Stellt eine Verbindung zur SQLite-Datenbank her und aktiviert den WAL-Modus.
+    Stellt eine thread-lokale SQLite-Verbindung bereit.
     
-    Der WAL-Modus (Write-Ahead Logging) ist entscheidend für die gleichzeitige
-    Nutzung durch mehrere Benutzer, da er Lese- und Schreibzugriffe parallel
-    ermöglicht, ohne dass sie sich gegenseitig blockieren.
+    Der WAL-Modus (Write-Ahead Logging) erlaubt parallele Lesezugriffe, während
+    Schreibzugriffe weiterhin kurz serialisiert werden. Eine Verbindung pro
+    Thread vermeidet eine gemeinsam genutzte Connection über Streamlit-Sessions.
     
     Returns:
         Ein sqlite3.Connection-Objekt oder None bei einem Fehler.
     """
-    conn = sqlite3.connect(DATABASE_FILE, check_same_thread=False)
-    conn.execute("PRAGMA journal_mode=WAL;")
-    conn.row_factory = sqlite3.Row  # Ermöglicht den Zugriff auf Spalten nach Namen
+    db_file = _current_database_file()
+    conn = getattr(_DB_LOCAL, "conn", None)
+    cached_db_file = getattr(_DB_LOCAL, "db_file", None)
+    if conn is not None and cached_db_file == db_file:
+        return conn
+
+    if conn is not None:
+        try:
+            conn.close()
+        except sqlite3.Error:
+            pass
+
+    db_dir = os.path.dirname(db_file)
+    if db_dir:
+        os.makedirs(db_dir, exist_ok=True)
+
+    conn = sqlite3.connect(db_file, timeout=_SQLITE_TIMEOUT_SECONDS)
+    _configure_connection(conn)
+    _DB_LOCAL.conn = conn
+    _DB_LOCAL.db_file = db_file
     return conn
+
+
+def _clear_thread_db_connection() -> None:
+    conn = getattr(_DB_LOCAL, "conn", None)
+    if conn is not None:
+        try:
+            conn.close()
+        except sqlite3.Error:
+            pass
+    _DB_LOCAL.conn = None
+    _DB_LOCAL.db_file = None
+
+
+get_db_connection.clear = _clear_thread_db_connection  # type: ignore[attr-defined]
+
+
+@contextmanager
+def db_write_transaction(conn: sqlite3.Connection):
+    """Serialize short SQLite write transactions inside this app process."""
+    with _DB_WRITE_LOCK:
+        with conn:
+            yield
 
 def with_db_retry(func):
     """
@@ -62,6 +157,7 @@ def with_db_retry(func):
     mehrmals mit einer kurzen Verzögerung wiederholt. Dies erhöht die Robustheit
     unter hoher Last bei gleichzeitigen Schreibzugriffen.
     """
+    @wraps(func)
     def wrapper(*args, **kwargs):
         max_retries = 5
         delay = 0.1  # 100ms
@@ -69,7 +165,7 @@ def with_db_retry(func):
             try:
                 return func(*args, **kwargs)
             except sqlite3.OperationalError as e:
-                if "database is locked" in str(e):
+                if _is_sqlite_lock_error(e):
                     if attempt < max_retries - 1:
                         time.sleep(delay)
                         delay *= 2  # Exponential backoff
@@ -93,9 +189,9 @@ def create_tables():
         return
     
     try:
-        # "with conn:" startet eine Transaktion. Bei Erfolg wird sie committet,
+        # db_write_transaction startet eine Transaktion. Bei Erfolg wird sie committet,
         # bei einem Fehler automatisch zurückgerollt.
-        with conn:
+        with db_write_transaction(conn):
             # Tabelle für Benutzer
             conn.execute("""
                 CREATE TABLE IF NOT EXISTS users (
@@ -467,7 +563,7 @@ def init_database():
             cols_ts = [r['name'] for r in cursor.fetchall()]
             if 'mode' not in cols_ts:
                 try:
-                    with conn:
+                    with db_write_transaction(conn):
                         conn.execute("ALTER TABLE test_sessions ADD COLUMN mode TEXT DEFAULT 'exam'")
                 except sqlite3.Error:
                     pass
@@ -477,7 +573,7 @@ def init_database():
             cols_summ = [r['name'] for r in cursor.fetchall()]
             if 'mode' not in cols_summ:
                 try:
-                    with conn:
+                    with db_write_transaction(conn):
                         conn.execute("ALTER TABLE test_session_summaries ADD COLUMN mode TEXT DEFAULT 'exam'")
                 except sqlite3.Error:
                     pass
@@ -492,13 +588,13 @@ def add_user(user_id: str, pseudonym: str):
     if conn is None:
         return
     try:
-        with conn:
+        with db_write_transaction(conn):
             conn.execute(
                 "INSERT OR IGNORE INTO users (user_id, user_pseudonym) VALUES (?, ?)",
                 (user_id, pseudonym)
             )
     except sqlite3.Error as e:
-        print(f"Datenbankfehler in add_user: {e}")
+        return _handle_db_error("add_user", e, False)
 
 @with_db_retry
 def start_test_session(user_id: str, questions_file: str, tempo: str = 'normal', mode: str = 'exam') -> int | None:
@@ -507,7 +603,7 @@ def start_test_session(user_id: str, questions_file: str, tempo: str = 'normal',
     if conn is None:
         return None
     try:
-        with conn:
+        with db_write_transaction(conn):
             cursor = conn.cursor()
             # Store start_time explicitly as now + 2 hours (MEZ/CEST offset as requested).
             # Use a fixed +2h offset to match the application's display requirement
@@ -539,10 +635,7 @@ def start_test_session(user_id: str, questions_file: str, tempo: str = 'normal',
             # flows start a session after the pseudonym is chosen but before
             # the user record was inserted; this makes the mapping robust.
             try:
-                try:
-                    user_pseudonym = st.session_state.get('user_id')
-                except Exception:
-                    user_pseudonym = None
+                user_pseudonym = _get_streamlit_session_value('user_id')
                 if user_pseudonym:
                     # Use INSERT OR IGNORE to avoid races with concurrent inserts
                     conn.execute(
@@ -555,8 +648,7 @@ def start_test_session(user_id: str, questions_file: str, tempo: str = 'normal',
 
             return session_id
     except sqlite3.Error as e:
-        print(f"Datenbankfehler in start_test_session: {e}")
-        return None
+        return _handle_db_error("start_test_session", e, None)
 
 @with_db_retry
 def save_answer(session_id: int, question_nr: int, answer_text: str, points: int, is_correct: bool, confidence: str | None = None):
@@ -569,7 +661,7 @@ def save_answer(session_id: int, question_nr: int, answer_text: str, points: int
     if conn is None:
         return
     try:
-        with conn:
+        with db_write_transaction(conn):
             # Use CURRENT_TIMESTAMP to update the timestamp when overwriting
             conn.execute(
                 """
@@ -585,7 +677,7 @@ def save_answer(session_id: int, question_nr: int, answer_text: str, points: int
                 (session_id, question_nr, answer_text, points, 1 if is_correct else 0, confidence),
             )
     except sqlite3.Error as e:
-        print(f"Datenbankfehler in save_answer: {e}")
+        return _handle_db_error("save_answer", e, False)
 
 @with_db_retry
 def add_feedback(session_id: int, question_nr: int, feedback_types: list[str]):
@@ -594,14 +686,14 @@ def add_feedback(session_id: int, question_nr: int, feedback_types: list[str]):
     if conn is None:
         return
     try:
-        with conn:
+        with db_write_transaction(conn):
             feedback_to_insert = [(session_id, question_nr, f_type) for f_type in feedback_types]
             conn.executemany(
                 "INSERT INTO feedback (session_id, question_nr, feedback_type) VALUES (?, ?, ?)",
                 feedback_to_insert
             )
     except sqlite3.Error as e:
-        print(f"Datenbankfehler in add_feedback: {e}")
+        return _handle_db_error("add_feedback", e, False)
 
 
 @with_db_retry
@@ -611,7 +703,7 @@ def update_bookmarks(session_id: int, bookmarked_question_nrs: list[int]):
     if conn is None:
         return
     try:
-        with conn:
+        with db_write_transaction(conn):
             # Lösche zuerst alle existierenden Lesezeichen für die Session
             conn.execute("DELETE FROM bookmarks WHERE session_id = ?", (session_id,))
             # Füge dann die neuen Lesezeichen hinzu
@@ -622,7 +714,7 @@ def update_bookmarks(session_id: int, bookmarked_question_nrs: list[int]):
                     bookmarks_to_insert
                 )
     except sqlite3.Error as e:
-        print(f"Datenbankfehler in update_bookmarks: {e}")
+        return _handle_db_error("update_bookmarks", e, False)
 
 def get_all_logs_for_leaderboard(questions_file: str, tempo: str | None = None) -> list[dict]:
     """
@@ -854,14 +946,13 @@ def delete_feedback(feedback_id: int) -> bool:
     if conn is None:
         return False
     try:
-        with conn:
+        with db_write_transaction(conn):
             cursor = conn.cursor()
             cursor.execute("DELETE FROM feedback WHERE feedback_id = ?", (feedback_id,))
             # Überprüfe, ob eine Zeile gelöscht wurde
             return cursor.rowcount > 0
     except sqlite3.Error as e:
-        print(f"Datenbankfehler in delete_feedback: {e}")
-        return False
+        return _handle_db_error("delete_feedback", e, False)
 
 @with_db_retry
 def delete_multiple_feedback(feedback_ids: list[int]) -> bool:
@@ -872,7 +963,7 @@ def delete_multiple_feedback(feedback_ids: list[int]) -> bool:
     if conn is None:
         return False
     try:
-        with conn:
+        with db_write_transaction(conn):
             cursor = conn.cursor()
             # Erstelle eine Kette von Platzhaltern für die IN-Klausel
             placeholders = ','.join(['?'] * len(feedback_ids))
@@ -880,8 +971,7 @@ def delete_multiple_feedback(feedback_ids: list[int]) -> bool:
             cursor.execute(query, feedback_ids)
             return cursor.rowcount > 0
     except sqlite3.Error as e:
-        print(f"Datenbankfehler in delete_multiple_feedback: {e}")
-        return False
+        return _handle_db_error("delete_multiple_feedback", e, False)
 
 
 @with_db_retry
@@ -895,7 +985,7 @@ def delete_user_results_for_qset(user_pseudonym: str, questions_file: str) -> bo
         return False
     
     try:
-        with conn:
+        with db_write_transaction(conn):
             cursor = conn.cursor()
             
             # 1. Finde die user_id für das Pseudonym
@@ -925,8 +1015,7 @@ def delete_user_results_for_qset(user_pseudonym: str, questions_file: str) -> bo
             cursor.execute(f"DELETE FROM test_sessions WHERE session_id IN ({placeholders})", session_ids)
             return True
     except sqlite3.Error as e:
-        print(f"Datenbankfehler in delete_user_results_for_qset: {e}")
-        return False
+        return _handle_db_error("delete_user_results_for_qset", e, False)
 
 @with_db_retry
 def delete_all_sessions_for_user(user_pseudonym: str) -> bool:
@@ -955,7 +1044,7 @@ def delete_all_sessions_for_user(user_pseudonym: str) -> bool:
         session_ids = [r['session_id'] for r in session_rows]
         placeholders = ','.join(['?'] * len(session_ids))
 
-        with conn:
+        with db_write_transaction(conn):
             cursor.execute(f"DELETE FROM bookmarks WHERE session_id IN ({placeholders})", session_ids)
             cursor.execute(f"DELETE FROM feedback WHERE session_id IN ({placeholders})", session_ids)
             cursor.execute(f"DELETE FROM answers WHERE session_id IN ({placeholders})", session_ids)
@@ -963,8 +1052,7 @@ def delete_all_sessions_for_user(user_pseudonym: str) -> bool:
 
         return True
     except sqlite3.Error as e:
-        print(f"Datenbankfehler in delete_all_sessions_for_user: {e}")
-        return False
+        return _handle_db_error("delete_all_sessions_for_user", e, False)
 
 
 @with_db_retry
@@ -980,7 +1068,7 @@ def reset_all_test_data():
         from config import AppConfig
         admin_user_pseudonym = AppConfig().admin_user
 
-        with conn:
+        with db_write_transaction(conn):
             # Lösche alle Einträge, die nicht zum Admin gehören
             conn.execute("DELETE FROM bookmarks;")
             conn.execute("DELETE FROM answers;")
@@ -990,8 +1078,7 @@ def reset_all_test_data():
                 conn.execute("DELETE FROM users WHERE user_pseudonym != ?", (admin_user_pseudonym,))
         return True
     except sqlite3.Error as e:
-        print(f"Datenbankfehler in reset_all_test_data: {e}")
-        return False
+        return _handle_db_error("reset_all_test_data", e, False)
 
 
 @with_db_retry
@@ -1042,7 +1129,7 @@ def delete_reserved_pseudonyms() -> int:
         session_rows = cursor.fetchall()
         session_ids = [r["session_id"] for r in session_rows] if session_rows else []
 
-        with conn:
+        with db_write_transaction(conn):
             if session_ids:
                 s_ph = ",".join(["?"] * len(session_ids))
                 conn.execute(f"DELETE FROM bookmarks WHERE session_id IN ({s_ph})", session_ids)
@@ -1054,8 +1141,7 @@ def delete_reserved_pseudonyms() -> int:
 
         return len(user_ids)
     except sqlite3.Error as e:
-        print(f"Datenbankfehler in delete_reserved_pseudonyms: {e}")
-        return 0
+        return _handle_db_error("delete_reserved_pseudonyms", e, 0)
 
 
 @with_db_retry
@@ -1105,7 +1191,7 @@ def delete_reserved_pseudonym(pseudonym: str) -> bool:
         session_rows = cursor.fetchall()
         session_ids = [r["session_id"] for r in session_rows] if session_rows else []
 
-        with conn:
+        with db_write_transaction(conn):
             if session_ids:
                 placeholders = ",".join(["?"] * len(session_ids))
                 conn.execute(f"DELETE FROM bookmarks WHERE session_id IN ({placeholders})", session_ids)
@@ -1117,8 +1203,7 @@ def delete_reserved_pseudonym(pseudonym: str) -> bool:
 
         return True
     except sqlite3.Error as e:
-        print(f"Datenbankfehler in delete_reserved_pseudonym: {e}")
-        return False
+        return _handle_db_error("delete_reserved_pseudonym", e, False)
 
 
 def get_database_dump() -> str:
@@ -1405,7 +1490,7 @@ def recompute_session_summary(session_id: int) -> bool:
         )
 
         try:
-            with conn:
+            with db_write_transaction(conn):
                 conn.execute(
                     insert_sql,
                     (
@@ -1431,14 +1516,15 @@ def recompute_session_summary(session_id: int) -> bool:
                     ),
                 )
         except sqlite3.OperationalError as e:
+            raise_if_db_locked(e)
             # If the table is missing the `effective_allowed` column (older DBs),
             # try to add it and retry once. This makes the migration robust.
             msg = str(e).lower()
             if 'no column named effective_allowed' in msg or 'has no column named effective_allowed' in msg:
                 try:
-                    with conn:
+                    with db_write_transaction(conn):
                         conn.execute("ALTER TABLE test_session_summaries ADD COLUMN effective_allowed INTEGER")
-                    with conn:
+                    with db_write_transaction(conn):
                         conn.execute(
                             insert_sql,
                             (
@@ -1472,8 +1558,7 @@ def recompute_session_summary(session_id: int) -> bool:
 
         return True
     except sqlite3.Error as e:
-        print(f"Datenbankfehler in recompute_session_summary: {e}")
-        return False
+        return _handle_db_error("recompute_session_summary", e, False)
 
 
 def get_user_test_history(
@@ -1834,7 +1919,7 @@ def release_unreserved_pseudonyms() -> int:
             except Exception:
                 # Best-effort cleanup only
                 pass
-            with conn:
+            with db_write_transaction(conn):
                 placeholders = ','.join('?' for _ in user_ids_to_delete)
                 # Lösche zuerst abhängige Daten, falls Foreign Keys aktiv sind
                 cursor.execute(f"DELETE FROM bookmarks WHERE session_id IN (SELECT session_id FROM test_sessions WHERE user_id IN ({placeholders}))", user_ids_to_delete)
@@ -1852,8 +1937,7 @@ def release_unreserved_pseudonyms() -> int:
         return deleted_count
 
     except sqlite3.Error as e:
-        print(f"Datenbankfehler in release_unreserved_pseudonyms: {e}")
-        return 0
+        return _handle_db_error("release_unreserved_pseudonyms", e, 0)
 
 
 # -----------------------------
@@ -1907,15 +1991,14 @@ def set_recovery_secret(user_id: str, secret_plain: str) -> bool:
         return False
     try:
         salt_hex, hash_hex = _hash_secret(secret_plain)
-        with conn:
+        with db_write_transaction(conn):
             conn.execute(
                 "UPDATE users SET recovery_salt = ?, recovery_hash = ? WHERE user_id = ?",
                 (salt_hex, hash_hex, user_id),
             )
         return True
     except sqlite3.Error as e:
-        print(f"Datenbankfehler in set_recovery_secret: {e}")
-        return False
+        return _handle_db_error("set_recovery_secret", e, False)
 
 
 def verify_recovery(pseudonym: str, secret_plain: str) -> str | None:
@@ -2019,8 +2102,8 @@ def get_user_preference(user_pseudonym: str, pref_key: str) -> str | None:
             return row['pref_value'] if 'pref_value' in row.keys() else None
         except Exception:
             return None
-    except sqlite3.Error:
-        return None
+    except sqlite3.Error as e:
+        return _handle_db_error("get_user_preference", e, None)
 
 
 @with_db_retry
@@ -2035,15 +2118,15 @@ def set_user_preference(user_pseudonym: str, pref_key: str, pref_value: str) -> 
     if conn is None:
         return False
     try:
-        cursor = conn.cursor()
-        cursor.execute(
-            "INSERT OR REPLACE INTO user_preferences (user_pseudonym, pref_key, pref_value) VALUES (?, ?, ?)",
-            (user_pseudonym, pref_key, pref_value),
-        )
-        conn.commit()
+        with db_write_transaction(conn):
+            cursor = conn.cursor()
+            cursor.execute(
+                "INSERT OR REPLACE INTO user_preferences (user_pseudonym, pref_key, pref_value) VALUES (?, ?, ?)",
+                (user_pseudonym, pref_key, pref_value),
+            )
         return True
-    except sqlite3.Error:
-        return False
+    except sqlite3.Error as e:
+        return _handle_db_error("set_user_preference", e, False)
 
 
 # =====================================================================
@@ -2219,6 +2302,7 @@ def get_active_user_counts():
         return None
 
 
+@with_db_retry
 def upsert_user_heartbeat(user_id: str, session_id: int | None = None) -> bool:
     """Speichert oder aktualisiert den Heartbeat eines Nutzers."""
     if not user_id:
@@ -2227,7 +2311,7 @@ def upsert_user_heartbeat(user_id: str, session_id: int | None = None) -> bool:
     if conn is None:
         return False
     try:
-        with conn:
+        with db_write_transaction(conn):
             conn.execute(
                 """
                 INSERT INTO user_heartbeats (user_id, session_id, last_seen)
@@ -2241,8 +2325,7 @@ def upsert_user_heartbeat(user_id: str, session_id: int | None = None) -> bool:
             )
         return True
     except sqlite3.Error as e:
-        print(f"Datenbankfehler in upsert_user_heartbeat: {e}")
-        return False
+        return _handle_db_error("upsert_user_heartbeat", e, False)
 
 
 def get_current_user_count(window_minutes: int = 5) -> int | None:

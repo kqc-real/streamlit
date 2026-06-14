@@ -1,6 +1,7 @@
 import importlib
 import pathlib
 import sys
+from concurrent.futures import ThreadPoolExecutor
 import streamlit as st
 import database
 import config
@@ -74,3 +75,42 @@ def test_create_tables_dedupes_existing_duplicates(monkeypatch, tmp_path):
     row = cur.fetchone()
     assert row is not None
     assert int(row['c']) == 1
+
+
+def test_save_answer_handles_parallel_writes(monkeypatch, tmp_path):
+    db_file = str(tmp_path / "mc_test_data.db")
+    monkeypatch.setattr(database, "DATABASE_FILE", db_file)
+    try:
+        database.get_db_connection.clear()
+    except Exception:
+        pass
+
+    database.init_database()
+    session_id = database.start_test_session("parallel_user", "qset_parallel")
+    assert session_id is not None
+
+    def write_answer(question_nr: int) -> None:
+        database.save_answer(
+            session_id,
+            question_nr,
+            f"Option {question_nr}",
+            question_nr % 2,
+            bool(question_nr % 2),
+        )
+        try:
+            database.get_db_connection.clear()
+        except Exception:
+            pass
+
+    with ThreadPoolExecutor(max_workers=8) as executor:
+        list(executor.map(write_answer, range(1, 41)))
+
+    conn = database.get_db_connection()
+    cur = conn.cursor()
+    cur.execute(
+        "SELECT COUNT(*) AS c FROM answers WHERE session_id = ?",
+        (session_id,),
+    )
+    row = cur.fetchone()
+    assert row is not None
+    assert int(row["c"]) == 40
