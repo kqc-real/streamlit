@@ -598,31 +598,34 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             _dialog_text(
                 "intro",
                 default=(
-                    "Dieser Dialog führt dich mit einem externen LLM (z. B. ChatGPT, Claude oder Gemini) durch vier Schritte:\n"
-                    "1) **Fragenset erzeugen**: Prompt kopieren, im LLM beantworten lassen, JSON hier speichern.\n"
-                    "2) **Lernziele erzeugen**: gespeichertes JSON mit dem Lernziele-Prompt an das LLM geben, Markdown hier speichern.\n"
-                    "3) **Fragenset prüfen**: JSON mit dem Prüf-Prompt verbessern und erneut speichern.\n"
-                    "4) **Lernziele prüfen**: Lernziele auf das geprüfte Set abstimmen und speichern."
+                    "Arbeite in vier Schritten mit einem externen LLM (z. B. ChatGPT, Claude oder Gemini):\n\n"
+                    "1) **Fragenset erzeugen** – Prompt kopieren, JSON im LLM erstellen lassen und hier speichern.\n"
+                    "2) **Lernziele erzeugen** – gespeichertes JSON an das LLM geben und Markdown hier speichern.\n"
+                    "3) **Fragenset prüfen** – JSON mit dem Prüf-Prompt verbessern und erneut speichern.\n"
+                    "4) **Lernziele prüfen** – Lernziele an das geprüfte Set angleichen und speichern."
                 ),
             )
         )
-        st.info(
+        st.markdown(
             _dialog_text(
                 "intro_info",
-                default=(
-                    "Kurz erklärt: Die App erzeugt selbst keine Inhalte. Du nutzt ein externes LLM, "
-                    "kopierst Prompt und Daten dorthin und fügst hier nur JSON bzw. Markdown ein."
-                ),
-            ),
-            icon="ℹ️"
+                default="Die App erzeugt selbst keine Inhalte. Du kopierst Prompt und Daten in dein externes LLM und fügst hier nur JSON oder Markdown zurück ein.",
+            )
         )
-        st.info(
-            _dialog_text(
-                "ai_bias_explanation",
-                default="Warum die Prüf-Schritte? LLMs liefern oft hilfreiche, aber unausgewogene Items: richtige Antworten sind manchmal länger, Distraktoren schwächer und Lernziele zu vage. Schritt 3 und 4 machen Set und Lernziele prüfbarer."
-            ),
-            icon="🧠"
-        )
+        with st.expander(
+            _dialog_text("ai_bias_title", default="Warum Schritt 3 und 4?"),
+            expanded=False,
+        ):
+            st.markdown(
+                _dialog_text(
+                    "ai_bias_explanation",
+                    default=(
+                        "LLMs liefern oft brauchbare, aber ungleichmäßige Ergebnisse: richtige Antworten sind "
+                        "manchmal länger, Distraktoren schwächer und Lernziele zu vage. Die Prüfschritte helfen, "
+                        "Fragenset und Lernziele vor dem Einsatz zu glätten."
+                    ),
+                )
+            )
 
         prompt_views = st.session_state.setdefault("_prompt_inline_views", {})
         prompt_resources = iter_prompt_resources()
@@ -784,7 +787,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
         ]
         tab_selector_key = "user_qset_tab_selector"
         st.divider()
-        st.caption(
+        st.markdown(
             _dialog_text(
                 "tab_selector_hint",
                 default="Wähle den Schritt (1–4), den du jetzt bearbeiten möchtest.",
@@ -1843,7 +1846,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
     force_inline = st.session_state.get("_force_inline_user_qset", False)
 
     if force_inline:
-        with st.container(border=True):
+        with st.container(border=False):
             st.subheader(_dialog_text("title", default="✨ Fragenset mit externem LLM erstellen"))
             _render_body()
     else:
@@ -1853,7 +1856,17 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             # "Dialog schließen"-Button den Flow beendet.
             st.markdown(
                 """
+                <div class="mc-user-qset-dialog-root" aria-hidden="true"></div>
                 <style>
+                [data-testid="stVerticalBlock"]:has(.mc-user-qset-dialog-root) {
+                    border: none !important;
+                    box-shadow: none !important;
+                }
+                [data-testid="stDialog"] div[role="dialog"] {
+                    border: none !important;
+                    outline: none !important;
+                    box-shadow: none !important;
+                }
                 [data-testid="stDialog"] button[aria-label="Close"] {
                     display: none !important;
                 }

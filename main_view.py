@@ -2993,7 +2993,7 @@ def _inject_refined_welcome_splash_styles() -> None:
             display: none;
         }
         .mc-welcome-eyebrow {
-            color: #fca5a5;
+            color: #cbd5e1;
             font-size: 0.82rem;
             font-weight: 700;
             letter-spacing: 0;
@@ -3844,7 +3844,28 @@ def render_welcome_page(app_config: AppConfig):
         except Exception:
             return None
 
+    def _language_flag_for_question_set(filename: str) -> str:
+        question_set = question_set_cache.get(filename)
+        language = None
+        try:
+            if question_set and isinstance(getattr(question_set, "meta", None), dict):
+                language = question_set.meta.get("language")
+        except Exception:
+            language = None
+
+        code = str(language or "de").strip().lower().replace("_", "-")
+        code = code.split("-", 1)[0] if code else "de"
+        return {
+            "de": "🇩🇪",
+            "en": "🇬🇧",
+            "es": "🇪🇸",
+            "fr": "🇫🇷",
+            "it": "🇮🇹",
+            "zh": "🇨🇳",
+        }.get(code, "🌐")
+
     def format_filename(filename):
+        language_flag = _language_flag_for_question_set(filename)
         if filename.startswith(USER_QUESTION_PREFIX) and filename in user_set_lookup:
             info = user_set_lookup[filename]
             # Determine marker emoji: green if uploader used a reserved pseudonym, yellow otherwise
@@ -3876,7 +3897,7 @@ def render_welcome_page(app_config: AppConfig):
             if not label_name:
                 label_name = format_user_label(info)
 
-            label = f"{marker} {label_name}"
+            label = f"{language_flag} {marker} {label_name}"
             num_questions = question_counts.get(filename)
             if num_questions:
                 label += f" ({_questions_count_label(num_questions)})"
@@ -3936,6 +3957,7 @@ def render_welcome_page(app_config: AppConfig):
                 label = '📘 ' + label
         except Exception:
             pass
+        label = f"{language_flag} {label}"
         # If a core set is marked as temporary (e.g., created in Streamlit Cloud),
         # show the same temporary marker as for user uploads.
         try:
@@ -3955,7 +3977,11 @@ def render_welcome_page(app_config: AppConfig):
                             marker = "🟢"
                 except Exception:
                     pass
-                label = f"{marker} {label}"
+                flag_prefix = f"{language_flag} "
+                if label.startswith(flag_prefix):
+                    label = f"{language_flag} {marker} {label[len(flag_prefix):]}"
+                else:
+                    label = f"{language_flag} {marker} {label}"
         except Exception:
             pass
         return label
@@ -4748,13 +4774,6 @@ def render_welcome_page(app_config: AppConfig):
             if 'question_sort_order' not in st.session_state:
                 st.session_state.question_sort_order = "random"
 
-            st.selectbox(
-                label=translate_ui("welcome.sort_order.label", default="Fragen sortieren nach:"),
-                options=list(sort_options.keys()),
-                format_func=lambda x: sort_options[x],
-                key="question_sort_order"
-            )
-
             # --- Tempo-Auswahl (für die laufende Session) ---
             try:
                 tempo_options = {
@@ -4772,12 +4791,75 @@ def render_welcome_page(app_config: AppConfig):
             if 'selected_tempo' not in st.session_state:
                 st.session_state['selected_tempo'] = 'normal'
 
-            st.selectbox(
-                label=translate_ui('welcome.tempo.label', default='Wähle Tempo'),
-                options=list(tempo_options.keys()),
-                format_func=lambda k: tempo_options.get(k, k),
-                key='selected_tempo'
+            _emit_html(
+                """
+                <style>
+                .mc-start-control-row-marker {
+                    display: none;
+                }
+                div[data-testid="stElementContainer"]:has(.mc-start-control-row-marker)
+                    + div[data-testid="stHorizontalBlock"] {
+                    display: flex !important;
+                    flex-direction: row !important;
+                    align-items: flex-start !important;
+                    gap: 0.75rem !important;
+                }
+                div[data-testid="stElementContainer"]:has(.mc-start-control-row-marker)
+                    + div[data-testid="stLayoutWrapper"] div[data-testid="stHorizontalBlock"] {
+                    display: flex !important;
+                    flex-direction: row !important;
+                    align-items: flex-start !important;
+                    gap: 0.75rem !important;
+                }
+                div[data-testid="stElementContainer"]:has(.mc-start-control-row-marker)
+                    + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {
+                    flex: 1 1 0 !important;
+                    min-width: 0 !important;
+                    width: calc(50% - 0.375rem) !important;
+                }
+                div[data-testid="stElementContainer"]:has(.mc-start-control-row-marker)
+                    + div[data-testid="stLayoutWrapper"] div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {
+                    flex: 1 1 0 !important;
+                    min-width: 0 !important;
+                    width: calc(50% - 0.375rem) !important;
+                }
+                @media (max-width: 640px) {
+                    div[data-testid="stElementContainer"]:has(.mc-start-control-row-marker)
+                        + div[data-testid="stHorizontalBlock"] {
+                        gap: 0.5rem !important;
+                    }
+                    div[data-testid="stElementContainer"]:has(.mc-start-control-row-marker)
+                        + div[data-testid="stLayoutWrapper"] div[data-testid="stHorizontalBlock"] {
+                        gap: 0.5rem !important;
+                    }
+                    div[data-testid="stElementContainer"]:has(.mc-start-control-row-marker)
+                        + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {
+                        width: calc(50% - 0.25rem) !important;
+                    }
+                    div[data-testid="stElementContainer"]:has(.mc-start-control-row-marker)
+                        + div[data-testid="stLayoutWrapper"] div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {
+                        width: calc(50% - 0.25rem) !important;
+                    }
+                }
+                </style>
+                <span class="mc-start-control-row-marker" aria-hidden="true"></span>
+                """
             )
+            sort_col, tempo_col = st.columns(2, gap="small")
+            with sort_col:
+                st.selectbox(
+                    label=translate_ui("welcome.sort_order.label", default="Fragen sortieren nach:"),
+                    options=list(sort_options.keys()),
+                    format_func=lambda x: sort_options[x],
+                    key="question_sort_order",
+                )
+            with tempo_col:
+                st.selectbox(
+                    label=translate_ui('welcome.tempo.label', default='Wähle Tempo'),
+                    options=list(tempo_options.keys()),
+                    format_func=lambda k: tempo_options.get(k, k),
+                    key='selected_tempo',
+                )
 
             # --- Modus-Auswahl (Prüfung vs. Übung) ---
             mode_options = {
@@ -4787,7 +4869,13 @@ def render_welcome_page(app_config: AppConfig):
             if 'selected_mode' not in st.session_state:
                 st.session_state['selected_mode'] = 'exam'
             
-            st.radio(translate_ui('welcome.mode.label', default="Modus:"), options=list(mode_options.keys()), format_func=lambda x: mode_options[x], key='selected_mode')
+            st.radio(
+                translate_ui('welcome.mode.label', default="Modus:"),
+                options=list(mode_options.keys()),
+                format_func=lambda x: mode_options[x],
+                key='selected_mode',
+                horizontal=True,
+            )
 
             # --- Start-Button (nach Auswahl) ---
             user_name = st.session_state.get("user_id")

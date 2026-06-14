@@ -79,6 +79,18 @@ def _legal_button_label(kind: LegalKind) -> str:
     return _legal_t("legal.datenschutz.button", default="Datenschutzerklärung")
 
 
+def _emit_html(target, html: str) -> None:
+    html_fn = getattr(target, "html", None)
+    if callable(html_fn):
+        html_fn(html)
+        return
+    html_fn = getattr(st, "html", None)
+    if callable(html_fn):
+        html_fn(html)
+        return
+    target.markdown(html, unsafe_allow_html=True)
+
+
 def render_legal_links(
     key_prefix: str,
     *,
@@ -105,6 +117,48 @@ def render_legal_links(
             )
         return
 
+    _emit_html(
+        target,
+        """
+        <style>
+        .mc-legal-links-row-marker {
+            display: none;
+        }
+        div[data-testid="stElementContainer"]:has(.mc-legal-links-row-marker)
+            + div[data-testid="stHorizontalBlock"],
+        div[data-testid="stElementContainer"]:has(.mc-legal-links-row-marker)
+            + div[data-testid="stLayoutWrapper"] div[data-testid="stHorizontalBlock"] {
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: stretch !important;
+            gap: 0.75rem !important;
+        }
+        div[data-testid="stElementContainer"]:has(.mc-legal-links-row-marker)
+            + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"],
+        div[data-testid="stElementContainer"]:has(.mc-legal-links-row-marker)
+            + div[data-testid="stLayoutWrapper"] div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {
+            flex: 1 1 0 !important;
+            min-width: 0 !important;
+            width: calc(50% - 0.375rem) !important;
+        }
+        @media (max-width: 640px) {
+            div[data-testid="stElementContainer"]:has(.mc-legal-links-row-marker)
+                + div[data-testid="stHorizontalBlock"],
+            div[data-testid="stElementContainer"]:has(.mc-legal-links-row-marker)
+                + div[data-testid="stLayoutWrapper"] div[data-testid="stHorizontalBlock"] {
+                gap: 0.5rem !important;
+            }
+            div[data-testid="stElementContainer"]:has(.mc-legal-links-row-marker)
+                + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"],
+            div[data-testid="stElementContainer"]:has(.mc-legal-links-row-marker)
+                + div[data-testid="stLayoutWrapper"] div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {
+                width: calc(50% - 0.25rem) !important;
+            }
+        }
+        </style>
+        <span class="mc-legal-links-row-marker" aria-hidden="true"></span>
+        """,
+    )
     columns = target.columns([1, 1])
     for col, kind in zip(columns, kinds):
         with col:
