@@ -151,7 +151,27 @@ def _inject_question_view_compact_styles() -> None:
               margin: 0 0 0.25rem;
               line-height: 1.18;
             }
+            .mc-question-meta-group {
+              display: flex;
+              flex-wrap: wrap;
+              column-gap: 1.1rem;
+              row-gap: 0.18rem;
+              align-items: baseline;
+              margin: 0 0 0.25rem;
+            }
+            .mc-question-meta-group .mc-question-meta-line {
+              margin: 0;
+            }
+            @media (max-width: 720px) {
+              .mc-question-meta-group {
+                display: block;
+              }
+              .mc-question-meta-group .mc-question-meta-line {
+                margin: 0 0 0.25rem;
+              }
+            }
             .stMainBlockContainer div[data-testid="stMarkdownContainer"]:has(.mc-question-progress-heading),
+            .stMainBlockContainer div[data-testid="stMarkdownContainer"]:has(.mc-question-meta-group),
             .stMainBlockContainer div[data-testid="stMarkdownContainer"]:has(.mc-question-meta-line),
             .stMainBlockContainer div[data-testid="stMarkdownContainer"]:has(.mc-question-weight-line),
             .stMainBlockContainer div[data-testid="stMarkdownContainer"]:has(.mc-answer-option-label) {
@@ -184,13 +204,62 @@ def _inject_question_view_compact_styles() -> None:
               padding-bottom: 0.05rem;
             }
             .stMainBlockContainer div[data-testid="stRadio"] {
+              display: flex !important;
+              flex-direction: column !important;
+              align-items: center !important;
               margin-top: 0.15rem;
+              text-align: center !important;
             }
             .stMainBlockContainer div[data-testid="stRadio"] > label {
+              align-self: center !important;
               padding-bottom: 0.15rem;
+              justify-content: center !important;
+              text-align: center !important;
+              width: auto !important;
+            }
+            .stMainBlockContainer div[data-testid="stRadio"] > label div[data-testid="stMarkdownContainer"],
+            .stMainBlockContainer div[data-testid="stRadio"] > label p {
+              width: 100% !important;
+              text-align: center !important;
             }
             .stMainBlockContainer div[data-testid="stRadio"] div[role="radiogroup"] {
-              gap: 0.35rem;
+              display: flex !important;
+              gap: 1.1rem;
+              justify-content: center !important;
+              align-items: center !important;
+              width: max-content !important;
+              max-width: 100%;
+              margin-left: auto !important;
+              margin-right: auto !important;
+            }
+            .stMainBlockContainer div[data-testid="stRadio"] div[role="radiogroup"] > label {
+              display: inline-flex !important;
+              flex: 0 0 auto !important;
+              width: auto !important;
+              margin: 0 !important;
+              justify-content: center !important;
+            }
+            .stMainBlockContainer div[data-testid="stRadio"] div[role="radiogroup"] > label > div {
+              flex: 0 0 auto !important;
+            }
+            .mc-question-choice-divider {
+              border-top: 1px solid rgba(148, 163, 184, 0.32);
+              height: 0;
+              margin: 0.85rem 0 0.45rem;
+              width: 100%;
+            }
+            .stMainBlockContainer div[data-testid="stMarkdownContainer"]:has(.mc-question-feedback-bottom-spacer) {
+              margin: 0;
+            }
+            .mc-question-feedback-bottom-spacer {
+              height: max(18rem, calc(100svh - 3rem));
+              pointer-events: none;
+              width: 100%;
+            }
+            @supports not (height: 100svh) {
+              .mc-question-feedback-bottom-spacer {
+                height: max(18rem, calc(100vh - 3rem));
+              }
             }
             </style>
             """,
@@ -210,6 +279,285 @@ def _render_question_progress_heading(text: str) -> None:
         f"<div class='mc-question-progress-heading'>{_html.escape(clean_text)}</div>",
         unsafe_allow_html=True,
     )
+
+
+def _render_question_feedback_bottom_spacer() -> None:
+    st.markdown(
+        "<div class='mc-question-feedback-bottom-spacer' aria-hidden='true'></div>",
+        unsafe_allow_html=True,
+    )
+
+
+def _scroll_question_view_to_top() -> None:
+    """Scroll the Streamlit question page back to the top after navigation."""
+    html = """
+    <div id="mc-question-scroll-top-sentinel" style="display:none"></div>
+    <script>
+    (() => {
+        const scrollTop = () => {
+            const scrollElement = (element) => {
+                if (!element) {
+                    return;
+                }
+                try {
+                    if (typeof element.scrollTo === "function") {
+                        element.scrollTo({ top: 0, left: 0, behavior: "auto" });
+                    }
+                    if ("scrollTop" in element) {
+                        element.scrollTop = 0;
+                    }
+                } catch (_) {}
+            };
+
+            const scrollWindow = (win) => {
+                if (!win) {
+                    return;
+                }
+                try {
+                    win.scrollTo({ top: 0, left: 0, behavior: "auto" });
+                } catch (_) {}
+            };
+
+            const documents = [document];
+            try {
+                if (window.parent && window.parent !== window && window.parent.document) {
+                    documents.push(window.parent.document);
+                    scrollWindow(window.parent);
+                }
+            } catch (_) {}
+
+            scrollWindow(window);
+            documents.forEach((doc) => {
+                [
+                    doc.scrollingElement,
+                    doc.documentElement,
+                    doc.body,
+                    doc.querySelector('[data-testid="stAppViewContainer"]'),
+                    doc.querySelector('[data-testid="stMain"]'),
+                    doc.querySelector('.stMainBlockContainer')
+                ].forEach(scrollElement);
+            });
+        };
+
+        requestAnimationFrame(scrollTop);
+        setTimeout(scrollTop, 80);
+        setTimeout(scrollTop, 240);
+    })();
+    </script>
+    """
+    try:
+        html_fn = getattr(st, "html", None)
+        if callable(html_fn):
+            html_fn(html, width="content", unsafe_allow_javascript=True)
+    except Exception:
+        pass
+
+
+def _scroll_question_view_to_anchor(anchor_id: str, offset_px: int = 24) -> None:
+    """Scroll the question page to a rendered anchor."""
+    anchor_id_json = json.dumps(anchor_id)
+    offset_json = json.dumps(max(0, int(offset_px)))
+    html = f"""
+    <script>
+    (() => {{
+        const anchorId = {anchor_id_json};
+        const offset = {offset_json};
+
+        const collectDocuments = () => {{
+            const docs = [document];
+            try {{
+                if (window.parent && window.parent !== window && window.parent.document) {{
+                    docs.push(window.parent.document);
+                }}
+            }} catch (_) {{}}
+            return docs;
+        }};
+
+        const scrollWindowToTarget = (win, target, offset) => {{
+            if (!win || !target) {{
+                return;
+            }}
+            try {{
+                const doc = target.ownerDocument || win.document;
+                const currentTop = (
+                    win.pageYOffset ||
+                    doc.documentElement.scrollTop ||
+                    doc.body.scrollTop ||
+                    0
+                );
+                const targetTop = currentTop + target.getBoundingClientRect().top - offset;
+                win.scrollTo({{ top: Math.max(0, targetTop), left: 0, behavior: "auto" }});
+            }} catch (_) {{}}
+        }};
+
+        const scrollContainerToTarget = (container, target, offset) => {{
+            if (!container || !target || !("scrollTop" in container)) {{
+                return;
+            }}
+            try {{
+                const containerRect = container.getBoundingClientRect();
+                const targetRect = target.getBoundingClientRect();
+                container.scrollTop = Math.max(
+                    0,
+                    container.scrollTop + targetRect.top - containerRect.top - offset
+                );
+            }} catch (_) {{}}
+        }};
+
+        const scrollToAnchor = () => {{
+            let target = null;
+            let targetDoc = null;
+            for (const doc of collectDocuments()) {{
+                try {{
+                    target = doc.getElementById(anchorId);
+                    if (target) {{
+                        targetDoc = doc;
+                        break;
+                    }}
+                }} catch (_) {{}}
+            }}
+            if (!target || !targetDoc) {{
+                return;
+            }}
+
+            const win = targetDoc.defaultView || window;
+            scrollWindowToTarget(win, target, offset);
+            [
+                targetDoc.scrollingElement,
+                targetDoc.documentElement,
+                targetDoc.body,
+                targetDoc.querySelector('[data-testid="stAppViewContainer"]'),
+                targetDoc.querySelector('[data-testid="stMain"]'),
+                targetDoc.querySelector('.stMainBlockContainer')
+            ].forEach((container) => scrollContainerToTarget(container, target, offset));
+        }};
+
+        requestAnimationFrame(scrollToAnchor);
+        setTimeout(scrollToAnchor, 80);
+        setTimeout(scrollToAnchor, 240);
+    }})();
+    </script>
+    """
+    try:
+        html_fn = getattr(st, "html", None)
+        if callable(html_fn):
+            html_fn(html, width="content", unsafe_allow_javascript=True)
+    except Exception:
+        pass
+
+
+def _enable_question_expander_open_scroll() -> None:
+    """Keep opened question expanders near the top of the viewport."""
+    html = """
+    <script>
+    (() => {
+        const offset = 96;
+
+        const collectDocuments = () => {
+            const docs = [document];
+            try {
+                if (window.parent && window.parent !== window && window.parent.document) {
+                    docs.push(window.parent.document);
+                }
+            } catch (_) {}
+            return docs;
+        };
+
+        const scrollWindowToTarget = (win, target) => {
+            if (!win || !target) {
+                return;
+            }
+            try {
+                const doc = target.ownerDocument || win.document;
+                const currentTop = (
+                    win.pageYOffset ||
+                    doc.documentElement.scrollTop ||
+                    doc.body.scrollTop ||
+                    0
+                );
+                const targetTop = currentTop + target.getBoundingClientRect().top - offset;
+                win.scrollTo({ top: Math.max(0, targetTop), left: 0, behavior: "auto" });
+            } catch (_) {}
+        };
+
+        const scrollContainerToTarget = (container, target) => {
+            if (!container || !target || !("scrollTop" in container)) {
+                return;
+            }
+            try {
+                const containerRect = container.getBoundingClientRect();
+                const targetRect = target.getBoundingClientRect();
+                container.scrollTop = Math.max(
+                    0,
+                    container.scrollTop + targetRect.top - containerRect.top - offset
+                );
+            } catch (_) {}
+        };
+
+        const scrollToExpander = (details) => {
+            const target = details ? (details.querySelector("summary") || details) : null;
+            const targetDoc = target ? target.ownerDocument : null;
+            if (!target || !targetDoc) {
+                return;
+            }
+            const win = targetDoc.defaultView || window;
+            scrollWindowToTarget(win, target);
+            [
+                targetDoc.scrollingElement,
+                targetDoc.documentElement,
+                targetDoc.body,
+                targetDoc.querySelector('[data-testid="stAppViewContainer"]'),
+                targetDoc.querySelector('[data-testid="stMain"]'),
+                targetDoc.querySelector('.stMainBlockContainer')
+            ].forEach((container) => scrollContainerToTarget(container, target));
+        };
+
+        const installForDocument = (doc) => {
+            const main = doc.querySelector('[data-testid="stMain"]') || doc.body || doc;
+            if (!main || !main.querySelector(".mc-question-choice-divider")) {
+                return;
+            }
+
+            const bindExpanders = () => {
+                main.querySelectorAll('details[data-testid="stExpander"], [data-testid="stExpander"] details').forEach((details) => {
+                    if (!details || details.dataset.mcQuestionExpanderScrollBound === "true") {
+                        return;
+                    }
+                    details.dataset.mcQuestionExpanderScrollBound = "true";
+                    details.addEventListener("toggle", () => {
+                        if (!details.open) {
+                            return;
+                        }
+                        requestAnimationFrame(() => scrollToExpander(details));
+                        setTimeout(() => scrollToExpander(details), 80);
+                    });
+                });
+            };
+
+            bindExpanders();
+            try {
+                const win = doc.defaultView || window;
+                if (win.__mcQuestionExpanderScrollObserver) {
+                    win.__mcQuestionExpanderScrollObserver.disconnect();
+                }
+                win.__mcQuestionExpanderScrollObserver = new MutationObserver(bindExpanders);
+                win.__mcQuestionExpanderScrollObserver.observe(main, {
+                    childList: true,
+                    subtree: true
+                });
+            } catch (_) {}
+        };
+
+        collectDocuments().forEach(installForDocument);
+    })();
+    </script>
+    """
+    try:
+        html_fn = getattr(st, "html", None)
+        if callable(html_fn):
+            html_fn(html, width="content", unsafe_allow_javascript=True)
+    except Exception:
+        pass
 
 
 def _set_page_reload_guard(active: bool) -> None:
@@ -5745,6 +6093,14 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     _inject_main_container_padding()
     _inject_question_view_compact_styles()
     _set_page_reload_guard(True)
+    _enable_question_expander_open_scroll()
+    try:
+        last_scroll_idx = st.session_state.get("_question_view_last_scroll_idx")
+        if last_scroll_idx is not None and last_scroll_idx != frage_idx:
+            _scroll_question_view_to_top()
+        st.session_state["_question_view_last_scroll_idx"] = frage_idx
+    except Exception:
+        pass
 
     if st.session_state.get("_delete_success_msg"):
         st.success(st.session_state.pop("_delete_success_msg"))
@@ -7020,17 +7376,14 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 unsafe_allow_html=True
             )
 
-        if thema:
-            # Render topic in a compact inline block to reduce spacing
-            topic_label = _test_view_text('topic_label', default='Thema')
-            st.markdown(
-                f"<div class='mc-question-meta-line'><strong>{topic_label}:</strong> {thema}</div>",
-                unsafe_allow_html=True,
-            )
-
-        # Show concept/konzept metadata if present on the question —
-        # also show the cognitive stage immediately after it when available.
+        # Show metadata as a compact group: desktop side-by-side, mobile stacked.
+        stage_rendered = False
         try:
+            meta_items: list[tuple[str, str]] = []
+            if thema:
+                topic_label = _test_view_text('topic_label', default='Thema')
+                meta_items.append((topic_label, str(thema)))
+
             concept_val = (
                 frage_obj.get("concept")
                 or frage_obj.get("konzept")
@@ -7045,37 +7398,41 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 or frage_obj.get("cognitive_level_en")
                 or frage_obj.get("cognitive_level_de")
             )
-            stage_part = ""
+            translated_stage_local = ""
             if raw_stage_value_local and str(raw_stage_value_local).strip():
                 normalized_stage_local = _normalize_stage_label(raw_stage_value_local)
                 translated_stage_local = translate_ui(f"pdf.stage_name.{normalized_stage_local}", default=normalized_stage_local)
-                cog_label = translate_ui('metadata.cognitive_stage', default='Kognitive Stufe')
-                stage_part = f" • {cog_label}: {translated_stage_local}"
+            else:
+                try:
+                    w_int_for_stage = int(gewichtung)
+                except Exception:
+                    w_int_for_stage = None
+                if w_int_for_stage in (1, 2, 3):
+                    _weight_to_stage = {1: "Reproduktion", 2: "Anwendung", 3: "Analyse"}
+                    stage_key = _weight_to_stage.get(w_int_for_stage)
+                    if stage_key:
+                        translated_stage_local = translate_ui(f"pdf.stage_name.{stage_key}", default=stage_key)
 
-            # Render concept (if present) using compact inline styles to
-            # reduce vertical spacing between the meta lines.
-            stage_rendered = False
             if concept_val and str(concept_val).strip():
                 label = translate_ui('metadata.concept', default='Konzept')
+                meta_items.append((label, str(concept_val)))
+
+            if translated_stage_local:
+                cog_label = translate_ui('metadata.cognitive_stage', default='Kognitive Stufe')
+                meta_items.append((cog_label, str(translated_stage_local)))
+                stage_rendered = True
+
+            if meta_items:
+                rendered_items = "".join(
+                    "<div class='mc-question-meta-line'>"
+                    f"<strong>{_html.escape(str(label))}:</strong> {_html.escape(str(value))}"
+                    "</div>"
+                    for label, value in meta_items
+                )
                 st.markdown(
-                    f"<div class='mc-question-meta-line'><strong>{label}:</strong> {concept_val}</div>",
+                    f"<div class='mc-question-meta-group'>{rendered_items}</div>",
                     unsafe_allow_html=True,
                 )
-
-            # Render cognitive stage on its own compact line (if present).
-            if raw_stage_value_local and str(raw_stage_value_local).strip():
-                try:
-                    cog_label = translate_ui('metadata.cognitive_stage', default='Kognitive Stufe')
-                    normalized_stage_local = _normalize_stage_label(raw_stage_value_local)
-                    translated_stage_local = translate_ui(f"pdf.stage_name.{normalized_stage_local}", default=normalized_stage_local)
-                    st.markdown(
-                        f"<div class='mc-question-meta-line'>{cog_label}: {translated_stage_local}</div>",
-                        unsafe_allow_html=True,
-                    )
-                    stage_rendered = True
-                except Exception:
-                    # fallback: show the raw stage value compactly
-                    st.markdown(f"<div class='mc-question-meta-line'>{str(raw_stage_value_local)}</div>", unsafe_allow_html=True)
             # Persist a small marker so downstream renderers (explanation
             # block) can avoid emitting duplicate meta-lines for the same
             # question during the same render cycle.
@@ -7226,16 +7583,19 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
 
         _render_markdown_answer_options(optionen, selected_index_for_display)
 
-        selected_index = st.radio(
-            _test_view_text("question_prompt", default="Wähle deine Antwort:"),
-            options=range(len(optionen)),
-            key=widget_key,
-            index=optionen.index(gespeicherte_antwort) if gespeicherte_antwort in optionen else None,
-            disabled=is_answered and (not panic_mode),
-            horizontal=True,
-            format_func=lambda x: _answer_option_label(x),
-            on_change=_radio_on_change,
-        )
+        st.markdown("<div class='mc-question-choice-divider' aria-hidden='true'></div>", unsafe_allow_html=True)
+        with st.container(width="stretch", horizontal_alignment="center"):
+            selected_index = st.radio(
+                _test_view_text("question_prompt", default="Wähle deine Antwort:"),
+                options=range(len(optionen)),
+                key=widget_key,
+                index=optionen.index(gespeicherte_antwort) if gespeicherte_antwort in optionen else None,
+                disabled=is_answered and (not panic_mode),
+                horizontal=True,
+                format_func=lambda x: _answer_option_label(x),
+                on_change=_radio_on_change,
+                width="content",
+            )
 
         if selected_index is None:
             try:
@@ -7798,6 +8158,8 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             st.info(translate_ui("test_view.answer_saved", default="Antwort gespeichert."))
         else:
             render_explanation(frage_obj, app_config, questions, remaining_time, remaining)
+            if current_mode == 'practice':
+                _render_question_feedback_bottom_spacer()
 
 
 def handle_jump_to_unanswered_question(frage_idx: int):
@@ -7957,6 +8319,8 @@ def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_
             pass
     else:
         st.session_state[f"show_explanation_{frage_idx}"] = True
+        if current_mode == 'practice':
+            st.session_state["_scroll_to_next_button_after_answer_idx"] = frage_idx
     st.session_state.last_answered_idx = frage_idx
     # record when the explanation was shown (monotonic timestamp) for next-button cooldown
     if current_mode != 'exam':
@@ -8151,9 +8515,24 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list, 
                     width="stretch",
                 ):
                     st.session_state[show_extended_key] = True
+                    st.session_state["_scroll_to_extended_expander_after_open_idx"] = frage_idx
                     st.rerun()
 
         if st.session_state.get(show_extended_key, False):
+            extended_anchor_id = f"mc-extended-explanation-anchor-{frage_idx}"
+            st.markdown(
+                f"<div id='{extended_anchor_id}' class='mc-question-expander-anchor' aria-hidden='true'></div>",
+                unsafe_allow_html=True,
+            )
+            try:
+                scroll_extended_idx = st.session_state.get("_scroll_to_extended_expander_after_open_idx")
+                if scroll_extended_idx == frage_idx:
+                    st.session_state.pop("_scroll_to_extended_expander_after_open_idx", None)
+                    _scroll_question_view_to_anchor(extended_anchor_id, offset_px=96)
+                elif scroll_extended_idx is not None and scroll_extended_idx != frage_idx:
+                    st.session_state.pop("_scroll_to_extended_expander_after_open_idx", None)
+            except Exception:
+                pass
             with st.expander(_test_view_text("extended_panel", default="Detaillierte Erklärung"), expanded=True):
                 if isinstance(extended_explanation, dict):
                     title = extended_explanation.get("title") or extended_explanation.get("titel") or ""
@@ -8307,6 +8686,21 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int, remainin
 
     # Sichtbarkeit des "Vorherige Frage"-Buttons bestimmen
     prev_button_visible = is_in_review_mode and current_review_pos > 0
+
+    next_button_anchor_id = f"mc-next-question-button-anchor-{frage_idx}"
+    st.markdown(
+        f"<div id='{next_button_anchor_id}' class='mc-next-question-button-anchor' aria-hidden='true'></div>",
+        unsafe_allow_html=True,
+    )
+    try:
+        scroll_target_idx = st.session_state.get("_scroll_to_next_button_after_answer_idx")
+        if current_mode == 'practice' and scroll_target_idx == frage_idx:
+            st.session_state.pop("_scroll_to_next_button_after_answer_idx", None)
+            _scroll_question_view_to_anchor(next_button_anchor_id, offset_px=96)
+        elif scroll_target_idx is not None and scroll_target_idx != frage_idx:
+            st.session_state.pop("_scroll_to_next_button_after_answer_idx", None)
+    except Exception:
+        pass
 
     if prev_button_visible:
         col1, col2 = st.columns([1, 1])
