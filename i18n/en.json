@@ -1,6 +1,6 @@
 {
     "app": {
-        "title": "MC-Test App",
+        "title": "MC Test App",
         "subtitle": "Manage and analyze tests",
         "dialog_multiple_warning": "Only one dialog can be open at a time. Close the open dialog and try again.",
         "warning": {
@@ -143,9 +143,9 @@
         "history_show_less": "Show less",
         "history_show_more": "Show more",
         "history_expander": "📚 My sessions",
-        "about_expander": "ℹ️ About MC-Test",
+        "about_expander": "About MC Test",
         "about_paper_button": "📄 Paper PDF (EDULEARN26)",
-        "about_project_text": "MC-Test is an open-source platform for formative multiple-choice practice.\n\nIt combines schema-bound LLM item generation, Bloom 1-3 metadata, learner dashboards, feedback with mini-glossaries, and configurable pacing including a Time-Critical Override.\n\nThe EDULEARN26 paper describes the local Ollama migration and an initial SUS usability study (N=20, M=70.38).",
+        "about_project_text": "MC Test is an open-source platform for formative multiple-choice practice.\n\nIt combines schema-bound LLM item generation, Bloom 1-3 metadata, learner dashboards, feedback with mini-glossaries, and configurable pacing including a Time-Critical Override.\n\nThe EDULEARN26 paper describes the local Ollama migration and an initial SUS usability study (N=20, M=70.38).",
         "about_paper_blocked": "Close the open dialog first to open the paper.",
         "user_qset_delete_expander": "🗑️ Delete temporary question set",
         "user_qset_delete_warning": "Deletes your temporary question set and its learning objectives. This cannot be undone.",
@@ -1281,10 +1281,20 @@
     },
     "welcome": {
         "splash": {
-            "title": "🎓 MC-Test App",
+            "title": "🎓 MC Test App",
             "button": "🚀 Start",
-            "choose_set": "📂 Choose a question set",
-            "create_ai": "Create a set with an external LLM"
+            "choose_set": "Choose a question set",
+            "create_ai": "Create a set with an external LLM",
+            "eyebrow": "Multiple-choice practice",
+            "hero_title": "MC Test",
+            "hero_subtitle": "Choose a question set, practice at the right pace, or bring your own set from an external LLM.",
+            "benefit_choose_title": "Ready-made sets",
+            "benefit_choose_text": "Start directly and review your results clearly.",
+            "benefit_train_title": "Exam or practice",
+            "benefit_train_text": "Choose timer, pace and immediate feedback as needed.",
+            "benefit_export_title": "Take it with you",
+            "benefit_export_text": "Export results and learning material as PDF, Anki or arsnova.eu.",
+            "service_caption": "Language & project info"
         },
         "cleanup": {
             "toast": "Cleaned up {removed} temp sets.",
@@ -1312,7 +1322,7 @@
         "create_own_set": "🧠 Create your own question set",
         "create_own_set_hint": "Pick your pseudonym; then upload or paste JSON from your external LLM.",
         "empty_state": "No question set active. Choose an existing set or create your own.",
-        "empty_state_select": "📂 Choose an existing set",
+        "empty_state_select": "Choose an existing set",
         "search": {
             "label": "🔎 Quick search (title/slug)",
             "placeholder": "e.g. \"math\" or \"scrum\"",
@@ -1431,6 +1441,19 @@
             "exam": "🏆 Exam Mode (Timer, Leaderboard)",
             "practice": "🧘 Practice Mode (No timer, immediate feedback)"
         }
+    },
+    "legal": {
+        "section_label": "Legal",
+        "impressum": {
+            "button": "Legal Notice",
+            "title": "Legal Notice"
+        },
+        "datenschutz": {
+            "button": "Privacy Policy",
+            "title": "Privacy Policy"
+        },
+        "back": "Back to start",
+        "missing": "Legal text could not be loaded."
     },
     "languages": {
         "de": "German",

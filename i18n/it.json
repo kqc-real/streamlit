@@ -554,7 +554,7 @@
         "history_show_all": "Mostra tutto",
         "history_show_less": "Mostra meno",
         "history_show_more": "Mostra di più",
-        "about_expander": "ℹ️ Informazioni su MC-Test",
+        "about_expander": "Informazioni su MC-Test",
         "about_paper_button": "📄 PDF dell'articolo (EDULEARN26)",
         "about_project_text": "MC-Test è una piattaforma open source per l'esercitazione formativa con domande a scelta multipla.\n\nCombina generazione di item con LLM vincolata a schema, metadati Bloom 1-3, dashboard per studenti, feedback con mini-glossari e pacing configurabile, incluso un Time-Critical Override.\n\nL'articolo EDULEARN26 descrive la migrazione locale a Ollama e un primo studio di usabilità SUS (N=20, M=70,38).",
         "about_paper_blocked": "Chiudi prima il dialogo aperto per aprire l'articolo.",
@@ -1283,8 +1283,18 @@
         "splash": {
             "title": "🎓 MC-Test App",
             "button": "🚀 Vai",
-            "choose_set": "📂 Scegli un set di domande",
-            "create_ai": "Crea un set di domande con un LLM esterno"
+            "choose_set": "Scegli un set di domande",
+            "create_ai": "Crea un set di domande con un LLM esterno",
+            "eyebrow": "Esercitazione a scelta multipla",
+            "hero_title": "MC-Test",
+            "hero_subtitle": "Scegli un set di domande, esercitati al ritmo giusto o porta un tuo set da un LLM esterno.",
+            "benefit_choose_title": "Set pronti",
+            "benefit_choose_text": "Inizia subito e controlla chiaramente i risultati.",
+            "benefit_train_title": "Esame o pratica",
+            "benefit_train_text": "Scegli timer, ritmo e feedback immediato secondo necessità.",
+            "benefit_export_title": "Porta con te",
+            "benefit_export_text": "Esporta risultati e materiali di studio come PDF, Anki o arsnova.eu.",
+            "service_caption": "Lingua e info progetto"
         },
         "cleanup": {
             "toast": "{removed} set di domande temporanei rimossi.",
@@ -1312,7 +1322,7 @@
         "create_own_set": "🧠 Crea il tuo set di domande",
         "create_own_set_hint": "Scegli il tuo alias; poi carica o incolla il JSON del tuo LLM esterno.",
         "empty_state": "Nessun set di domande attivo. Scegli un set esistente o creane uno tuo.",
-        "empty_state_select": "📂 Scegli un set esistente",
+        "empty_state_select": "Scegli un set esistente",
         "search": {
             "label": "🔎 Ricerca rapida (titolo/slug)",
             "placeholder": "es. \"mate\" o \"scrum\"",
@@ -1431,6 +1441,19 @@
             "exam": "🏆 Modalità esame (timer, classifica)",
             "practice": "🧘 Modalità esercitazione (senza timer, feedback immediato)"
         }
+    },
+    "legal": {
+        "section_label": "Informazioni legali",
+        "impressum": {
+            "button": "Note legali",
+            "title": "Note legali"
+        },
+        "datenschutz": {
+            "button": "Informativa sulla privacy",
+            "title": "Informativa sulla privacy"
+        },
+        "back": "Torna alla pagina iniziale",
+        "missing": "Impossibile caricare il testo legale."
     },
     "languages": {
         "de": "tedesco",

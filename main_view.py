@@ -56,6 +56,7 @@ from user_question_sets import (
 )
 from pdf_export import _normalize_stage_label
 from i18n.context import get_locale, t as translate_ui
+from legal_ui import get_requested_legal_kind, render_legal_links, render_legal_page
 from components import (
     render_question_distribution_chart,
     close_user_qset_dialog,
@@ -339,14 +340,6 @@ def _export_unavailable_msg() -> str:
 
 def _anki_dependency_msg() -> str:
     return translate_ui("messages.anki_dependency", default=ANKI_APKG_DEPENDENCY_DEFAULT)
-
-
-def _welcome_splash_title() -> str:
-    return translate_ui("welcome.splash.title", default="🎓 MC-Test App")
-
-
-def _welcome_splash_button() -> str:
-    return translate_ui("welcome.splash.button", default="🚀 Los geht’s")
 
 
 def _welcome_cleanup_toast(removed: int) -> str:
@@ -2984,18 +2977,219 @@ def _process_queued_rerun() -> None:
         pass
 
 
-def _welcome_splash_path() -> str:
-    """Return the localized welcome splash markdown file path."""
+def _emit_html(html: str) -> None:
+    html_fn = getattr(st, "html", None)
+    if callable(html_fn):
+        html_fn(html)
+    else:
+        st.markdown(html, unsafe_allow_html=True)
 
-    doc_dir = Path(get_package_dir()) / "i18n"
-    locale_code = get_locale() or "de"
-    localized_file = doc_dir / f"welcome_splash_{locale_code}.md"
-    default_file = doc_dir / "welcome_splash.md"
-    if localized_file.is_file():
-        return str(localized_file)
-    if default_file.is_file():
-        return str(default_file)
-    return str(localized_file)
+
+def _inject_refined_welcome_splash_styles() -> None:
+    _emit_html(
+        """
+        <style>
+        .mc-welcome-splash-marker {
+            display: none;
+        }
+        .mc-welcome-eyebrow {
+            color: #fca5a5;
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0;
+            margin: 0 0 0.2rem;
+            text-transform: none;
+        }
+        .mc-welcome-title {
+            color: #fff7f7;
+            font-size: 2.1rem;
+            font-weight: 760;
+            line-height: 1.08;
+            letter-spacing: 0;
+            margin: 0;
+        }
+        .mc-welcome-subtitle {
+            color: #ead7d7;
+            font-size: 1.02rem;
+            line-height: 1.55;
+            margin: 0.15rem 0 0.25rem;
+            max-width: 48rem;
+        }
+        .mc-welcome-benefit {
+            min-height: 4.4rem;
+            padding-right: 0.75rem;
+        }
+        .mc-welcome-benefit strong {
+            color: #fff1f2;
+            display: block;
+            font-size: 0.95rem;
+            letter-spacing: 0;
+            margin-bottom: 0.2rem;
+        }
+        .mc-welcome-benefit span {
+            color: #d8c5c5;
+            display: block;
+            font-size: 0.9rem;
+            line-height: 1.42;
+        }
+        .mc-welcome-service-caption {
+            color: #c8b6b6;
+            font-size: 0.82rem;
+            margin: 0.15rem 0 0.2rem;
+        }
+        .mc-welcome-service-separator {
+            border-top: 1px solid rgba(228, 209, 209, 0.24);
+            height: 0;
+            margin: 0.7rem 0 0.8rem;
+        }
+        @media (max-width: 640px) {
+            .mc-welcome-title {
+                font-size: 1.75rem;
+            }
+            .mc-welcome-subtitle {
+                font-size: 0.96rem;
+            }
+        }
+        </style>
+        """
+    )
+
+
+def _launch_welcome_flow(flow: str) -> None:
+    st.session_state._welcome_flow = flow
+    st.session_state._flow_launched = False
+    st.session_state._pseudonym_dialog_open = True
+    st.session_state.pop("user_qset_dialog_open", None)
+    st.session_state.pop("_question_select_dialog_open", None)
+    if flow == "create_ai":
+        st.session_state.pop("selected_questions_file", None)
+        st.session_state.pop("main_view_question_file_selector", None)
+        st.session_state.pop("question_distribution_expanded", None)
+        st.session_state.pop("_active_dialog", None)
+    st.session_state._welcome_splash_dismissed = True
+    st.rerun()
+
+
+def _render_welcome_splash_service_row(
+    paper_path: Path,
+    key_prefix: str = "splash",
+    *,
+    show_service_caption: bool = False,
+    show_divider: bool = True,
+) -> None:
+    if show_divider:
+        st.divider()
+    if show_service_caption:
+        _emit_html(
+            f"<p class='mc-welcome-service-caption'>{_html.escape(translate_ui('welcome.splash.service_caption', default='Sprache & Projektinfo'))}</p>"
+        )
+    if paper_path.exists():
+        bottom_left, bottom_right = st.columns([1, 1])
+    else:
+        bottom_left = st.container()
+        bottom_right = None
+
+    with bottom_left:
+        render_locale_selector(
+            label="Sprache",
+            help_text=None,
+            label_visibility="collapsed",
+        )
+
+    if paper_path.exists() and bottom_right is not None:
+        with bottom_right:
+            with st.expander(
+                translate_ui("sidebar.about_expander", default="Über MC-Test")
+            ):
+                st.markdown(
+                    translate_ui(
+                        "sidebar.about_project_text",
+                        default="MC-Test ist eine Open-Source-Plattform für formative Multiple-Choice-Übung.\n\nSie verbindet schema-gebundene LLM-Itemgenerierung, Bloom-1-3-Metadaten, Lernenden-Dashboards, Feedback mit Mini-Glossaren und konfigurierbares Pacing inklusive Time-Critical Override (Panikmodus).\n\nDas EDULEARN26-Paper beschreibt die lokale Ollama-Migration und eine erste SUS-Usability-Erhebung (N=20, M=70,38).",
+                    )
+                )
+
+                st.download_button(
+                    translate_ui("sidebar.about_paper_button", default="📄 Paper PDF (EDULEARN26)"),
+                    data=paper_path.read_bytes(),
+                    file_name=paper_path.name,
+                    mime=MIME_PDF,
+                    key=f"{key_prefix}_about_paper_download",
+                )
+
+    render_legal_links(key_prefix)
+
+
+def _render_refined_welcome_splash() -> None:
+    _inject_refined_welcome_splash_styles()
+    paper_path = Path(get_package_dir()) / "docs" / "mc-test-paper" / "mc-test-edulearn26.pdf"
+
+    _emit_html("<span class='mc-welcome-splash-marker'></span>")
+    _emit_html(
+        f"<p class='mc-welcome-eyebrow'>{_html.escape(translate_ui('welcome.splash.eyebrow', default='Multiple-Choice-Übung'))}</p>"
+    )
+    _emit_html(
+        f"<h1 class='mc-welcome-title'>{_html.escape(translate_ui('welcome.splash.hero_title', default='MC-Test'))}</h1>"
+    )
+    _emit_html(
+        f"<p class='mc-welcome-subtitle'>{_html.escape(translate_ui('welcome.splash.hero_subtitle', default='Wähle ein Fragenset, trainiere im passenden Tempo oder bring ein eigenes Set aus deinem externen LLM mit.'))}</p>"
+    )
+
+    benefit_cols = st.columns(3)
+    benefit_items = [
+        (
+            "benefit_choose_title",
+            "benefit_choose_text",
+            "Fertige Sets",
+            "Direkt starten und Ergebnisse sauber auswerten.",
+        ),
+        (
+            "benefit_train_title",
+            "benefit_train_text",
+            "Prüfung oder Übung",
+            "Timer, Tempo und Sofortfeedback passend wählen.",
+        ),
+        (
+            "benefit_export_title",
+            "benefit_export_text",
+            "Mitnehmen",
+            "Ergebnisse und Lernmaterial als PDF, Anki oder arsnova.eu exportieren.",
+        ),
+    ]
+    for col, (title_key, text_key, title_default, text_default) in zip(benefit_cols, benefit_items):
+        title = translate_ui(f"welcome.splash.{title_key}", default=title_default)
+        text = translate_ui(f"welcome.splash.{text_key}", default=text_default)
+        with col:
+            _emit_html(
+                "<div class='mc-welcome-benefit'>"
+                f"<strong>{_html.escape(title)}</strong>"
+                f"<span>{_html.escape(text)}</span>"
+                "</div>"
+            )
+
+    col_left, col_right = st.columns([1.05, 1])
+    with col_left:
+        if st.button(
+            translate_ui("welcome.splash.choose_set", default="Fragenset auswählen"),
+            type="primary",
+            width="stretch",
+        ):
+            _launch_welcome_flow("choose_set")
+    with col_right:
+        if st.button(
+            translate_ui("welcome.splash.create_ai", default="Fragenset mit externem LLM erstellen"),
+            type="secondary",
+            width="stretch",
+            icon="✨",
+        ):
+            _launch_welcome_flow("create_ai")
+
+    _emit_html("<div class='mc-welcome-service-separator' aria-hidden='true'></div>")
+    _render_welcome_splash_service_row(
+        paper_path,
+        key_prefix="splash_refined",
+        show_service_caption=True,
+        show_divider=False,
+    )
 
 
 def _render_welcome_splash():
@@ -3003,84 +3197,7 @@ def _render_welcome_splash():
     if st.session_state.get("_welcome_splash_dismissed", False):
         return
 
-    splash_path = _welcome_splash_path()
-    splash_content = load_markdown_file(splash_path)
-    if not splash_content:
-        # Wenn keine Inhalte vorliegen, den Splash überspringen, um Blockaden zu vermeiden.
-        st.session_state._welcome_splash_dismissed = True
-        return
-
-    with st.container(border=True):
-        st.markdown(splash_content)
-        col_left, col_right = st.columns([1, 1])
-        with col_left:
-            if st.button(
-                translate_ui("welcome.splash.choose_set", default="📂 Fragenset auswählen"),
-                type="secondary",
-                width="stretch",
-            ):
-                st.session_state._welcome_flow = "choose_set"
-                st.session_state._flow_launched = False
-                st.session_state._pseudonym_dialog_open = True
-                st.session_state.pop("user_qset_dialog_open", None)
-                st.session_state.pop("_question_select_dialog_open", None)
-                st.session_state._welcome_splash_dismissed = True
-                st.rerun()
-        with col_right:
-            if st.button(
-                translate_ui("welcome.splash.create_ai", default="Fragenset mit externem LLM erstellen"),
-                type="primary",
-                width="stretch",
-                icon="✨",
-            ):
-                st.session_state._welcome_flow = "create_ai"
-                st.session_state._flow_launched = False
-                st.session_state._pseudonym_dialog_open = True
-                st.session_state.pop("selected_questions_file", None)
-                st.session_state.pop("main_view_question_file_selector", None)
-                st.session_state.pop("question_distribution_expanded", None)
-                st.session_state.pop("_question_select_dialog_open", None)
-                st.session_state.pop("user_qset_dialog_open", None)
-                st.session_state.pop("_active_dialog", None)
-                st.session_state._welcome_splash_dismissed = True
-                st.rerun()
-
-        paper_path = Path(get_package_dir()) / "docs" / "mc-test-paper" / "mc-test-edulearn26.pdf"
-        st.divider()
-        if paper_path.exists():
-            bottom_left, bottom_right = st.columns([1, 1])
-        else:
-            bottom_left = st.container()
-            bottom_right = None
-
-        with bottom_left:
-            render_locale_selector(
-                label="Sprache",
-                help_text=None,
-                label_visibility="collapsed",
-            )
-
-        if paper_path.exists() and bottom_right is not None:
-            with bottom_right:
-                with st.expander(
-                    translate_ui("sidebar.about_expander", default="ℹ️ Über MC-Test")
-                ):
-                    st.markdown(
-                        translate_ui(
-                            "sidebar.about_project_text",
-                            default="MC-Test ist eine Open-Source-Plattform für formative Multiple-Choice-Übung.\n\nSie verbindet schema-gebundene LLM-Itemgenerierung, Bloom-1-3-Metadaten, Lernenden-Dashboards, Feedback mit Mini-Glossaren und konfigurierbares Pacing inklusive Time-Critical Override (Panikmodus).\n\nDas EDULEARN26-Paper beschreibt die lokale Ollama-Migration und eine erste SUS-Usability-Erhebung (N=20, M=70,38).",
-                        )
-                    )
-
-                    st.download_button(
-                        translate_ui("sidebar.about_paper_button", default="📄 Paper PDF (EDULEARN26)"),
-                        data=paper_path.read_bytes(),
-                        file_name=paper_path.name,
-                        mime=MIME_PDF,
-                        key="splash_about_paper_download",
-                    )
-
-        return
+    _render_refined_welcome_splash()
 
 
 def _render_pseudonym_gate_dialog(app_config: AppConfig):
@@ -3286,6 +3403,11 @@ def render_welcome_page(app_config: AppConfig):
     _inject_main_container_padding()
     _set_page_reload_guard(False)
 
+    requested_legal_kind = get_requested_legal_kind()
+    if requested_legal_kind:
+        render_legal_page(requested_legal_kind)
+        st.stop()
+
     # Wenn ein Pseudonym-Reminder gesetzt ist (z.B. nach Reservierung),
     # zeigen wir einen Hinweis zentral im Hauptbereich statt in der Sidebar.
     try:
@@ -3391,6 +3513,8 @@ def render_welcome_page(app_config: AppConfig):
     else:
         st.session_state["_pseudonym_dialog_open"] = False
     if not user_has_pseudonym:
+        st.divider()
+        render_legal_links("welcome_pseudonym")
         return
 
     # Reset zum Splash anstoßen, wenn der KI-Dialog bewusst beendet wurde
@@ -3556,6 +3680,8 @@ def render_welcome_page(app_config: AppConfig):
             _render_user_qset_dialog(app_config)
         except Exception:
             pass
+        st.divider()
+        render_legal_links("welcome_create_ai")
         st.stop()
 
     last_flow = st.session_state.get("_last_welcome_flow")
@@ -3608,7 +3734,7 @@ def render_welcome_page(app_config: AppConfig):
             )
         )
         st.button(
-            translate_ui("welcome.empty_state_select", default="📂 Vorhandenes Fragenset wählen"),
+            translate_ui("welcome.empty_state_select", default="Vorhandenes Fragenset wählen"),
             key="welcome_empty_select_btn",
             on_click=lambda: None,
         )
@@ -3845,7 +3971,7 @@ def render_welcome_page(app_config: AppConfig):
             st.caption(
                 translate_ui(
                     "welcome.empty_state_select",
-                    default="📂 Vorhandenes Fragenset wählen",
+                    default="Vorhandenes Fragenset wählen",
                 )
             )
             selected = st.selectbox(
@@ -5333,6 +5459,9 @@ def render_welcome_page(app_config: AppConfig):
                         else:
                             st.error(_welcome_pseudonym_database_error())
         # Debug expander removed after verification.
+
+    st.divider()
+    render_legal_links("welcome_main")
 
     # --- Meine Sessions (sichtbar für wiederhergestellte oder eingeloggte Pseudonyme) ---
 
@@ -9181,10 +9310,11 @@ def render_review_mode(questions: QuestionSet, app_config=None):
     # Filter-Bereich in zwei Spalten aufteilen
     col_f1, col_f2 = st.columns(2)
     with col_f1:
+        default_filter_index = filter_choices.index(filter_false)
         filter_option = st.radio(
             _summary_text("review_filter_label", default="Filtere nach Status:"),
             filter_choices,
-            index=0  # Standard auf "Alle" für bessere Übersicht mit Themenfilter
+            index=default_filter_index,
         )
     
     with col_f2:

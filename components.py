@@ -40,6 +40,7 @@ from user_question_sets import (
 from i18n import available_locales, translate
 from i18n.context import t as translate_ui, get_locale, set_locale
 from i18n import translate as translate_key
+from legal_ui import render_legal_links
 
 # Helpers imported at module top; do not re-import here.
 
@@ -3615,7 +3616,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
     paper_path = Path(get_package_dir()) / "docs" / "mc-test-paper" / "mc-test-edulearn26.pdf"
     if paper_path.exists():
         st.sidebar.divider()
-        with st.sidebar.expander(_sidebar_text("about_expander", default="ℹ️ Über MC-Test")):
+        with st.sidebar.expander(_sidebar_text("about_expander", default="Über MC-Test")):
             st.markdown(_sidebar_text(
                 "about_project_text",
                 default="MC-Test ist eine Open-Source-Plattform für formative Multiple-Choice-Übung.\n\nSie verbindet schema-gebundene LLM-Itemgenerierung, Bloom-1-3-Metadaten, Lernenden-Dashboards, Feedback mit Mini-Glossaren und konfigurierbares Pacing inklusive Time-Critical Override (Panikmodus).\n\nDas EDULEARN26-Paper beschreibt die lokale Ollama-Migration und eine erste SUS-Usability-Erhebung (N=20, M=70,38).",
@@ -3628,6 +3629,9 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
                 mime="application/pdf",
                 key="about_paper_download",
             )
+
+    st.sidebar.divider()
+    render_legal_links("sidebar", container=st.sidebar, compact=True)
 
 def render_admin_switch(app_config: AppConfig, questions: QuestionSet):
     """Rendert den Umschalter für das Admin-Panel in der Sidebar."""

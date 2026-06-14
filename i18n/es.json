@@ -554,7 +554,7 @@
         "history_show_all": "Mostrar todo",
         "history_show_less": "Mostrar menos",
         "history_show_more": "Mostrar más",
-        "about_expander": "ℹ️ Acerca de MC-Test",
+        "about_expander": "Acerca de MC-Test",
         "about_paper_button": "📄 PDF del artículo (EDULEARN26)",
         "about_project_text": "MC-Test es una plataforma de código abierto para la práctica formativa con preguntas de opción múltiple.\n\nCombina generación de ítems con LLM ajustada a un esquema, metadatos Bloom 1-3, paneles para estudiantes, feedback con mini-glosarios y control de ritmo configurable, incluido un Time-Critical Override.\n\nEl artículo EDULEARN26 describe la migración local a Ollama y un primer estudio de usabilidad SUS (N=20, M=70,38).",
         "about_paper_blocked": "Cierra primero el diálogo abierto para abrir el artículo.",
@@ -1283,8 +1283,18 @@
         "splash": {
             "title": "🎓 App MC-Test",
             "button": "🚀 Vamos",
-            "choose_set": "📂 Elegir un conjunto",
-            "create_ai": "Crear un conjunto con un LLM externo"
+            "choose_set": "Elegir un conjunto",
+            "create_ai": "Crear un conjunto con un LLM externo",
+            "eyebrow": "Práctica de opción múltiple",
+            "hero_title": "MC-Test",
+            "hero_subtitle": "Elige un conjunto, practica al ritmo adecuado o trae tu propio conjunto desde un LLM externo.",
+            "benefit_choose_title": "Conjuntos listos",
+            "benefit_choose_text": "Empieza directamente y revisa tus resultados con claridad.",
+            "benefit_train_title": "Examen o práctica",
+            "benefit_train_text": "Elige temporizador, ritmo y feedback inmediato según necesites.",
+            "benefit_export_title": "Llévatelo",
+            "benefit_export_text": "Exporta resultados y material de aprendizaje como PDF, Anki o arsnova.eu.",
+            "service_caption": "Idioma e información del proyecto"
         },
         "cleanup": {
             "toast": "{removed} conjuntos temporales limpiados.",
@@ -1312,7 +1322,7 @@
         "create_own_set": "🧠 Crear tu propio conjunto de preguntas",
         "create_own_set_hint": "Elige tu seudónimo; luego sube o pega el JSON de tu LLM externo.",
         "empty_state": "No hay ningún conjunto activo. Elige uno existente o crea el tuyo.",
-        "empty_state_select": "📂 Elegir un conjunto existente",
+        "empty_state_select": "Elegir un conjunto existente",
         "search": {
             "label": "🔎 Búsqueda rápida (título/slug)",
             "placeholder": "p. ej. \"matemáticas\" o \"scrum\"",
@@ -1431,6 +1441,19 @@
             "exam": "🏆 Modo examen (temporizador, clasificación)",
             "practice": "🧘 Modo Práctica (Sin tiempo, retroalimentación inmediata)"
         }
+    },
+    "legal": {
+        "section_label": "Legal",
+        "impressum": {
+            "button": "Aviso legal",
+            "title": "Aviso legal"
+        },
+        "datenschutz": {
+            "button": "Política de privacidad",
+            "title": "Política de privacidad"
+        },
+        "back": "Volver al inicio",
+        "missing": "No se pudo cargar el texto legal."
     },
     "languages": {
         "de": "alemán",

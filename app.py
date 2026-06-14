@@ -48,6 +48,7 @@ from main_view import (
 from admin_panel import render_admin_panel
 from components import render_sidebar, render_admin_switch
 from i18n.context import t as translate_ui
+from legal_ui import get_requested_legal_kind, render_legal_page
 
 try:
     from helpers.security import is_request_from_localhost
@@ -94,6 +95,11 @@ def main():
             continue  # Nächstes Locale probieren
     else:  # Wird ausgeführt, wenn die Schleife nie durch 'break' verlassen wurde
         st.warning(translate_ui("app.warning.locale_not_found", default="Kein passendes Locale für korrekte Sortierung gefunden. Umlaute werden evtl. falsch sortiert."))
+
+    requested_legal_kind = get_requested_legal_kind()
+    if requested_legal_kind:
+        render_legal_page(requested_legal_kind)
+        st.stop()
 
     # Lade Umgebungsvariablen aus der .env-Datei (für lokale Entwicklung)
     load_dotenv()

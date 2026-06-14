@@ -115,11 +115,13 @@ def test_create_set_workflow_copy_has_no_legacy_ai_or_export_wording():
 
 
 def test_about_text_matches_edulearn_paper_core_claims():
-    required_markers = ("MC-Test", "LLM", "Bloom", "Time-Critical Override", "Ollama", "SUS", "N=20")
+    required_markers = ("LLM", "Bloom", "Time-Critical Override", "Ollama", "SUS", "N=20")
 
     for path in sorted(I18N_DIR.glob("*.json")):
         payload = json.loads(path.read_text(encoding="utf-8"))
         text = payload["sidebar"]["about_project_text"]
+        expected_app_name = "MC Test" if path.name == "en.json" else "MC-Test"
 
+        assert expected_app_name in text, f"{path}: {expected_app_name}"
         for marker in required_markers:
             assert marker in text, f"{path}: {marker}"

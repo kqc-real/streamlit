@@ -143,7 +143,7 @@
         "history_show_all": "Alle anzeigen",
         "history_show_less": "Weniger anzeigen",
         "history_show_more": "Mehr anzeigen",
-        "about_expander": "ℹ️ Über MC-Test",
+        "about_expander": "Über MC-Test",
         "about_paper_button": "📄 Artikel-PDF (EDULEARN26)",
         "about_project_text": "MC-Test ist eine Open-Source-Plattform für formative Multiple-Choice-Übung.\n\nSie verbindet schema-gebundene LLM-Itemgenerierung, Bloom-1-3-Metadaten, Lernenden-Dashboards, Feedback mit Mini-Glossaren und konfigurierbares Pacing inklusive Time-Critical Override (Panikmodus).\n\nDas EDULEARN26-Paper beschreibt die lokale Ollama-Migration und eine erste SUS-Usability-Erhebung (N=20, M=70,38).",
         "about_paper_blocked": "Schließe zuerst den offenen Dialog, um den Artikel zu öffnen.",
@@ -1210,8 +1210,18 @@
         "splash": {
             "title": "🎓 MC-Test App",
             "button": "🚀 Starten",
-            "choose_set": "📂 Fragenset auswählen",
-            "create_ai": "Fragenset mit externem LLM erstellen"
+            "choose_set": "Fragenset auswählen",
+            "create_ai": "Fragenset mit externem LLM erstellen",
+            "eyebrow": "Multiple-Choice-Übung",
+            "hero_title": "MC-Test",
+            "hero_subtitle": "Wähle ein Fragenset, trainiere im passenden Tempo oder bring ein eigenes Set aus deinem externen LLM mit.",
+            "benefit_choose_title": "Fertige Sets",
+            "benefit_choose_text": "Direkt starten und Ergebnisse sauber auswerten.",
+            "benefit_train_title": "Prüfung oder Übung",
+            "benefit_train_text": "Timer, Tempo und Sofortfeedback passend wählen.",
+            "benefit_export_title": "Mitnehmen",
+            "benefit_export_text": "Ergebnisse und Lernmaterial als PDF, Anki oder arsnova.eu exportieren.",
+            "service_caption": "Sprache & Projektinfo"
         },
         "cleanup": {
             "toast": "{removed} temporäre Sets aufgeräumt.",
@@ -1245,7 +1255,7 @@
         "create_own_set": "🧠 Eigenes Fragenset erzeugen",
         "create_own_set_hint": "Wähle dein Pseudonym; anschließend kannst du extern erzeugtes JSON hochladen oder einfügen.",
         "empty_state": "Kein Fragenset aktiv. Du kannst ein bestehendes Set wählen oder ein eigenes Fragenset erzeugen.",
-        "empty_state_select": "📂 Vorhandenes Fragenset wählen",
+        "empty_state_select": "Vorhandenes Fragenset wählen",
         "languages_available": "Sprachen der Fragensets: {languages}",
         "section": {
             "header": "🗂️ Fragenset-Auswahl"
@@ -1358,6 +1368,19 @@
             "exam": "🏆 Prüfungs-Modus (Timer, Leaderboard)",
             "practice": "🧘 Übungs-Modus (Kein Timer, sofortiges Feedback)"
         }
+    },
+    "legal": {
+        "section_label": "Rechtliches",
+        "impressum": {
+            "button": "Impressum",
+            "title": "Impressum"
+        },
+        "datenschutz": {
+            "button": "Datenschutzerklärung",
+            "title": "Datenschutzerklärung"
+        },
+        "back": "Zur Startseite",
+        "missing": "Rechtstext konnte nicht geladen werden."
     },
     "languages": {
         "de": "deutsch",
