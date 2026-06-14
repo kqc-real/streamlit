@@ -126,6 +126,11 @@ class _FakeStreamlit:
         pass
 
 
+def _rendered_markup(fake_st):
+    html_calls = [text for text, _kwargs in fake_st.html_calls]
+    return "\n".join([*fake_st.markdown_calls, *html_calls])
+
+
 def test_render_explanation_renders_extended_and_glossary(monkeypatch):
     fake_st = _FakeStreamlit()
     monkeypatch.setattr(mv, "st", fake_st)
@@ -206,7 +211,7 @@ def test_render_question_view_smoke(monkeypatch):
 
     # Patch helpers that are UI-only or external.
     monkeypatch.setattr(mv, "_process_queued_rerun", lambda: None)
-    monkeypatch.setattr(mv, "_inject_main_container_padding", lambda: None)
+    monkeypatch.setattr(mv, "_inject_main_container_padding", lambda *args, **kwargs: None)
     monkeypatch.setattr(mv, "translate_ui", lambda key, default=None, **_: default or key)
     monkeypatch.setattr(mv, "_test_view_text", lambda key, default=None, **_: default or key)
     monkeypatch.setattr(mv, "_summary_text", lambda key, default=None, **_: default or key)
@@ -295,10 +300,12 @@ def test_compact_question_styles_do_not_shift_button_labels(monkeypatch):
 
     mv._inject_question_view_compact_styles()
 
-    rendered = "\n".join(fake_st.markdown_calls)
+    rendered = _rendered_markup(fake_st)
     assert '.stMainBlockContainer div[data-testid="stMarkdownContainer"] p' in rendered
     assert '.stMainBlockContainer button div[data-testid="stMarkdownContainer"] p' in rendered
     assert "line-height: inherit;" in rendered
+    assert 'div[data-testid="stElementContainer"]:has(.mc-timer-pacing-row-marker)' in rendered
+    assert "height: 0 !important;" in rendered
 
 
 def test_toast_contrast_styles_are_injected(monkeypatch):
@@ -307,7 +314,7 @@ def test_toast_contrast_styles_are_injected(monkeypatch):
 
     mv._inject_toast_contrast_styles()
 
-    rendered = "\n".join(fake_st.markdown_calls)
+    rendered = _rendered_markup(fake_st)
     assert 'div[data-testid="stToast"]' in rendered
     assert 'section[data-testid="stToastContainer"] div[data-testid="stToast"]' in rendered
     assert 'div[data-testid="stToast"] div[data-testid="stMarkdownContainer"] p' in rendered
@@ -315,6 +322,33 @@ def test_toast_contrast_styles_are_injected(monkeypatch):
     assert "color: #f6ead7" in rendered
     assert "border-left: 4px solid #f59e0b" in rendered
     assert "box-shadow: 0 16px 36px rgba(0, 0, 0, 0.42)" in rendered
+
+
+def test_main_container_padding_keeps_selection_headers_below_mobile_toolbar(monkeypatch):
+    fake_st = _FakeStreamlit()
+    monkeypatch.setattr(mv, "st", fake_st)
+
+    mv._inject_main_container_padding()
+
+    rendered = _rendered_markup(fake_st)
+    assert '[data-testid="stMainBlockContainer"]' in rendered
+    assert ".block-container" in rendered
+    assert "padding: 3.25rem 1rem 1.5rem !important" in rendered
+    assert 'div[data-testid="stElementContainer"]:has(style)' in rendered
+    assert "@media (max-width: 640px)" in rendered
+    assert "padding-top: 3.25rem !important" in rendered
+
+
+def test_main_container_padding_can_be_compact_for_question_view(monkeypatch):
+    fake_st = _FakeStreamlit()
+    monkeypatch.setattr(mv, "st", fake_st)
+
+    mv._inject_main_container_padding(compact_mobile=True)
+
+    rendered = _rendered_markup(fake_st)
+    assert "padding: 0.5rem 1rem 1.5rem !important" in rendered
+    assert "@media (max-width: 640px)" in rendered
+    assert "padding-top: 0.15rem !important" in rendered
 
 
 def test_cognition_radar_uses_global_dark_background():
@@ -334,7 +368,7 @@ def test_render_question_view_keeps_block_markdown_in_question_and_options(monke
     monkeypatch.setattr(mv, "st", fake_st)
 
     monkeypatch.setattr(mv, "_process_queued_rerun", lambda: None)
-    monkeypatch.setattr(mv, "_inject_main_container_padding", lambda: None)
+    monkeypatch.setattr(mv, "_inject_main_container_padding", lambda *args, **kwargs: None)
     monkeypatch.setattr(mv, "translate_ui", lambda key, default=None, **_: default or key)
     monkeypatch.setattr(mv, "_test_view_text", lambda key, default=None, **_: default or key)
     monkeypatch.setattr(mv, "_summary_text", lambda key, default=None, **_: default or key)

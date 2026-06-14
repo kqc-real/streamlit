@@ -106,28 +106,58 @@ def _load_scientist_contributions_any_locale() -> dict[str, str]:
     return lookup
 
 
-def _inject_main_container_padding() -> None:
-    """Inject a single padding declaration for the main container.
-
-    This deliberately uses a single CSS declaration as requested.
-    """
+def _inject_main_container_padding(*, compact_mobile: bool = False) -> None:
+    """Keep Streamlit's main content close to the top across app versions."""
+    base_padding_top = "0.5rem" if compact_mobile else "3.25rem"
+    mobile_padding_top = "0.15rem" if compact_mobile else "3.25rem"
     try:
-        st.markdown(
+        _emit_style_html(
             """
             <style>
-            .stMainBlockContainer.block-container { padding: 0.5rem 1rem 1.5rem; }
+            .stMainBlockContainer.block-container,
+            .stMainBlockContainer,
+            [data-testid="stMainBlockContainer"],
+            .block-container {
+              padding: __MC_BASE_PADDING_TOP__ 1rem 1.5rem !important;
+            }
+            div[data-testid="stElementContainer"]:has(style),
+            div[data-testid="stMarkdownContainer"]:has(style) {
+              height: 0 !important;
+              min-height: 0 !important;
+              margin: 0 !important;
+              padding: 0 !important;
+              line-height: 0 !important;
+              overflow: visible !important;
+            }
+            @media (max-width: 640px) {
+              .stMainBlockContainer.block-container,
+              .stMainBlockContainer,
+              [data-testid="stMainBlockContainer"],
+              .block-container {
+                padding-top: __MC_MOBILE_PADDING_TOP__ !important;
+              }
+            }
             </style>
-            """,
-            unsafe_allow_html=True,
+            """.replace("__MC_BASE_PADDING_TOP__", base_padding_top)
+            .replace("__MC_MOBILE_PADDING_TOP__", mobile_padding_top)
         )
     except Exception:
         pass
 
 
+def _emit_style_html(style_html: str) -> None:
+    """Inject pure CSS without adding visible Streamlit layout height."""
+    html_fn = getattr(st, "html", None)
+    if callable(html_fn):
+        html_fn(style_html)
+    else:
+        st.markdown(style_html, unsafe_allow_html=True)
+
+
 def _inject_toast_contrast_styles() -> None:
     """Make transient Streamlit toasts clearly visible in the dark theme."""
     try:
-        st.markdown(
+        _emit_style_html(
             """
             <style>
             section[data-testid="stToastContainer"] div[data-testid="stToast"],
@@ -157,8 +187,7 @@ def _inject_toast_contrast_styles() -> None:
               fill: #fbbf24 !important;
             }
             </style>
-            """,
-            unsafe_allow_html=True,
+            """
         )
     except Exception:
         pass
@@ -167,7 +196,7 @@ def _inject_toast_contrast_styles() -> None:
 def _inject_question_view_compact_styles() -> None:
     """Reduce vertical whitespace in the active question view."""
     try:
-        st.markdown(
+        _emit_style_html(
             """
             <style>
             .mc-question-progress-heading {
@@ -336,6 +365,15 @@ def _inject_question_view_compact_styles() -> None:
             .mc-timer-pacing-row-marker {
               display: none;
             }
+            div[data-testid="stElementContainer"]:has(.mc-timer-pacing-row-marker),
+            div[data-testid="stMarkdownContainer"]:has(.mc-timer-pacing-row-marker) {
+              height: 0 !important;
+              min-height: 0 !important;
+              margin: 0 !important;
+              padding: 0 !important;
+              line-height: 0 !important;
+              overflow: visible !important;
+            }
             div[data-testid="stElementContainer"]:has(.mc-timer-pacing-row-marker)
               + div[data-testid="stHorizontalBlock"],
             div[data-testid="stElementContainer"]:has(.mc-timer-pacing-row-marker)
@@ -381,8 +419,7 @@ def _inject_question_view_compact_styles() -> None:
               }
             }
             </style>
-            """,
-            unsafe_allow_html=True,
+            """
         )
     except Exception:
         pass
@@ -4105,7 +4142,6 @@ def render_welcome_page(app_config: AppConfig):
 
     # Process any queued rerun requests (set by other code paths as a fallback).
     _process_queued_rerun()
-    # Apply single padding declaration to main container
     _inject_main_container_padding()
     _inject_toast_contrast_styles()
     _set_page_reload_guard(False)
@@ -6320,8 +6356,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     """Rendert die Ansicht für eine einzelne Frage."""
     # Ensure any queued rerun is processed early in the interactive render path.
     _process_queued_rerun()
-    # Apply single padding declaration to main container
-    _inject_main_container_padding()
+    _inject_main_container_padding(compact_mobile=True)
     _inject_toast_contrast_styles()
     _inject_question_view_compact_styles()
     _set_page_reload_guard(True)

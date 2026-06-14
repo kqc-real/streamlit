@@ -66,8 +66,7 @@ except Exception:
 def _inject_soft_dark_theme_styles() -> None:
     """Soften dark-theme contrast without changing the app structure."""
     try:
-        st.markdown(
-            """
+        style_html = """
             <style>
             :root {
               --mc-bg: #181818;
@@ -121,9 +120,12 @@ def _inject_soft_dark_theme_styles() -> None:
               color: var(--mc-text) !important;
             }
             </style>
-            """,
-            unsafe_allow_html=True,
-        )
+            """
+        html_fn = getattr(st, "html", None)
+        if callable(html_fn):
+            html_fn(style_html)
+        else:
+            st.markdown(style_html, unsafe_allow_html=True)
     except Exception:
         pass
 
