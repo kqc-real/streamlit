@@ -14,7 +14,9 @@ base = "dark"
 
 # Definiert die primäre Akzentfarbe und die Haupttextfarbe.
 primaryColor = "#a21313"
-textColor = "#e4d1d1"
+backgroundColor = "#181818"
+secondaryBackgroundColor = "#232323"
+textColor = "#cfc5bd"
 
 [server]
 # Eine Liste von Ordnern, die vom File-Watcher ignoriert werden sollen.

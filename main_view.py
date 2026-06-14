@@ -16,6 +16,7 @@ import math
 import logic
 import logging
 logger = logging.getLogger(__name__)
+GLOBAL_DARK_BACKGROUND = "#181818"
 import datetime as _dt
 from typing import Any
 from pathlib import Path
@@ -115,6 +116,46 @@ def _inject_main_container_padding() -> None:
             """
             <style>
             .stMainBlockContainer.block-container { padding: 0.5rem 1rem 1.5rem; }
+            </style>
+            """,
+            unsafe_allow_html=True,
+        )
+    except Exception:
+        pass
+
+
+def _inject_toast_contrast_styles() -> None:
+    """Make transient Streamlit toasts clearly visible in the dark theme."""
+    try:
+        st.markdown(
+            """
+            <style>
+            section[data-testid="stToastContainer"] div[data-testid="stToast"],
+            div[data-testid="stToast"] {
+              background: #332515 !important;
+              color: #f6ead7 !important;
+              border: 1px solid rgba(245, 158, 11, 0.72) !important;
+              border-left: 4px solid #f59e0b !important;
+              box-shadow: 0 16px 36px rgba(0, 0, 0, 0.42) !important;
+            }
+            section[data-testid="stToastContainer"] div[data-testid="stToast"] *,
+            div[data-testid="stToast"] * {
+              color: #f6ead7 !important;
+            }
+            section[data-testid="stToastContainer"] div[data-testid="stToast"] div[data-testid="stMarkdownContainer"],
+            section[data-testid="stToastContainer"] div[data-testid="stToast"] div[data-testid="stMarkdownContainer"] *,
+            div[data-testid="stToast"] div[data-testid="stMarkdownContainer"],
+            div[data-testid="stToast"] div[data-testid="stMarkdownContainer"] *,
+            div[data-testid="stToast"] div[data-testid="stMarkdownContainer"] p,
+            div[data-testid="stToast"] div[data-testid="stMarkdownContainer"] span,
+            div[data-testid="stToast"] div[data-testid="stMarkdownContainer"] strong {
+              color: #f6ead7 !important;
+            }
+            section[data-testid="stToastContainer"] div[data-testid="stToast"] svg,
+            div[data-testid="stToast"] svg {
+              color: #fbbf24 !important;
+              fill: #fbbf24 !important;
+            }
             </style>
             """,
             unsafe_allow_html=True,
@@ -2038,6 +2079,166 @@ def _set_countdown_start_time(start_time: Any | None = None) -> pd.Timestamp:
     return resolved_start
 
 
+def _clear_previous_test_run_state_for_start() -> None:
+    """Entfernt nur laufbezogene Marker, bevor ein neuer Test gestartet wird."""
+    reset_keys = {
+        "session_id",
+        "test_started",
+        "test_manually_ended",
+        "test_time_expired",
+        "session_aborted",
+        "in_final_summary",
+        "test_start_time",
+        "test_end_time",
+        "start_zeit",
+        "beantwortet",
+        "frage_indices",
+        "initial_frage_indices",
+        "progress_loaded",
+        "optionen_shuffled",
+        "answer_outcomes",
+        "answered_indices",
+        "skipped_questions",
+        "bookmarked_questions",
+        "last_answered_idx",
+        "resume_next_idx",
+        "jump_to_idx_active",
+        "jump_to_idx_source",
+        "celebrated_questions",
+        "pacing_visible",
+        "aborted_user_id",
+        "aborted_user_score",
+        "aborted_user_duration",
+        "aborted_user_on_leaderboard",
+        "_current_question_idx",
+        "_question_view_last_scroll_idx",
+        "_next_question_notice_idx",
+        "_next_question_notice_shown",
+        "_scroll_to_next_button_after_answer_idx",
+        "_scroll_to_extended_expander_after_open_idx",
+        "_active_dialog",
+    }
+    reset_prefixes = (
+        "frage_",
+        "show_explanation_",
+        "show_extended_",
+        "radio_",
+        "radio_prev_",
+        "bm_toggle_",
+        "feedback_reported_",
+        "cb_feedback_",
+        "meta_rendered_",
+    )
+    try:
+        keys = list(st.session_state.keys())
+    except Exception:
+        keys = []
+
+    for key in keys:
+        if key in reset_keys or key.startswith(reset_prefixes):
+            try:
+                st.session_state.pop(key, None)
+            except Exception:
+                try:
+                    del st.session_state[key]
+                except Exception:
+                    pass
+
+    try:
+        st.query_params.pop(ACTIVE_SESSION_QUERY_PARAM, None)
+    except Exception:
+        pass
+
+
+def _get_start_pseudonym(user_name: str | None = None) -> str | None:
+    """Liefert das aktuell gewaehlt Pseudonym aus allen Welcome-State-Varianten."""
+    candidates = (
+        user_name,
+        st.session_state.get("user_id"),
+        st.session_state.get("selected_pseudonym"),
+        st.session_state.get("main_view_pseudonym_selector"),
+        st.session_state.get("aborted_user_id"),
+    )
+    for candidate in candidates:
+        if candidate is None:
+            continue
+        try:
+            value = str(candidate).strip()
+        except Exception:
+            continue
+        if value:
+            return value
+    return None
+
+
+def _start_selected_questions_session(
+    questions_file: str,
+    questions: QuestionSet,
+    app_config: AppConfig | None,
+    *,
+    user_name: str | None = None,
+    tempo: str | None = None,
+    mode: str | None = None,
+) -> bool:
+    """Legt eine neue DB-Session an und initialisiert den UI-State."""
+    resolved_user = _get_start_pseudonym(user_name)
+    if not resolved_user or not questions_file:
+        logger.warning(
+            "Cannot start test session: missing user or questions_file (user=%r, questions_file=%r)",
+            resolved_user,
+            questions_file,
+        )
+        return False
+
+    _clear_previous_test_run_state_for_start()
+
+    st.session_state["user_id"] = resolved_user
+    st.session_state["selected_pseudonym"] = resolved_user
+    st.session_state["selected_questions_file"] = questions_file
+    try:
+        st.session_state["main_view_question_file_selector"] = questions_file
+    except Exception:
+        pass
+
+    # Lokaler Import, um zyklische Abhaengigkeiten zu vermeiden.
+    from database import start_test_session, add_user as db_add_user
+
+    # Der Hash muss zum aktuell sichtbaren Pseudonym passen. Nach beendeten
+    # Sessions koennen alte Hash-Werte im State uebrig bleiben.
+    user_hash = get_user_id_hash(resolved_user)
+    st.session_state["user_id_hash"] = user_hash
+
+    resolved_tempo = tempo or st.session_state.get("selected_tempo", "normal")
+    resolved_mode = mode or st.session_state.get("selected_mode", "exam")
+
+    db_add_user(user_hash, resolved_user)
+    session_id = start_test_session(
+        user_hash,
+        questions_file,
+        tempo=resolved_tempo,
+        mode=resolved_mode,
+    )
+    if not session_id:
+        logger.error(
+            "Could not start test session for user_hash=%s questions_file=%r tempo=%r mode=%r",
+            user_hash[:10] if isinstance(user_hash, str) else user_hash,
+            questions_file,
+            resolved_tempo,
+            resolved_mode,
+        )
+        return False
+
+    st.session_state["session_id"] = session_id
+    initialize_session_state(questions, app_config)
+    st.session_state["test_started"] = True
+    _set_countdown_start_time()
+    try:
+        st.query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
+    except Exception:
+        pass
+    return True
+
+
 def _ensure_countdown_start_time(now: Any | None = None) -> pd.Timestamp:
     """Liefert eine stabile Startzeit fuer den Countdown der laufenden Sitzung."""
     start_zeit = st.session_state.get("start_zeit")
@@ -3027,94 +3228,22 @@ def _render_history_table(history_rows, filename_base: str):
                                 except Exception:
                                     st.session_state['selected_questions_file'] = row.get('questions_file') or row.get('Fragenset')
 
-                                # If the current user reserved their pseudonym, allow a forced
-                                # start of a historical set regardless of the current test state.
-                                allow_force_start = False
                                 try:
-                                    user_pseudo = st.session_state.get('user_id')
-                                    user_hash = st.session_state.get('user_id_hash')
-                                    from database import has_recovery_secret_for_pseudonym
-
-                                    # Try several variants to detect a reserved pseudonym:
-                                    # prefer explicit pseudonym, fall back to stored hash
-                                    candidates = [c for c in (user_pseudo, user_hash) if c]
-                                    # Also try computing hash from pseudonym if helper available
-                                    if not candidates and user_pseudo:
-                                        try:
-                                            from helpers.text import get_user_id_hash
-                                            candidates.append(get_user_id_hash(user_pseudo))
-                                        except Exception:
-                                            pass
-
-                                    for cand in candidates:
-                                        try:
-                                            if has_recovery_secret_for_pseudonym(cand):
-                                                allow_force_start = True
-                                                break
-                                        except Exception:
-                                            continue
+                                    selected_file = st.session_state.get('selected_questions_file')
+                                    qset = load_questions(selected_file, silent=True) if selected_file else None
+                                    app_cfg = st.session_state.get('app_config') or globals().get('app_config')
+                                    if selected_file and qset and _start_selected_questions_session(
+                                        selected_file,
+                                        qset,
+                                        app_cfg,
+                                        user_name=st.session_state.get('user_id'),
+                                    ):
+                                        st.rerun()
+                                    else:
+                                        st.error(translate_ui("welcome.pseudonym.database_error", default="Fehler beim Starten des Tests."))
                                 except Exception:
-                                    allow_force_start = False
-
-                                if allow_force_start:
-                                    # Best-effort: load the selected question set and
-                                    # initialize session state so the new test runs
-                                    # independently of any previous/finished test.
-                                    try:
-                                        sel = st.session_state.get('selected_questions_file')
-                                        if sel:
-                                            qset = load_questions(sel, silent=True)
-                                            app_cfg = st.session_state.get('app_config') or globals().get('app_config')
-                                            try:
-                                                initialize_session_state(qset, app_cfg)
-                                            except Exception:
-                                                pass
-                                    except Exception:
-                                        pass
-
-                                    # Clear final-summary / aborted markers so main() does
-                                    # not immediately render the final-summary view.
-                                    try:
-                                        for k in [
-                                            'test_manually_ended',
-                                            'test_time_expired',
-                                            'session_aborted',
-                                            'in_final_summary',
-                                        ]:
-                                            try:
-                                                st.session_state.pop(k, None)
-                                            except Exception:
-                                                try:
-                                                    st.session_state[k] = False
-                                                except Exception:
-                                                    pass
-
-                                        # Remove end timestamps that signal a finished test
-                                        try:
-                                            st.session_state.pop('test_end_time', None)
-                                        except Exception:
-                                            pass
-                                        try:
-                                            st.session_state.pop('aborted_user_id', None)
-                                            st.session_state.pop('aborted_user_score', None)
-                                            st.session_state.pop('aborted_user_duration', None)
-                                            st.session_state.pop('aborted_user_on_leaderboard', None)
-                                        except Exception:
-                                            pass
-                                    except Exception:
-                                        pass
-
-                                # Close any active dialogs and start the test
-                                try:
-                                    st.session_state['_active_dialog'] = None
-                                except Exception:
-                                    pass
-                                st.session_state['test_started'] = True
-                                try:
-                                    _set_countdown_start_time()
-                                except Exception:
-                                    pass
-                                st.rerun()
+                                    logger.exception("Error while starting session from history table")
+                                    st.error(translate_ui("welcome.pseudonym.database_error", default="Fehler beim Starten des Tests."))
                         else:
                             # Normal cell: display the formatted value
                             val = row.get(col_name, "-")
@@ -3501,7 +3630,7 @@ def _inject_refined_welcome_splash_styles() -> None:
             display: none;
         }
         .mc-welcome-eyebrow {
-            color: #cbd5e1;
+            color: var(--mc-muted, #afa59d);
             font-size: 0.82rem;
             font-weight: 700;
             letter-spacing: 0;
@@ -3509,7 +3638,7 @@ def _inject_refined_welcome_splash_styles() -> None:
             text-transform: none;
         }
         .mc-welcome-title {
-            color: #fff7f7;
+            color: var(--mc-heading, #e2d7ce);
             font-size: 2.1rem;
             font-weight: 760;
             line-height: 1.08;
@@ -3517,7 +3646,7 @@ def _inject_refined_welcome_splash_styles() -> None:
             margin: 0;
         }
         .mc-welcome-subtitle {
-            color: #ead7d7;
+            color: var(--mc-text, #cfc5bd);
             font-size: 1.02rem;
             line-height: 1.55;
             margin: 0.15rem 0 0.25rem;
@@ -3528,14 +3657,14 @@ def _inject_refined_welcome_splash_styles() -> None:
             padding-right: 0.75rem;
         }
         .mc-welcome-benefit strong {
-            color: #fff1f2;
+            color: var(--mc-heading, #e2d7ce);
             display: block;
             font-size: 0.95rem;
             letter-spacing: 0;
             margin-bottom: 0.2rem;
         }
         .mc-welcome-benefit span {
-            color: #d8c5c5;
+            color: var(--mc-muted, #afa59d);
             display: block;
             font-size: 0.9rem;
             line-height: 1.42;
@@ -3576,6 +3705,32 @@ def _launch_welcome_flow(flow: str) -> None:
         st.session_state.pop("_active_dialog", None)
     st.session_state._welcome_splash_dismissed = True
     st.rerun()
+
+
+def _process_reset_to_splash_request() -> bool:
+    """Verarbeitet den Reset nach bewusst geschlossenem Welcome-Flow."""
+    if not st.session_state.pop("_reset_to_splash", False):
+        return False
+
+    for key in [
+        "user_id",
+        "user_id_hash",
+        "selected_pseudonym",
+        "main_view_pseudonym_selector",
+        "session_id",
+        "selected_questions_file",
+        "main_view_question_file_selector",
+        "question_distribution_expanded",
+    ]:
+        st.session_state.pop(key, None)
+    st.session_state["_welcome_splash_dismissed"] = False
+    st.session_state["_welcome_flow"] = None
+    st.session_state["_last_welcome_flow"] = None
+    st.session_state["_flow_launched"] = False
+    st.session_state.pop("user_qset_dialog_open", None)
+    st.session_state.pop("_force_inline_user_qset", None)
+    st.session_state.pop("_active_dialog", None)
+    return True
 
 
 def _render_welcome_splash_service_row(
@@ -3952,6 +4107,7 @@ def render_welcome_page(app_config: AppConfig):
     _process_queued_rerun()
     # Apply single padding declaration to main container
     _inject_main_container_padding()
+    _inject_toast_contrast_styles()
     _set_page_reload_guard(False)
 
     requested_legal_kind = get_requested_legal_kind()
@@ -4033,6 +4189,12 @@ def render_welcome_page(app_config: AppConfig):
     except Exception:
         pass
 
+    # Reset zum Splash muss vor dem Splash-Stop passieren. Sonst wird der
+    # Reset erst beim naechsten CTA-Klick verarbeitet und erzeugt den
+    # beobachteten Doppelklick-Effekt nach dem KI-Pfad.
+    if _process_reset_to_splash_request():
+        st.rerun()
+
     # Splash (zwingt zur Flow-Wahl und Pseudonym-Gate)
     _render_welcome_splash()
     if not st.session_state.get("_welcome_splash_dismissed", False):
@@ -4072,25 +4234,6 @@ def render_welcome_page(app_config: AppConfig):
         st.divider()
         render_legal_links("welcome_pseudonym")
         return
-
-    # Reset zum Splash anstoßen, wenn der KI-Dialog bewusst beendet wurde
-    if st.session_state.pop("_reset_to_splash", False):
-        for key in [
-            "user_id",
-            "user_id_hash",
-            "selected_pseudonym",
-            "main_view_pseudonym_selector",
-            "session_id",
-            "selected_questions_file",
-            "main_view_question_file_selector",
-            "question_distribution_expanded",
-        ]:
-            st.session_state.pop(key, None)
-        st.session_state["_welcome_splash_dismissed"] = False
-        st.session_state["_welcome_flow"] = None
-        st.session_state["_last_welcome_flow"] = None
-        st.session_state["_flow_launched"] = False
-        st.rerun()
 
     # Nach Pseudonymwahl den gewünschten Flow starten.
     flow_choice = st.session_state.get("_welcome_flow")
@@ -4148,9 +4291,9 @@ def render_welcome_page(app_config: AppConfig):
                             # server-side log for visibility but do not render
                             # a UI message.
                             try:
-                                logger = globals().get('logger')
-                                if logger:
-                                    logger.info('Released unreserved pseudonyms: %s', released)
+                                module_logger = globals().get('logger')
+                                if module_logger:
+                                    module_logger.info('Released unreserved pseudonyms: %s', released)
                                 else:
                                     print(f'Released unreserved pseudonyms: {released}')
                             except Exception:
@@ -5435,7 +5578,7 @@ def render_welcome_page(app_config: AppConfig):
 
             # --- Start-Button (nach Auswahl) ---
             user_name = st.session_state.get("user_id")
-            can_start = user_name and question_selected_for_render and not st.session_state.get("session_id")
+            can_start = user_name and question_selected_for_render
             _, start_col, _ = st.columns([1, 2, 1])
             with start_col:
                 mode = st.session_state.get("selected_mode", "exam")
@@ -5452,25 +5595,19 @@ def render_welcome_page(app_config: AppConfig):
                     width="stretch",
                 ):
                     try:
-                        # Lokaler Import, um zyklische Abhängigkeiten zu vermeiden
-                        from database import start_test_session, add_user as db_add_user
-                        user_hash = st.session_state.get("user_id_hash") or get_user_id_hash(user_name)
-                        st.session_state["user_id_hash"] = user_hash
-                        db_add_user(user_hash, user_name)
                         tempo = st.session_state.get("selected_tempo", "normal")
                         mode = st.session_state.get("selected_mode", "exam")
-                        session_id = start_test_session(user_hash, question_selected_for_render, tempo=tempo, mode=mode)
-                        if session_id:
-                            st.session_state["session_id"] = session_id
-                            initialize_session_state(questions, app_config)
-                            st.session_state["test_started"] = True
-                            _set_countdown_start_time()
-                            try:
-                                st.query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
-                            except Exception:
-                                pass
+                        if _start_selected_questions_session(
+                            question_selected_for_render,
+                            questions,
+                            app_config,
+                            user_name=user_name,
+                            tempo=tempo,
+                            mode=mode,
+                        ):
                             st.rerun()
                     except Exception:
+                        logger.exception("Error while starting selected question session from welcome page")
                         st.error(translate_ui("welcome.pseudonym.database_error", default="Fehler beim Starten des Tests."))
         else:
             st.info(_welcome_pseudonym_question_required())
@@ -6185,6 +6322,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     _process_queued_rerun()
     # Apply single padding declaration to main container
     _inject_main_container_padding()
+    _inject_toast_contrast_styles()
     _inject_question_view_compact_styles()
     _set_page_reload_guard(True)
     _enable_question_expander_open_scroll()
@@ -7842,7 +7980,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                         select_hint = translate_ui('test_view.select_answer', default='Bitte wähle zuerst eine Antwort aus.')
                     except Exception:
                         select_hint = 'Bitte wähle zuerst eine Antwort aus.'
-                    st.info(select_hint, icon="👉")
+                    show_ephemeral_message(select_hint, icon="👉")
                 # If still within the reading cooldown, show the hint and remaining seconds.
                 elif remaining_answer_cooldown > 0 and not panic_mode:
                     try:
@@ -9741,7 +9879,8 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
                 r = values + [values[0]]
                 theta = labels + [labels[0]]
 
-                # Style for a darker radar reminiscent of a radar screen
+                # Keep the radar embedded in the global dark app background.
+                app_background_color = GLOBAL_DARK_BACKGROUND
                 radar_line_color = "#15803d"  # dark green
                 radar_fill_rgba = "rgba(21,128,61,0.20)"  # translucent green fill
 
@@ -9788,12 +9927,12 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
 
                 fig_radar.update_layout(
                     polar=dict(
-                        bgcolor="#071827",
+                        bgcolor=app_background_color,
                         radialaxis=dict(visible=True, range=[0, 100], gridcolor="rgba(34,197,94,0.12)", tickcolor="#9ae6b4", tickfont=dict(color="#c7f9d4")),
                         angularaxis=dict(gridcolor="rgba(34,197,94,0.08)", tickcolor="#c7f9d4", tickfont=dict(color="#c7f9d4")),
                     ),
-                    paper_bgcolor="#031316",
-                    plot_bgcolor="#071827",
+                    paper_bgcolor=app_background_color,
+                    plot_bgcolor=app_background_color,
                     font=dict(color="#c7f9d4"),
                     showlegend=False,
                     margin=dict(l=30, r=10, t=30, b=30),

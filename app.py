@@ -63,6 +63,71 @@ except Exception:
         return False
 
 
+def _inject_soft_dark_theme_styles() -> None:
+    """Soften dark-theme contrast without changing the app structure."""
+    try:
+        st.markdown(
+            """
+            <style>
+            :root {
+              --mc-bg: #181818;
+              --mc-surface: #232323;
+              --mc-surface-soft: #2a2a2a;
+              --mc-text: #cfc5bd;
+              --mc-heading: #e2d7ce;
+              --mc-muted: #afa59d;
+            }
+            .stApp,
+            [data-testid="stAppViewContainer"],
+            [data-testid="stMain"],
+            .stMain,
+            .stMainBlockContainer {
+              background-color: var(--mc-bg) !important;
+              color: var(--mc-text) !important;
+            }
+            [data-testid="stHeader"] {
+              background: rgba(24, 24, 24, 0.92) !important;
+            }
+            [data-testid="stSidebar"],
+            [data-testid="stSidebarContent"] {
+              background-color: var(--mc-surface) !important;
+              color: var(--mc-text) !important;
+            }
+            .stMainBlockContainer,
+            div[data-testid="stMarkdownContainer"],
+            div[data-testid="stMarkdownContainer"] p,
+            div[data-testid="stMarkdownContainer"] li,
+            div[data-testid="stWidgetLabel"],
+            div[data-testid="stText"],
+            label,
+            legend {
+              color: var(--mc-text) !important;
+            }
+            div[data-testid="stMarkdownContainer"] h1,
+            div[data-testid="stMarkdownContainer"] h2,
+            div[data-testid="stMarkdownContainer"] h3,
+            div[data-testid="stMarkdownContainer"] h4 {
+              color: var(--mc-heading) !important;
+            }
+            div[data-testid="stCaptionContainer"],
+            small {
+              color: var(--mc-muted) !important;
+            }
+            input,
+            textarea,
+            div[data-baseweb="select"] > div,
+            div[data-baseweb="input"] > div {
+              background-color: var(--mc-surface-soft) !important;
+              color: var(--mc-text) !important;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True,
+        )
+    except Exception:
+        pass
+
+
 def main():
     """Hauptfunktion der Streamlit-Anwendung."""
     st.set_page_config(
@@ -72,6 +137,7 @@ def main():
         # Legt den initialen Zustand der Sidebar fest.
         initial_sidebar_state="expanded"  # "collapsed" oder "expanded"
     )
+    _inject_soft_dark_theme_styles()
     
     # Setze das Locale, um eine korrekte alphabetische Sortierung von Namen
     # mit Akzenten und Umlauten zu gewährleisten (z.B. 'Erwin' bei 'E').

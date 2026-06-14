@@ -1,3 +1,4 @@
+import inspect
 import types
 
 import main_view as mv
@@ -298,6 +299,34 @@ def test_compact_question_styles_do_not_shift_button_labels(monkeypatch):
     assert '.stMainBlockContainer div[data-testid="stMarkdownContainer"] p' in rendered
     assert '.stMainBlockContainer button div[data-testid="stMarkdownContainer"] p' in rendered
     assert "line-height: inherit;" in rendered
+
+
+def test_toast_contrast_styles_are_injected(monkeypatch):
+    fake_st = _FakeStreamlit()
+    monkeypatch.setattr(mv, "st", fake_st)
+
+    mv._inject_toast_contrast_styles()
+
+    rendered = "\n".join(fake_st.markdown_calls)
+    assert 'div[data-testid="stToast"]' in rendered
+    assert 'section[data-testid="stToastContainer"] div[data-testid="stToast"]' in rendered
+    assert 'div[data-testid="stToast"] div[data-testid="stMarkdownContainer"] p' in rendered
+    assert "background: #332515" in rendered
+    assert "color: #f6ead7" in rendered
+    assert "border-left: 4px solid #f59e0b" in rendered
+    assert "box-shadow: 0 16px 36px rgba(0, 0, 0, 0.42)" in rendered
+
+
+def test_cognition_radar_uses_global_dark_background():
+    source = inspect.getsource(mv.render_final_summary)
+
+    assert mv.GLOBAL_DARK_BACKGROUND == "#181818"
+    assert "app_background_color = GLOBAL_DARK_BACKGROUND" in source
+    assert "bgcolor=app_background_color" in source
+    assert "paper_bgcolor=app_background_color" in source
+    assert "plot_bgcolor=app_background_color" in source
+    assert 'paper_bgcolor="#031316"' not in source
+    assert 'plot_bgcolor="#071827"' not in source
 
 
 def test_render_question_view_keeps_block_markdown_in_question_and_options(monkeypatch):
