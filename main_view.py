@@ -874,6 +874,62 @@ def _welcome_pseudonym_reservation_placeholder() -> str:
     )
 
 
+def _welcome_pseudonym_reservation_confirm_label() -> str:
+    return translate_ui(
+        "welcome.pseudonym.reservation_confirm",
+        default="🔒 Geheimwort bestätigen",
+    )
+
+
+def _welcome_pseudonym_reservation_confirm_placeholder() -> str:
+    return translate_ui(
+        "welcome.pseudonym.reservation_confirm_placeholder",
+        default="Geheimwort wiederholen",
+    )
+
+
+def _welcome_pseudonym_reservation_hint() -> str:
+    return translate_ui(
+        "welcome.pseudonym.reservation_hint",
+        default="Bestätige das Geheimwort, damit du dieses Pseudonym später wieder nutzen kannst.",
+    )
+
+
+def _welcome_pseudonym_temporary_hint() -> str:
+    return translate_ui(
+        "welcome.pseudonym.temporary_hint",
+        default="Ohne Geheimwort nutzt du das Pseudonym nur für diese Sitzung.",
+    )
+
+
+def _welcome_pseudonym_secret_mismatch() -> str:
+    return translate_ui(
+        "welcome.pseudonym.secret_mismatch",
+        default="Die Geheimwörter stimmen nicht überein.",
+    )
+
+
+def _welcome_pseudonym_secret_missing() -> str:
+    return translate_ui(
+        "welcome.pseudonym.secret_missing",
+        default="Gib zuerst ein Geheimwort ein.",
+    )
+
+
+def _welcome_pseudonym_secret_confirmed() -> str:
+    return translate_ui(
+        "welcome.pseudonym.secret_confirmed",
+        default="✅ Geheimwort bestätigt. Dein Pseudonym wird reserviert.",
+    )
+
+
+def _welcome_pseudonym_dialog_start_reserved() -> str:
+    return translate_ui(
+        "welcome.pseudonym.dialog_start_reserved",
+        default="Pseudonym reservieren und weiter",
+    )
+
+
 def _welcome_pseudonym_secret_too_short(min_len: int) -> str:
     return translate_ui(
         "welcome.pseudonym.secret_too_short",
@@ -893,7 +949,7 @@ def _welcome_pseudonym_reserve_success_notice() -> str:
         "welcome.pseudonym.reserve_success",
         default=(
             "Pseudonym reserviert. "
-            "Wähle jetzt ein Fragenset aus und starte den Test."
+            "Du kannst es später mit deinem Geheimwort wieder nutzen."
         ),
     )
 
@@ -951,6 +1007,13 @@ def _welcome_pseudonym_recover_secret_label() -> str:
     return translate_ui(
         "welcome.pseudonym.recover_secret",
         default="🔒 Geheimwort",
+    )
+
+
+def _welcome_pseudonym_recover_hint() -> str:
+    return translate_ui(
+        "welcome.pseudonym.recover_hint",
+        default="Gib dein reserviertes Pseudonym und das zugehörige Geheimwort ein.",
     )
 
 
@@ -3273,8 +3336,22 @@ def _render_pseudonym_gate_dialog(app_config: AppConfig):
             key="pseudonym_dialog_secret",
             disabled=secret_disabled,
         )
+        normalized_secret = str(secret).strip() if secret else ""
+        secret_confirm = ""
+        if not admin_selected:
+            secret_confirm = st.text_input(
+                _welcome_pseudonym_reservation_confirm_label(),
+                type="password",
+                max_chars=32,
+                placeholder=_welcome_pseudonym_reservation_confirm_placeholder(),
+                key="pseudonym_dialog_secret_confirm",
+                disabled=secret_disabled,
+            )
+        normalized_secret_confirm = str(secret_confirm).strip() if secret_confirm else ""
         if admin_selected:
             secret = ""
+            normalized_secret = ""
+            normalized_secret_confirm = ""
 
         # Mindestlänge prüfen
         try:
@@ -3285,9 +3362,25 @@ def _render_pseudonym_gate_dialog(app_config: AppConfig):
             allow_short = False
 
         secret_too_short = False
-        if secret and (not allow_short) and len(secret) < min_len:
+        secret_mismatch = False
+        secret_needs_confirmation = False
+        secret_missing = False
+        if normalized_secret_confirm and not normalized_secret:
+            st.warning(_welcome_pseudonym_secret_missing())
+            secret_missing = True
+        elif normalized_secret and (not allow_short) and len(normalized_secret) < min_len:
             st.warning(_welcome_pseudonym_secret_too_short(min_len))
             secret_too_short = True
+        elif normalized_secret and not normalized_secret_confirm:
+            st.caption(_welcome_pseudonym_reservation_hint())
+            secret_needs_confirmation = True
+        elif normalized_secret and normalized_secret != normalized_secret_confirm:
+            st.warning(_welcome_pseudonym_secret_mismatch())
+            secret_mismatch = True
+        elif normalized_secret:
+            st.caption(_welcome_pseudonym_secret_confirmed())
+        elif not admin_selected:
+            st.caption(_welcome_pseudonym_temporary_hint())
 
         flow_choice_for_label = st.session_state.get("_welcome_flow") or st.session_state.get("_last_welcome_flow")
         start_label = translate_ui("welcome.pseudonym.dialog_start", default="Start")
@@ -3299,6 +3392,7 @@ def _render_pseudonym_gate_dialog(app_config: AppConfig):
 
         # Wiederherstellung: „Ich habe bereits ein Pseudonym“
         with st.expander(_welcome_pseudonym_recover_expander(), expanded=False):
+            st.caption(_welcome_pseudonym_recover_hint())
             rec_pseudo = st.text_input(
                 _welcome_pseudonym_recover_pseudonym_label(),
                 key="pseudonym_dialog_recover_name",
@@ -3353,14 +3447,22 @@ def _render_pseudonym_gate_dialog(app_config: AppConfig):
                     st.session_state['user_id_hash'] = user_hash
                     st.session_state['_pseudonym_dialog_open'] = False
                     st.session_state['_pseudonym_ready'] = True
+                    st.session_state['show_pseudonym_reminder'] = True
                     st.success(_welcome_pseudonym_recover_success())
                     st.rerun()
                 except Exception as exc:
                     st.error(_welcome_pseudonym_reserve_error_with_reason(str(exc)))
 
-        disabled = (not selected_name) or secret_too_short
+        primary_label = _welcome_pseudonym_dialog_start_reserved() if normalized_secret else start_label
+        disabled = (
+            (not selected_name)
+            or secret_too_short
+            or secret_needs_confirmation
+            or secret_mismatch
+            or secret_missing
+        )
         if st.button(
-            start_label,
+            primary_label,
             type="primary",
             width="stretch",
             disabled=disabled,
@@ -3376,12 +3478,16 @@ def _render_pseudonym_gate_dialog(app_config: AppConfig):
                 st.session_state['user_id'] = user_name
                 st.session_state['user_id_hash'] = user_id_hash
 
-                if secret:
-                    normalized_secret = str(secret).strip()
+                if normalized_secret:
+                    if normalized_secret != normalized_secret_confirm:
+                        st.error(_welcome_pseudonym_secret_mismatch())
+                        return
                     ok = set_recovery_secret(user_id_hash, normalized_secret)
                     if not ok:
                         st.error(_welcome_pseudonym_reserve_error())
                         return
+                    st.session_state['reserve_success_pseudonym'] = user_name
+                    st.session_state['show_pseudonym_reminder'] = True
                 st.session_state['_pseudonym_dialog_open'] = False
                 st.session_state['_pseudonym_ready'] = True
                 st.rerun()
@@ -3411,12 +3517,17 @@ def render_welcome_page(app_config: AppConfig):
     # Wenn ein Pseudonym-Reminder gesetzt ist (z.B. nach Reservierung),
     # zeigen wir einen Hinweis zentral im Hauptbereich statt in der Sidebar.
     try:
+        reserve_success_pseudonym = st.session_state.pop('reserve_success_pseudonym', None)
+        if reserve_success_pseudonym:
+            st.success(_welcome_pseudonym_reserve_success_notice())
+            st.session_state["show_pseudonym_reminder"] = True
+
         if st.session_state.get("show_pseudonym_reminder", False):
             # Only show this reminder for actually reserved pseudonyms.
             show = False
             user_label = st.session_state.get('user_id') or ''
             # If we just set the reserve success marker, treat as reserved.
-            if st.session_state.get('reserve_success_pseudonym'):
+            if reserve_success_pseudonym:
                 show = True
             else:
                 # Fall back to DB check (best-effort). If the DB helper is
