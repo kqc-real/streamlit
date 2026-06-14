@@ -203,6 +203,34 @@ def _inject_question_view_compact_styles() -> None:
               padding-top: 0.05rem;
               padding-bottom: 0.05rem;
             }
+            .stMainBlockContainer div[data-testid="stAlertContainer"],
+            .stMainBlockContainer div[data-testid^="stAlertContent"] {
+              display: flex !important;
+              align-items: center !important;
+            }
+            .stMainBlockContainer div[data-testid="stAlert"] div[data-testid="stMarkdownContainer"] {
+              display: flex !important;
+              align-items: center !important;
+              margin: 0 !important;
+              min-height: 1.5rem;
+            }
+            .stMainBlockContainer div[data-testid="stAlert"] div[data-testid="stMarkdownContainer"] p {
+              line-height: 1.35 !important;
+              margin: 0 !important;
+            }
+            .stMainBlockContainer div[data-testid="stExpander"] summary > span {
+              align-items: center !important;
+            }
+            .stMainBlockContainer div[data-testid="stExpander"] summary div[data-testid="stMarkdownContainer"],
+            .stMainBlockContainer div[data-testid="stExpander"] summary div[data-testid="stMarkdownContainer"] p {
+              line-height: 1.25 !important;
+              margin: 0 !important;
+            }
+            .stMainBlockContainer div[data-testid="stExpander"] summary [data-testid="stIconMaterial"] {
+              align-items: center !important;
+              display: inline-flex !important;
+              line-height: 1 !important;
+            }
             .stMainBlockContainer div[data-testid="stRadio"] {
               display: flex !important;
               flex-direction: column !important;
@@ -247,6 +275,30 @@ def _inject_question_view_compact_styles() -> None:
               height: 0;
               margin: 0.85rem 0 0.45rem;
               width: 100%;
+            }
+            .mc-explanation-divider {
+              border-top: 1px solid rgba(148, 163, 184, 0.26);
+              height: 0;
+              margin: 0.95rem 0 0.55rem;
+              width: 100%;
+            }
+            .mc-feedback-label {
+              display: inline-flex;
+              align-items: center;
+              margin: 0.35rem 0 0.12rem;
+              font-size: 0.88rem;
+              font-weight: 750;
+              line-height: 1.2;
+            }
+            .mc-feedback-label--user-correct,
+            .mc-feedback-label--correct {
+              color: #86efac;
+            }
+            .mc-feedback-label--user-wrong {
+              color: #fca5a5;
+            }
+            .mc-feedback-label--explanation {
+              color: #93c5fd;
             }
             .mc-timer-pacing-row-marker {
               display: none;
@@ -311,6 +363,18 @@ def _render_question_progress_heading(text: str) -> None:
     clean_text = _strip_markdown_heading_marker(text)
     st.markdown(
         f"<div class='mc-question-progress-heading'>{_html.escape(clean_text)}</div>",
+        unsafe_allow_html=True,
+    )
+
+
+def _normalize_feedback_label(text: str) -> str:
+    return re.sub(r"\s*[:：]\s*$", "", str(text or "").strip())
+
+
+def _render_feedback_label(label: str, variant: str) -> None:
+    clean_label = _html.escape(_normalize_feedback_label(label))
+    st.markdown(
+        f"<div class='mc-feedback-label mc-feedback-label--{variant}'>{clean_label}</div>",
         unsafe_allow_html=True,
     )
 
@@ -6076,7 +6140,7 @@ def _show_welcome_container(app_config: AppConfig):
             default="Richtig: +Gewichtung, falsch: -Gewichtung.",
         )
 
-    with st.container(border=True):
+    with st.container():
         st.markdown(
             translate_ui(
                 "welcome.test_intro",
@@ -8457,23 +8521,17 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list, 
             pass
     # Zeige die gegebene Antwort oberhalb der richtigen Antwort (lokalisiert)
     try:
-        your_answer_label = _summary_text("review_label_your_answer", default="Your answer")
+        your_answer_label = _summary_text("review_label_your_answer", default="Deine Antwort")
         if gegebene_antwort is not None:
-            color = "#15803d" if ist_richtig else "#b91c1c"
-            st.markdown(
-                f"<span style='color:{color}; font-weight:bold;'>{your_answer_label}:</span>",
-                unsafe_allow_html=True,
-            )
+            answer_label_variant = "user-correct" if ist_richtig else "user-wrong"
+            _render_feedback_label(your_answer_label, answer_label_variant)
             st.markdown(_prepare_markdown_for_streamlit(formatted_gegebene_antwort), unsafe_allow_html=True)
             # Only show the wrong-answer notice and the correct answer when the
             # user's answer is present and incorrect.
             if not ist_richtig:
                 st.error(_test_view_text("explanation_wrong", default="Leider falsch. ❌"))
-                correct_label = _test_view_text("correct_label", default="Richtig:")
-                st.markdown(
-                    f"<span style='color:#15803d; font-weight:bold;'>{correct_label}</span>",
-                    unsafe_allow_html=True,
-                )
+                correct_label = _test_view_text("correct_label", default="Richtig")
+                _render_feedback_label(correct_label, "correct")
                 st.markdown(_prepare_markdown_for_streamlit(formatted_richtige_antwort), unsafe_allow_html=True)
     except Exception:
         # Best-effort: do not break explanation rendering on translation errors
@@ -8495,11 +8553,9 @@ def render_explanation(frage_obj: dict, app_config: AppConfig, questions: list, 
     # Erklärungstext
     erklaerung = frage_obj.get("erklaerung")
     if erklaerung:
-        with st.container(border=True):
-            st.markdown(
-                f"<span style='font-weight:600; color:#4b9fff;'>{_test_view_text('explanation_label', default='Erklärung:')}</span>",
-                unsafe_allow_html=True,
-            )
+        with st.container():
+            st.markdown("<div class='mc-explanation-divider' aria-hidden='true'></div>", unsafe_allow_html=True)
+            _render_feedback_label(_test_view_text("explanation_label", default="Erklärung"), "explanation")
             # Prüfe, ob die Erklärung ein strukturiertes Objekt ist
             if isinstance(erklaerung, dict) and "titel" in erklaerung and "schritte" in erklaerung:
                 st.markdown(f"**{smart_quotes_de(erklaerung['titel'])}**")

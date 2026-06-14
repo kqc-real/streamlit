@@ -4,6 +4,10 @@
 [browser]
 gatherUsageStats = false
 
+[client]
+# Hide Streamlit's developer toolbar affordances for a calmer public UI.
+toolbarMode = "minimal"
+
 [theme]
 # Legt das Basis-Theme fest. Optionen: "light", "dark"
 base = "dark"

@@ -196,11 +196,13 @@ def render_legal_page(kind: LegalKind) -> None:
 
     title_key = "legal.impressum.title" if kind == "impressum" else "legal.datenschutz.title"
     default_title = "Impressum" if kind == "impressum" else "Datenschutzerklärung"
+    back_label = _legal_t("legal.back", default="Zur Startseite")
 
     st.button(
-        _legal_t("legal.back", default="Zur Startseite"),
+        f"← {back_label}",
         key=f"legal_back_top_{kind}",
         on_click=_clear_legal_page,
+        type="tertiary",
         width="content",
     )
     st.title(_legal_t(title_key, default=default_title))
@@ -215,10 +217,3 @@ def render_legal_page(kind: LegalKind) -> None:
 
     with st.container():
         st.markdown(content)
-
-    st.button(
-        _legal_t("legal.back", default="Zur Startseite"),
-        key=f"legal_back_bottom_{kind}",
-        on_click=_clear_legal_page,
-        width="content",
-    )
