@@ -139,10 +139,6 @@ def main():
         try:
             # Prefer absolute path if provided to avoid stale cache collisions
             sel_path = st.session_state.get("selected_questions_file_path")
-            try:
-                load_questions.clear()
-            except Exception:
-                pass
             questions = load_questions(
                 sel_path or st.session_state.get("selected_questions_file"),
                 silent=True,

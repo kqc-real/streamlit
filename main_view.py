@@ -68,27 +68,19 @@ import pacing_helper as pacing
 from session_manager import verify_admin_session
 
 def show_ephemeral_message(message: str, seconds: float = 3.0, icon: str | None = None) -> None:
-    """Show a short, inline message near the current layout and remove it after `seconds`.
+    """Show a short, non-blocking feedback message.
 
-    This avoids relying on the global toast position which can be hard to
-    notice on large screens. It blocks briefly in the current user's session
-    while the message is visible (default 3s).
+    The `seconds` argument is kept for call-site compatibility. Streamlit has
+    no reliable non-blocking inline auto-dismiss, so prefer a toast and avoid
+    blocking the user session with `sleep`.
     """
     try:
-        placeholder = st.empty()
-        placeholder.info(message, icon=icon)
-        time.sleep(seconds)
-        placeholder.empty()
+        st.toast(message, icon=icon)
     except Exception:
         try:
-            # Fallback to toast if ephemeral placeholder fails
-            st.toast(message, icon=icon)
+            st.info(message, icon=icon)
         except Exception:
-            # Last-resort: show an info (persistent)
-            try:
-                st.info(message, icon=icon)
-            except Exception:
-                pass
+            pass
 
 
 @st.cache_data(ttl=3600)
@@ -9232,8 +9224,9 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
     try:
         from database import recompute_session_summary
         session_id = st.session_state.get("session_id")
-        if session_id:
+        if session_id and not st.session_state.get(f"summary_saved_{session_id}"):
             recompute_session_summary(session_id)
+            st.session_state[f"summary_saved_{session_id}"] = True
     except Exception:
         # Nicht kritisch für die UI; Fehler werden im DB-Modul geloggt.
         pass
