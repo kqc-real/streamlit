@@ -783,6 +783,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             _escape_radio_label(tab_postproduction_lo),
         ]
         tab_selector_key = "user_qset_tab_selector"
+        st.divider()
         st.caption(
             _dialog_text(
                 "tab_selector_hint",
