@@ -17,6 +17,12 @@ streamlit run app.py
 
 The default Streamlit URL is `http://localhost:8501`. Use another port only when 8501 is already occupied, for example `streamlit run app.py --server.port 8502`.
 
+### Agent and MCP Tooling
+
+Serena MCP is available for this repository and is useful for semantic code navigation, project memories, and focused agent edits. If Serena tools are not visible in your IDE or Codex environment, install or enable Serena as an MCP server/plugin for that workspace.
+
+Serena is optional for local app execution; it is not a Streamlit runtime dependency. For repository-specific agent behavior, also read `AGENTS.md`.
+
 ## Contribution Workflow
 
 1. Create a focused branch, for example `feature/export-improvement`, `fix/timer-display`, or `docs/readme-update`.

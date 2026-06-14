@@ -284,6 +284,12 @@ PYTHONPATH=. python tools/run_export_test.py
 BENCH_EXPORTS_N=5 PYTHONPATH=. python tools/benchmark_exports.py
 ```
 
+### Agent and MCP Tooling
+
+This repository is prepared for agent-assisted development. Serena MCP is available for this repo and can provide semantic code navigation, project memories, and safer focused edits for IDE agents. Depending on your IDE or Codex setup, Serena may still need to be installed or enabled as an MCP server/plugin before those tools appear.
+
+Serena is optional for running MC-Test locally. It is a development aid, not an application runtime dependency. Repository-specific agent guidance lives in [AGENTS.md](AGENTS.md).
+
 ## Repository Layout
 
 ```text
