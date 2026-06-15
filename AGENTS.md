@@ -1,181 +1,313 @@
-# Agent Instructions: MC-Test-App
+# Agent Instructions: MC-Test App
 
-Du bist ein KI-Assistent, der an der **MC-Test-App** arbeitet. Deine Antworten und Code-Aenderungen sollen zuverlaessig, nachvollziehbar und fuer Studierende ohne IT-Vorkenntnisse verstaendlich sein. Die UI-Sprache ist **Deutsch**.
+These instructions apply to AI assistants working on the **MC-Test App** repository.
+Use them together with the Serena memories for this project. Keep changes reliable,
+traceable, and understandable for students without an IT background.
 
-## 1) Mission & Grundregeln
+## 1) Mission and Ground Rules
 
-- **Ziel:** Multiple-Choice-Fragensets pflegen, verbessern, validieren und passende Lernziele erstellen.
-- **Klarheit:** Formulierungen kurz und eindeutig; keine Fachjargon-Orgie.
-- **Sicherheit:** Keine echten Personendaten verwenden, keine API-Keys hardcoden.
-- **Transparenz:** KI als Assistent nutzen. Externe LLM-Prompts liegen in `prompts/`, sind in US English formuliert und duerfen kein Wissen ueber App, Repo oder lokale Architektur voraussetzen.
+- **Goal:** Maintain, improve, validate, and export multiple-choice question sets, learning objectives, mini glossaries, analytics, and study materials.
+- **UI language:** The app UI is German by default. UI wording must be concise, action-oriented, and understandable for media-literate students without technical prerequisites.
+- **Prompt language:** External LLM prompts in `prompts/` must be written in US English and must be self-contained.
+- **Safety:** Do not use real personal data. Do not hardcode API keys, secrets, passwords, or local-only credentials.
+- **Transparency:** Treat AI as an assistant. Do not imply that generated question sets are automatically correct without validation.
+- **Repo hygiene:** Preserve unrelated user changes. Do not revert work you did not make unless explicitly asked.
 
-## 2) Tech-Stack & Rahmenbedingungen
+## 2) Serena MCP and Project Memory
 
-- **Framework:** Streamlit (Python 3.10–3.12). **Python 3.14 ist nicht unterstuetzt.**
-- **Streamlit-Version:** aktuell auf Streamlit 1.58 ausgerichtet. Neue UI-Elemente mit `width="stretch"` oder `width="content"` statt `use_container_width` bauen. Neue HTML-Snippets mit `st.html` bzw. `st.iframe` statt `st.components.v1.html` umsetzen.
-- **Datenhaltung:** SQLite (`db/mc_test_data.db`) fuer Sessions/Statistiken.
-- **Frageninhalte:** JSON-/Markdown-Dateien im Ordner `data/`.
+- Serena MCP is available for this repository. Use it for project memory, symbol lookup, and efficient code understanding when relevant.
+- Start rediscovery from `mem:core`; it links to the most important topical memories.
+- Important topical memories include:
+  - `mem:conventions`
+  - `mem:tech_stack`
+  - `mem:ui_streamlit`
+  - `mem:llm_workflow`
+  - `mem:exports_markdown`
+  - `mem:legal_privacy_public_app`
+  - `mem:home_view_ux_2026_06`
+  - `mem:question_view_practice_ux_2026_06`
+  - `mem:workflow_dialogs_pseudonym_ux_2026_06`
+  - `mem:performance_load_testing_2026_06`
+  - `mem:task_completion`
+- Update Serena memories when architecture, supported export targets, Streamlit conventions, prompt rules, security rules, or stable UX decisions change.
+- Keep memories dense and durable. Do not store secrets, private data, or transient debugging notes.
 
-## 3) Repository-Struktur (relevant)
+## 3) Tech Stack and Runtime Constraints
 
-- `app.py`: Einstiegspunkt der Streamlit-App.
-- `data/`: Fragensets (`questions_*.json`), Lernziele (`*_Learning_Objectives.md`).
-- `db/`: SQLite-DB (`mc_test_data.db`).
-- `requirements.txt`: Abhaengigkeiten.
+- **Framework:** Streamlit.
+- **Python:** 3.10-3.12. Python 3.14 is not supported.
+- **Streamlit target:** Streamlit 1.58.
+- Prefer modern Streamlit APIs:
+  - use `width="stretch"` or `width="content"`;
+  - avoid `use_container_width`;
+  - use `st.html` or `st.iframe` for new HTML/CSS snippets;
+  - avoid new `st.components.v1.html` usage.
+- Use `st.html` for pure CSS/style injection whenever possible so style-only snippets do not create visible layout height.
+- **Data storage:** SQLite in `db/mc_test_data.db` for sessions and statistics.
+- SQLite is hardened for one Streamlit process with thread-local connections, WAL mode, `busy_timeout`, write transaction serialization, and retry/backoff for lock/busy errors. For multiple processes/replicas or very high peak load, PostgreSQL remains the safer target architecture.
+- **Question content:** JSON and Markdown files in `data/`; temporary user uploads in `data-user/`.
 
-## 4) Fragenformat & Schema (JSON)
+## 4) Repository Map
 
-Pflichtfelder pro Frage (siehe `validate_sets.py` / `question_set_validation.py`):
-- `question`, `options`, `answer`, `explanation`, `weight`, `topic`, `concept`
+- `app.py`: Streamlit entry point.
+- `main_view.py`: main user UI, question flow, summary, timer/pacer, legal entry points, and most interaction behavior.
+- `components.py`: reusable dialogs and workflow pieces.
+- `admin_panel.py`: admin UI and maintenance actions.
+- `config.py`: question-set discovery, loading, and normalization.
+- `database.py`: SQLite persistence for users, sessions, answers, feedback, bookmarks, statistics, recovery secrets, and cleanup.
+- `audit_log.py`: admin/login audit writes.
+- `user_question_sets.py`: validation and lifecycle of uploaded temporary question sets.
+- `validate_sets.py` and `question_set_validation.py`: CLI/content validation.
+- `pdf_export.py`, `export_jobs.py`, and `exporters/`: PDF, CSV/analysis, Anki, and arsnova.eu export behavior.
+- `prompts/`: external LLM prompts for question-set generation, micro learning objectives, and postproduction QA.
+- `data/`: bundled question sets and learning objectives.
+- `docs/`: public and internal documentation. EDULEARN26 references should point to `docs/mc-test-paper/mc-test-edulearn26.pdf`.
 
-Empfohlen/optional:
-- `cognitive_level` (Reproduktion/Anwendung/Strukturelle Analyse)
-- `mini_glossary` (2-6 Eintraege)
-- `extended_explanation` (falls vorhanden, inhaltlich konsistent halten)
+## 5) Question JSON Schema
 
-Validierungs-Hinweise (zusammengefuehrt aus `validate_sets.py` und `question_set_validation.py`):
-- Neue Fragensets nutzen die kanonischen englischen Keys. Deutsche Legacy-Aliasse (`frage`, `optionen`, `loesung`, ...) sind nur Kompatibilitaet, kein Ziel-Format.
-- `answer` ist **0-basiert** und muss innerhalb der `options` liegen.
-- `weight` in {1,2,3}.
-- `meta.title` und `meta.question_count` muessen passen.
-- Top-Level: `meta` und `questions` sind Pflicht (kein reines Listenformat).
-- `meta.language` ist Pflicht (ISO-639-1, z. B. `de`) — Pruefung in `question_set_validation.py`.
-- `options`: Liste mit 3–5 Eintraegen — Pruefung in `question_set_validation.py`.
-- `question`/`explanation`/`topic`: nicht-leere Strings.
-- `mini_glossary`: Objekt oder Liste; Eintraege werden validiert.
-- LaTeX nicht in Backticks; `<` und `>` in LaTeX vermeiden (nutze `\\langle`/`\\rangle`).
-- Themenverteilung: max. 12 Themen; Mindest-Vorkommen je Thema ist je nach Validator unterschiedlich (1× in `question_set_validation.py`, 2× in `validate_sets.py`).
-- `meta.difficulty_profile`, `meta.time_per_weight_minutes`, `meta.test_duration_minutes` werden geprueft (Warnungen in `question_set_validation.py`).
+New question sets must use the canonical top-level structure:
 
-## 5) Cognitive-Level Taxonomie (kurz & verbindlich)
+```json
+{
+  "meta": {},
+  "questions": []
+}
+```
 
-- **Reproduktion (Recall):** Fakten/Definitionen. Verben: nennen, benennen, beschreiben, definieren, identifizieren, wiedergeben, angeben.
-- **Anwendung (Use in context):** Rechnen, zuordnen, bestimmen, erkennen im Kontext. Verben: anwenden, berechnen, bestimmen, zuordnen, auswählen, einsetzen, erkennen.
-- **Strukturelle Analyse (Reasoning):** Begruenden, beurteilen, diagnostizieren. Verben: analysieren, begruenden, bewerten, diagnostizieren, herleiten, ableiten.
+Required fields per question:
 
-## 6) Lernziele (Micro-LOs)
+- `question`
+- `options`
+- `answer`
+- `explanation`
+- `weight`
+- `topic`
+- `concept`
 
-Erstellung strikt nach `prompts/KI_PROMPT_MICRO_LEARNING_OBJECTIVES.md`:
-- **Ein Lernziel pro Frage**.
-- **Ein Verb pro Ziel** (keine Verbketten).
-- **Level korrekt waehlen** (Reproduktion/Anwendung/Strukturelle Analyse).
-- **Clustering:** 5-10 uebergeordnete Ziele.
-- **Sortierung:** Themenbloecke logisch von einfach zu komplex.
-- Datei: `data/questions_<Set>_Learning_Objectives.md`.
+Recommended or optional fields:
 
-## 7) Markdown-Fragenformat (falls genutzt)
+- `cognitive_level`
+- `mini_glossary`
+- `extended_explanation`
 
-- Struktur strikt einhalten (Kontext/Frage/Antworten/korrekt/Erklaerung).
-- Mathe immer in `$...$` oder `$$...$$`, kein LaTeX in Backticks.
-- Sichere HTML-Tags wie `code`, `sub`, `sup`, `strong` und `em` duerfen eingesetzt werden. Unsichere HTML-/Script-Inhalte nie zulassen.
-- Markdown-Tabellen sind in Fragenstaemmen moeglich, aber in Antwortoptionen und Exportzielen fragil. Fuer arsnova.eu und Anki nicht auf Tabellendarstellung in Antwortoptionen setzen.
+Validation rules:
 
-## 8) Systematischer Workflow: Fragensatz optimieren
+- Use English canonical keys for new sets. German legacy aliases such as `frage`, `optionen`, and `loesung` are compatibility only.
+- `answer` is zero-based and must point into `options`.
+- `options` should contain 3-5 answer choices.
+- `weight` must be `1`, `2`, or `3`.
+- `meta.title`, `meta.question_count`, and `meta.language` are required and must be consistent.
+- `meta.language` uses ISO 639-1 values such as `de` or `en`.
+- `question`, `explanation`, and `topic` must be non-empty strings.
+- `concept` must be present. If needed, use the topic as a conservative fallback.
+- `mini_glossary`, when present, should contain 2-6 useful entries and can be an object or list depending on the existing set pattern.
+- Keep topics coherent. Avoid over-fragmentation; validators warn differently about minimum topic counts.
+- `meta.difficulty_profile`, `meta.time_per_weight_minutes`, and `meta.test_duration_minutes` are checked by validators and should be meaningful.
 
-Wenn ein Fragensatz ueberarbeitet werden soll, immer in dieser Reihenfolge:
-1. **Schema-Check:** JSON lesen und `python validate_sets.py data/<set>.json`.
-2. **Pflichtfelder ergaenzen:** `concept` fuellen (bei Bedarf = `topic`), `meta` korrekt setzen.
-3. **Langen-Bias reduzieren:** Korrekte Antwort nicht systematisch laenger/kuerzer als Distraktoren.
-4. **Glossar ausbalancieren:** `mini_glossary` auf 2-6 Eintraege pro Frage bringen.
-5. **Lernziele erzeugen:** Datei `data/questions_<Set>_Learning_Objectives.md` erstellen.
-6. **Lernziele justieren:** Cluster und Detailziele thematisch ordnen; Verben pruefen.
-7. **Cognitive-Level syncen:** `cognitive_level` im JSON mit Lernzielen abgleichen.
-8. **Finale Validierung:** `python validate_sets.py data/<set>.json` und Warnungen minimieren.
+## 6) Cognitive-Level Taxonomy
 
-Bei Erstellung mit externem LLM:
-- App-Prompt aus `prompts/KI_PROMPT.md` als Rohtext kopieren oder herunterladen.
-- Ergebnis als kanonisches JSON speichern und lokal validieren.
-- Lernziele mit `prompts/KI_PROMPT_MICRO_LEARNING_OBJECTIVES.md` erzeugen.
-- Beide Postproduction-Prompts zur Qualitaetssicherung nutzen.
-- Prompt-Preview in der App ist nur gerenderte, read-only Vorschau; Copy/Download liefern den ungerenderten Rohprompt.
+Use these three levels consistently across JSON, learning objectives, explanations, and analytics:
 
-## 9) QA & Tests
+- **Reproduktion / Recall:** facts and definitions. Typical verbs: name, list, describe, define, identify, reproduce, state.
+- **Anwendung / Use in context:** calculations, matching, determining, recognizing in context. Typical verbs: apply, calculate, determine, assign, select, use, recognize.
+- **Strukturelle Analyse / Reasoning:** justification, evaluation, diagnosis, derivation. Typical verbs: analyze, justify, evaluate, diagnose, derive, infer.
 
-- **Bei Fragen-JSON:** Immer `python validate_sets.py data/<set>.json`.
-- **Bei Codeaenderungen:** Relevante Tests aus `tests/` ausfuehren. Wenn unklar, mindestens `pytest -q`.
-- **Bei i18n-/Wording-Aenderungen:** `python scripts/i18n/check_i18n.py`.
-- **Bei UI-Aenderungen:** App im Browser pruefen, besonders Layout, Mobile-Verhalten, Timer/Pacer, Prompt-Preview und Export-Dialoge.
-- **Bei Prompt-Aenderungen:** Prompt-Architekturtests ausfuehren und sicherstellen, dass keine App-/Repo-Vorkenntnis im Prompt vorausgesetzt wird.
+## 7) Micro Learning Objectives
 
-## 10) Definition of Done (DoD) fuer Fragensets
+Create learning objectives strictly from `prompts/KI_PROMPT_MICRO_LEARNING_OBJECTIVES.md`.
 
-- JSON ist valide; `validate_sets.py` liefert **0 Fehler**.
-- `concept` vorhanden; `mini_glossary` 2-6 Eintraege.
-- Laengen-Bias erkennbar reduziert.
-- Lernziele erstellt, strukturiert, pro Frage genau 1 Ziel.
-- `cognitive_level` ist konsistent zu Lernzielen.
-- Keine LaTeX/HTML-Fehler (z. B. `<`/`>` in Formeln).
+- One learning objective per question.
+- One verb per objective. Avoid verb chains.
+- Choose the correct cognitive level.
+- Cluster objectives into 5-10 higher-level goals.
+- Sort topics logically from basic to complex.
+- File naming: `data/questions_<Set>_Learning_Objectives.md`.
+- Keep `cognitive_level` in the JSON aligned with the learning objectives.
 
-## 11) Dateinamen & Konventionen
+## 8) Markdown, HTML, and LaTeX Rules
 
-- Neues Set: `data/questions_<Set>.json`.
-- Lernziele: `data/questions_<Set>_Learning_Objectives.md`.
-- Set-Namen konsistent halten (keine stillen Umbenennungen).
+- Use Markdown to improve readability, but keep exports robust.
+- Math belongs in `$...$` or `$$...$$`.
+- Do not place LaTeX inside backticks.
+- Avoid raw `<` and `>` in formulas; use `\\langle` and `\\rangle`.
+- Safe HTML may include `code`, `sub`, `sup`, `strong`, and `em`.
+- Never allow scripts, event handlers, unsafe attributes, or active HTML.
+- Markdown tables can be acceptable in question stems, but are fragile in answer options and export targets. Do not rely on table rendering in answer options for Anki or arsnova.eu.
+- Preserve useful Markdown/HTML where supported, but content must remain readable when advanced formatting is flattened.
 
-## 12) Export & LaTeX/HTML
+## 9) Question-Set Optimization Workflow
 
-- Export: PDF, CSV/Analyse, Anki (`.apkg`/`.tsv`) und arsnova.eu JSON.
-- Kahoot und arsnova.click sind entfernt und duerfen nicht wieder eingefuehrt werden.
-- Anki: keine verschachtelte ABCD-Nummerierung erzeugen, die Antwortreihenfolgen verfaelschen kann.
-- arsnova.eu: didaktisch sinnvolle Metadaten wie Beschreibung, Topics, Schwierigkeitsprofil und Mini-Glossar-Zusammenfassungen uebernehmen, soweit das Importschema es erlaubt.
-- HTML/CSS-Struktur:
+When improving a question set, work in this order:
+
+1. Run a schema check: `python validate_sets.py data/<set>.json`.
+2. Fill missing required fields, especially `concept`; correct `meta`.
+3. Reduce length bias. Correct answers must not be systematically longer or shorter than distractors.
+4. Balance `mini_glossary` entries to 2-6 useful entries where possible.
+5. Create micro learning objectives in `data/questions_<Set>_Learning_Objectives.md`.
+6. Review clusters, objective order, and verbs.
+7. Sync `cognitive_level` with learning objectives.
+8. Run final validation and reduce warnings where practical.
+
+Quality rules:
+
+- Check the indexed correct answer for subject-matter correctness.
+- Distractors should be plausible and on the same semantic level as the correct answer, but clearly wrong.
+- Avoid trick answers without a valid didactic reason.
+- Keep explanations short, clear, and student-friendly.
+- `extended_explanation`, when present, should be more detailed but still easy to follow.
+
+## 10) External LLM Workflow
+
+- All external prompts in `prompts/` are US English.
+- Prompts must be self-contained and must not assume knowledge of MC-Test, Streamlit, this repository, local paths, or prior chat context.
+- Generated JSON uses English keys regardless of content language.
+- Content language is controlled by the user request and `meta.language`.
+- The question-set prompt must target the canonical JSON schema, not Anki, arsnova.eu, spreadsheet, Markdown, or legacy app-specific formats.
+- App prompt previews are rendered read-only. Raw copy/download controls are the authoritative transfer path.
+- The generation workflow is:
+  1. generate canonical question-set JSON;
+  2. save and validate it;
+  3. generate micro learning objectives from the saved JSON;
+  4. run question-set QA postproduction;
+  5. run learning-objectives QA postproduction.
+- Prompt tests must guard against reintroducing app/repo assumptions, Kahoot, arsnova.click, or wrong target schemas.
+
+## 11) UI and Streamlit Layout Conventions
+
+- Dark mode is the only app theme. Optimize all visual changes for dark-theme contrast first.
+- Avoid excessive frames, borders, and nested-looking panels. Prefer unframed sections, typography, whitespace, and subtle dividers.
+- Use borders only for repeated items, dialogs/modals, or genuinely framed tools.
+- Keep vertical margins compact but not cramped. Labels, buttons, headings, timer/pacer blocks, and answer options must not overlap.
+- Button labels must remain vertically centered.
+- Widget keys must be unique and stable, especially repeated jump, bookmark, export, answer-option, and navigation controls.
+- Never nest `st.expander` blocks.
+- On mobile, avoid triggering the virtual keyboard for controls that are not truly editable.
+- Use targeted `data-testid` CSS only where needed. Verify computed styles and element centers, not only visible text.
+- Streamlit hot reload can leave stale injected CSS. If a rule is missing from DOM `<style>` tags, restart the local Streamlit server before judging the visual result.
+- Protect active tests against accidental reloads with `beforeunload` where possible. Browser dialogs cannot reliably use custom text.
+
+## 12) Start Page UX
+
+- The redesigned start page is the preferred view. Do not reintroduce the removed classic view without a product reason.
+- Do not add a heavy app frame around the start page.
+- Keep a subtle divider between CTAs and lower controls.
+- The lower section label is `Language & project info`.
+- Legal controls live under a separate `Legal` label. Do not duplicate `legal` in the project-info label.
+- English app name wording is `MC Test` without a hyphen.
+- Avoid decorative folder/info icons on main buttons unless they carry functional meaning.
+- Ready-made question-set labels may include flag icons for quick language scanning, but labels must remain readable without relying only on flags.
+- Legal buttons should sit side by side on mobile when width allows.
+
+## 13) Question View and Practice Mode UX
+
+- Desktop question metadata should be compact and side by side where possible: Topic, Concept, Cognitive Stage. Mobile may stack.
+- The answer-choice area should have a subtle divider above it.
+- The answer prompt and horizontal radio buttons should be centered relative to the question content, not the viewport edge.
+- Radio button spacing should be generous enough for scanning and touch use.
+- On question changes, scroll back to the top of the question view. Track the actually rendered `frage_idx`.
+- In Practice Mode, after submitting an answer and showing immediate feedback, scroll toward the Next button area rather than to the page top.
+- Dynamic bottom spacing is needed after visible feedback so short explanations still allow the Next button to reach the intended viewport position.
+- Use about `96px` top offset for Next-button and question-expander scroll targets; smaller offsets can let Streamlit chrome clip titles or buttons.
+- Opening question expanders should pull the expander heading upward only in the question view.
+- The detailed-explanation button is a special rerun case; use a one-shot session flag and scroll to an anchor before the expander after rerender.
+- Practice feedback labels should be consistent and calm: localized equivalents of `Deine Antwort`, `Richtig`, and `Erklärung` should use one helper/CSS pattern.
+- The standard explanation block after an answer should remain unframed: use a subtle divider plus a label, not a bordered container.
+
+## 14) Dialogs and Pseudonym Workflow
+
+- The LLM-generation dialog should favor readability over framed decoration.
+- Use a clear divider before the step chooser, such as `Choose the step (1-4) you want to work on now.` or the localized equivalent.
+- In dark mode, dialog headings and body text need explicit contrast checks.
+- Pseudonym reservation must be a guided workflow: choose pseudonym, optionally set a recovery secret, confirm the secret, explain its purpose, and support re-login with a reserved pseudonym.
+- Recovery secrets are not recoverable plaintext. They may be confirmed at creation time, but storage and verification must remain hash-based.
+- Keep pseudonym and recovery wording concrete and student-friendly. Avoid account-management jargon when possible.
+
+## 15) Legal and Privacy Requirements
+
+- The public Streamlit deployment must expose both a legal notice/imprint and a privacy policy from the start page.
+- German labels: `Impressum` and `Datenschutzerklärung`.
+- English labels: `Legal Notice` and `Privacy Policy`.
+- Other locales must expose both concepts, with English fallback wording if no locale-specific wording exists.
+- Keep legal entry points grouped under `Legal`, separate from `Language & project info`.
+- Legal notice content was seeded from the arsnova.eu imprint. Re-check the authoritative source before future updates to institution, contact, or responsible-party details.
+- The privacy policy must be fact-based for this app:
+  - Streamlit frontend/runtime;
+  - SQLite session/statistics storage;
+  - question-set uploads/content;
+  - pseudonym usage;
+  - reserved-pseudonym recovery secrets stored as hashes;
+  - feedback/statistics workflows.
+- Do not claim analytics, ads, or marketing tracking unless they are actually implemented.
+- State that MC-Test does not set app-owned tracking or marketing cookies. Technically necessary Streamlit/session cookies or browser storage may be used by the hosting/runtime layer.
+- Legal/privacy copy is a product implementation, not legal advice. The operator must review it before relying on it in production.
+
+## 16) Export Rules
+
+- Supported export targets:
+  - PDF;
+  - CSV/analysis;
+  - Anki (`.apkg`/`.tsv`);
+  - arsnova.eu JSON.
+- Kahoot and arsnova.click have been removed. Do not restore related prompts, UI copy, tests, docs, or export paths.
+- Anki export must not create nested ABCD numbering or structures that can reorder answer options.
+- arsnova.eu export should map as much didactic value as the schema allows: title, description, topics, difficulty profile, mini-glossary summary, explanations/notes, timers, and supported Markdown/HTML.
+- PDF exports must share the app's Markdown/HTML rendering improvements. Visually check report PDFs when rendering changes.
+- Common card structure:
   - `<div class="card-container">`
   - `<div class="question">`
   - `<div class="answer-content">`
-- LaTeX-Regeln:
-  - Kein `<`/`>` in Formeln (verwende `\\langle`/`\\rangle`).
-  - Kein LaTeX in Backticks.
 
-## 13) Admin-Panel, Datenbank & Sicherheit
+## 17) Admin, Database, and Security
 
-- Lokal: `.env` mit `MC_TEST_ADMIN_KEY=""` erlaubt Login als "Albert Einstein".
-- Cloud: Passwort aus `st.secrets`.
-- `.streamlit/secrets.toml` nie committen. Vorlage ist `.streamlit/secrets.example.toml`.
-- Lokale DBs, generierte Reports, Downloads und `tmp/`-Artefakte nicht versionieren.
-- Falls ein Secret versehentlich committed wurde: Secret ausserhalb des Repos rotieren. History-Rewrite ist ein eigener, destruktiver Wartungsschritt.
-- **DB-Reset ist destruktiv:** immer auf Backup hinweisen (siehe `docs/ADMIN_PANEL_ANLEITUNG.md`).
+- Local demo/admin login may use `.env` with `MC_TEST_ADMIN_KEY=""` for the "Albert Einstein" demo login.
+- Cloud/admin secrets come from `st.secrets`.
+- Never commit `.streamlit/secrets.toml`; `.streamlit/secrets.example.toml` is the template.
+- Do not version local databases, generated reports, downloads, or `tmp/` artifacts.
+- If a secret was committed, rotate it outside the repo. History rewrite is a separate destructive maintenance task.
+- DB reset/admin maintenance is destructive. Always warn about backups; see `docs/ADMIN_PANEL_ANLEITUNG.md`.
+- Use `db_write_transaction(conn)` for write paths that need serialized SQLite writes.
+- Do not swallow SQLite lock/busy errors before retry handling can work.
+- Use the load-test script for concurrency checks: `python scripts/qa/load_test_users.py`.
+- The load-test default uses a temporary SQLite DB. Use `--live-db` only deliberately because it changes real data.
 
-## 14) Release/Changelog
+## 18) QA and Verification
 
-- Releases/Changelog nur auf explizite Anfrage bearbeiten.
-- Bei Release: `CHANGELOG.md` und ggf. passende Release-Notes aktualisieren.
+- For question JSON changes: run `python validate_sets.py data/<set>.json`.
+- For all question sets: run `python validate_sets.py`.
+- For code changes: run focused tests first. If the blast radius is unclear, run `pytest -q` or `python -m pytest -q`.
+- For i18n or wording changes: run `python scripts/i18n/check_i18n.py`.
+- For prompt changes: run prompt architecture/preview tests and verify US English, self-contained prompts with no app/repo assumptions.
+- For Streamlit UI changes: browser-test the affected workflow on desktop and mobile. Check layout, dark-theme contrast, timer/pacer behavior, prompt preview, export dialogs, and reload protection.
+- For export/Markdown changes: test Markdown-heavy stems and options, and verify relevant PDF, Anki, and arsnova.eu expectations.
+- For docs-only changes: check links and paths; keep `AGENTS.md`, `CONTRIBUTING.md`, `README.md`, and `docs/STYLE_GUIDELINES.md` aligned.
 
-## 15) Fragenqualitaet & Verteilung
+## 19) Common Commands
 
-- Verteilung: Themen nicht zu stark zerfasern, Wiederholungen vermeiden.
-- Schwierigkeit: `meta.difficulty_profile` respektieren.
-- Distraktoren: plausibel, gleichartige Laenge, keine offensichtlichen Eliminationshinweise.
-- Keine "Trick"-Antworten ohne fachliche Begruendung.
-- **Korrektheitscheck:** Die als korrekt indizierte Option fachlich pruefen.
-- **Distraktor-Niveau:** Distraktoren auf gleichem semantischen Niveau wie die korrekte Option halten, aber klar falsch.
-- **Erklaerungen:** `explanation` studierendenfreundlich, kurz und klar.
-- **Erweiterte Erklaerungen:** `extended_explanation` (falls vorhanden) ausfuehrlicher und leicht verstaendlich formulieren.
+- Start app: `streamlit run app.py`.
+- Start on another port: `streamlit run app.py --server.port 8502`.
+- Prefer local-only binding for temporary verification: `streamlit run app.py --server.address 127.0.0.1 --server.port 8502`.
+- Install dependencies: `pip install -r requirements.txt`.
+- Full tests: `python -m pytest -q`.
+- Prompt tests: `python -m pytest tests/test_prompt_architecture.py tests/test_prompt_preview.py -q`.
+- i18n check: `python scripts/i18n/check_i18n.py`.
+- Validate one set: `python validate_sets.py data/questions_<Set>.json`.
+- Validate all sets: `python validate_sets.py`.
+- Compile touched Python files when useful: `python -m py_compile main_view.py components.py export_jobs.py`.
+- Search quickly with `rg`, for example: `rg -n "Kahoot|arsnova.click|use_container_width|st.components.v1.html"`.
 
-## 16) Sprachstil
+## 20) Release and Changelog
 
-- Deutsch, klar und knapp.
-- Keine Mehrdeutigkeit; eindeutige Fachbegriffe.
-- Erklaerungen: sachlich, kurz, auf Studierende zugeschnitten.
-- UI-Wording fuer medienaffine Nutzerinnen und Nutzer: handlungsnah, aktiv, nicht akademisch ueberladen.
-- Externe Prompt-Texte: US English, praezise, schemaorientiert, ohne Bezug auf MC-Test, App, Repo oder lokale Dateien.
+- Edit releases or changelog files only on explicit request.
+- For releases, update `CHANGELOG.md` and any matching release notes requested by the user.
 
-## 17) UI- und Layout-Konventionen
+## 21) Troubleshooting
 
-- Kompakte vertikale Margins sind erwuenscht, solange Labels, Buttons und Antwortoptionen nicht gedrueckt wirken.
-- Button-Labels muessen vertikal mittig bleiben.
-- Auf Mobile keine virtuelle Tastatur ausloesen, wenn ein Feld nicht wirklich editierbar ist.
-- Widget-Keys eindeutig halten, besonders bei wiederholten Buttons wie Sprung-, Bookmark- oder Export-Aktionen.
-- Keine verschachtelten `st.expander`.
-- Timer/Pacer-Anzeigen muessen rechnerisch zur aktuellen Restzeit passen. Hinweise wie "nur noch 4 Minuten" duerfen nicht erst nach Fragenwechsel aktualisieren.
-- Dark Theme: ausreichender Kontrast, aber keine zusaetzlichen Panels/Hintergruende einfuehren, wenn die UI dadurch schwerer wird.
-- Browser-Reloads waehrend aktiver Tests moeglichst mit `beforeunload` absichern; eigene Browser-Dialogtexte sind browserseitig nicht verlaesslich erzwingbar.
-
-## 18) Troubleshooting
-
-- **Port 8501:** Hinweise aus Installationsanleitungen nutzen.
-- **Pfad-Leerzeichen:** In der Shell Anfuehrungszeichen nutzen.
-- **PDF-Export:** benoetigt GTK3 (Pango/Cairo) auf dem Host-System.
+- **Port 8501 busy:** start on another port, for example `streamlit run app.py --server.port 8502`.
+- **Local-only browser checks:** add `--server.address 127.0.0.1` to avoid exposing the dev server on the network.
+- **Paths with spaces:** quote paths in shell commands.
+- **PDF export:** requires GTK3/Pango/Cairo support on the host.
+- **Streamlit layout looks stale:** restart the local server and reload the browser before judging injected CSS.
 
 ---
 
-*Ende der Agenten-Instruktionen.*
+End of agent instructions.

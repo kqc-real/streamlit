@@ -13,7 +13,7 @@
 - Studienmaterialien: [docs/](.)
 
 ## Diagramme
-- UML & Grafiken: [docs/diagrams/](diagrams/)
+- Mermaid-Diagramme: [docs/diagrams/mc-test-mermaid.md](diagrams/mc-test-mermaid.md)
 
 ## Releases
 - Release Notes 2.0.0: [docs/RELEASE_NOTES_2.0.md](RELEASE_NOTES_2.0.md)

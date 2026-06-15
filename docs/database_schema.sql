@@ -1,4 +1,4 @@
--- Schema (generated from docs/diagrams/data_model.puml and database.py)
+-- Schema snapshot aligned with database.py and docs/diagrams/mc-test-mermaid.md
 PRAGMA foreign_keys = ON;
 
 CREATE TABLE IF NOT EXISTS users (
