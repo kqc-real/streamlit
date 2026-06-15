@@ -1434,8 +1434,9 @@
         },
         "sort_order": {
             "label": "排序方式:",
+            "difficulty_asc": "难度（升序）",
             "random": "随机",
-            "cognitive_stage": "难度 (阶段)"
+            "cognitive_stage": "认知阶段（升序）"
         },
         "scoring_default": "默认评分：答对得分，无扣分。",
         "scoring_positive": "仅加分（错误 = 0）",

@@ -84,6 +84,23 @@ def test_initialize_session_state_applies_tempo():
         assert st.session_state.test_time_limit == 15 * 60
 
 
+def test_initialize_session_state_defaults_to_ascending_difficulty():
+    with patch('pacing_helper.compute_total_cooldown_seconds', return_value=0):
+        st.session_state.clear()
+        qs = QuestionSet(
+            questions=[
+                {"gewichtung": 3, "optionen": ["A", "B"]},
+                {"gewichtung": 1, "optionen": ["A", "B"]},
+                {"gewichtung": 2, "optionen": ["A", "B"]},
+            ],
+            meta={"test_duration_minutes": 15},
+        )
+
+        initialize_session_state(qs, app_config=None)
+
+        assert st.session_state.frage_indices == [1, 2, 0]
+
+
 def test_start_test_session_persists_tempo():
     # Ensure tables exist
     create_tables()

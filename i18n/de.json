@@ -1361,8 +1361,9 @@
         },
         "sort_order": {
             "label": "Sortierung:",
+            "difficulty_asc": "Schwierigkeit (aufsteigend)",
             "random": "Zufällig",
-            "cognitive_stage": "Nach Schwierigkeit (Stufen)"
+            "cognitive_stage": "Kognitive Stufe (aufsteigend)"
         },
         "scoring_default": "Standard-Bewertung: Punkte für richtige Antworten, keine Strafe.",
         "scoring_positive": "Nur Pluspunkte (falsch = 0)",

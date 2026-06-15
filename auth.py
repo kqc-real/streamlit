@@ -73,7 +73,7 @@ def initialize_session_state(question_set: QuestionSet, app_config: AppConfig | 
     _state_set("beantwortet", [None] * question_count)
     frage_indices = list(range(question_count))
     
-    sort_order = state.get("question_sort_order", "random")
+    sort_order = state.get("question_sort_order", "difficulty_asc")
 
     if sort_order == "random":
         random.shuffle(frage_indices)

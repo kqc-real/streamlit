@@ -1434,8 +1434,9 @@
         },
         "sort_order": {
             "label": "Sort by:",
+            "difficulty_asc": "Difficulty (ascending)",
             "random": "Random",
-            "cognitive_stage": "Difficulty (Stage)"
+            "cognitive_stage": "Cognitive stage (ascending)"
         },
         "scoring_default": "Default scoring: +points for correct, no penalty.",
         "scoring_positive": "Positive only (wrong = 0)",

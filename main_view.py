@@ -5500,14 +5500,17 @@ def render_welcome_page(app_config: AppConfig):
         if question_selected_flag:
             # --- Sortierreihenfolge der Fragen ---
             has_stages = _has_cognitive_stages(questions)
-            sort_options = {
-                "random": translate_ui("welcome.sort_order.random", default="Zufällig"),
-            }
+            sort_options = {}
             if has_stages:
                 sort_options["cognitive_stage"] = translate_ui("welcome.sort_order.cognitive_stage", default="Kognitive Stufe (aufsteigend)")
+            sort_options["difficulty_asc"] = translate_ui("welcome.sort_order.difficulty_asc", default="Schwierigkeit (aufsteigend)")
+            sort_options["random"] = translate_ui("welcome.sort_order.random", default="Zufällig")
 
-            if 'question_sort_order' not in st.session_state:
-                st.session_state.question_sort_order = "random"
+            if (
+                'question_sort_order' not in st.session_state
+                or st.session_state.get('question_sort_order') not in sort_options
+            ):
+                st.session_state.question_sort_order = "difficulty_asc"
 
             # --- Tempo-Auswahl (für die laufende Session) ---
             try:

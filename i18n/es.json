@@ -1434,8 +1434,9 @@
         },
         "sort_order": {
             "label": "Ordenar por:",
+            "difficulty_asc": "Dificultad (ascendente)",
             "random": "Aleatorio",
-            "cognitive_stage": "Dificultad (Nivel)"
+            "cognitive_stage": "Nivel cognitivo (ascendente)"
         },
         "scoring_default": "Puntuación estándar: puntos por aciertos, sin penalización.",
         "scoring_positive": "Solo puntos positivos (incorrecto = 0)",

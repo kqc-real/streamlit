@@ -7,3 +7,4 @@
 - English app name wording uses `MC Test` without a hyphen. Avoid decorative folder/info icons on the main buttons unless they carry meaningful function.
 - Ready-made question-set selection may mark language with flag icons for faster scanning, but keep labels readable without relying only on flags.
 - Legal buttons should sit side-by-side on mobile when width allows.
+- Question sorting on the start page is ordered as cognitive stage ascending (when available), difficulty ascending, then random. The default remains `difficulty_asc`, sorting by numeric question weight from light to hard.
