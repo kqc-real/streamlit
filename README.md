@@ -275,6 +275,8 @@ python -m py_compile app.py main_view.py components.py
 python -m pytest tests/test_question_display_options.py tests/test_countdown_timer.py -q
 ```
 
+Localization files in `i18n/` use nested sections and a few flat dotted keys, such as `summary_view.export_testbericht_expander.exam`. The translation helper supports both. When changing locale keys or mode-specific wording, run `python scripts/i18n/check_i18n.py` and the focused i18n regression tests.
+
 Useful local tools:
 
 ```bash

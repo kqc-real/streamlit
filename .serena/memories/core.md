@@ -8,6 +8,7 @@
 - Prompt workflow files live in `prompts/`: question-set generation, micro learning objectives, question-set QA postproduction, and learning-objectives QA postproduction. See `mem:llm_workflow`.
 - Export behavior includes PDF, CSV/analysis, Anki, and arsnova.eu JSON. Kahoot and arsnova.click are intentionally removed. See `mem:exports_markdown`.
 - UI/Streamlit conventions, timer/pacer behavior, prompt preview, mobile keyboard avoidance, and reload warnings are tracked in `mem:ui_streamlit`.
+- Mode terminology and dotted i18n-key behavior are tracked in `mem:i18n_mode_terms_2026_06`.
 - Public legal/privacy decisions are tracked in `mem:legal_privacy_public_app`.
 - Start-page UX decisions from the 2026-06 redesign are tracked in `mem:home_view_ux_2026_06`.
 - Question-view and Practice Mode scroll/feedback decisions are tracked in `mem:question_view_practice_ux_2026_06`.

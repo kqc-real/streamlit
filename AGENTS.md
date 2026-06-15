@@ -24,6 +24,7 @@ traceable, and understandable for students without an IT background.
   - `mem:llm_workflow`
   - `mem:exports_markdown`
   - `mem:legal_privacy_public_app`
+  - `mem:i18n_mode_terms_2026_06`
   - `mem:home_view_ux_2026_06`
   - `mem:question_view_practice_ux_2026_06`
   - `mem:workflow_dialogs_pseudonym_ux_2026_06`
@@ -276,6 +277,7 @@ Quality rules:
 - For all question sets: run `python validate_sets.py`.
 - For code changes: run focused tests first. If the blast radius is unclear, run `pytest -q` or `python -m pytest -q`.
 - For i18n or wording changes: run `python scripts/i18n/check_i18n.py`.
+- Locale files may contain flat keys with dots inside nested sections, for example `summary_view.export_testbericht_expander.exam`. The i18n lookup supports this pattern; add or run regression tests such as `tests/test_i18n_lookup.py` when touching dotted locale keys.
 - For prompt changes: run prompt architecture/preview tests and verify US English, self-contained prompts with no app/repo assumptions.
 - For Streamlit UI changes: browser-test the affected workflow on desktop and mobile. Check layout, dark-theme contrast, timer/pacer behavior, prompt preview, export dialogs, and reload protection.
 - For export/Markdown changes: test Markdown-heavy stems and options, and verify relevant PDF, Anki, and arsnova.eu expectations.
