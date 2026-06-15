@@ -217,7 +217,7 @@
         "learning_objectives_prompt_load_failed": "{filename} could not be loaded.",
         "learning_objectives_original_set_download": "⬇️ Download JSON for the LLM",
         "learning_objectives_save_set_first": "Please save your question set first in the “Generate question set” tab.",
-        "learning_objectives_start_button": "🚀 Start test",
+        "learning_objectives_start_button": "🚀 Start question set",
         "learning_objectives_next_qa_button": "➡️ Next: Step 3",
         "postproduction_heading": "Step 3: Review Question Set",
         "postproduction_caption": "Download your saved JSON, send it with the review prompt to the external LLM, then save the cleaned-up JSON here.",
@@ -248,25 +248,25 @@
         "postproduction_lo_not_found": "No learning objectives have been saved for this question set yet.",
         "postproduction_lo_need_set": "Please complete step 3, “Review question set”, first.",
         "postproduction_lo_need_save": "Please save the learning objectives before starting.",
-        "postproduction_lo_start_button": "🚀 Start Test Now",
+        "postproduction_lo_start_button": "🚀 Start question set now",
         "intro_info": "The app does not generate content itself. Copy prompts and data into your external LLM, then paste only JSON or Markdown back here.",
         "ai_bias_title": "Why steps 3 and 4?",
         "ai_bias_explanation": "LLMs often produce useful but uneven output: correct answers may be longer, distractors weaker, and objectives too vague. The review steps help smooth the question set and objectives before use.",
         "questionset_save_success": "Question set saved. You can now create and upload the learning objectives in the “Generate objectives” tab.",
         "questionset_save_error": "Question set could not be saved: {error}",
-        "learning_objectives_save_success": "Learning objectives saved. You can now start the test or continue with step 3, “Review question set”.",
+        "learning_objectives_save_success": "Learning objectives saved. You can now start the question set or continue with step 3, “Review question set”.",
         "learning_objectives_save_error": "Learning objectives could not be saved: {error}",
         "learning_objectives_set_loaded": "Question set '{label}' is active.",
         "postproduction_save_success": "Reviewed question set saved. If a previous set existed, it was replaced. You can now continue with step 4, “Review objectives”.",
         "postproduction_save_error": "Reviewed question set could not be saved: {error}",
-        "postproduction_lo_save_success": "Reviewed learning objectives saved. You can now start the test.",
+        "postproduction_lo_save_success": "Reviewed learning objectives saved. You can now start the question set.",
         "postproduction_lo_save_error": "Reviewed learning objectives could not be saved: {error}",
         "tab_selector_label": "Step (1–4)",
         "tab_selector_hint": "Choose the step you want to work on now.",
         "questionset_start_without_lo_warning": "⚠️ Start without learning objectives — you can add them later.",
         "questionset_start_without_lo_confirm": "OK, I understand.",
         "questionset_start_without_lo_confirm_required": "Please confirm that you want to start without learning objectives.",
-        "questionset_start_without_lo_button": "🚀 Start test",
+        "questionset_start_without_lo_button": "🚀 Start question set",
         "questionset_start_without_lo_hint": "Note: You can add learning objectives later in the “Generate objectives” tab."
     },
     "user_qset": {
@@ -374,8 +374,8 @@
             "other": "Other"
         },
         "mode_info": {
-            "exam": "🏆 **Exam Mode:** The clock is ticking! Feedback will be shown at the end.",
-            "practice": "🧘 **Practice Mode:** No time pressure. Immediate feedback after every question."
+            "exam": "⏱️ **Timed Mode:** Timer and pacing hints are active. Feedback is shown at the end.",
+            "practice": "🧭 **Learning Mode:** No timer. You get instant feedback after each answer."
         },
         "answer_saved": "Answer saved.",
         "submit_button": "Submit Answer"
@@ -1007,8 +1007,8 @@
         "header": {
             "manual_end": "Ended early",
             "mode": {
-                "exam": "Test report",
-                "practice": "Practice report"
+                "exam": "Timed Mode report",
+                "practice": "Learning report"
             }
         },
         "weak_topics": {
@@ -1206,17 +1206,17 @@
         "export_glossary_render_count": "Rendering approx. {count} formulas. Wait a sec.",
         "export_glossary_download": "💾 Download glossary PDF",
         "export_glossary_error": "Error: {error}",
-        "export_testbericht_expander": "📊 Test Report (PDF)",
-        "export_testbericht_expander.exam": "📄 Test Report (PDF)",
-        "export_testbericht_expander.practice": "📄 Practice Report (PDF)",
-        "export_testbericht_description": "Your results with score and time stats.",
+        "export_testbericht_expander": "📊 Results Report (PDF)",
+        "export_testbericht_expander.exam": "📄 Timed Mode Report (PDF)",
+        "export_testbericht_expander.practice": "📄 Learning Report (PDF)",
+        "export_testbericht_description": "Your PDF results report with score, answers, and time stats.",
         "export_testbericht_spinner": "Creating Report...",
         "export_testbericht_spinner_with_formulas": "Building Report",
         "export_testbericht_render_count": "Rendering approx. {count} formulas. Wait a sec.",
         "export_testbericht_no_config": "Error: app_config missing.",
         "export_testbericht_download": "💾 Download report PDF",
-        "export_testbericht_download.exam": "💾 Download Test Report",
-        "export_testbericht_download.practice": "💾 Download Practice Report",
+        "export_testbericht_download.exam": "💾 Download Timed Mode Report",
+        "export_testbericht_download.practice": "💾 Download Learning Report",
         "export_testbericht_error": "Error: {error}",
         "confidence_header": "🧭 Feeling vs. Result",
         "confidence_description": "Compares your feeling with the outcome.",
@@ -1291,7 +1291,7 @@
             "hero_subtitle": "Choose a question set, practice at the right pace, or bring your own set from an external LLM.",
             "benefit_choose_title": "Ready-made sets",
             "benefit_choose_text": "Start directly and review your results clearly.",
-            "benefit_train_title": "Exam or practice",
+            "benefit_train_title": "Timed or Learning Mode",
             "benefit_train_text": "Choose timer, pace and immediate feedback as needed.",
             "benefit_export_title": "Take it with you",
             "benefit_export_text": "Export results and learning material as PDF, Anki or arsnova.eu.",
@@ -1412,7 +1412,7 @@
             "recover_success": "Restored! Starting...",
             "recover_failure": "Wrong combo. Check secret.",
             "database_error": "DB Error: Can't start session.",
-            "test_button": "Start Test",
+            "test_button": "Start question set",
             "dialog_start_choose_set": "Continue to set selection",
             "dialog_start_reserved": "Reserve pseudonym and continue",
             "admin_no_secret": "This pseudonym can't have a secret.",
@@ -1440,16 +1440,16 @@
         "scoring_default": "Default scoring: +points for correct, no penalty.",
         "scoring_positive": "Positive only (wrong = 0)",
         "sidebar_tip": "Tip: Use the sidebar to navigate.",
-        "start_test_button": "Start test",
+        "start_test_button": "Start question set",
         "start_button": {
-            "exam": "🏆 Start Test",
-            "practice": "🧘 Start Practice"
+            "exam": "⏱️ Start Timed Mode",
+            "practice": "🧭 Start Learning Mode"
         },
         "test_intro": "Choose a set and start when ready.",
         "mode": {
             "label": "Mode:",
-            "exam": "🏆 Exam Mode (Timer, Leaderboard)",
-            "practice": "🧘 Practice Mode (No timer, immediate feedback)"
+            "exam": "⏱️ Timed Mode (timer, final feedback)",
+            "practice": "🧭 Learning Mode (no timer, instant feedback)"
         }
     },
     "legal": {

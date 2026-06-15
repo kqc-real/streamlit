@@ -72,12 +72,40 @@ _load_locale_data.cache_clear = _clear_locale_cache
 
 def _lookup_key(data: Mapping[str, Any], key: str) -> Optional[Any]:
     candidate: Any = data
-    for segment in key.split("."):
+    segments = key.split(".")
+    index = 0
+
+    while index < len(segments):
         if not isinstance(candidate, Mapping):
             return None
-        candidate = candidate.get(segment)
-        if candidate is None:
+
+        segment = segments[index]
+        if segment in candidate:
+            value = candidate[segment]
+            if index == len(segments) - 1:
+                return value
+            if isinstance(value, Mapping):
+                candidate = value
+                index += 1
+                continue
+
+        for end_index in range(len(segments), index, -1):
+            remaining_key = ".".join(segments[index:end_index])
+            if remaining_key not in candidate:
+                continue
+
+            value = candidate[remaining_key]
+            if end_index == len(segments):
+                return value
+            if not isinstance(value, Mapping):
+                return None
+
+            candidate = value
+            index = end_index
+            break
+        else:
             return None
+
     return candidate
 
 

@@ -1191,7 +1191,7 @@ def _learning_objectives_pdf(content: str, base_path: Path | None = None) -> tup
 def _welcome_session_expired_warning() -> str:
     return translate_ui(
         "welcome.warning.session_expired",
-        default="⚠️ Deine letzte Sitzung ist abgelaufen. Bitte Seite neu laden oder einen neuen Test starten.",
+        default="⚠️ Deine letzte Sitzung ist abgelaufen. Bitte Seite neu laden oder ein neues Fragenset starten.",
     )
 
 
@@ -1456,7 +1456,7 @@ def _welcome_pseudonym_secret_too_short(min_len: int) -> str:
 def _welcome_pseudonym_reserve_button() -> str:
     return translate_ui(
         "welcome.pseudonym.reserve_button",
-        default="Pseudonym reservieren und Test starten",
+        default="Pseudonym reservieren und Fragenset starten",
     )
 
 
@@ -1545,7 +1545,7 @@ def _welcome_pseudonym_recover_button(start_label: str | None = None) -> str:
         return start_label
     return translate_ui(
         "welcome.pseudonym.recover_button",
-        default="Mit dem reservierten Pseudonym Test starten",
+        default="Mit reserviertem Pseudonym starten",
     )
 
 
@@ -1559,7 +1559,7 @@ def _welcome_pseudonym_recover_locked(locked_until: str) -> str:
 def _welcome_pseudonym_recover_success() -> str:
     return translate_ui(
         "welcome.pseudonym.recover_success",
-        default="Pseudonym erfolgreich wiederhergestellt. Test wird gestartet...",
+        default="Pseudonym erfolgreich wiederhergestellt. Fragenset wird gestartet...",
     )
 
 
@@ -1573,14 +1573,14 @@ def _welcome_pseudonym_recover_failure() -> str:
 def _welcome_pseudonym_database_error() -> str:
     return translate_ui(
         "welcome.pseudonym.database_error",
-        default="Datenbankfehler: Konnte keine neue Test-Session starten.",
+        default="Datenbankfehler: Konnte keine neue Sitzung starten.",
     )
 
 
 def _welcome_pseudonym_test_button() -> str:
     return translate_ui(
         "welcome.pseudonym.test_button",
-        default="Test starten",
+        default="Fragenset starten",
     )
 
 
@@ -3253,7 +3253,7 @@ def _render_history_table(history_rows, filename_base: str):
                                 key=btn_key,
                                 type='primary',
                             ):
-                                # Configure the app to start the test with the selected set.
+                                # Configure the app to start the selected question set.
                                 try:
                                     if questions_file:
                                         st.session_state['selected_questions_file'] = questions_file
@@ -3845,7 +3845,7 @@ def _render_refined_welcome_splash() -> None:
         (
             "benefit_train_title",
             "benefit_train_text",
-            "Prüfung oder Übung",
+            "Zeitmodus oder Lernmodus",
             "Timer, Tempo und Sofortfeedback passend wählen.",
         ),
         (
@@ -5596,10 +5596,10 @@ def render_welcome_page(app_config: AppConfig):
                     key='selected_tempo',
                 )
 
-            # --- Modus-Auswahl (Prüfung vs. Übung) ---
+            # --- Modus-Auswahl (Zeitmodus vs. Lernmodus) ---
             mode_options = {
-                'exam': translate_ui('welcome.mode.exam', default="🏆 Prüfungs-Modus (Timer, Leaderboard)"),
-                'practice': translate_ui('welcome.mode.practice', default="🧘 Übungs-Modus (Kein Timer, sofortiges Feedback)")
+                'exam': translate_ui('welcome.mode.exam', default="⏱️ Zeitmodus (Timer, Feedback am Ende)"),
+                'practice': translate_ui('welcome.mode.practice', default="🧭 Lernmodus (kein Timer, Sofortfeedback)")
             }
             if 'selected_mode' not in st.session_state:
                 st.session_state['selected_mode'] = 'exam'
@@ -5619,9 +5619,9 @@ def render_welcome_page(app_config: AppConfig):
             with start_col:
                 mode = st.session_state.get("selected_mode", "exam")
                 if mode == 'practice':
-                    start_btn_label = translate_ui("welcome.start_button.practice", default="🧘 Übung starten")
+                    start_btn_label = translate_ui("welcome.start_button.practice", default="🧭 Lernmodus starten")
                 else:
-                    start_btn_label = translate_ui("welcome.start_button.exam", default="🏆 Test starten")
+                    start_btn_label = translate_ui("welcome.start_button.exam", default="⏱️ Zeitmodus starten")
 
                 if st.button(
                     start_btn_label,
@@ -5839,7 +5839,7 @@ def render_welcome_page(app_config: AppConfig):
                                 normalized_recovery_secret = recovery_secret_new
                             ok = set_recovery_secret(user_id_hash, normalized_recovery_secret)
                             if ok:
-                                # If a question set is already selected, start the test immediately.
+                                # If a question set is already selected, start it immediately.
                                 selected_qfile = st.session_state.get("selected_questions_file")
                                 if selected_qfile:
                                     # Set session identifiers and start the session.
@@ -6072,7 +6072,7 @@ def render_welcome_page(app_config: AppConfig):
             )
 
             # If a recovery attempt is in-flight (form temp values or persistent
-            # recovery keys present), hide the duplicate 'Start test' button to
+            # recovery keys present), hide the duplicate start button to
             # avoid redundancy. Otherwise render the standard pseudonym start
             # button.
             # Deaktiviere den Button, wenn keine Auswahl möglich ist.
@@ -6338,9 +6338,9 @@ def _show_welcome_container(app_config: AppConfig):
 
         mode = st.session_state.get("selected_mode", "exam")
         if mode == 'practice':
-            start_label = translate_ui("welcome.start_button.practice", default="🧘 Übung starten")
+            start_label = translate_ui("welcome.start_button.practice", default="🧭 Lernmodus starten")
         else:
-            start_label = translate_ui("welcome.start_button.exam", default="🏆 Test starten")
+            start_label = translate_ui("welcome.start_button.exam", default="⏱️ Zeitmodus starten")
 
         if st.button(
             start_label,
@@ -6385,7 +6385,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             st.session_state["_current_question_idx"] = frage_idx
             st.session_state[f"frage_{frage_idx}_shown_time_monotonic"] = time.monotonic()
             st.session_state.pop(f"frage_{frage_idx}_explanation_shown_time_monotonic", None)
-            # Progress cue in exam flow when switching to the next question
+            # Progress cue in timed mode when switching to the next question
             try:
                 current_mode = st.session_state.get("selected_mode", "exam")
                 if prev_idx is not None and current_mode == "exam" and not st.session_state.get("jump_to_idx_active"):
@@ -7370,9 +7370,9 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
 
     if num_answered == 0:
         if current_mode == 'exam':
-            st.info(translate_ui("test_view.mode_info.exam", default="🏆 **Prüfungs-Modus:** Die Zeit läuft! Feedback gibt es erst am Ende."))
+            st.info(translate_ui("test_view.mode_info.exam", default="⏱️ **Zeitmodus:** Timer und Pace-Hinweise laufen. Feedback gibt es am Ende."))
         else:
-            st.success(translate_ui("test_view.mode_info.practice", default="🧘 **Übungs-Modus:** Kein Zeitdruck. Sofortiges Feedback nach jeder Frage."))
+            st.success(translate_ui("test_view.mode_info.practice", default="🧭 **Lernmodus:** Kein Timer. Du bekommst nach jeder Antwort Sofortfeedback."))
 
     with st.container():
 
@@ -7386,7 +7386,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
              test_time_limit = getattr(app_config, "test_duration_minutes", 60) * 60
              st.session_state.test_time_limit = test_time_limit
 
-        # Timer logic: only check/show in exam mode
+        # Timer logic: only check/show in timed mode
         if start_zeit and current_mode == 'exam':
             elapsed_time = (pd.Timestamp.now() - start_zeit).total_seconds()
             remaining_time = _compute_countdown_remaining_seconds(start_zeit, test_time_limit)
@@ -7547,7 +7547,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     # Do not disrupt the test UI if pacing UI fails
                     pass
 
-                # Brief inline notice when the next question is displayed (exam mode).
+                # Brief inline notice when the next question is displayed (timed mode).
                 try:
                     if current_mode == "exam":
                         notice_idx = st.session_state.get("_next_question_notice_idx")
@@ -8031,7 +8031,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             # Zeige Submit nur, wenn die Frage noch nicht beantwortet wurde
             if not answer_disabled:
                 if current_mode == 'exam':
-                    # Im Prüfungsmodus nur ein einfacher "Antworten"-Button ohne Unsicher-Option
+                    # Im Zeitmodus nur ein einfacher "Antworten"-Button ohne Unsicher-Option
                     if st.button(
                         translate_ui("test_view.submit_button", default="Antworten"),
                         key=f"submit_exam_{frage_idx}",
@@ -8041,7 +8041,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                     ):
                         _handle_answer_click(None)
                 else:
-                    # Im Übungsmodus die differenzierten Buttons
+                    # Im Lernmodus die differenzierten Buttons
                     answer_cols = st.columns([1, 1])
                     with answer_cols[0]:
                         if st.button(
@@ -8420,7 +8420,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     
     # --- Erklärung anzeigen ---
     if st.session_state.get(f"show_explanation_{frage_idx}", False):
-        # Im Prüfungsmodus kein sofortiges Feedback während des Tests
+        # Im Zeitmodus kein sofortiges Feedback während des Durchlaufs
         if current_mode == 'exam':
             st.info(translate_ui("test_view.answer_saved", default="Antwort gespeichert."))
         else:
@@ -11058,18 +11058,18 @@ def render_review_mode(questions: QuestionSet, app_config=None):
         # Testbericht
         current_mode = st.session_state.get('selected_mode', 'exam')
         if current_mode == 'practice':
-            expander_label = _summary_text("export_testbericht_expander.practice", default="📄 Übungsbericht (PDF)")
-            download_label = _summary_text("export_testbericht_download.practice", default="💾 Übungsbericht herunterladen")
+            expander_label = _summary_text("export_testbericht_expander.practice", default="📄 Lernbericht (PDF)")
+            download_label = _summary_text("export_testbericht_download.practice", default="💾 Lernbericht herunterladen")
         else:
-            expander_label = _summary_text("export_testbericht_expander.exam", default="📄 Testbericht (PDF)")
-            download_label = _summary_text("export_testbericht_download.exam", default="💾 Testbericht herunterladen")
+            expander_label = _summary_text("export_testbericht_expander.exam", default="📄 Zeitmodus-Bericht (PDF)")
+            download_label = _summary_text("export_testbericht_download.exam", default="💾 Zeitmodus-Bericht herunterladen")
 
         with st.expander(expander_label):
             st.markdown(_summary_text(
                 "export_testbericht_description",
-                default="Lade einen ausführlichen Testbericht mit deinem Punktestand, Antwortübersicht und Zeitstatistiken herunter. Perfekt zur Dokumentation deines Fortschritts.",
+                default="Dein PDF-Ergebnisbericht mit Punkten, Antworten und Zeitstatistiken.",
             ))
-            report_type_slug = "uebungsbericht" if current_mode == 'practice' else "testbericht"
+            report_type_slug = "lernbericht" if current_mode == 'practice' else "zeitmodus_bericht"
             report_download_name = (
                 f"{report_type_slug}_{selected_file_stem}_{user_name_file}.pdf"
             )

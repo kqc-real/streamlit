@@ -1861,10 +1861,10 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
     subtitle_parts = []
 
     if current_mode == 'practice':
-        mode_text = translate_ui("pdf.header.mode.practice", default="Übungsbericht")
+        mode_text = translate_ui("pdf.header.mode.practice", default="Lernbericht")
         subtitle_parts.append(f'<span class="header-mode">{_html.escape(mode_text)}</span>')
     else:
-        mode_text = translate_ui("pdf.header.mode.exam", default="Testbericht")
+        mode_text = translate_ui("pdf.header.mode.exam", default="Zeitmodus-Bericht")
         subtitle_parts.append(f'<span class="header-mode">{_html.escape(mode_text)}</span>')
 
     if test_manually_ended:

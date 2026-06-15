@@ -217,7 +217,7 @@
         "learning_objectives_prompt_load_failed": "{filename} 无法加载。",
         "learning_objectives_original_set_download": "⬇️ 下载给 LLM 的 JSON",
         "learning_objectives_save_set_first": "请先在“生成题库”选项卡保存题库。",
-        "learning_objectives_start_button": "🚀 开始测试",
+        "learning_objectives_start_button": "🚀 开始题库",
         "learning_objectives_next_qa_button": "➡️ 下一步：步骤 3",
         "postproduction_heading": "步骤 3：检查题库",
         "postproduction_caption": "下载已保存的 JSON，把它和检查提示词一起发给外部 LLM，然后在这里保存整理后的 JSON。",
@@ -248,25 +248,25 @@
         "postproduction_lo_not_found": "该题库尚未保存学习目标。",
         "postproduction_lo_need_set": "请先完成步骤 3“检查题库”。",
         "postproduction_lo_need_save": "开始前请先保存学习目标。",
-        "postproduction_lo_start_button": "🚀 立即开始测试",
+        "postproduction_lo_start_button": "🚀 立即开始题库",
         "intro_info": "本应用不会自己生成内容。请把提示词和数据复制到外部 LLM，然后只把 JSON 或 Markdown 粘贴回来。",
         "ai_bias_title": "为什么需要第 3 和第 4 步？",
         "ai_bias_explanation": "LLM 常能生成有用但不够均衡的内容：正确答案可能更长，干扰项可能较弱，学习目标可能太模糊。检查步骤有助于在使用前调整题库和学习目标。",
         "questionset_save_success": "题库已保存。现在可以在“生成学习目标”选项卡创建并上传学习目标。",
         "questionset_save_error": "题库保存失败：{error}",
-        "learning_objectives_save_success": "学习目标已保存。现在可以开始测试，或继续步骤 3“检查题库”。",
+        "learning_objectives_save_success": "学习目标已保存。现在可以开始题库，或继续步骤 3“检查题库”。",
         "learning_objectives_save_error": "学习目标保存失败：{error}",
         "learning_objectives_set_loaded": "题库 '{label}' 已激活。",
         "postproduction_save_success": "已检查的题库已保存。如果之前存在题库，已被替换。现在可以继续步骤 4“检查学习目标”。",
         "postproduction_save_error": "已检查题库保存失败：{error}",
-        "postproduction_lo_save_success": "已检查的学习目标已保存。现在可以开始测试。",
+        "postproduction_lo_save_success": "已检查的学习目标已保存。现在可以开始题库。",
         "postproduction_lo_save_error": "已检查的学习目标保存失败：{error}",
         "tab_selector_label": "步骤（1–4）",
         "tab_selector_hint": "选择你现在要处理的步骤。",
         "questionset_start_without_lo_warning": "⚠️ 无学习目标开始：你可以稍后补充。",
         "questionset_start_without_lo_confirm": "好的，我明白了。",
         "questionset_start_without_lo_confirm_required": "请确认要在没有学习目标的情况下开始。",
-        "questionset_start_without_lo_button": "🚀 开始测试",
+        "questionset_start_without_lo_button": "🚀 开始题库",
         "questionset_start_without_lo_hint": "提示：你可以稍后在“生成学习目标”选项卡中补充学习目标。"
     },
     "user_qset": {
@@ -374,8 +374,8 @@
             "other": "其他"
         },
         "mode_info": {
-            "exam": "🏆 **考试模式：** 计时开始！反馈将在最后显示。",
-            "practice": "🧘 **练习模式：** 没有时间压力。每道题后立即显示反馈。"
+            "exam": "⏱️ **限时模式：**计时器和进度提示已开启，反馈将在最后显示。",
+            "practice": "🧭 **学习模式：**没有计时器，每次作答后立即反馈。"
         },
         "answer_saved": "答案已保存。",
         "submit_button": "提交回答"
@@ -1007,8 +1007,8 @@
         "header": {
             "manual_end": "提前结束",
             "mode": {
-                "exam": "测试报告",
-                "practice": "练习报告"
+                "exam": "限时模式报告",
+                "practice": "学习报告"
             }
         },
         "weak_topics": {
@@ -1205,17 +1205,17 @@
         "export_glossary_render_count": "正在渲染约 {count} 个公式。请稍候。",
         "export_glossary_download": "💾 下载术语表 PDF",
         "export_glossary_error": "错误: {error}",
-        "export_testbericht_expander": "📊 测试报告（PDF）",
-        "export_testbericht_expander.exam": "📄 测试报告 (PDF)",
-        "export_testbericht_expander.practice": "📄 练习报告 (PDF)",
-        "export_testbericht_description": "你的结果，含得分与用时统计。",
+        "export_testbericht_expander": "📊 结果报告（PDF）",
+        "export_testbericht_expander.exam": "📄 限时模式报告 (PDF)",
+        "export_testbericht_expander.practice": "📄 学习报告 (PDF)",
+        "export_testbericht_description": "你的 PDF 结果报告，包含得分、答案和用时统计。",
         "export_testbericht_spinner": "正在创建报告...",
         "export_testbericht_spinner_with_formulas": "正在生成报告",
         "export_testbericht_render_count": "正在渲染约 {count} 个公式。请稍候。",
         "export_testbericht_no_config": "错误: 缺少 app_config。",
         "export_testbericht_download": "💾 下载报告 PDF",
-        "export_testbericht_download.exam": "💾 下载测试报告",
-        "export_testbericht_download.practice": "💾 下载练习报告",
+        "export_testbericht_download.exam": "💾 下载限时模式报告",
+        "export_testbericht_download.practice": "💾 下载学习报告",
         "export_testbericht_error": "错误: {error}",
         "confidence_header": "🧭 感觉 vs. 结果",
         "confidence_description": "比较你的把握感与结果。",
@@ -1291,7 +1291,7 @@
             "hero_subtitle": "选择一个题库，按合适节奏练习，或从外部 LLM 带入自己的题库。",
             "benefit_choose_title": "现成题库",
             "benefit_choose_text": "直接开始，并清楚查看结果。",
-            "benefit_train_title": "考试或练习",
+            "benefit_train_title": "限时或学习",
             "benefit_train_text": "按需要选择计时、节奏和即时反馈。",
             "benefit_export_title": "带走资料",
             "benefit_export_text": "将结果和学习材料导出为 PDF、Anki 或 arsnova.eu。",
@@ -1412,7 +1412,7 @@
             "recover_success": "已恢复！正在开始...",
             "recover_failure": "组合错误。检查秘密。",
             "database_error": "数据库错误: 无法启动会话。",
-            "test_button": "开始测试",
+            "test_button": "开始题库",
             "dialog_start_choose_set": "继续选择题库",
             "dialog_start_reserved": "保留化名并继续",
             "admin_no_secret": "此代号无法设置密钥。",
@@ -1440,16 +1440,16 @@
         "scoring_default": "默认评分：答对得分，无扣分。",
         "scoring_positive": "仅加分（错误 = 0）",
         "sidebar_tip": "提示：使用侧边栏导航。",
-        "start_test_button": "开始测试",
+        "start_test_button": "开始题库",
         "start_button": {
-            "exam": "🏆 开始测试",
-            "practice": "🧘 开始练习"
+            "exam": "⏱️ 开始限时模式",
+            "practice": "🧭 开始学习模式"
         },
         "test_intro": "选择题库，准备好就开始。",
         "mode": {
             "label": "模式：",
-            "exam": "🏆 考试模式 (计时，排行榜)",
-            "practice": "🧘 练习模式 (无计时，即时反馈)"
+            "exam": "⏱️ 限时模式（计时器，最终反馈）",
+            "practice": "🧭 学习模式（无计时，即时反馈）"
         }
     },
     "legal": {

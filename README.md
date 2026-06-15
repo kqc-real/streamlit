@@ -115,7 +115,7 @@ Admin details: [docs/ADMIN_PANEL_ANLEITUNG.md](docs/ADMIN_PANEL_ANLEITUNG.md)
 - pseudonymous access,
 - random order and session state tracking,
 - marking and skipping,
-- exam and practice modes,
+- timed and learning modes,
 - optional time limits,
 - configurable pacing and panic/time-critical mode.
 

@@ -628,7 +628,7 @@
         "learning_objectives_prompt_load_failed": "{filename} konnte nicht geladen werden.",
         "learning_objectives_original_set_download": "⬇️ JSON fürs LLM herunterladen",
         "learning_objectives_save_set_first": "Bitte zuerst dein Fragenset im Tab „Fragenset erzeugen“ speichern.",
-        "learning_objectives_start_button": "🚀 Test starten",
+        "learning_objectives_start_button": "🚀 Fragenset starten",
         "learning_objectives_next_qa_button": "➡️ Weiter zu Schritt 3",
         "postproduction_heading": "Schritt 3: Fragenset prüfen",
         "postproduction_caption": "Lade dein gespeichertes JSON herunter, gib es mit dem Prüf-Prompt an das externe LLM und speichere das bereinigte JSON hier.",
@@ -659,25 +659,25 @@
         "postproduction_lo_not_found": "Für dieses Fragenset wurden noch keine Lernziele gespeichert.",
         "postproduction_lo_need_set": "Bitte zuerst Schritt 3 „Fragenset prüfen“ abschließen.",
         "postproduction_lo_need_save": "Bitte Lernziele speichern, bevor du startest.",
-        "postproduction_lo_start_button": "🚀 Test jetzt starten",
+        "postproduction_lo_start_button": "🚀 Fragenset jetzt starten",
         "intro_info": "Die App erzeugt selbst keine Inhalte. Du kopierst Prompt und Daten in dein externes LLM und fügst hier nur JSON oder Markdown zurück ein.",
         "ai_bias_title": "Warum Schritt 3 und 4?",
         "ai_bias_explanation": "LLMs liefern oft brauchbare, aber ungleichmäßige Ergebnisse: richtige Antworten sind manchmal länger, Distraktoren schwächer und Lernziele zu vage. Die Prüfschritte helfen, Fragenset und Lernziele vor dem Einsatz zu glätten.",
         "questionset_save_success": "Fragenset gespeichert. Du kannst jetzt im Tab „Lernziele erzeugen“ die Lernziele erstellen und hochladen.",
         "questionset_save_error": "Fragenset konnte nicht gespeichert werden: {error}",
-        "learning_objectives_save_success": "Lernziele gespeichert. Du kannst jetzt den Test starten oder mit Schritt 3 „Fragenset prüfen“ fortfahren.",
+        "learning_objectives_save_success": "Lernziele gespeichert. Du kannst jetzt das Fragenset starten oder mit Schritt 3 „Fragenset prüfen“ fortfahren.",
         "learning_objectives_save_error": "Lernziele konnten nicht gespeichert werden: {error}",
         "learning_objectives_set_loaded": "Fragenset '{label}' ist aktiv.",
         "postproduction_save_success": "Geprüftes Fragenset gespeichert. Falls ein vorheriges Set existierte, wurde es ersetzt. Du kannst jetzt mit Schritt 4 „Lernziele prüfen“ fortfahren.",
         "postproduction_save_error": "Geprüftes Fragenset konnte nicht gespeichert werden: {error}",
-        "postproduction_lo_save_success": "Geprüfte Lernziele gespeichert. Du kannst jetzt den Test starten.",
+        "postproduction_lo_save_success": "Geprüfte Lernziele gespeichert. Du kannst jetzt das Fragenset starten.",
         "postproduction_lo_save_error": "Geprüfte Lernziele konnten nicht gespeichert werden: {error}",
         "tab_selector_label": "Schritt (1–4)",
         "tab_selector_hint": "Wähle den Schritt, den du jetzt bearbeiten möchtest.",
         "questionset_start_without_lo_warning": "⚠️ Ohne Lernziele starten – du kannst sie später nachreichen.",
         "questionset_start_without_lo_confirm": "Okay, habe ich verstanden.",
         "questionset_start_without_lo_confirm_required": "Bitte bestätige, dass du ohne Lernziele startest.",
-        "questionset_start_without_lo_button": "🚀 Test starten",
+        "questionset_start_without_lo_button": "🚀 Fragenset starten",
         "questionset_start_without_lo_hint": "Hinweis: Du kannst Lernziele später im Tab „Lernziele erzeugen“ ergänzen."
     },
     "user_qset": {
@@ -785,8 +785,8 @@
             "other": "Sonstiges"
         },
         "mode_info": {
-            "exam": "🏆 **Prüfungs-Modus:** Die Zeit läuft! Feedback gibt es erst am Ende.",
-            "practice": "🧘 **Übungs-Modus:** Kein Zeitdruck. Sofortiges Feedback nach jeder Frage."
+            "exam": "⏱️ **Zeitmodus:** Timer und Pace-Hinweise laufen. Feedback gibt es am Ende.",
+            "practice": "🧭 **Lernmodus:** Kein Timer. Du bekommst nach jeder Antwort Sofortfeedback."
         },
         "answer_saved": "Antwort gespeichert.",
         "submit_button": "Antworten"
@@ -942,8 +942,8 @@
         "header": {
             "manual_end": "Vorzeitig beendet",
             "mode": {
-                "exam": "Testbericht",
-                "practice": "Übungsbericht"
+                "exam": "Zeitmodus-Bericht",
+                "practice": "Lernbericht"
             }
         },
         "weak_topics": {
@@ -1133,17 +1133,17 @@
         "export_glossary_render_count": "Rendere ca. {count} Formeln. Bitte warten.",
         "export_glossary_download": "💾 Glossar-PDF herunterladen",
         "export_glossary_error": "Fehler: {error}",
-        "export_testbericht_expander": "📊 Testbericht (PDF)",
-        "export_testbericht_expander.exam": "📄 Testbericht (PDF)",
-        "export_testbericht_expander.practice": "📄 Übungsbericht (PDF)",
-        "export_testbericht_description": "Dein Ergebnis mit Punkten und Zeitstatistiken.",
+        "export_testbericht_expander": "📊 Ergebnisbericht (PDF)",
+        "export_testbericht_expander.exam": "📄 Zeitmodus-Bericht (PDF)",
+        "export_testbericht_expander.practice": "📄 Lernbericht (PDF)",
+        "export_testbericht_description": "Dein PDF-Ergebnisbericht mit Punkten, Antworten und Zeitstatistiken.",
         "export_testbericht_spinner": "Erstelle Bericht...",
         "export_testbericht_spinner_with_formulas": "Baue Bericht",
         "export_testbericht_render_count": "Rendere ca. {count} Formeln. Bitte warten.",
         "export_testbericht_no_config": "Fehler: app_config fehlt.",
-        "export_testbericht_download": "💾 Testbericht-PDF herunterladen",
-        "export_testbericht_download.exam": "💾 Testbericht herunterladen",
-        "export_testbericht_download.practice": "💾 Übungsbericht herunterladen",
+        "export_testbericht_download": "💾 Ergebnisbericht-PDF herunterladen",
+        "export_testbericht_download.exam": "💾 Zeitmodus-Bericht herunterladen",
+        "export_testbericht_download.practice": "💾 Lernbericht herunterladen",
         "export_testbericht_error": "Fehler: {error}",
         "confidence_header": "🧭 Gefühl vs. Ergebnis",
         "confidence_description": "Vergleicht dein Gefühl mit dem Ergebnis.",
@@ -1218,7 +1218,7 @@
             "hero_subtitle": "Wähle ein Fragenset, trainiere im passenden Tempo oder bring ein eigenes Set aus deinem externen LLM mit.",
             "benefit_choose_title": "Fertige Sets",
             "benefit_choose_text": "Direkt starten und Ergebnisse sauber auswerten.",
-            "benefit_train_title": "Prüfung oder Übung",
+            "benefit_train_title": "Zeitmodus oder Lernmodus",
             "benefit_train_text": "Timer, Tempo und Sofortfeedback passend wählen.",
             "benefit_export_title": "Mitnehmen",
             "benefit_export_text": "Ergebnisse und Lernmaterial als PDF, Anki oder arsnova.eu exportieren.",
@@ -1339,7 +1339,7 @@
             "recover_success": "Wiederhergestellt! Es geht los...",
             "recover_failure": "Falsche Kombination. Prüfe das Geheimwort.",
             "database_error": "Datenbankfehler: Testlauf kann nicht gestartet werden.",
-            "test_button": "Test starten",
+            "test_button": "Fragenset starten",
             "dialog_start_choose_set": "Weiter zur Fragenset-Auswahl",
             "dialog_start_reserved": "Pseudonym reservieren und weiter",
             "admin_no_secret": "Für dieses Pseudonym kann kein Geheimwort gesetzt werden.",
@@ -1367,16 +1367,16 @@
         "scoring_default": "Standard-Bewertung: Punkte für richtige Antworten, keine Strafe.",
         "scoring_positive": "Nur Pluspunkte (falsch = 0)",
         "sidebar_tip": "Tipp: Nutze die Sidebar zur Navigation.",
-        "start_test_button": "Test starten",
+        "start_test_button": "Fragenset starten",
         "start_button": {
-            "exam": "🏆 Test starten",
-            "practice": "🧘 Übung starten"
+            "exam": "⏱️ Zeitmodus starten",
+            "practice": "🧭 Lernmodus starten"
         },
         "test_intro": "Wähle ein Fragenset und starte, wenn du bereit bist.",
         "mode": {
             "label": "Modus:",
-            "exam": "🏆 Prüfungs-Modus (Timer, Leaderboard)",
-            "practice": "🧘 Übungs-Modus (Kein Timer, sofortiges Feedback)"
+            "exam": "⏱️ Zeitmodus (Timer, Feedback am Ende)",
+            "practice": "🧭 Lernmodus (kein Timer, Sofortfeedback)"
         }
     },
     "legal": {

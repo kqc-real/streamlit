@@ -73,8 +73,8 @@ flowchart TD
     withSecret["Set and confirm recovery secret"]
     set["Select question set, sort order, pace, and mode"]
     mode{"Mode"}
-    exam["Exam mode: timer, pacer, leaderboard summary"]
-    practice["Practice mode: immediate feedback and explanation"]
+    timed["Timed mode: timer, pacer, final feedback"]
+    learning["Learning mode: immediate feedback and explanation"]
     question["Answer, skip, bookmark, or review a question"]
     done{"All questions done or session ended?"}
     summary["Review score, concepts, cognitive stages, and explanations"]
@@ -89,8 +89,8 @@ flowchart TD
     secret --> noSecret --> set
     secret --> withSecret --> set
     set --> mode
-    mode --> exam --> question
-    mode --> practice --> question
+    mode --> timed --> question
+    mode --> learning --> question
     question --> done
     done -- no --> question
     done -- yes --> summary
@@ -113,13 +113,13 @@ stateDiagram-v2
     PseudonymSelection --> ReservedLogin: existing reserved pseudonym
     ReservedLogin --> SetSelection: secret verified
 
-    SetSelection --> ActiveExam: start exam mode
-    SetSelection --> ActivePractice: start practice mode
+    SetSelection --> ActiveTimed: start timed mode
+    SetSelection --> ActiveLearning: start learning mode
 
-    ActiveExam --> ActiveExam: answer, skip, bookmark, next
-    ActivePractice --> ActivePractice: answer, feedback, explanation, next
-    ActiveExam --> FinalSummary: completed, expired, or ended
-    ActivePractice --> FinalSummary: completed or ended
+    ActiveTimed --> ActiveTimed: answer, skip, bookmark, next
+    ActiveLearning --> ActiveLearning: answer, feedback, explanation, next
+    ActiveTimed --> FinalSummary: completed, expired, or ended
+    ActiveLearning --> FinalSummary: completed or ended
 
     FinalSummary --> ExportReview: export or review records
     FinalSummary --> SetSelection: start another set
@@ -148,10 +148,10 @@ sequenceDiagram
     DB-->>UI: answer persisted
     UI->>State: Mark question answered
 
-    alt Practice mode
+    alt Learning mode
         UI-->>Learner: Show immediate feedback and explanation
         UI-->>Learner: Scroll toward Next button area
-    else Exam mode
+    else Timed mode
         UI-->>Learner: Keep feedback hidden until summary
     end
 

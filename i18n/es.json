@@ -628,7 +628,7 @@
         "learning_objectives_prompt_load_failed": "{filename} no se pudo cargar.",
         "learning_objectives_original_set_download": "⬇️ Descargar JSON para el LLM",
         "learning_objectives_save_set_first": "Primero guarda tu conjunto de preguntas en la pestaña «Generar preguntas».",
-        "learning_objectives_start_button": "🚀 Iniciar prueba",
+        "learning_objectives_start_button": "🚀 Iniciar conjunto",
         "learning_objectives_next_qa_button": "➡️ Siguiente: Paso 3",
         "postproduction_heading": "Paso 3: Revisar conjunto de preguntas",
         "postproduction_caption": "Descarga tu JSON guardado, envíalo con el prompt de revisión al LLM externo y guarda aquí el JSON corregido.",
@@ -659,7 +659,7 @@
         "postproduction_lo_not_found": "Aún no se han guardado objetivos de aprendizaje para este conjunto.",
         "postproduction_lo_need_set": "Primero completa el paso 3 «Revisar preguntas».",
         "postproduction_lo_need_save": "Guarda los objetivos de aprendizaje antes de iniciar.",
-        "postproduction_lo_start_button": "🚀 Iniciar prueba ahora",
+        "postproduction_lo_start_button": "🚀 Iniciar conjunto ahora",
         "intro_info": "La app no genera contenido por sí sola. Copia prompts y datos en tu LLM externo y pega aquí solo JSON o Markdown.",
         "ai_bias_title": "¿Por qué los pasos 3 y 4?",
         "ai_bias_explanation": "Los LLM suelen producir contenido útil pero desigual: la respuesta correcta puede ser más larga, los distractores más débiles y los objetivos demasiado vagos. Los pasos de revisión ayudan a ajustar el conjunto y los objetivos antes de usarlos.",
@@ -677,7 +677,7 @@
         "questionset_start_without_lo_warning": "⚠️ Iniciar sin objetivos de aprendizaje: puedes añadirlos más tarde.",
         "questionset_start_without_lo_confirm": "OK, entendido.",
         "questionset_start_without_lo_confirm_required": "Confirma que deseas iniciar sin objetivos de aprendizaje.",
-        "questionset_start_without_lo_button": "🚀 Iniciar prueba",
+        "questionset_start_without_lo_button": "🚀 Iniciar conjunto",
         "questionset_start_without_lo_hint": "Nota: puedes añadir los objetivos de aprendizaje más tarde en la pestaña “Generar objetivos”."
     },
     "user_qset": {
@@ -785,8 +785,8 @@
             "other": "Otro"
         },
         "mode_info": {
-            "exam": "🏆 **Modo Examen:** ¡El tiempo corre! Los resultados se mostrarán al final.",
-            "practice": "🧘 **Modo Práctica:** Sin presión de tiempo. Retroalimentación inmediata tras cada pregunta."
+            "exam": "⏱️ **Modo con tiempo:** El temporizador y las indicaciones de ritmo están activos. La retroalimentación se muestra al final.",
+            "practice": "🧭 **Modo de aprendizaje:** Sin temporizador. Recibes retroalimentación inmediata después de cada respuesta."
         },
         "answer_saved": "Respuesta guardada.",
         "submit_button": "Responder"
@@ -1007,8 +1007,8 @@
         "header": {
             "manual_end": "Finalizado antes",
             "mode": {
-                "exam": "Informe de prueba",
-                "practice": "Informe de práctica"
+                "exam": "Informe del modo con tiempo",
+                "practice": "Informe de aprendizaje"
             }
         },
         "weak_topics": {
@@ -1205,17 +1205,17 @@
         "export_glossary_render_count": "Renderizando {count} fórmulas. Paciencia.",
         "export_glossary_download": "💾 Descargar PDF del glosario",
         "export_glossary_error": "Error: {error}",
-        "export_testbericht_expander": "📊 Informe de prueba (PDF)",
-        "export_testbericht_expander.exam": "📄 Informe de Prueba (PDF)",
-        "export_testbericht_expander.practice": "📄 Informe de Práctica (PDF)",
-        "export_testbericht_description": "Tu resultado con puntuación y tiempos.",
+        "export_testbericht_expander": "📊 Informe de resultados (PDF)",
+        "export_testbericht_expander.exam": "📄 Informe del modo con tiempo (PDF)",
+        "export_testbericht_expander.practice": "📄 Informe de aprendizaje (PDF)",
+        "export_testbericht_description": "Tu informe PDF de resultados con puntuación, respuestas y tiempos.",
         "export_testbericht_spinner": "Creando Informe...",
         "export_testbericht_spinner_with_formulas": "Generando Informe",
         "export_testbericht_render_count": "Renderizando {count} fórmulas. Paciencia.",
         "export_testbericht_no_config": "Error: falta app_config.",
         "export_testbericht_download": "💾 Descargar PDF del informe",
-        "export_testbericht_download.exam": "💾 Descargar Informe de Prueba",
-        "export_testbericht_download.practice": "💾 Descargar Informe de Práctica",
+        "export_testbericht_download.exam": "💾 Descargar informe del modo con tiempo",
+        "export_testbericht_download.practice": "💾 Descargar informe de aprendizaje",
         "export_testbericht_error": "Error: {error}",
         "confidence_header": "🧭 Sensación vs. resultado",
         "confidence_description": "Compara tu sensación con el resultado.",
@@ -1291,7 +1291,7 @@
             "hero_subtitle": "Elige un conjunto, practica al ritmo adecuado o trae tu propio conjunto desde un LLM externo.",
             "benefit_choose_title": "Conjuntos listos",
             "benefit_choose_text": "Empieza directamente y revisa tus resultados con claridad.",
-            "benefit_train_title": "Examen o práctica",
+            "benefit_train_title": "Modo con tiempo o aprendizaje",
             "benefit_train_text": "Elige temporizador, ritmo y feedback inmediato según necesites.",
             "benefit_export_title": "Llévatelo",
             "benefit_export_text": "Exporta resultados y material de aprendizaje como PDF, Anki o arsnova.eu.",
@@ -1412,7 +1412,7 @@
             "recover_success": "¡Restaurado! Iniciando...",
             "recover_failure": "Combinación errónea.",
             "database_error": "Error de base de datos: no se puede iniciar.",
-            "test_button": "Iniciar prueba",
+            "test_button": "Iniciar conjunto",
             "dialog_start_choose_set": "Continuar a la selección de conjunto",
             "dialog_start_reserved": "Reservar seudónimo y continuar",
             "admin_no_secret": "Este alias no puede tener clave secreta.",
@@ -1440,16 +1440,16 @@
         "scoring_default": "Puntuación estándar: puntos por aciertos, sin penalización.",
         "scoring_positive": "Solo puntos positivos (incorrecto = 0)",
         "sidebar_tip": "Consejo: usa la barra lateral para navegar.",
-        "start_test_button": "Iniciar prueba",
+        "start_test_button": "Iniciar conjunto",
         "start_button": {
-            "exam": "🏆 Iniciar Examen",
-            "practice": "🧘 Iniciar Práctica"
+            "exam": "⏱️ Iniciar modo con tiempo",
+            "practice": "🧭 Iniciar modo de aprendizaje"
         },
         "test_intro": "Elige un conjunto y empieza cuando estés listo.",
         "mode": {
             "label": "Modo:",
-            "exam": "🏆 Modo examen (temporizador, clasificación)",
-            "practice": "🧘 Modo Práctica (Sin tiempo, retroalimentación inmediata)"
+            "exam": "⏱️ Modo con tiempo (temporizador, feedback final)",
+            "practice": "🧭 Modo de aprendizaje (sin temporizador, feedback inmediato)"
         }
     },
     "legal": {

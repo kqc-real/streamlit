@@ -198,19 +198,19 @@ Quality rules:
 - Ready-made question-set labels may include flag icons for quick language scanning, but labels must remain readable without relying only on flags.
 - Legal buttons should sit side by side on mobile when width allows.
 
-## 13) Question View and Practice Mode UX
+## 13) Question View and Learning Mode UX
 
 - Desktop question metadata should be compact and side by side where possible: Topic, Concept, Cognitive Stage. Mobile may stack.
 - The answer-choice area should have a subtle divider above it.
 - The answer prompt and horizontal radio buttons should be centered relative to the question content, not the viewport edge.
 - Radio button spacing should be generous enough for scanning and touch use.
 - On question changes, scroll back to the top of the question view. Track the actually rendered `frage_idx`.
-- In Practice Mode, after submitting an answer and showing immediate feedback, scroll toward the Next button area rather than to the page top.
+- In Learning Mode, after submitting an answer and showing immediate feedback, scroll toward the Next button area rather than to the page top.
 - Dynamic bottom spacing is needed after visible feedback so short explanations still allow the Next button to reach the intended viewport position.
 - Use about `96px` top offset for Next-button and question-expander scroll targets; smaller offsets can let Streamlit chrome clip titles or buttons.
 - Opening question expanders should pull the expander heading upward only in the question view.
 - The detailed-explanation button is a special rerun case; use a one-shot session flag and scroll to an anchor before the expander after rerender.
-- Practice feedback labels should be consistent and calm: localized equivalents of `Deine Antwort`, `Richtig`, and `Erklärung` should use one helper/CSS pattern.
+- Learning Mode feedback labels should be consistent and calm: localized equivalents of `Deine Antwort`, `Richtig`, and `Erklärung` should use one helper/CSS pattern.
 - The standard explanation block after an answer should remain unframed: use a subtle divider plus a label, not a bordered container.
 
 ## 14) Dialogs and Pseudonym Workflow

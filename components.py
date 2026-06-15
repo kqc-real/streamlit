@@ -1053,7 +1053,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                         start_no_lo = st.form_submit_button(
                             _dialog_text(
                                 "questionset_start_without_lo_button",
-                                default="🚀 Test starten",
+                                default="🚀 Fragenset starten",
                             ),
                             type="secondary",
                             disabled=not can_start,
@@ -1307,7 +1307,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     st.success(
                         _dialog_text(
                             "learning_objectives_save_success",
-                            default="Lernziele gespeichert. Du kannst jetzt den Test starten oder mit Schritt 3 „Fragenset prüfen“ fortfahren.",
+                            default="Lernziele gespeichert. Du kannst jetzt das Fragenset starten oder mit Schritt 3 „Fragenset prüfen“ fortfahren.",
                         )
                     )
                 else:
@@ -1341,7 +1341,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             cols = st.columns(2)
             with cols[0]:
                 if st.button(
-                    _dialog_text("learning_objectives_start_button", default="🚀 Test starten"),
+                    _dialog_text("learning_objectives_start_button", default="🚀 Fragenset starten"),
                     key="user_qset_lo_start_btn",
                     type="primary",
                     disabled=not (status and status.get("success") and can_start and lo_uploaded),
@@ -1763,7 +1763,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     st.success(
                         _dialog_text(
                             "postproduction_lo_save_success",
-                            default="Geprüfte Lernziele gespeichert. Du kannst jetzt den Test starten.",
+                            default="Geprüfte Lernziele gespeichert. Du kannst jetzt das Fragenset starten.",
                         )
                     )
                     st.session_state["user_qset_step4_done"] = True
@@ -1827,7 +1827,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 )
 
             if st.button(
-                _dialog_text("postproduction_lo_start_button", default="🚀 Test starten"),
+                _dialog_text("postproduction_lo_start_button", default="🚀 Fragenset starten"),
                 key="user_qset_postprod_lo_start_btn",
                 type="primary",
                 disabled=not (step1_done and step3_done and lo_uploaded and can_start),
@@ -1926,7 +1926,7 @@ def _end_test_session(questions: QuestionSet, app_config: AppConfig):
     except Exception:
         min_score_for_leaderboard = 1
 
-    # Check mode: only exam mode qualifies for leaderboard
+    # Check mode: only timed mode qualifies for leaderboard
     current_mode = st.session_state.get('selected_mode', 'exam')
 
     if current_mode == 'exam' and final_score >= min_score_for_leaderboard and duration_seconds >= min_duration_for_leaderboard:
@@ -3478,7 +3478,7 @@ def render_sidebar(questions: QuestionSet, app_config: AppConfig, is_admin: bool
             recommended_duration_seconds = int(st.session_state.get("test_time_limit", st.session_state.get("test_duration_minutes", 60) * 60))
             min_duration_for_leaderboard = max(60, int(recommended_duration_seconds * 0.20))
 
-            # Check mode: only exam mode qualifies for leaderboard
+            # Check mode: only timed mode qualifies for leaderboard
             current_mode = st.session_state.get('selected_mode', 'exam')
 
             if current_mode == 'exam' and final_score >= 1 and duration_seconds >= min_duration_for_leaderboard:

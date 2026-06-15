@@ -596,7 +596,7 @@
         "clear_text_button": "🧹 Svuota contenuto",
         "status_success": "{label} salvato ({count} domande).",
         "login_required": "Accedi prima.",
-        "start_test_button": "🚀 Avvia il test",
+        "start_test_button": "🚀 Avvia",
         "status_unknown_error": "Errore sconosciuto.",
         "status_error_hint": "Salvataggio fallito. Apri i dettagli.",
         "status_error_friendly_json": "Impossibile elaborare il file. Controlla la sintassi JSON (struttura, virgolette, virgole).",
@@ -628,7 +628,7 @@
         "learning_objectives_prompt_load_failed": "{filename} non è stato caricato.",
         "learning_objectives_original_set_download": "⬇️ Scarica JSON per il LLM",
         "learning_objectives_save_set_first": "Salva prima il tuo set di domande nella scheda «Genera domande».",
-        "learning_objectives_start_button": "🚀 Avvia il test",
+        "learning_objectives_start_button": "🚀 Avvia set di domande",
         "learning_objectives_next_qa_button": "➡️ Avanti: Passo 3",
         "postproduction_heading": "Passo 3: Revisiona il set di domande",
         "postproduction_caption": "Scarica il JSON salvato, invialo con il prompt di revisione al LLM esterno e salva qui il JSON corretto.",
@@ -659,7 +659,7 @@
         "postproduction_lo_not_found": "Non sono ancora stati salvati obiettivi di apprendimento per questo set di domande.",
         "postproduction_lo_need_set": "Completa prima il passo 3 «Revisiona domande».",
         "postproduction_lo_need_save": "Salva gli obiettivi di apprendimento prima di avviare.",
-        "postproduction_lo_start_button": "🚀 Avvia test ora",
+        "postproduction_lo_start_button": "🚀 Avvia set di domande ora",
         "intro_info": "L’app non genera contenuti da sola. Copia prompt e dati nel tuo LLM esterno, poi incolla qui solo JSON o Markdown.",
         "ai_bias_title": "Perché i passaggi 3 e 4?",
         "ai_bias_explanation": "I LLM producono spesso contenuti utili ma non equilibrati: la risposta corretta può essere più lunga, i distrattori più deboli e gli obiettivi troppo vaghi. I passaggi di revisione aiutano a sistemare set di domande e obiettivi prima dell’uso.",
@@ -677,7 +677,7 @@
         "questionset_start_without_lo_warning": "⚠️ Avvio senza obiettivi di apprendimento — puoi aggiungerli più tardi.",
         "questionset_start_without_lo_confirm": "OK, ho capito.",
         "questionset_start_without_lo_confirm_required": "Conferma che vuoi avviare il test senza obiettivi di apprendimento.",
-        "questionset_start_without_lo_button": "🚀 Avvia il test",
+        "questionset_start_without_lo_button": "🚀 Avvia set di domande",
         "questionset_start_without_lo_hint": "Nota: puoi aggiungere gli obiettivi di apprendimento più tardi nella scheda “Genera obiettivi”."
     },
     "user_qset": {
@@ -785,8 +785,8 @@
             "other": "Altro"
         },
         "mode_info": {
-            "exam": "🏆 **Modalità Esame:** Il tempo scorre! I risultati verranno mostrati alla fine.",
-            "practice": "🧘 **Modalità Esercitazione:** Nessuna pressione. Feedback immediato dopo ogni domanda."
+            "exam": "⏱️ **Modalità a tempo:** Timer e indicazioni sul ritmo sono attivi. Il feedback viene mostrato alla fine.",
+            "practice": "🧭 **Modalità apprendimento:** Senza timer. Ricevi feedback immediato dopo ogni risposta."
         },
         "answer_saved": "Risposta salvata.",
         "submit_button": "Rispondi"
@@ -1007,8 +1007,8 @@
         "header": {
             "manual_end": "Terminato prima",
             "mode": {
-                "exam": "Rapporto del test",
-                "practice": "Rapporto esercitazione"
+                "exam": "Report modalità a tempo",
+                "practice": "Report di apprendimento"
             }
         },
         "weak_topics": {
@@ -1205,17 +1205,17 @@
         "export_glossary_render_count": "Renderizzo {count} formule. Pazienza.",
         "export_glossary_download": "💾 Scarica PDF glossario",
         "export_glossary_error": "Errore: {error}",
-        "export_testbericht_expander": "📊 Rapporto del test (PDF)",
-        "export_testbericht_expander.exam": "📄 Rapporto del test (PDF)",
-        "export_testbericht_expander.practice": "📄 Rapporto dell’esercitazione (PDF)",
-        "export_testbericht_description": "Risultati con punteggio e tempi.",
+        "export_testbericht_expander": "📊 Report dei risultati (PDF)",
+        "export_testbericht_expander.exam": "📄 Report modalità a tempo (PDF)",
+        "export_testbericht_expander.practice": "📄 Report di apprendimento (PDF)",
+        "export_testbericht_description": "Il tuo report PDF dei risultati con punteggio, risposte e tempi.",
         "export_testbericht_spinner": "Creo il rapporto...",
         "export_testbericht_spinner_with_formulas": "Genero il rapporto",
         "export_testbericht_render_count": "Renderizzo {count} formule. Pazienza.",
         "export_testbericht_no_config": "Errore: manca app_config.",
         "export_testbericht_download": "💾 Scarica PDF report",
-        "export_testbericht_download.exam": "💾 Scarica rapporto del test",
-        "export_testbericht_download.practice": "💾 Scarica rapporto dell’esercitazione",
+        "export_testbericht_download.exam": "💾 Scarica report modalità a tempo",
+        "export_testbericht_download.practice": "💾 Scarica report di apprendimento",
         "export_testbericht_error": "Errore: {error}",
         "confidence_header": "🧭 Sensazione vs. risultato",
         "confidence_description": "Confronta la tua sensazione con il risultato.",
@@ -1291,7 +1291,7 @@
             "hero_subtitle": "Scegli un set di domande, esercitati al ritmo giusto o porta un tuo set da un LLM esterno.",
             "benefit_choose_title": "Set pronti",
             "benefit_choose_text": "Inizia subito e controlla chiaramente i risultati.",
-            "benefit_train_title": "Esame o pratica",
+            "benefit_train_title": "Tempo o apprendimento",
             "benefit_train_text": "Scegli timer, ritmo e feedback immediato secondo necessità.",
             "benefit_export_title": "Porta con te",
             "benefit_export_text": "Esporta risultati e materiali di studio come PDF, Anki o arsnova.eu.",
@@ -1412,7 +1412,7 @@
             "recover_success": "Ripristinato! Avvio in corso...",
             "recover_failure": "Combinazione errata.",
             "database_error": "Errore del database: impossibile avviare.",
-            "test_button": "Avvia Test",
+            "test_button": "Avvia set di domande",
             "dialog_start_choose_set": "Continua alla scelta del set di domande",
             "dialog_start_reserved": "Riserva pseudonimo e continua",
             "admin_no_secret": "Per questo alias non è possibile impostare un segreto.",
@@ -1440,16 +1440,16 @@
         "scoring_default": "Punteggio predefinito: punti per risposte corrette, nessuna penalità.",
         "scoring_positive": "Solo punti positivi (sbagliato = 0)",
         "sidebar_tip": "Suggerimento: usa la sidebar per navigare.",
-        "start_test_button": "Avvia test",
+        "start_test_button": "Avvia set di domande",
         "start_button": {
-            "exam": "🏆 Avvia Test",
-            "practice": "🧘 Avvia Esercitazione"
+            "exam": "⏱️ Avvia modalità a tempo",
+            "practice": "🧭 Avvia modalità apprendimento"
         },
         "test_intro": "Scegli un set di domande e inizia quando sei pronto.",
         "mode": {
             "label": "Modalità:",
-            "exam": "🏆 Modalità esame (timer, classifica)",
-            "practice": "🧘 Modalità esercitazione (senza timer, feedback immediato)"
+            "exam": "⏱️ Modalità a tempo (timer, feedback finale)",
+            "practice": "🧭 Modalità apprendimento (senza timer, feedback immediato)"
         }
     },
     "legal": {
