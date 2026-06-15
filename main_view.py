@@ -409,18 +409,142 @@ def _inject_question_view_compact_styles() -> None:
               margin: 0;
             }
             .mc-question-feedback-bottom-spacer {
-              height: max(18rem, calc(100svh - 3rem));
+              height: 6.5rem;
               pointer-events: none;
               width: 100%;
             }
-            @supports not (height: 100svh) {
+            .mc-fixed-next-button-marker {
+              display: block;
+              height: 0;
+              pointer-events: none;
+              width: 100%;
+            }
+            .stMainBlockContainer div[data-testid="stElementContainer"]:has(.mc-fixed-next-button-marker),
+            .stMainBlockContainer div[data-testid="stMarkdownContainer"]:has(.mc-fixed-next-button-marker) {
+              margin: 0 !important;
+              padding: 0 !important;
+            }
+            .stMainBlockContainer div[data-testid="stElementContainer"]:has(.mc-fixed-next-button-marker)
+              + div[data-testid="stElementContainer"] {
+              height: 0 !important;
+              line-height: 0 !important;
+              margin: 0 !important;
+              min-height: 0 !important;
+              overflow: visible !important;
+              padding: 0 !important;
+            }
+            .stMainBlockContainer div[data-testid="stElementContainer"]:has(.mc-fixed-next-button-marker)
+              + div[data-testid="stElementContainer"] div[data-testid="stButton"] {
+              position: fixed !important;
+              left: var(--mc-fixed-next-center-x, 50%) !important;
+              bottom: calc(0.9rem + env(safe-area-inset-bottom)) !important;
+              transform: translateX(-50%) !important;
+              z-index: 1000 !important;
+              box-sizing: border-box !important;
+              width: min(30rem, var(--mc-fixed-next-width, calc(100vw - 2rem)), calc(100vw - 2rem)) !important;
+              max-width: calc(100vw - 2rem) !important;
+              padding: 0.45rem !important;
+              border: 1px solid rgba(148, 163, 184, 0.26) !important;
+              border-radius: 8px !important;
+              background: rgba(15, 23, 42, 0.92) !important;
+              box-shadow: 0 18px 44px rgba(0, 0, 0, 0.42) !important;
+              backdrop-filter: blur(12px);
+            }
+            .stMainBlockContainer div[data-testid="stElementContainer"]:has(.mc-fixed-next-button-marker)
+              + div[data-testid="stElementContainer"] div[data-testid="stButton"] > button {
+              min-height: 2.8rem !important;
+              border-radius: 6px !important;
+              font-weight: 750 !important;
+            }
+            @media (max-width: 640px) {
               .mc-question-feedback-bottom-spacer {
-                height: max(18rem, calc(100vh - 3rem));
+                height: 7.25rem;
+              }
+              .stMainBlockContainer div[data-testid="stElementContainer"]:has(.mc-fixed-next-button-marker)
+                + div[data-testid="stElementContainer"] div[data-testid="stButton"] {
+                bottom: calc(0.55rem + env(safe-area-inset-bottom)) !important;
+                width: calc(100vw - 1rem) !important;
+                max-width: calc(100vw - 1rem) !important;
+                padding: 0.4rem !important;
               }
             }
             </style>
             """
         )
+    except Exception:
+        pass
+
+
+def _sync_fixed_next_button_center() -> None:
+    """Keep the fixed Next button centered over the visible main content column."""
+    html = """
+    <script>
+    (() => {
+        const install = (win) => {
+            if (!win || !win.document) {
+                return;
+            }
+            const update = () => {
+                try {
+                    const doc = win.document;
+                    const main = (
+                        doc.querySelector('.stMainBlockContainer') ||
+                        doc.querySelector('[data-testid="stMainBlockContainer"]') ||
+                        doc.querySelector('[data-testid="stMain"]') ||
+                        doc.querySelector('main')
+                    );
+                    const viewportWidth = (
+                        win.visualViewport && win.visualViewport.width
+                    ) || win.innerWidth || doc.documentElement.clientWidth || 0;
+                    if (!main || !viewportWidth) {
+                        doc.documentElement.style.removeProperty('--mc-fixed-next-center-x');
+                        doc.documentElement.style.removeProperty('--mc-fixed-next-width');
+                        return;
+                    }
+                    const rect = main.getBoundingClientRect();
+                    const centerX = rect.left + (rect.width / 2);
+                    const usableWidth = Math.max(0, Math.min(rect.width - 32, viewportWidth - 16));
+                    doc.documentElement.style.setProperty('--mc-fixed-next-center-x', `${centerX}px`);
+                    doc.documentElement.style.setProperty('--mc-fixed-next-width', `${usableWidth}px`);
+                } catch (_) {}
+            };
+            update();
+            win.requestAnimationFrame(update);
+            win.setTimeout(update, 120);
+            win.setTimeout(update, 450);
+            if (!win.__mcFixedNextCenterInstalled) {
+                win.__mcFixedNextCenterInstalled = true;
+                win.addEventListener('resize', update, { passive: true });
+                try {
+                    if (win.visualViewport) {
+                        win.visualViewport.addEventListener('resize', update, { passive: true });
+                    }
+                } catch (_) {}
+                try {
+                    const observer = new MutationObserver(update);
+                    observer.observe(win.document.body || win.document.documentElement, {
+                        attributes: true,
+                        childList: true,
+                        subtree: true,
+                    });
+                    win.__mcFixedNextCenterObserver = observer;
+                } catch (_) {}
+            }
+        };
+
+        install(window);
+        try {
+            if (window.parent && window.parent !== window) {
+                install(window.parent);
+            }
+        } catch (_) {}
+    })();
+    </script>
+    """
+    try:
+        html_fn = getattr(st, "html", None)
+        if callable(html_fn):
+            html_fn(html, width="content", unsafe_allow_javascript=True)
     except Exception:
         pass
 
@@ -6362,6 +6486,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     _inject_main_container_padding(compact_mobile=True)
     _inject_toast_contrast_styles()
     _inject_question_view_compact_styles()
+    _sync_fixed_next_button_center()
     _set_page_reload_guard(True)
     _enable_question_expander_open_scroll()
     try:
@@ -9058,10 +9183,17 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int, remainin
         except Exception:
             remaining_next_cooldown = 0
 
+        st.markdown(
+            "<div class='mc-fixed-next-button-marker' aria-hidden='true'></div>",
+            unsafe_allow_html=True,
+        )
+
         # The Next button remains clickable; if clicked during cooldown we show an info message.
-        if st.button(
+        next_button_clicked = st.button(
             button_text, key=f"next_q_{frage_idx}", type="primary", width="stretch"
-        ):
+        )
+
+        if next_button_clicked:
             if remaining_next_cooldown > 0:
                 # Cooldown ist aktiv: Zeige eine kurzlebige Toast-Nachricht an.
                 try:
