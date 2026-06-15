@@ -786,7 +786,7 @@
         },
         "mode_info": {
             "exam": "⏱️ **Modo con tiempo:** El temporizador y las indicaciones de ritmo están activos. La retroalimentación se muestra al final.",
-            "practice": "🧭 **Modo de aprendizaje:** Sin temporizador. Recibes retroalimentación inmediata después de cada respuesta."
+            "practice": "🧘 **Modo de aprendizaje:** Sin temporizador. Recibes retroalimentación inmediata después de cada respuesta."
         },
         "answer_saved": "Respuesta guardada.",
         "submit_button": "Responder"
@@ -1444,13 +1444,13 @@
         "start_test_button": "Iniciar conjunto",
         "start_button": {
             "exam": "⏱️ Iniciar modo con tiempo",
-            "practice": "🧭 Iniciar modo de aprendizaje"
+            "practice": "🧘 Iniciar modo de aprendizaje"
         },
         "test_intro": "Elige un conjunto y empieza cuando estés listo.",
         "mode": {
             "label": "Modo:",
             "exam": "⏱️ Modo con tiempo (temporizador, feedback final)",
-            "practice": "🧭 Modo de aprendizaje (sin temporizador, feedback inmediato)"
+            "practice": "🧘 Modo de aprendizaje (sin temporizador, feedback inmediato)"
         }
     },
     "legal": {

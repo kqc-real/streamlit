@@ -786,7 +786,7 @@
         },
         "mode_info": {
             "exam": "⏱️ **Zeitmodus:** Timer und Pace-Hinweise laufen. Feedback gibt es am Ende.",
-            "practice": "🧭 **Lernmodus:** Kein Timer. Du bekommst nach jeder Antwort Sofortfeedback."
+            "practice": "🧘 **Lernmodus:** Kein Timer. Du bekommst nach jeder Antwort Sofortfeedback."
         },
         "answer_saved": "Antwort gespeichert.",
         "submit_button": "Antworten"
@@ -1371,13 +1371,13 @@
         "start_test_button": "Fragenset starten",
         "start_button": {
             "exam": "⏱️ Zeitmodus starten",
-            "practice": "🧭 Lernmodus starten"
+            "practice": "🧘 Lernmodus starten"
         },
         "test_intro": "Wähle ein Fragenset und starte, wenn du bereit bist.",
         "mode": {
             "label": "Modus:",
             "exam": "⏱️ Zeitmodus (Timer, Feedback am Ende)",
-            "practice": "🧭 Lernmodus (kein Timer, Sofortfeedback)"
+            "practice": "🧘 Lernmodus (kein Timer, Sofortfeedback)"
         }
     },
     "legal": {

@@ -5726,7 +5726,7 @@ def render_welcome_page(app_config: AppConfig):
             # --- Modus-Auswahl (Zeitmodus vs. Lernmodus) ---
             mode_options = {
                 'exam': translate_ui('welcome.mode.exam', default="⏱️ Zeitmodus (Timer, Feedback am Ende)"),
-                'practice': translate_ui('welcome.mode.practice', default="🧭 Lernmodus (kein Timer, Sofortfeedback)")
+                'practice': translate_ui('welcome.mode.practice', default="🧘 Lernmodus (kein Timer, Sofortfeedback)")
             }
             if 'selected_mode' not in st.session_state:
                 st.session_state['selected_mode'] = 'exam'
@@ -5746,7 +5746,7 @@ def render_welcome_page(app_config: AppConfig):
             with start_col:
                 mode = st.session_state.get("selected_mode", "exam")
                 if mode == 'practice':
-                    start_btn_label = translate_ui("welcome.start_button.practice", default="🧭 Lernmodus starten")
+                    start_btn_label = translate_ui("welcome.start_button.practice", default="🧘 Lernmodus starten")
                 else:
                     start_btn_label = translate_ui("welcome.start_button.exam", default="⏱️ Zeitmodus starten")
 
@@ -6465,7 +6465,7 @@ def _show_welcome_container(app_config: AppConfig):
 
         mode = st.session_state.get("selected_mode", "exam")
         if mode == 'practice':
-            start_label = translate_ui("welcome.start_button.practice", default="🧭 Lernmodus starten")
+            start_label = translate_ui("welcome.start_button.practice", default="🧘 Lernmodus starten")
         else:
             start_label = translate_ui("welcome.start_button.exam", default="⏱️ Zeitmodus starten")
 
@@ -7500,7 +7500,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         if current_mode == 'exam':
             st.info(translate_ui("test_view.mode_info.exam", default="⏱️ **Zeitmodus:** Timer und Pace-Hinweise laufen. Feedback gibt es am Ende."))
         else:
-            st.success(translate_ui("test_view.mode_info.practice", default="🧭 **Lernmodus:** Kein Timer. Du bekommst nach jeder Antwort Sofortfeedback."))
+            st.success(translate_ui("test_view.mode_info.practice", default="🧘 **Lernmodus:** Kein Timer. Du bekommst nach jeder Antwort Sofortfeedback."))
 
     with st.container():
 

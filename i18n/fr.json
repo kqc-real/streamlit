@@ -786,7 +786,7 @@
         },
         "mode_info": {
             "exam": "⏱️ **Mode chronométré :** Le minuteur et les repères de rythme sont actifs. Le retour arrive à la fin.",
-            "practice": "🧭 **Mode apprentissage :** Sans minuteur. Tu reçois un retour immédiat après chaque réponse."
+            "practice": "🧘 **Mode apprentissage :** Sans minuteur. Tu reçois un retour immédiat après chaque réponse."
         },
         "answer_saved": "Réponse enregistrée.",
         "submit_button": "Répondre"
@@ -1444,13 +1444,13 @@
         "start_test_button": "Démarrer le jeu de questions",
         "start_button": {
             "exam": "⏱️ Démarrer le mode chronométré",
-            "practice": "🧭 Démarrer le mode apprentissage"
+            "practice": "🧘 Démarrer le mode apprentissage"
         },
         "test_intro": "Choisis un jeu et démarre quand tu es prêt.",
         "mode": {
             "label": "Mode :",
             "exam": "⏱️ Mode chronométré (minuteur, retour final)",
-            "practice": "🧭 Mode apprentissage (sans minuteur, retour immédiat)"
+            "practice": "🧘 Mode apprentissage (sans minuteur, retour immédiat)"
         }
     },
     "legal": {

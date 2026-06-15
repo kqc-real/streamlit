@@ -375,7 +375,7 @@
         },
         "mode_info": {
             "exam": "⏱️ **Timed Mode:** Timer and pacing hints are active. Feedback is shown at the end.",
-            "practice": "🧭 **Learning Mode:** No timer. You get instant feedback after each answer."
+            "practice": "🧘 **Learning Mode:** No timer. You get instant feedback after each answer."
         },
         "answer_saved": "Answer saved.",
         "submit_button": "Submit Answer"
@@ -1444,13 +1444,13 @@
         "start_test_button": "Start question set",
         "start_button": {
             "exam": "⏱️ Start Timed Mode",
-            "practice": "🧭 Start Learning Mode"
+            "practice": "🧘 Start Learning Mode"
         },
         "test_intro": "Choose a set and start when ready.",
         "mode": {
             "label": "Mode:",
             "exam": "⏱️ Timed Mode (timer, final feedback)",
-            "practice": "🧭 Learning Mode (no timer, instant feedback)"
+            "practice": "🧘 Learning Mode (no timer, instant feedback)"
         }
     },
     "legal": {

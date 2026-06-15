@@ -786,7 +786,7 @@
         },
         "mode_info": {
             "exam": "⏱️ **Modalità a tempo:** Timer e indicazioni sul ritmo sono attivi. Il feedback viene mostrato alla fine.",
-            "practice": "🧭 **Modalità apprendimento:** Senza timer. Ricevi feedback immediato dopo ogni risposta."
+            "practice": "🧘 **Modalità apprendimento:** Senza timer. Ricevi feedback immediato dopo ogni risposta."
         },
         "answer_saved": "Risposta salvata.",
         "submit_button": "Rispondi"
@@ -1444,13 +1444,13 @@
         "start_test_button": "Avvia set di domande",
         "start_button": {
             "exam": "⏱️ Avvia modalità a tempo",
-            "practice": "🧭 Avvia modalità apprendimento"
+            "practice": "🧘 Avvia modalità apprendimento"
         },
         "test_intro": "Scegli un set di domande e inizia quando sei pronto.",
         "mode": {
             "label": "Modalità:",
             "exam": "⏱️ Modalità a tempo (timer, feedback finale)",
-            "practice": "🧭 Modalità apprendimento (senza timer, feedback immediato)"
+            "practice": "🧘 Modalità apprendimento (senza timer, feedback immediato)"
         }
     },
     "legal": {
