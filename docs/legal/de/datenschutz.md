@@ -14,7 +14,7 @@ E-Mail: [klaus.quibeldey-cirkel@iu.org](mailto:klaus.quibeldey-cirkel@iu.org)
 
 ## 2. Zweck der App
 
-MC-Test ist eine Streamlit-App zum Auswählen, Erstellen, Üben und Auswerten von Multiple-Choice-Fragensets. Die App nutzt Pseudonyme statt Klarnamen. Bitte gib keine echten Namen, Matrikelnummern, E-Mail-Adressen oder sonstigen Personendaten in Pseudonyme, Freitexte oder hochgeladene Fragensets ein.
+MC-Test ist eine Streamlit-App zum Auswählen, Erstellen, Üben und Auswerten von Multiple-Choice-Fragensets. Die App nutzt Pseudonyme statt Klarnamen. Bitte gib keine echten Namen, Matrikelnummern, E-Mail-Adressen oder sonstigen Personendaten in Freitextfelder oder hochgeladene Fragensets ein.
 
 ## 3. Hosting und Zugriffsdaten
 
@@ -70,4 +70,4 @@ Für Anfragen nutze bitte die im Impressum angegebene E-Mail-Adresse und nenne, 
 
 ## 10. Stand
 
-Stand: 14. Juni 2026
+Stand: 16. Juni 2026

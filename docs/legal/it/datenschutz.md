@@ -16,7 +16,7 @@ E-mail: [klaus.quibeldey-cirkel@iu.org](mailto:klaus.quibeldey-cirkel@iu.org)
 
 ## Finalità
 
-MC-Test è un'app Streamlit per selezionare, creare, esercitarsi e valutare set di domande a scelta multipla. L'app usa pseudonimi invece di nomi reali. Non inserire nomi reali, numeri di matricola, indirizzi e-mail o altri dati personali in pseudonimi, campi liberi o set di domande caricati.
+MC-Test è un'app Streamlit per selezionare, creare, esercitarsi e valutare set di domande a scelta multipla. L'app usa pseudonimi invece di nomi reali. Non inserire nomi reali, numeri di matricola, indirizzi e-mail o altri dati personali in campi liberi o set di domande caricati.
 
 ## Dati trattati dall'app
 
@@ -42,4 +42,4 @@ L'app non chiama direttamente API LLM esterne e non utilizza strumenti propri di
 
 Ai sensi del GDPR puoi avere diritti di accesso, rettifica, cancellazione, limitazione, portabilità e opposizione. Puoi anche presentare reclamo a un'autorità di controllo. Per richieste, usa l'indirizzo e-mail indicato e includi lo pseudonimo se possibile.
 
-Ultimo aggiornamento: 14 giugno 2026
+Ultimo aggiornamento: 16 giugno 2026
