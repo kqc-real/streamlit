@@ -41,6 +41,7 @@ from i18n import available_locales, translate
 from i18n.context import t as translate_ui, get_locale, set_locale
 from i18n import translate as translate_key
 from legal_ui import render_legal_links
+from helpers.text import unwrap_markdown_document_fence
 
 # Helpers imported at module top; do not re-import here.
 
@@ -133,39 +134,137 @@ def _build_prompt_preview_html(prompt_text: str) -> str:
     return f"""
 <style>
 .mc-prompt-preview {{
+    box-sizing: border-box;
     user-select: none;
     -webkit-user-select: none;
     -webkit-touch-callout: none;
     -moz-user-select: none;
     -ms-user-select: none;
     cursor: default;
-    max-height: min(58vh, 720px);
-    overflow: auto;
+    display: block;
+    width: 100%;
+    height: clamp(260px, 52vh, 520px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    contain: layout paint style;
+    isolation: isolate;
     padding: 0.85rem 1rem;
-    border: 1px solid rgba(49, 51, 63, 0.22);
+    border: 1px solid rgba(148, 163, 184, 0.26);
     border-radius: 0.45rem;
-    background: rgba(49, 51, 63, 0.035);
+    background: rgba(15, 23, 42, 0.32);
+    color: #e5e7eb;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    letter-spacing: 0;
 }}
 .mc-prompt-preview * {{
+    box-sizing: border-box;
     user-select: none;
     -webkit-user-select: none;
     -webkit-touch-callout: none;
     -moz-user-select: none;
     -ms-user-select: none;
+    max-width: 100%;
+    letter-spacing: 0;
+}}
+.mc-prompt-preview > :first-child {{
+    margin-top: 0;
+}}
+.mc-prompt-preview > :last-child {{
+    margin-bottom: 0;
+}}
+.mc-prompt-preview h1,
+.mc-prompt-preview h2,
+.mc-prompt-preview h3,
+.mc-prompt-preview h4,
+.mc-prompt-preview h5,
+.mc-prompt-preview h6 {{
+    color: #f8fafc;
+    font-weight: 700;
+    line-height: 1.25;
+    margin: 0.85rem 0 0.4rem 0;
+    padding: 0;
+}}
+.mc-prompt-preview h1 {{
+    font-size: 1.28rem;
+}}
+.mc-prompt-preview h2 {{
+    font-size: 1.08rem;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+    padding-bottom: 0.25rem;
+}}
+.mc-prompt-preview h3 {{
+    font-size: 0.98rem;
+}}
+.mc-prompt-preview h4,
+.mc-prompt-preview h5,
+.mc-prompt-preview h6 {{
+    font-size: 0.92rem;
+}}
+.mc-prompt-preview p {{
+    margin: 0 0 0.6rem 0;
+    color: #d1d5db;
+}}
+.mc-prompt-preview ul,
+.mc-prompt-preview ol {{
+    margin: 0.2rem 0 0.7rem 1.15rem;
+    padding: 0;
+}}
+.mc-prompt-preview li {{
+    margin: 0.16rem 0;
+    padding-left: 0.1rem;
+}}
+.mc-prompt-preview blockquote {{
+    margin: 0.5rem 0 0.75rem 0;
+    padding: 0.35rem 0.75rem;
+    border-left: 3px solid rgba(96, 165, 250, 0.9);
+    background: rgba(96, 165, 250, 0.08);
+    color: #dbeafe;
+}}
+.mc-prompt-preview code {{
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 0.86em;
+    background: rgba(148, 163, 184, 0.16);
+    color: #dbeafe;
+    padding: 0.08rem 0.26rem;
+    border-radius: 0.22rem;
 }}
 .mc-prompt-preview pre {{
+    margin: 0.55rem 0 0.8rem 0;
+    padding: 0.75rem;
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    border-radius: 0.4rem;
+    background: rgba(2, 6, 23, 0.72);
     white-space: pre-wrap;
     overflow-x: auto;
+    overflow-wrap: anywhere;
+}}
+.mc-prompt-preview pre code {{
+    display: block;
+    padding: 0;
+    background: transparent;
+    color: #e5e7eb;
+    line-height: 1.45;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
 }}
 .mc-prompt-preview table {{
     border-collapse: collapse;
     width: 100%;
+    margin: 0.5rem 0 0.85rem 0;
+    font-size: 0.86rem;
 }}
 .mc-prompt-preview th,
 .mc-prompt-preview td {{
-    border: 1px solid rgba(49, 51, 63, 0.2);
+    border: 1px solid rgba(148, 163, 184, 0.24);
     padding: 0.35rem 0.5rem;
     vertical-align: top;
+}}
+.mc-prompt-preview th {{
+    color: #f8fafc;
+    background: rgba(148, 163, 184, 0.12);
 }}
 </style>
 <div
@@ -719,6 +818,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     text = raw.decode("utf-8")
                 except Exception:
                     return False, "Datei konnte nicht als UTF-8 gelesen werden."
+                text = unwrap_markdown_document_fence(text).strip()
                 if not text.strip():
                     return False, "Das Markdown enthält keinen Inhalt."
                 has_heading = False
@@ -1789,7 +1889,9 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 try:
                     lo_path = _derive_learning_objectives_filename(status["identifier"])
                     if lo_path.exists():
-                        st.markdown(lo_path.read_text(encoding="utf-8"))
+                        st.markdown(
+                            unwrap_markdown_document_fence(lo_path.read_text(encoding="utf-8"))
+                        )
                     else:
                         st.info(
                             _dialog_text(

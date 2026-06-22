@@ -15,6 +15,11 @@ FMT_DATETIME_SHORT_YEAR = "%d.%m.%y %H:%M"
 FMT_DATE = "%d.%m.%Y"
 FMT_DATE_SHORT = "%d.%m.%y"
 _DECIMAL_COMMA_LOCALES = {"de", "fr", "es", "it"}
+_MARKDOWN_DOCUMENT_FENCE_RE = re.compile(
+    r"\A[ \t]*(?P<fence>`{3,}|~{3,})[ \t]*(?P<lang>[A-Za-z0-9_-]*)[ \t]*\r?\n"
+    r"(?P<body>.*?)(?:\r?\n)?(?P=fence)[ \t]*\Z",
+    re.S,
+)
 
 SAFE_HTML_TAGS = {
     "b",
@@ -315,6 +320,23 @@ def format_decimal_locale(value: float, decimals: int = 1, locale: str | None = 
 
 def format_decimal_de(value: float, decimals: int = 1) -> str:
     return format_decimal_locale(value, decimals=decimals, locale="de")
+
+
+def unwrap_markdown_document_fence(content: str) -> str:
+    """Remove a single outer LLM-style Markdown fence around a full document."""
+    text = str(content or "")
+    for _ in range(3):
+        match = _MARKDOWN_DOCUMENT_FENCE_RE.match(text)
+        if not match:
+            break
+        language = (match.group("lang") or "").strip().lower()
+        body = match.group("body") or ""
+        if language not in {"", "markdown", "md", "mdown", "gfm", "text", "txt"}:
+            break
+        if not language and not re.search(r"(?m)^\s{0,3}(#{1,6}\s+|[-*+]\s+|\d+[.)]\s+)", body):
+            break
+        text = body.strip()
+    return text
 
 
 def load_markdown_file(path: str) -> str | None:

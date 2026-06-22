@@ -42,6 +42,7 @@ from helpers.text import (
     get_user_id_hash,
     load_markdown_file,
     format_decimal_locale,
+    unwrap_markdown_document_fence,
 )
 from helpers.security import ACTIVE_SESSION_QUERY_PARAM
 from database import update_bookmarks, get_db_connection
@@ -1144,7 +1145,6 @@ def _learning_objectives_pdf(content: str, base_path: Path | None = None) -> tup
     try:
         import markdown as _md
         from weasyprint import HTML
-        import re
         try:
             from pdf_export import _render_latex_to_image
         except Exception:
@@ -1169,7 +1169,7 @@ def _learning_objectives_pdf(content: str, base_path: Path | None = None) -> tup
             rendered = rendered.replace("\n", " ")
             return f"<span class='math-inline'>{rendered}</span>"
 
-        md_for_render = content
+        md_for_render = unwrap_markdown_document_fence(content)
         # Block formulas first
         md_for_render = re.sub(r"\$\$(.+?)\$\$", _replace_block, md_for_render, flags=re.S)
         # Inline formulas (avoid already replaced blocks and double dollars)
@@ -1245,14 +1245,24 @@ def _learning_objectives_pdf(content: str, base_path: Path | None = None) -> tup
             font-size: 10pt;
         }
         pre {
-            background: #0b3a5c;
-            color: #f8fafc;
+            background: #f8fafc;
+            color: #1f2937;
             padding: 14px;
-            border-radius: 9px;
-            overflow-x: auto;
+            border: 1px solid var(--border);
+            border-radius: 6px;
             font-size: 10pt;
             line-height: 1.5;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+        pre code {
+            display: block;
+            background: transparent;
+            color: inherit;
+            padding: 0;
+            border-radius: 0;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
         }
         table {
             border-collapse: collapse;
@@ -4970,7 +4980,7 @@ def render_welcome_page(app_config: AppConfig):
             def _dialog_body():
                 content_col = st.columns([0.08, 0.84, 0.08])[1]
                 with content_col:
-                    st.markdown(content)
+                    st.markdown(unwrap_markdown_document_fence(content))
                 pdf_bytes, pdf_err = _learning_objectives_pdf(content, lo_path.parent)
                 if pdf_bytes:
                     with content_col:
@@ -4991,7 +5001,7 @@ def render_welcome_page(app_config: AppConfig):
             st.info(_learning_objectives_dialog_fallback())
             content_col = st.columns([0.08, 0.84, 0.08])[1]
             with content_col:
-                st.markdown(content)
+                st.markdown(unwrap_markdown_document_fence(content))
             pdf_bytes, pdf_err = _learning_objectives_pdf(content, lo_path.parent)
             if pdf_bytes:
                 with content_col:
