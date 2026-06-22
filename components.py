@@ -281,11 +281,15 @@ def _build_prompt_preview_html(prompt_text: str) -> str:
 
 
 def _render_prompt_preview(prompt_text: str) -> None:
-    html_renderer = getattr(st, "html", None)
-    if callable(html_renderer):
-        html_renderer(_build_prompt_preview_html(prompt_text))
-    else:
-        st.markdown(_build_prompt_preview_html(prompt_text), unsafe_allow_html=True)
+    # Native Streamlit containers reserve layout height reliably here; inline
+    # HTML/iframe previews can visually overlap following controls on reloads.
+    preview_text = re.sub(
+        r"(?m)^(#{1,5})(\s+)",
+        lambda match: "#" * min(len(match.group(1)) + 2, 6) + match.group(2),
+        prompt_text,
+    )
+    with st.container(height=520, border=True):
+        st.markdown(preview_text)
 
 
 def _user_qset_text(key: str, default: str, **kwargs) -> str:
@@ -726,7 +730,6 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                 )
             )
 
-        prompt_views = st.session_state.setdefault("_prompt_inline_views", {})
         prompt_resources = iter_prompt_resources()
         prompt_download_label = _dialog_text("prompt_download_button", default="⬇️ Download")
         copy_button_label = _dialog_text("prompt_copy_button", default="Prompt kopieren")
@@ -958,14 +961,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                             )
                         )
                     else:
-                        view_key = f"user_prompt_view_toggle_{qset_prompt.filename}"
-                        if prompt_views.get(qset_prompt.filename) is None:
-                            prompt_views[qset_prompt.filename] = False
-                        if st.toggle("Anzeigen", key=view_key, value=prompt_views.get(qset_prompt.filename)):
-                            prompt_views[qset_prompt.filename] = True
-                            _render_prompt_preview(qset_prompt.content)
-                        else:
-                            prompt_views[qset_prompt.filename] = False
+                        _render_prompt_preview(qset_prompt.content)
 
                     cols = st.columns(2)
                     with cols[0]:
