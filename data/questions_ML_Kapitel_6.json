@@ -1,4 +1,24 @@
 {
+  "meta": {
+    "title": "Machine Learning: Kapitel 6",
+    "created": "22.06.2026 19:10",
+    "language": "en",
+    "target_audience": "Computer science students",
+    "question_count": 30,
+    "difficulty_profile": {
+      "easy": 5,
+      "medium": 20,
+      "hard": 5
+    },
+    "time_per_weight_minutes": {
+      "1": 0.5,
+      "2": 0.75,
+      "3": 1.0
+    },
+    "additional_buffer_minutes": 5,
+    "test_duration_minutes": 30,
+    "updated": "2026-06-22"
+  },
   "questions": [
     {
       "question": "1. What is a decision tree mainly used for in machine learning?",
@@ -19,19 +39,7 @@
         "Classification": "Prediction of a discrete class label.",
         "Regression": "Prediction of a numerical value."
       },
-      "extended_explanation": null,
-      "frage": "1. What is a decision tree mainly used for in machine learning?",
-      "gewichtung": 1,
-      "thema": "Basic structure and prediction",
-      "kognitive_stufe": "Reproduction",
-      "optionen": [
-        "For clustering unlabelled samples into groups",
-        "For compressing feature matrices before training",
-        "For supervised classification and regression tasks",
-        "For visualizing the layers of a neural network"
-      ],
-      "loesung": 2,
-      "erklaerung": "A decision tree is a supervised learning model that can handle classification and regression. It predicts by following feature-based decisions from the root to a leaf."
+      "extended_explanation": null
     },
     {
       "question": "2. In a decision tree, what is a leaf?",
@@ -73,19 +81,7 @@
         "Pure node": "A node containing samples from only one class.",
         "Class": "A discrete target category."
       },
-      "extended_explanation": null,
-      "frage": "3. When is the Gini impurity of a node equal to zero?",
-      "gewichtung": 1,
-      "thema": "Impurity measures",
-      "kognitive_stufe": "Reproduction",
-      "optionen": [
-        "When the node contains equal class proportions",
-        "When the tree has reached its maximum depth",
-        "When all features have been standardized",
-        "When all samples in the node belong to one class"
-      ],
-      "loesung": 3,
-      "erklaerung": "A node is pure when all samples in it belong to one class. In that case, the Gini impurity is zero because there is no class mixture."
+      "extended_explanation": null
     },
     {
       "question": "4. Which hyperparameter directly limits the maximum depth of a decision tree in Scikit-Learn?",
@@ -106,19 +102,7 @@
         "Regularization": "A restriction that reduces model flexibility.",
         "Overfitting": "Fitting training noise instead of general patterns."
       },
-      "extended_explanation": null,
-      "frage": "4. Which hyperparameter directly limits the maximum depth of a decision tree in Scikit-Learn?",
-      "gewichtung": 1,
-      "thema": "Regularization and overfitting",
-      "kognitive_stufe": "Reproduction",
-      "optionen": [
-        "`min_samples_leaf`",
-        "`max_depth`",
-        "`criterion`",
-        "`random_state`"
-      ],
-      "loesung": 1,
-      "erklaerung": "`max_depth` limits how many levels the tree may grow. Lowering it is a common regularization strategy for decision trees."
+      "extended_explanation": null
     },
     {
       "question": "5. In a regression tree, what does a leaf typically predict?",
@@ -139,19 +123,7 @@
         "Target value": "The value the model is trained to predict.",
         "Mean": "The arithmetic average of values."
       },
-      "extended_explanation": null,
-      "frage": "5. In a regression tree, what does a leaf typically predict?",
-      "gewichtung": 1,
-      "thema": "Regression trees",
-      "kognitive_stufe": "Reproduction",
-      "optionen": [
-        "The most frequent class in the training set",
-        "The feature with the largest split gain",
-        "The mean target value of the samples in that leaf",
-        "The probability assigned to the largest class"
-      ],
-      "loesung": 2,
-      "erklaerung": "A regression tree predicts numerical values rather than class labels. A leaf usually stores the mean target value of the training samples that reach that leaf."
+      "extended_explanation": null
     },
     {
       "question": "6. A trained tree first tests petal length and then, only for some cases, tests petal width. What does this illustrate?",
@@ -174,26 +146,14 @@
       },
       "extended_explanation": {
         "title": "Following a prediction path",
-        "content": "The important idea is that a decision tree does not combine all branches for one prediction. It applies a sequence of local decisions until it reaches a final prediction.",
         "steps": [
           "Start at the root node.",
           "Evaluate the feature test stored in the node.",
           "Move to exactly one child node.",
           "Repeat until a leaf is reached."
-        ]
-      },
-      "frage": "6. A trained tree first tests petal length and then, only for some cases, tests petal width. What does this illustrate?",
-      "gewichtung": 2,
-      "thema": "Basic structure and prediction",
-      "kognitive_stufe": "Application",
-      "optionen": [
-        "The model averages all possible paths.",
-        "The prediction follows one path from root to leaf.",
-        "Every feature is tested before a prediction is returned.",
-        "Two features cannot appear in the same tree."
-      ],
-      "loesung": 1,
-      "erklaerung": "For one input instance, a decision tree follows exactly one route through the tree. It starts at the root and applies only the tests needed along that route."
+        ],
+        "content": "The important idea is that a decision tree does not combine all branches for one prediction. It applies a sequence of local decisions until it reaches a final prediction."
+      }
     },
     {
       "question": "7. A classification node has `samples = 100` and `value = [0, 49, 51]`. What does this mean?",
@@ -216,26 +176,14 @@
       },
       "extended_explanation": {
         "title": "Reading node statistics",
-        "content": "Node statistics explain why a decision tree predicts a class. They show how the training data were distributed at the point where the prediction is made.",
         "steps": [
           "Read `samples` as the total number of samples in the node.",
           "Read each entry of `value` as one class count.",
           "Check that the entries of `value` sum to `samples`.",
           "Use the largest class count to identify the predicted class."
-        ]
-      },
-      "frage": "7. A classification node has `samples = 100` and `value = [0, 49, 51]`. What does this mean?",
-      "gewichtung": 2,
-      "thema": "Basic structure and prediction",
-      "kognitive_stufe": "Application",
-      "optionen": [
-        "The node has 100 child nodes and three possible labels.",
-        "The node used 100 features during split selection.",
-        "The node contains 100 samples split across three classes.",
-        "The node stores three thresholds and 100 prediction errors."
-      ],
-      "loesung": 2,
-      "erklaerung": "`samples` is the number of training instances that reach the node. `value` stores the class counts for those instances."
+        ],
+        "content": "Node statistics explain why a decision tree predicts a class. They show how the training data were distributed at the point where the prediction is made."
+      }
     },
     {
       "question": "8. A leaf contains 40 samples: 4 from class A, 30 from class B, and 6 from class C. What probability would the tree estimate for class B?",
@@ -258,25 +206,13 @@
       },
       "extended_explanation": {
         "title": "Estimating probability from a leaf",
-        "content": "A decision tree does not compute a smooth probability function over the feature space. It returns the same class probabilities for every input that lands in the same leaf.",
         "steps": [
           "Identify the leaf reached by the instance.",
           "Count the samples of the target class in that leaf.",
           "Divide this count by the total number of leaf samples."
-        ]
-      },
-      "frage": "8. A leaf contains 40 samples: 4 from class A, 30 from class B, and 6 from class C. What probability would the tree estimate for class B?",
-      "gewichtung": 2,
-      "thema": "Probability estimates",
-      "kognitive_stufe": "Application",
-      "optionen": [
-        "0.75",
-        "0.40",
-        "0.30",
-        "0.15"
-      ],
-      "loesung": 0,
-      "erklaerung": "The estimated class probability is the proportion of samples of that class in the leaf. For class B, this is 30 divided by 40, which is 0.75."
+        ],
+        "content": "A decision tree does not compute a smooth probability function over the feature space. It returns the same class probabilities for every input that lands in the same leaf."
+      }
     },
     {
       "question": "9. In the CART algorithm for classification, how is a split selected at a node?",
@@ -299,26 +235,14 @@
       },
       "extended_explanation": {
         "title": "Choosing a CART split",
-        "content": "CART makes a locally optimal choice at each node. This usually works well, but it does not guarantee the globally best tree.",
         "steps": [
           "Consider possible features.",
           "Consider candidate thresholds for those features.",
           "Compute the weighted impurity of the resulting child nodes.",
           "Choose the split with the lowest cost."
-        ]
-      },
-      "frage": "9. In the CART algorithm for classification, how is a split selected at a node?",
-      "gewichtung": 2,
-      "thema": "CART algorithm",
-      "kognitive_stufe": "Application",
-      "optionen": [
-        "By choosing the feature with the largest numeric range",
-        "By selecting the threshold that gives the deepest tree",
-        "By choosing a random valid split at each node",
-        "By minimizing weighted impurity in the child nodes"
-      ],
-      "loesung": 3,
-      "erklaerung": "CART evaluates candidate feature-threshold splits. It selects the split with the lowest weighted impurity in the child nodes."
+        ],
+        "content": "CART makes a locally optimal choice at each node. This usually works well, but it does not guarantee the globally best tree."
+      }
     },
     {
       "question": "10. Why is CART described as a greedy algorithm?",
@@ -341,26 +265,14 @@
       },
       "extended_explanation": {
         "title": "Greedy tree growth",
-        "content": "The greedy strategy keeps training computationally feasible. The trade-off is that the resulting tree may be good without being globally optimal.",
         "steps": [
           "CART evaluates splits at the current node.",
           "It selects the split with the best immediate impurity reduction.",
           "It repeats this procedure for child nodes.",
           "It does not test all possible complete tree structures."
-        ]
-      },
-      "frage": "10. Why is CART described as a greedy algorithm?",
-      "gewichtung": 2,
-      "thema": "CART algorithm",
-      "kognitive_stufe": "Application",
-      "optionen": [
-        "It stores every local split before training begins.",
-        "It chooses the best current split without optimizing the full tree.",
-        "It tries to include every feature in every path.",
-        "It grows a balanced tree before checking impurity."
-      ],
-      "loesung": 1,
-      "erklaerung": "CART is greedy because it optimizes the current split locally. It does not search over all possible complete tree structures."
+        ],
+        "content": "The greedy strategy keeps training computationally feasible. The trade-off is that the resulting tree may be good without being globally optimal."
+      }
     },
     {
       "question": "11. Which statement best compares Gini impurity and entropy in decision trees?",
@@ -383,26 +295,14 @@
       },
       "extended_explanation": {
         "title": "Selecting an impurity measure",
-        "content": "The choice between Gini impurity and entropy is rarely the dominant modeling decision. Regularization and data quality often matter more.",
         "steps": [
           "Both Gini impurity and entropy measure class mixture.",
           "Both can guide split selection.",
           "Gini impurity is often computationally simpler.",
           "Differences are usually modest in practical trees."
-        ]
-      },
-      "frage": "11. Which statement best compares Gini impurity and entropy in decision trees?",
-      "gewichtung": 2,
-      "thema": "Impurity measures",
-      "kognitive_stufe": "Application",
-      "optionen": [
-        "Entropy is normally used for regression, while Gini is used for classification.",
-        "Gini requires scaled features, while entropy works on unscaled features.",
-        "They usually give similar trees, with Gini often being slightly faster.",
-        "They normally rank every candidate split identically."
-      ],
-      "loesung": 2,
-      "erklaerung": "Gini impurity and entropy are both measures of class mixture in a node. They often produce similar trees, while Gini impurity is commonly used as a slightly faster default."
+        ],
+        "content": "The choice between Gini impurity and entropy is rarely the dominant modeling decision. Regularization and data quality often matter more."
+      }
     },
     {
       "question": "12. A decision tree fits the training data almost perfectly but performs poorly on test data. Which change is most likely to help?",
@@ -425,26 +325,14 @@
       },
       "extended_explanation": {
         "title": "Reducing overfitting",
-        "content": "Decision trees can fit complex training patterns very closely. Regularization restricts that flexibility so that the model is less likely to memorize noise.",
         "steps": [
           "Identify the pattern: high training score and lower test score.",
           "Interpret this pattern as excessive model flexibility.",
           "Limit tree growth using `max_depth` or related parameters.",
           "Validate the change on held-out data."
-        ]
-      },
-      "frage": "12. A decision tree fits the training data almost perfectly but performs poorly on test data. Which change is most likely to help?",
-      "gewichtung": 2,
-      "thema": "Regularization and overfitting",
-      "kognitive_stufe": "Application",
-      "optionen": [
-        "Reduce `max_depth` or increase a `min_*` regularization parameter.",
-        "Increase `max_depth` to capture more training details.",
-        "Remove target labels from the training dataset.",
-        "Disable probability estimates before evaluating the tree."
-      ],
-      "loesung": 0,
-      "erklaerung": "High training performance with poor test performance is a typical sign of overfitting. Restricting the tree's flexibility can improve generalization."
+        ],
+        "content": "Decision trees can fit complex training patterns very closely. Regularization restricts that flexibility so that the model is less likely to memorize noise."
+      }
     },
     {
       "question": "13. What is the direct effect of increasing `min_samples_leaf`?",
@@ -467,26 +355,14 @@
       },
       "extended_explanation": {
         "title": "Controlling leaf granularity",
-        "content": "The parameter is especially useful when a tree produces many small regions around individual training samples.",
         "steps": [
           "A small leaf size allows very specific rules.",
           "Very specific rules can capture noise.",
           "Increasing `min_samples_leaf` prevents tiny leaves.",
           "This often improves test performance on noisy data."
-        ]
-      },
-      "frage": "13. What is the direct effect of increasing `min_samples_leaf`?",
-      "gewichtung": 2,
-      "thema": "Regularization and overfitting",
-      "kognitive_stufe": "Application",
-      "optionen": [
-        "It changes the impurity measure used at each split.",
-        "It increases the number of available input features.",
-        "It converts class predictions into numerical predictions.",
-        "It requires each leaf to contain more samples."
-      ],
-      "loesung": 3,
-      "erklaerung": "`min_samples_leaf` sets the minimum number of samples that each leaf must contain. Increasing it usually produces smoother, less fragmented decision regions."
+        ],
+        "content": "The parameter is especially useful when a tree produces many small regions around individual training samples."
+      }
     },
     {
       "question": "14. Two trees are trained on the same noisy dataset. Tree A has no restrictions and scores 0.99 on training data but 0.89 on test data. Tree B uses `min_samples_leaf = 5` and scores 0.94 on training data but 0.92 on test data. Which interpretation is best?",
@@ -510,27 +386,14 @@
       },
       "extended_explanation": {
         "title": "Comparing train and test scores",
-        "content": "A very high training score can be misleading for flexible models. The goal is not to memorize the training set but to perform well on unseen data.",
         "steps": [
           "Compare training and test performance for each model.",
           "Identify the gap between them.",
           "Prefer the model with stronger test performance.",
           "Interpret reduced training accuracy as acceptable when test accuracy improves."
-        ]
-      },
-      "frage": "14. Two trees are trained on the same noisy dataset. Tree A has no restrictions and scores 0.99 on training data but 0.89 on test data. Tree B uses `min_samples_leaf = 5` and scores 0.94 on training data but 0.92 on test data. Which interpretation is best?",
-      "gewichtung": 2,
-      "thema": "Regularization and overfitting",
-      "kognitive_stufe": "Application",
-      "optionen": [
-        "Tree A is preferable because its training accuracy is higher.",
-        "Tree B is invalid because regularized trees cannot generalize.",
-        "Tree B likely generalizes better despite lower training accuracy.",
-        "Both trees are equivalent because they use the same algorithm.",
-        "Tree A underfits because its test score is lower than its training score."
-      ],
-      "loesung": 2,
-      "erklaerung": "The test score is the better indicator of performance on new data. Tree B trades some training accuracy for better test accuracy, which suggests improved generalization."
+        ],
+        "content": "A very high training score can be misleading for flexible models. The goal is not to memorize the training set but to perform well on unseen data."
+      }
     },
     {
       "question": "15. In pruning, when is a node commonly considered a candidate for removal?",
@@ -553,26 +416,14 @@
       },
       "extended_explanation": {
         "title": "Reasoning about pruning",
-        "content": "Pruning is another way to regularize trees. Instead of preventing all growth in advance, it can remove unnecessary structure afterward.",
         "steps": [
           "Train or grow a candidate tree.",
           "Inspect nodes whose children are leaves.",
           "Estimate whether the purity gain is meaningful.",
           "Remove branches whose gain is not statistically convincing."
-        ]
-      },
-      "frage": "15. In pruning, when is a node commonly considered a candidate for removal?",
-      "gewichtung": 2,
-      "thema": "Regularization and overfitting",
-      "kognitive_stufe": "Application",
-      "optionen": [
-        "When the node uses a numerical feature threshold.",
-        "When its purity gain is not statistically significant.",
-        "When it is the root node of the decision tree.",
-        "When its child nodes contain different class labels."
-      ],
-      "loesung": 1,
-      "erklaerung": "Pruning removes tree structure that is unlikely to provide meaningful improvement. A node can be removed when its apparent purity gain could plausibly be due to chance."
+        ],
+        "content": "Pruning is another way to regularize trees. Instead of preventing all growth in advance, it can remove unnecessary structure afterward."
+      }
     },
     {
       "question": "16. A regression leaf contains target values 2, 4, and 9. What value should the leaf predict under the usual regression-tree rule?",
@@ -595,26 +446,14 @@
       },
       "extended_explanation": {
         "title": "Computing a regression leaf value",
-        "content": "This rule makes the leaf prediction the best constant approximation under squared-error loss for the samples in that leaf.",
         "steps": [
           "Collect the target values in the leaf.",
           "Add the values together.",
           "Divide by the number of values.",
           "Use the result as the prediction."
-        ]
-      },
-      "frage": "16. A regression leaf contains target values 2, 4, and 9. What value should the leaf predict under the usual regression-tree rule?",
-      "gewichtung": 2,
-      "thema": "Regression trees",
-      "kognitive_stufe": "Application",
-      "optionen": [
-        "2",
-        "4",
-        "5",
-        "9"
-      ],
-      "loesung": 2,
-      "erklaerung": "A regression leaf usually predicts the mean of the target values in that leaf. The mean of 2, 4, and 9 is 5."
+        ],
+        "content": "This rule makes the leaf prediction the best constant approximation under squared-error loss for the samples in that leaf."
+      }
     },
     {
       "question": "17. For regression trees, what does CART try to minimize when choosing a split?",
@@ -637,26 +476,14 @@
       },
       "extended_explanation": {
         "title": "Regression split objective",
-        "content": "The classification version focuses on class purity. The regression version focuses on making target values inside each child node as close as possible to the child's predicted mean.",
         "steps": [
           "Try candidate feature-threshold splits.",
           "Compute the mean squared error in each child node.",
           "Weight each child error by its sample count.",
           "Choose the split with the lowest weighted error."
-        ]
-      },
-      "frage": "17. For regression trees, what does CART try to minimize when choosing a split?",
-      "gewichtung": 2,
-      "thema": "Regression trees",
-      "kognitive_stufe": "Application",
-      "optionen": [
-        "The weighted mean squared error of the child nodes",
-        "The number of class labels in each child node",
-        "The alphabetical order of the selected feature names",
-        "The depth difference between left and right branches"
-      ],
-      "loesung": 0,
-      "erklaerung": "In regression, CART tries to reduce numerical prediction error rather than class impurity. It therefore minimizes the weighted mean squared error of the child nodes."
+        ],
+        "content": "The classification version focuses on class purity. The regression version focuses on making target values inside each child node as close as possible to the child's predicted mean."
+      }
     },
     {
       "question": "18. Why are predictions with a trained, reasonably balanced decision tree usually fast?",
@@ -679,26 +506,14 @@
       },
       "extended_explanation": {
         "title": "Prediction complexity",
-        "content": "The tree does not scan the full training set during prediction. It only evaluates the sequence of tests along the selected path.",
         "steps": [
           "Start at the root.",
           "Evaluate one test per visited node.",
           "Follow only one branch at each split.",
           "Stop when a leaf is reached."
-        ]
-      },
-      "frage": "18. Why are predictions with a trained, reasonably balanced decision tree usually fast?",
-      "gewichtung": 2,
-      "thema": "Computational complexity",
-      "kognitive_stufe": "Application",
-      "optionen": [
-        "The model removes features before prediction.",
-        "The tree retrains itself for each new input.",
-        "The tree scans all training samples at each leaf.",
-        "Prediction follows a single root-to-leaf path."
-      ],
-      "loesung": 3,
-      "erklaerung": "Prediction follows one route from the root to a leaf. In a reasonably balanced tree, that route grows roughly logarithmically with the number of training samples."
+        ],
+        "content": "The tree does not scan the full training set during prediction. It only evaluates the sequence of tests along the selected path."
+      }
     },
     {
       "question": "19. If the number of features doubles while the number of samples stays the same, what usually happens to CART training time?",
@@ -721,26 +536,14 @@
       },
       "extended_explanation": {
         "title": "Why more features cost more",
-        "content": "Prediction may still be fast after training, but the search for good splits becomes more expensive as the feature space grows.",
         "steps": [
           "CART must evaluate candidate splits.",
           "Candidate splits depend on features and thresholds.",
           "Doubling features increases the number of feature choices.",
           "Training time therefore tends to rise substantially."
-        ]
-      },
-      "frage": "19. If the number of features doubles while the number of samples stays the same, what usually happens to CART training time?",
-      "gewichtung": 2,
-      "thema": "Computational complexity",
-      "kognitive_stufe": "Application",
-      "optionen": [
-        "It decreases because each split becomes simpler.",
-        "It increases roughly in proportion to the number of features.",
-        "It remains unchanged because prediction complexity is logarithmic.",
-        "It becomes independent of the number of samples."
-      ],
-      "loesung": 1,
-      "erklaerung": "CART compares candidate splits across available features. If the number of features doubles, the split search usually becomes roughly twice as expensive."
+        ],
+        "content": "Prediction may still be fast after training, but the search for good splits becomes more expensive as the feature space grows."
+      }
     },
     {
       "question": "20. Why can rotating a dataset make a decision tree's boundary unnecessarily complex?",
@@ -763,26 +566,14 @@
       },
       "extended_explanation": {
         "title": "Axis alignment effect",
-        "content": "This limitation does not make decision trees useless. It means their performance can depend strongly on how the feature space is represented.",
         "steps": [
           "A tree split tests one feature against a threshold.",
           "Such splits create boundaries parallel to feature axes.",
           "A diagonal pattern cannot be captured directly by one split.",
           "The tree may build a staircase-like approximation."
-        ]
-      },
-      "frage": "20. Why can rotating a dataset make a decision tree's boundary unnecessarily complex?",
-      "gewichtung": 2,
-      "thema": "Axis alignment and preprocessing",
-      "kognitive_stufe": "Application",
-      "optionen": [
-        "They use axis-aligned splits based on one feature at a time.",
-        "They discard numerical features after a rotation.",
-        "They replace thresholds with class probabilities.",
-        "They convert classification boundaries into regression targets."
-      ],
-      "loesung": 0,
-      "erklaerung": "Standard decision trees split on one feature at a time. This creates axis-aligned boundaries, so diagonal separations may require staircase-like structures."
+        ],
+        "content": "This limitation does not make decision trees useless. It means their performance can depend strongly on how the feature space is represented."
+      }
     },
     {
       "question": "21. Why might a pipeline with scaling followed by PCA help before training a decision tree on some datasets?",
@@ -805,26 +596,14 @@
       },
       "extended_explanation": {
         "title": "Preprocessing for tree geometry",
-        "content": "Decision trees do not usually require scaling for basic training. Here scaling is useful because PCA itself is sensitive to feature scales.",
         "steps": [
           "Scale features so that PCA behaves appropriately.",
           "Use PCA to rotate the coordinate system.",
           "Train the tree on the transformed features.",
           "Check whether simpler decision boundaries result."
-        ]
-      },
-      "frage": "21. Why might a pipeline with scaling followed by PCA help before training a decision tree on some datasets?",
-      "gewichtung": 2,
-      "thema": "Axis alignment and preprocessing",
-      "kognitive_stufe": "Application",
-      "optionen": [
-        "It removes the need to choose split thresholds.",
-        "It changes the labels into principal components.",
-        "It can align useful separations with tree-friendly axes.",
-        "It guarantees a shallower tree for every dataset."
-      ],
-      "loesung": 2,
-      "erklaerung": "PCA can rotate the feature space into new components. In some datasets, this makes useful separations easier to capture with axis-aligned tree splits."
+        ],
+        "content": "Decision trees do not usually require scaling for basic training. Here scaling is useful because PCA itself is sensitive to feature scales."
+      }
     },
     {
       "question": "22. Why can two decision trees trained on the same data sometimes differ when `random_state` is not fixed?",
@@ -847,26 +626,14 @@
       },
       "extended_explanation": {
         "title": "Reproducible tree training",
-        "content": "Decision trees can have high variance. This means small changes in data or training details may produce noticeably different models.",
         "steps": [
           "Training may involve random choices.",
           "Small differences can change early splits.",
           "Early split changes can alter large parts of the tree.",
           "Setting `random_state` fixes the random sequence."
-        ]
-      },
-      "frage": "22. Why can two decision trees trained on the same data sometimes differ when `random_state` is not fixed?",
-      "gewichtung": 2,
-      "thema": "Variance and ensembles",
-      "kognitive_stufe": "Application",
-      "optionen": [
-        "The target variable is overwritten after the first training run.",
-        "The training procedure may include random choices.",
-        "The impurity measure becomes undefined after fitting.",
-        "A tree cannot be fitted twice on the same dataset."
-      ],
-      "loesung": 1,
-      "erklaerung": "Some implementations include randomness during training, such as random feature ordering or selection. Setting `random_state` makes that randomness reproducible."
+        ],
+        "content": "Decision trees can have high variance. This means small changes in data or training details may produce noticeably different models."
+      }
     },
     {
       "question": "23. Why do Random Forests usually reduce the variance problem of individual decision trees?",
@@ -889,26 +656,14 @@
       },
       "extended_explanation": {
         "title": "Why ensembles stabilize trees",
-        "content": "The strength of a forest comes from diversity among trees and aggregation across them. This often improves generalization compared with a single tree.",
         "steps": [
           "Train multiple diverse trees.",
           "Let each tree make a prediction.",
           "Combine their predictions by voting or averaging.",
           "Reduce the influence of individual tree errors."
-        ]
-      },
-      "frage": "23. Why do Random Forests usually reduce the variance problem of individual decision trees?",
-      "gewichtung": 2,
-      "thema": "Variance and ensembles",
-      "kognitive_stufe": "Application",
-      "optionen": [
-        "They replace the trees with a single linear separator.",
-        "They remove the variance of every feature before training.",
-        "They train one tree and prune it repeatedly.",
-        "They aggregate predictions from many different trees."
-      ],
-      "loesung": 3,
-      "erklaerung": "A Random Forest combines predictions from many trees. Voting or averaging reduces the influence of any one unstable tree."
+        ],
+        "content": "The strength of a forest comes from diversity among trees and aggregation across them. This often improves generalization compared with a single tree."
+      }
     },
     {
       "question": "24. What does `max_features` control in a decision tree?",
@@ -931,26 +686,14 @@
       },
       "extended_explanation": {
         "title": "Limiting features per split",
-        "content": "Limiting available features can regularize the model and reduce computation. It is also important in tree ensembles.",
         "steps": [
           "At each node, the algorithm searches for a good split.",
           "Without limits, many or all features may be considered.",
           "`max_features` restricts this search.",
           "The restriction can change the fitted tree."
-        ]
-      },
-      "frage": "24. What does `max_features` control in a decision tree?",
-      "gewichtung": 2,
-      "thema": "Regularization and overfitting",
-      "kognitive_stufe": "Application",
-      "optionen": [
-        "The maximum number of features considered at a split",
-        "The maximum number of class labels in the dataset",
-        "The maximum number of probabilities returned by prediction",
-        "The maximum number of evaluation runs during testing"
-      ],
-      "loesung": 0,
-      "erklaerung": "`max_features` limits how many input features are considered when searching for a split. This can affect both training cost and tree structure."
+        ],
+        "content": "Limiting available features can regularize the model and reduce computation. It is also important in tree ensembles."
+      }
     },
     {
       "question": "25. Which setting most directly prevents a node with too few samples from being split further?",
@@ -973,26 +716,14 @@
       },
       "extended_explanation": {
         "title": "Stopping tree growth",
-        "content": "This parameter reduces overly specific branches. It is useful when the tree would otherwise split small groups of noisy samples.",
         "steps": [
           "Check how many samples reach a node.",
           "Compare this number with `min_samples_split`.",
           "Allow splitting only if the minimum is met.",
           "Otherwise keep the node as a leaf."
-        ]
-      },
-      "frage": "25. Which setting most directly prevents a node with too few samples from being split further?",
-      "gewichtung": 2,
-      "thema": "Regularization and overfitting",
-      "kognitive_stufe": "Application",
-      "optionen": [
-        "`criterion = \"entropy\"`",
-        "`random_state = 42`",
-        "`min_samples_split`",
-        "`max_features = 1`"
-      ],
-      "loesung": 2,
-      "erklaerung": "`min_samples_split` defines how many samples a node must contain before it may be split. If the node has fewer samples, it remains a leaf."
+        ],
+        "content": "This parameter reduces overly specific branches. It is useful when the tree would otherwise split small groups of noisy samples."
+      }
     },
     {
       "question": "26. A dataset has a diagonal class boundary. Model A is a decision tree trained on the original features and creates many staircase-like regions. Model B uses scaled PCA features before the tree and reaches similar accuracy with fewer splits. Which conclusion is most justified?",
@@ -1015,26 +746,14 @@
       },
       "extended_explanation": {
         "title": "Analyzing feature-space geometry",
-        "content": "The central issue is not that PCA makes the tree more powerful in every case. It changes the coordinate system, which can make some patterns easier for axis-aligned splits to express.",
         "steps": [
           "Identify the geometry of the class boundary.",
           "Recall that tree splits are axis-aligned.",
           "Recognize that PCA can rotate feature axes.",
           "Explain why fewer splits may then be sufficient."
-        ]
-      },
-      "frage": "26. A dataset has a diagonal class boundary. Model A is a decision tree trained on the original features and creates many staircase-like regions. Model B uses scaled PCA features before the tree and reaches similar accuracy with fewer splits. Which conclusion is most justified?",
-      "gewichtung": 3,
-      "thema": "Axis alignment and preprocessing",
-      "kognitive_stufe": "Analysis",
-      "optionen": [
-        "PCA removed the need for thresholds in the tree.",
-        "The transformed feature space better matches axis-aligned splits.",
-        "The preprocessing step changed the target labels.",
-        "The original tree is invalid because it used diagonal data."
-      ],
-      "loesung": 1,
-      "erklaerung": "A standard tree creates axis-aligned splits. PCA can rotate the feature space, making some diagonal structures easier to represent compactly."
+        ],
+        "content": "The central issue is not that PCA makes the tree more powerful in every case. It changes the coordinate system, which can make some patterns easier for axis-aligned splits to express."
+      }
     },
     {
       "question": "27. A node contains 20 samples: 10 from class A and 10 from class B. What is its Gini impurity?",
@@ -1057,26 +776,14 @@
       },
       "extended_explanation": {
         "title": "Gini calculation",
-        "content": "This node is mixed evenly between two classes. Therefore it is not pure, but it is also not maximally mixed across many classes.",
         "steps": [
           "Compute the class proportions: 10 divided by 20 and 10 divided by 20.",
           "Square each proportion.",
           "Add the squared proportions.",
           "Subtract the result from 1."
-        ]
-      },
-      "frage": "27. A node contains 20 samples: 10 from class A and 10 from class B. What is its Gini impurity?",
-      "gewichtung": 3,
-      "thema": "Impurity measures",
-      "kognitive_stufe": "Analysis",
-      "optionen": [
-        "0.00",
-        "0.25",
-        "0.50",
-        "0.75"
-      ],
-      "loesung": 2,
-      "erklaerung": "The class proportions are 0.5 and 0.5. The Gini impurity is 1 minus the sum of squared class proportions, so it is 1 minus 0.25 minus 0.25, which equals 0.50."
+        ],
+        "content": "This node is mixed evenly between two classes. Therefore it is not pure, but it is also not maximally mixed across many classes."
+      }
     },
     {
       "question": "28. A tree has a very deep structure, many leaves with only one or two samples, and unstable predictions near isolated training points. Which diagnosis and remedy fit best?",
@@ -1099,26 +806,14 @@
       },
       "extended_explanation": {
         "title": "Diagnosing overfitting structurally",
-        "content": "The problem is structural rather than merely numerical. A tree with many tiny leaves has enough flexibility to encode accidental patterns in the training set.",
         "steps": [
           "Observe the depth and number of leaves.",
           "Check whether leaves contain very few samples.",
           "Link small leaves to memorization of training noise.",
           "Select regularization that limits tree flexibility."
-        ]
-      },
-      "frage": "28. A tree has a very deep structure, many leaves with only one or two samples, and unstable predictions near isolated training points. Which diagnosis and remedy fit best?",
-      "gewichtung": 3,
-      "thema": "Regularization and overfitting",
-      "kognitive_stufe": "Analysis",
-      "optionen": [
-        "The tree is likely overfitting; regularization should constrain its structure.",
-        "The tree is likely underfitting; all constraints should be removed.",
-        "The tree is invalid because nonlinear patterns cannot be modeled.",
-        "The tree is too interpretable; the target variable should be replaced."
-      ],
-      "loesung": 0,
-      "erklaerung": "Tiny leaves and unstable local predictions are typical signs of overfitting. Regularization can force the tree to use broader, more reliable regions."
+        ],
+        "content": "The problem is structural rather than merely numerical. A tree with many tiny leaves has enough flexibility to encode accidental patterns in the training set."
+      }
     },
     {
       "question": "29. Suppose training a decision tree on 1,000,000 samples takes 1 hour. If the number of samples increases to 10,000,000 and the number of features stays fixed, which estimate best matches CART's approximate training complexity?",
@@ -1141,26 +836,14 @@
       },
       "extended_explanation": {
         "title": "Estimating training-time growth",
-        "content": "The logarithmic term grows slowly, but it is not zero. That is why the estimate is somewhat larger than exactly ten hours.",
         "steps": [
           "Use the approximate dependence on sample count and its logarithm.",
           "Multiply by 10 for the tenfold increase in samples.",
           "Account for the larger logarithmic factor.",
           "Choose an estimate slightly above 10 hours."
-        ]
-      },
-      "frage": "29. Suppose training a decision tree on 1,000,000 samples takes 1 hour. If the number of samples increases to 10,000,000 and the number of features stays fixed, which estimate best matches CART's approximate training complexity?",
-      "gewichtung": 3,
-      "thema": "Computational complexity",
-      "kognitive_stufe": "Analysis",
-      "optionen": [
-        "About 2 hours",
-        "About 5 hours",
-        "About 10 hours",
-        "About 12 hours"
-      ],
-      "loesung": 3,
-      "erklaerung": "CART training scales roughly with the number of samples times a logarithmic factor in the number of samples. Increasing from 1,000,000 to 10,000,000 samples gives a little more than a tenfold increase, approximately 11 to 12 hours."
+        ],
+        "content": "The logarithmic term grows slowly, but it is not zero. That is why the estimate is somewhat larger than exactly ten hours."
+      }
     },
     {
       "question": "30. You train 1,000 small decision trees on different random subsets of the same training data. Each tree is weaker than a full tree, but majority voting improves test accuracy. What is the best explanation?",
@@ -1183,52 +866,14 @@
       },
       "extended_explanation": {
         "title": "Analyzing the ensemble effect",
-        "content": "The ensemble does not require every tree to be highly accurate. It relies on many diverse trees making errors that do not all point in the same direction.",
         "steps": [
           "Recognize that each small tree may be individually noisy.",
           "Use different subsets to create diverse errors.",
           "Aggregate predictions by majority vote.",
           "Interpret the improvement as variance reduction."
-        ]
-      },
-      "frage": "30. You train 1,000 small decision trees on different random subsets of the same training data. Each tree is weaker than a full tree, but majority voting improves test accuracy. What is the best explanation?",
-      "gewichtung": 3,
-      "thema": "Variance and ensembles",
-      "kognitive_stufe": "Analysis",
-      "optionen": [
-        "The individual trees became deterministic linear classifiers.",
-        "Voting reduced the effect of individual high-variance errors.",
-        "The weak trees no longer used the target variable.",
-        "The test set was used as training data."
-      ],
-      "loesung": 1,
-      "erklaerung": "Individual trees can vary strongly, especially when trained on different samples. Majority voting can cancel out many individual errors and produce a more stable prediction."
+        ],
+        "content": "The ensemble does not require every tree to be highly accurate. It relies on many diverse trees making errors that do not all point in the same direction."
+      }
     }
-  ],
-  "meta": {
-    "title": "Decision Trees",
-    "created": "22.06.2026 19:10",
-    "language": "en",
-    "target_audience": "Computer science students",
-    "question_count": 30,
-    "difficulty_profile": {
-      "leicht": 5,
-      "mittel": 20,
-      "schwer": 5
-    },
-    "time_per_weight_minutes": {
-      "1": 0.5,
-      "2": 0.75,
-      "3": 1.0
-    },
-    "additional_buffer_minutes": 5,
-    "test_duration_minutes": 30,
-    "updated": "2026-06-22",
-    "computed_test_duration_minutes": 30,
-    "uploaded_by": "Alan C. Kay",
-    "uploaded_by_hash": "6a6d3df26259ce18a9ecfad249af84f4f6446986e37883c5cc5da356cb4975cc",
-    "uploaded_at": "2026-06-22T17:24:30.182712+00:00",
-    "temporary": true,
-    "original_filename": "postproduction.json"
-  }
+  ]
 }
