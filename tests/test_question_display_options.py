@@ -47,6 +47,17 @@ class _FakeStreamlit:
     def columns(self, sizes, *args, **kwargs):
         return [self for _ in sizes]
 
+    def fragment(self, fn=None, **kwargs):
+        def _decorator(func):
+            def _wrapped(*wrapped_args, **wrapped_kwargs):
+                return func(*wrapped_args, **wrapped_kwargs)
+
+            return _wrapped
+
+        if fn is not None:
+            return _decorator(fn)
+        return _decorator
+
     def container(self, *args, **kwargs):
         return _FakeCtx()
 
@@ -224,7 +235,6 @@ def test_render_question_view_smoke(monkeypatch):
     monkeypatch.setattr(mv, "_show_welcome_container", lambda cfg: None)
     monkeypatch.setattr(mv, "initialize_session_state", lambda questions, cfg: None)
     for helper_name in (
-        "_dismiss_user_qset_dialog_and_rerun",
         "_dismiss_user_qset_dialog_from_test",
         "handle_bookmark_toggle",
         "_render_history_table",
@@ -311,6 +321,39 @@ def test_answer_option_selected_badge_highlight_without_text_marker(monkeypatch)
     assert "D richtig" in rendered
 
 
+def test_answer_interaction_highlights_temporary_radio_selection(monkeypatch):
+    fake_st = _FakeStreamlit()
+    monkeypatch.setattr(mv, "st", fake_st)
+    monkeypatch.setattr(mv, "smart_quotes_de", lambda s: s)
+    monkeypatch.setattr(mv, "_test_view_text", lambda key, default=None, **_: default or key)
+    monkeypatch.setattr(mv, "translate_ui", lambda key, default=None, **_: default or key)
+    monkeypatch.setattr(mv, "show_ephemeral_message", lambda *args, **kwargs: None)
+    monkeypatch.setattr(mv, "handle_answer_submission", lambda *args, **kwargs: None)
+    monkeypatch.setattr(mv, "handle_bookmark_toggle", lambda *args, **kwargs: None)
+    monkeypatch.setattr(mv, "close_user_qset_dialog", lambda *args, **kwargs: None)
+
+    fake_st.session_state["radio_0"] = 1
+
+    mv._render_question_answer_interaction(
+        frage_idx=0,
+        optionen=["A falsch", "D richtig"],
+        shuffled_optionen=["A falsch", "D richtig"],
+        gespeicherte_antwort=None,
+        is_answered=False,
+        panic_mode=False,
+        frage_obj={"optionen": ["A falsch", "D richtig"], "gewichtung": 1},
+        questions=[{"optionen": ["A falsch", "D richtig"]}],
+        app_config=AppConfig(),
+        current_mode="exam",
+        remaining_time=0,
+        remaining=1,
+    )
+
+    rendered = "\n".join(fake_st.markdown_calls)
+    assert "mc-answer-option-letter-badge is-selected" in rendered
+    assert fake_st.radio_calls
+
+
 def test_compact_question_styles_do_not_shift_button_labels(monkeypatch):
     fake_st = _FakeStreamlit()
     monkeypatch.setattr(mv, "st", fake_st)
@@ -324,6 +367,7 @@ def test_compact_question_styles_do_not_shift_button_labels(monkeypatch):
     assert "mc-answer-options-begin" in rendered
     assert "mc-answer-option-row" in rendered
     assert ':has(.mc-answer-option-row)' in rendered
+    assert "mc-pacing-placeholder" in rendered
     assert "flex-wrap: nowrap !important;" in rendered
     assert 'stLayoutWrapper"]:has(.mc-answer-option-letter-badge)' not in rendered
     assert 'div[data-testid="stElementContainer"]:has(.mc-timer-pacing-row-marker)' in rendered
@@ -401,7 +445,6 @@ def test_render_question_view_keeps_block_markdown_in_question_and_options(monke
     monkeypatch.setattr(mv, "initialize_session_state", lambda questions, cfg: None)
     monkeypatch.setattr(mv, "is_test_finished", lambda qs: False)
     for helper_name in (
-        "_dismiss_user_qset_dialog_and_rerun",
         "_dismiss_user_qset_dialog_from_test",
         "handle_bookmark_toggle",
         "_render_history_table",

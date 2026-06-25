@@ -519,6 +519,10 @@ def _inject_question_view_compact_styles() -> None:
             .mc-timer-pacing-row-marker {
               display: none;
             }
+            .mc-pacing-placeholder {
+              min-height: 62px;
+              width: 100%;
+            }
             div[data-testid="stElementContainer"]:has(.mc-timer-pacing-row-marker),
             div[data-testid="stMarkdownContainer"]:has(.mc-timer-pacing-row-marker) {
               height: 0 !important;
@@ -3149,6 +3153,266 @@ def _render_markdown_answer_options(optionen: list, selected_index: int | None =
                 st.markdown("_Leere Antwortoption_")
 
     st.markdown('<div class="mc-answer-options-end" aria-hidden="true"></div>', unsafe_allow_html=True)
+
+
+def _with_optional_streamlit_fragment(func):
+    """Wrap a render function in ``st.fragment`` when the runtime supports it."""
+    cached_fragment = None
+
+    def _invoke(**kwargs):
+        nonlocal cached_fragment
+        fragment_fn = getattr(st, "fragment", None)
+        if not callable(fragment_fn):
+            return func(**kwargs)
+        if cached_fragment is None:
+            cached_fragment = fragment_fn(func)
+        return cached_fragment(**kwargs)
+
+    return _invoke
+
+
+def _render_question_answer_interaction(
+    *,
+    frage_idx: int,
+    optionen: list,
+    shuffled_optionen: list,
+    gespeicherte_antwort: str | None,
+    is_answered: bool,
+    panic_mode: bool,
+    frage_obj: dict,
+    questions: list,
+    app_config: AppConfig,
+    current_mode: str,
+    remaining_time: int,
+    remaining: int,
+) -> None:
+    """Render options, radio, meta actions, and submit controls for one question."""
+    widget_key = f"radio_{frage_idx}"
+
+    def _dismiss_user_qset_dialog_from_test() -> None:
+        if st.session_state.get("user_qset_dialog_open"):
+            close_user_qset_dialog(clear_results=False)
+
+    def _radio_on_change() -> None:
+        try:
+            _dismiss_user_qset_dialog_from_test()
+        except Exception:
+            pass
+
+    selected_index_for_display = None
+    try:
+        if gespeicherte_antwort in optionen:
+            selected_index_for_display = optionen.index(gespeicherte_antwort)
+        else:
+            state_idx = st.session_state.get(widget_key)
+            if isinstance(state_idx, int):
+                selected_index_for_display = state_idx
+    except Exception:
+        selected_index_for_display = None
+
+    _render_markdown_answer_options(optionen, selected_index_for_display)
+
+    st.markdown("<div class='mc-question-choice-divider' aria-hidden='true'></div>", unsafe_allow_html=True)
+    with st.container(width="stretch", horizontal_alignment="center"):
+        st.markdown('<div class="mc-answer-radio-marker" aria-hidden="true"></div>', unsafe_allow_html=True)
+        selected_index = st.radio(
+            _test_view_text("question_prompt", default="Wähle deine Antwort:"),
+            options=range(len(optionen)),
+            key=widget_key,
+            index=optionen.index(gespeicherte_antwort) if gespeicherte_antwort in optionen else None,
+            disabled=is_answered and (not panic_mode),
+            horizontal=True,
+            format_func=_answer_option_label,
+            on_change=_radio_on_change,
+            width="content",
+        )
+
+    if selected_index is None:
+        try:
+            state_idx = st.session_state.get(widget_key)
+            if isinstance(state_idx, int):
+                selected_index = state_idx
+        except Exception:
+            pass
+
+    def _resolve_selected_answer() -> str | None:
+        idx = selected_index
+        if idx is None:
+            try:
+                idx = st.session_state.get(widget_key)
+            except Exception:
+                idx = None
+        try:
+            idx = int(idx) if idx is not None else None
+        except Exception:
+            idx = None
+        if idx is not None and 0 <= idx < len(shuffled_optionen):
+            return shuffled_optionen[idx]
+        return None
+
+    antwort = _resolve_selected_answer()
+
+    try:
+        now_mon = time.monotonic()
+        shown_key = f"frage_{frage_idx}_shown_time_monotonic"
+        if shown_key not in st.session_state:
+            st.session_state[shown_key] = now_mon
+
+        app_cfg = AppConfig()
+
+        gewichtung = int(frage_obj.get("gewichtung", 1) or 1)
+        base_seconds = app_cfg.reading_cooldown_base_per_weight.get(gewichtung, 30.0)
+
+        orig_optionen = frage_obj.get("optionen") or frage_obj.get("options") or []
+        num_options = len(orig_optionen) if isinstance(orig_optionen, list) else 0
+        option_factor = max(0.6, num_options / 5.0) if num_options > 0 else 1.0
+        base_seconds = int(round(base_seconds * option_factor))
+
+        tempo = st.session_state.get("selected_tempo") or st.session_state.get("tempo") or "normal"
+        tempo = str(tempo).lower()
+        tempo_mult = {"speed": 0.5, "power": 0.25}.get(tempo, 1.0)
+
+        answer_cooldown = int(round(base_seconds * tempo_mult))
+        elapsed_since_shown = int(round(now_mon - float(st.session_state.get(shown_key, now_mon))))
+        remaining_answer_cooldown = max(0, answer_cooldown - elapsed_since_shown)
+
+        try:
+            threshold = getattr(app_config, "panic_mode_threshold_seconds", 15)
+            if st.session_state.get("test_time_limit", 0) and remaining_time > 0:
+                min_required_time = remaining * threshold
+                if remaining_time < min_required_time:
+                    remaining_answer_cooldown = 0
+                    panic_mode = True
+        except Exception:
+            pass
+        if panic_mode:
+            remaining_answer_cooldown = 0
+            st.caption(
+                translate_ui(
+                    "test_view.panic_mode_active",
+                    default="⚡ **Panic Mode:** Cooldowns deaktiviert wegen Zeitdruck.",
+                )
+            )
+        meta_col1, meta_col2 = st.columns([1, 1])
+        with meta_col1:
+            is_bookmarked = frage_idx in st.session_state.get("bookmarked_questions", [])
+            bookmark_label = _test_view_text("bookmark_toggle", default="🔖 Merken")
+            new_bookmark_state = st.toggle(bookmark_label, value=is_bookmarked, key=f"bm_toggle_{frage_idx}")
+            if new_bookmark_state != is_bookmarked:
+                _dismiss_user_qset_dialog_from_test()
+                handle_bookmark_toggle(frage_idx, new_bookmark_state, questions)
+                st.rerun()
+        with meta_col2:
+            answered_current = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
+            skipped_list = st.session_state.get("skipped_questions", [])
+            is_current_skipped = frage_idx in skipped_list
+            render_skip = panic_mode or (
+                (not answered_current)
+                and not (is_current_skipped and st.session_state.get("jump_to_idx_active"))
+            )
+            skip_disabled = False if panic_mode else (answered_current and (not panic_mode))
+            skip_label = _test_view_text("skip_button", default="↪️ Überspringen")
+            if render_skip and st.button(
+                skip_label,
+                key=f"skip_{frage_idx}",
+                width="stretch",
+                disabled=skip_disabled,
+            ):
+                _dismiss_user_qset_dialog_from_test()
+                frage_indices = st.session_state.get("frage_indices", [])
+                if frage_idx in frage_indices:
+                    frage_indices.remove(frage_idx)
+                    frage_indices.append(frage_idx)
+                    st.session_state.frage_indices = frage_indices
+                    if "skipped_questions" not in st.session_state:
+                        st.session_state.skipped_questions = []
+                    if frage_idx not in st.session_state.skipped_questions:
+                        st.session_state.skipped_questions.append(frage_idx)
+                    for key in (
+                        f"radio_{frage_idx}",
+                        f"frage_{frage_idx}_antwort",
+                        f"radio_prev_{frage_idx}",
+                        f"frage_{frage_idx}_shown_time_monotonic",
+                        f"frage_{frage_idx}_explanation_shown_time_monotonic",
+                    ):
+                        try:
+                            st.session_state.pop(key, None)
+                        except Exception:
+                            pass
+                    st.toast(_test_view_text("skip_toast", default="Frage übersprungen. Sie wird später erneut gestellt."))
+                    st.rerun()
+
+        answer_label_unsure = _test_view_text("answer_button_unsure", default="🤔 Unsicher antworten")
+        answer_label_sure = _test_view_text("answer_button_sure", default="✅ Sicher antworten")
+        answered_already = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
+        answer_disabled = False if panic_mode else (answered_already and not panic_mode)
+        answer_button_type = "primary" if antwort is not None else "secondary"
+
+        def _handle_answer_click(confidence: str | None) -> None:
+            _dismiss_user_qset_dialog_from_test()
+            selected_answer = _resolve_selected_answer()
+            if selected_answer is None:
+                select_hint = translate_ui(
+                    "test_view.select_answer",
+                    default="Bitte wähle zuerst eine Antwort aus.",
+                )
+                show_ephemeral_message(select_hint, icon="👉")
+            elif remaining_answer_cooldown > 0 and not panic_mode:
+                hint = translate_ui(
+                    "test_view.answer_read_hint",
+                    default="Lies die Frage aufmerksam durch und alle Antwortoptionen.",
+                )
+                show_ephemeral_message(
+                    f"{hint} {translate_ui('test_view.countdown.cooldown_remaining', default='(still {seconds}s)').format(seconds=remaining_answer_cooldown)}",
+                    icon="⏳",
+                )
+            else:
+                handle_answer_submission(
+                    frage_idx,
+                    selected_answer,
+                    frage_obj,
+                    app_config,
+                    questions,
+                    confidence=confidence,
+                )
+
+        if not answer_disabled:
+            if current_mode == "exam":
+                if st.button(
+                    translate_ui("test_view.submit_button", default="Antworten"),
+                    key=f"submit_exam_{frage_idx}",
+                    type="primary",
+                    width="stretch",
+                    disabled=False,
+                ):
+                    _handle_answer_click(None)
+            else:
+                answer_cols = st.columns([1, 1])
+                with answer_cols[0]:
+                    if st.button(
+                        answer_label_unsure,
+                        key=f"submit_unsure_{frage_idx}",
+                        type=answer_button_type,
+                        width="stretch",
+                        disabled=False,
+                    ):
+                        _handle_answer_click("unsure")
+                with answer_cols[1]:
+                    if st.button(
+                        answer_label_sure,
+                        key=f"submit_sure_{frage_idx}",
+                        type=answer_button_type,
+                        width="stretch",
+                        disabled=False,
+                    ):
+                        _handle_answer_click("sure")
+    except Exception:
+        pass
+
+
+_render_question_answer_interaction_fragment = _with_optional_streamlit_fragment(
+    _render_question_answer_interaction
+)
 
 
 def _sync_questions_query_param(selected_file: str):
@@ -7451,19 +7715,6 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         if st.session_state.get("user_qset_dialog_open"):
             close_user_qset_dialog(clear_results=False)
 
-
-    def _dismiss_user_qset_dialog_and_rerun() -> None:
-        """Schließt bei Bedarf den Dialog für benutzerdefinierte Fragensets und macht die Pacing-Anzeige sichtbar."""
-        if st.session_state.get("user_qset_dialog_open"):
-            close_user_qset_dialog(clear_results=False)
-
-        # Mache die Pacing-Anzeige sichtbar, sobald der Nutzer interagiert.
-        if not st.session_state.get("pacing_visible"):
-            st.session_state.pacing_visible = True
-        
-        st.session_state["_needs_rerun"] = True
-
-
     # Zähler für verbleibende Fragen (früh berechnen für Dialog-Check)
     num_answered = sum(
         1 for i in range(len(questions)) if st.session_state.get(f"frage_{i}_beantwortet") is not None
@@ -7660,8 +7911,10 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 try:
                     # Only show pacing UI after the user interacted once
                     if not st.session_state.get("pacing_visible"):
-                        # keep layout stable by showing nothing in this column initially
-                        pass
+                        st.markdown(
+                            '<div class="mc-pacing-placeholder" aria-hidden="true"></div>',
+                            unsafe_allow_html=True,
+                        )
                     else:
                         # Determine elapsed_time from start_zeit (already computed above)
                         et = elapsed_time if 'elapsed_time' in locals() else 0
@@ -8075,461 +8328,231 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         except Exception:
             pass
         
-        # Widget-Key und gespeicherte Antwort holen
-        widget_key = f"radio_{frage_idx}"
         gespeicherte_antwort = get_answer_for_question(frage_idx)
+        _render_question_answer_interaction_fragment(
+            frage_idx=frage_idx,
+            optionen=optionen,
+            shuffled_optionen=shuffled_optionen,
+            gespeicherte_antwort=gespeicherte_antwort,
+            is_answered=is_answered,
+            panic_mode=panic_mode,
+            frage_obj=frage_obj,
+            questions=questions,
+            app_config=app_config,
+            current_mode=current_mode,
+            remaining_time=remaining_time,
+            remaining=remaining,
+        )
 
-        # Wir verwenden st.radio nur zur Auswahlsteuerung. Die Antworttexte
-        # werden separat als Markdown-Blöcke gerendert, weil Radio-Labels
-        # mehrzeiliges Markdown, Tabellen, Codeblöcke und sicheres HTML
-        # nicht zuverlässig darstellen.
-        # Local on_change handler: dismiss dialogs, ensure pacing visible,
-        # request a rerun, AND explicitly close the mini-glossary for this question.
-        def _radio_on_change(frage_idx=frage_idx) -> None:
-            try:
-                _dismiss_user_qset_dialog_and_rerun()
-            except Exception:
-                pass
-            # Popover-based glossary is stateless; no flag update required here.
-
-        selected_index_for_display = None
         try:
-            if gespeicherte_antwort in optionen:
-                selected_index_for_display = optionen.index(gespeicherte_antwort)
-            else:
-                state_idx = st.session_state.get(widget_key)
-                if isinstance(state_idx, int):
-                    selected_index_for_display = state_idx
-        except Exception:
-            selected_index_for_display = None
+            # --- Kumulierte Konfidenzmatrix (nur Admin / Autoren) ---
+            selected_file = st.session_state.get("selected_questions_file")
+            user_pseudo = st.session_state.get("user_id")
+            user_hash = st.session_state.get("user_id_hash")
+            is_user_set = bool(selected_file) and str(selected_file).startswith(USER_QUESTION_PREFIX)
+            is_author = False
+            if is_user_set and user_pseudo:
+                try:
+                    is_author = is_owner_of_user_qset(selected_file, user_pseudo, user_hash)
+                except Exception:
+                    is_author = False
 
-        _render_markdown_answer_options(optionen, selected_index_for_display)
+            is_reserved = False
+            if is_author:
+                try:
+                    from database import has_recovery_secret_for_pseudonym
+                except Exception:
+                    has_recovery_secret_for_pseudonym = None
+                try:
+                    if callable(has_recovery_secret_for_pseudonym) and user_pseudo:
+                        is_reserved = bool(has_recovery_secret_for_pseudonym(user_pseudo))
+                except Exception:
+                    is_reserved = False
 
-        st.markdown("<div class='mc-question-choice-divider' aria-hidden='true'></div>", unsafe_allow_html=True)
-        with st.container(width="stretch", horizontal_alignment="center"):
-            st.markdown('<div class="mc-answer-radio-marker" aria-hidden="true"></div>', unsafe_allow_html=True)
-            selected_index = st.radio(
-                _test_view_text("question_prompt", default="Wähle deine Antwort:"),
-                options=range(len(optionen)),
-                key=widget_key,
-                index=optionen.index(gespeicherte_antwort) if gespeicherte_antwort in optionen else None,
-                disabled=is_answered and (not panic_mode),
-                horizontal=True,
-                format_func=_answer_option_label,
-                on_change=_radio_on_change,
-                width="content",
+            owner_sets = st.session_state.get("_temp_qset_owner_session", [])
+            show_matrix = _should_show_confidence_matrix(
+                admin_access_granted,
+                is_author,
+                is_reserved,
+                selected_file,
+                owner_sets,
             )
 
-        if selected_index is None:
-            try:
-                state_idx = st.session_state.get(widget_key)
-                if isinstance(state_idx, int):
-                    selected_index = state_idx
-            except Exception:
-                pass
-
-        def _resolve_selected_answer() -> str | None:
-            idx = selected_index
-            if idx is None:
+            if show_matrix and selected_file and current_mode != 'exam':
+                author_hash = None
                 try:
-                    idx = st.session_state.get(widget_key)
+                    qmeta = st.session_state.get("question_set_meta") or {}
+                    author_hash = _resolve_author_hash_from_meta(qmeta if isinstance(qmeta, dict) else None)
                 except Exception:
-                    idx = None
-            try:
-                idx = int(idx) if idx is not None else None
-            except Exception:
-                idx = None
-            if idx is not None and 0 <= idx < len(shuffled_optionen):
-                return shuffled_optionen[idx]
-            return None
-
-        antwort = _resolve_selected_answer()
-
-        # --- Dynamic reading cooldown for the 'Antworten' button ---
-        try:
-            now_mon = time.monotonic()
-            shown_key = f"frage_{frage_idx}_shown_time_monotonic"
-            if shown_key not in st.session_state:
-                st.session_state[shown_key] = now_mon
-
-            from config import AppConfig
-            app_cfg = AppConfig()
-
-            gewichtung = int(frage_obj.get('gewichtung', 1) or 1)
-            base_seconds = app_cfg.reading_cooldown_base_per_weight.get(gewichtung, 30.0)
-
-            # Scale reading time by number of options (consistent with total time calc)
-            orig_optionen = frage_obj.get('optionen') or frage_obj.get('options') or []
-            num_options = len(orig_optionen) if isinstance(orig_optionen, list) else 0
-            option_factor = max(0.6, num_options / 5.0) if num_options > 0 else 1.0
-            base_seconds = int(round(base_seconds * option_factor))
-
-            # tempo multiplier
-            tempo = st.session_state.get('selected_tempo') or st.session_state.get('tempo') or 'normal'
-            tempo = str(tempo).lower()
-            tempo_mult = {'speed': 0.5, 'power': 0.25}.get(tempo, 1.0)
-
-            answer_cooldown = int(round(base_seconds * tempo_mult))
-            elapsed_since_shown = int(round(now_mon - float(st.session_state.get(shown_key, now_mon))))
-            remaining_answer_cooldown = max(0, answer_cooldown - elapsed_since_shown)
-
-            # Disable cooldown if time is critical (only when a test time limit exists and remaining_time > 0)
-            try:
-                threshold = getattr(app_config, "panic_mode_threshold_seconds", 15)
-                if st.session_state.get("test_time_limit", 0) and remaining_time > 0:
-                    min_required_time = remaining * threshold
-                    if remaining_time < min_required_time:
-                        remaining_answer_cooldown = 0
-                        panic_mode = True
-            except Exception:
-                pass
-            if panic_mode:
-                # In Panic-Mode always allow immediate actions.
-                remaining_answer_cooldown = 0
-                st.caption(translate_ui("test_view.panic_mode_active", default="⚡ **Panic Mode:** Cooldowns deaktiviert wegen Zeitdruck."))
-            meta_col1, meta_col2 = st.columns([1, 1])
-            with meta_col1:
-                # Bookmark-Toggle
-                is_bookmarked = frage_idx in st.session_state.get("bookmarked_questions", [])
-                bookmark_label = _test_view_text("bookmark_toggle", default="🔖 Merken")
-                new_bookmark_state = st.toggle(bookmark_label, value=is_bookmarked, key=f"bm_toggle_{frage_idx}")
-                if new_bookmark_state != is_bookmarked:
-                    _dismiss_user_qset_dialog_from_test()
-                    handle_bookmark_toggle(frage_idx, new_bookmark_state, questions)
-                    st.rerun()  # Rerun, um den Zustand sofort zu reflektieren
-            # Skip darf nicht parallel zu Next erscheinen; in Panic-Mode bleibt er aktiv.
-            with meta_col2:
-                # Überspringen-Button (nur sichtbar wenn unbeantwortet oder Panic-Mode)
-                answered_current = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
-                skipped_list = st.session_state.get("skipped_questions", [])
-                is_current_skipped = frage_idx in skipped_list
-                render_skip = panic_mode or ((not answered_current) and not (
-                    is_current_skipped and st.session_state.get("jump_to_idx_active")
-                ))
-                skip_disabled = False if panic_mode else (answered_current and (not panic_mode))
-                skip_label = _test_view_text("skip_button", default="↪️ Überspringen")
-                if render_skip and st.button(skip_label, key=f"skip_{frage_idx}", width="stretch", disabled=skip_disabled):
-                    _dismiss_user_qset_dialog_from_test()
-                    # Note: pacing visibility only toggled by Antwort / Nächste Frage
-                    # Verschiebe die aktuelle Frage ans Ende der Liste
-                    frage_indices = st.session_state.get("frage_indices", [])
-                    if frage_idx in frage_indices:
-                        frage_indices.remove(frage_idx)
-                        frage_indices.append(frage_idx)
-                        st.session_state.frage_indices = frage_indices
-                        # Füge die Frage zur Liste der übersprungenen hinzu (falls noch nicht vorhanden)
-                        if "skipped_questions" not in st.session_state:
-                            st.session_state.skipped_questions = []
-                        if frage_idx not in st.session_state.skipped_questions:
-                            st.session_state.skipped_questions.append(frage_idx)
-                        # Clear the user's temporary selection so the question appears
-                        # without a preselected option when it is shown again.
-                        try:
-                            # Remove radio widget value if present
-                            rs_key = f"radio_{frage_idx}"
-                            if rs_key in st.session_state:
-                                del st.session_state[rs_key]
-                        except Exception:
-                            pass
-                        try:
-                            # Remove stored answer value if present
-                            ans_key = f"frage_{frage_idx}_antwort"
-                            if ans_key in st.session_state:
-                                del st.session_state[ans_key]
-                        except Exception:
-                            pass
-                        try:
-                            prev_key = f"radio_prev_{frage_idx}"
-                            if prev_key in st.session_state:
-                                del st.session_state[prev_key]
-                        except Exception:
-                            pass
-                        try:
-                            shown_key = f"frage_{frage_idx}_shown_time_monotonic"
-                            st.session_state.pop(shown_key, None)
-                            st.session_state.pop(f"frage_{frage_idx}_explanation_shown_time_monotonic", None)
-                        except Exception:
-                            pass
-
-                        st.toast(_test_view_text("skip_toast", default="Frage übersprungen. Sie wird später erneut gestellt."))
-                        # Popover-based glossary is stateless; no flag update required here.
-                        st.rerun()
-            # Antwort-Buttons (sicher/unsicher) – nur aktiv, wenn unbeantwortet
-            answer_label_unsure = _test_view_text("answer_button_unsure", default="🤔 Unsicher antworten")
-            answer_label_sure = _test_view_text("answer_button_sure", default="✅ Sicher antworten")
-            answered_already = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
-            answer_disabled = False if panic_mode else (answered_already and not panic_mode)
-            # Style: turn primary only once an option is selected; keep enabled otherwise.
-            answer_button_type = "primary" if antwort is not None else "secondary"
-
-            def _handle_answer_click(confidence: str) -> None:
-                _dismiss_user_qset_dialog_from_test()
-                # If no option selected, inform the user.
-                selected_answer = _resolve_selected_answer()
-                if selected_answer is None:
-                    try:
-                        select_hint = translate_ui('test_view.select_answer', default='Bitte wähle zuerst eine Antwort aus.')
-                    except Exception:
-                        select_hint = 'Bitte wähle zuerst eine Antwort aus.'
-                    show_ephemeral_message(select_hint, icon="👉")
-                # If still within the reading cooldown, show the hint and remaining seconds.
-                elif remaining_answer_cooldown > 0 and not panic_mode:
-                    try:
-                        hint = translate_ui('test_view.answer_read_hint', default='Lies die Frage aufmerksam durch und alle Antwortoptionen.')
-                    except Exception:
-                        hint = 'Lies die Frage aufmerksam durch und alle Antwortoptionen.'
-                    # Show a brief toast with the remaining seconds at click time
-                    show_ephemeral_message(f"{hint} {translate_ui('test_view.countdown.cooldown_remaining', default='(still {seconds}s)').format(seconds=remaining_answer_cooldown)}", icon="⏳")
-                else:
-                    # Proceed with the original submit action.
-                    handle_answer_submission(frage_idx, selected_answer, frage_obj, app_config, questions, confidence=confidence)
-
-            # Zeige Submit nur, wenn die Frage noch nicht beantwortet wurde
-            if not answer_disabled:
-                if current_mode == 'exam':
-                    # Im Zeitmodus nur ein einfacher "Antworten"-Button ohne Unsicher-Option
-                    if st.button(
-                        translate_ui("test_view.submit_button", default="Antworten"),
-                        key=f"submit_exam_{frage_idx}",
-                        type="primary",
-                        width="stretch",
-                        disabled=False,
-                    ):
-                        _handle_answer_click(None)
-                else:
-                    # Im Lernmodus die differenzierten Buttons
-                    answer_cols = st.columns([1, 1])
-                    with answer_cols[0]:
-                        if st.button(
-                            answer_label_unsure,
-                            key=f"submit_unsure_{frage_idx}",
-                            type=answer_button_type,
-                            width="stretch",
-                            disabled=False,
-                        ):
-                            _handle_answer_click("unsure")
-                    with answer_cols[1]:
-                        if st.button(
-                            answer_label_sure,
-                            key=f"submit_sure_{frage_idx}",
-                            type=answer_button_type,
-                            width="stretch",
-                            disabled=False,
-                        ):
-                            _handle_answer_click("sure")
-
-            # --- Kumulierte Konfidenzmatrix (nur Admin / Autoren) ---
-            try:
-                selected_file = st.session_state.get("selected_questions_file")
-                user_pseudo = st.session_state.get("user_id")
-                user_hash = st.session_state.get("user_id_hash")
-                is_user_set = bool(selected_file) and str(selected_file).startswith(USER_QUESTION_PREFIX)
-                is_author = False
-                if is_user_set and user_pseudo:
-                    try:
-                        is_author = is_owner_of_user_qset(selected_file, user_pseudo, user_hash)
-                    except Exception:
-                        is_author = False
-
-                is_reserved = False
-                if is_author:
-                    try:
-                        from database import has_recovery_secret_for_pseudonym
-                    except Exception:
-                        has_recovery_secret_for_pseudonym = None
-                    try:
-                        if callable(has_recovery_secret_for_pseudonym) and user_pseudo:
-                            is_reserved = bool(has_recovery_secret_for_pseudonym(user_pseudo))
-                    except Exception:
-                        is_reserved = False
-
-                owner_sets = st.session_state.get("_temp_qset_owner_session", [])
-                show_matrix = _should_show_confidence_matrix(
-                    admin_access_granted,
-                    is_author,
-                    is_reserved,
-                    selected_file,
-                    owner_sets,
-                )
-
-                if show_matrix and selected_file and current_mode != 'exam':
                     author_hash = None
+
+                counts_by_question = _get_confidence_counts_cached(selected_file, author_hash)
+                q_nr = _extract_question_number(frage_obj)
+                counts = counts_by_question.get(q_nr) if q_nr is not None else None
+                if counts and sum(counts.values()) > 0:
+                    title = _test_view_text(
+                        "confidence_matrix_title",
+                        default="Konfidenzmatrix (kumuliert)",
+                    )
+                    caption = _test_view_text(
+                        "confidence_matrix_caption",
+                        default="Kumuliert aus allen bisherigen Einschätzungen – ohne Autorbeiträge.",
+                    )
+                    st.markdown(f"**{title}**")
+                    st.caption(caption)
+
                     try:
-                        qmeta = st.session_state.get("question_set_meta") or {}
-                        author_hash = _resolve_author_hash_from_meta(qmeta if isinstance(qmeta, dict) else None)
+                        sure_label = _summary_text("confidence_label_sure", default="Sicher")
+                        unsure_label = _summary_text("confidence_label_unsure", default="Unsicher")
+                        correct_label = _summary_text("confidence_label_correct", default="Richtig")
+                        wrong_label = _summary_text("confidence_label_wrong", default="Falsch")
+                        sc = int(counts.get("sure_correct", 0))
+                        sw = int(counts.get("sure_wrong", 0))
+                        uc = int(counts.get("unsure_correct", 0))
+                        uw = int(counts.get("unsure_wrong", 0))
+                        total_conf = sc + sw + uc + uw
+                        counts_matrix = [[sc, sw], [uc, uw]]
+                        # Positive = calibrated, negative = miscalibrated
+                        z = [[sc, -sw], [-uc, uw]]
+                        pct_vals = [[(v / total_conf * 100.0) for v in row] for row in counts_matrix]
+                        text_vals = [[str(v) for v in row] for row in counts_matrix]
+                        max_abs = max(abs(v) for row in z for v in row) or 1
+
+                        import plotly.graph_objects as go
+
+                        heatmap = go.Heatmap(
+                            z=z,
+                            x=[correct_label, wrong_label],
+                            y=[sure_label, unsure_label],
+                            text=text_vals,
+                            customdata=pct_vals,
+                            texttemplate="%{text}",
+                            textfont={"color": "white"},
+                            colorscale=[
+                                [0.0, "#dc2626"],
+                                [0.5, "#9ca3af"],
+                                [1.0, "#16a34a"],
+                            ],
+                            zmin=-max_abs,
+                            zmax=max_abs,
+                            showscale=False,
+                            hovertemplate="%{y} / %{x}: %{text} (%{customdata:.0f}%)<extra></extra>",
+                        )
+                        fig = go.Figure(data=[heatmap])
+                        fig.update_layout(
+                            height=220,
+                            margin=dict(l=10, r=10, t=10, b=10),
+                            font=dict(color=CHART_AXIS_TEXT),
+                            xaxis=dict(title="", side="top", tickfont=dict(color=CHART_AXIS_TEXT)),
+                            yaxis=dict(title="", tickfont=dict(color=CHART_AXIS_TEXT)),
+                        )
+                        st.plotly_chart(fig, width="stretch")
                     except Exception:
-                        author_hash = None
-
-                    counts_by_question = _get_confidence_counts_cached(selected_file, author_hash)
-                    q_nr = _extract_question_number(frage_obj)
-                    counts = counts_by_question.get(q_nr) if q_nr is not None else None
-                    if counts and sum(counts.values()) > 0:
-                        title = _test_view_text(
-                            "confidence_matrix_title",
-                            default="Konfidenzmatrix (kumuliert)",
-                        )
-                        caption = _test_view_text(
-                            "confidence_matrix_caption",
-                            default="Kumuliert aus allen bisherigen Einschätzungen – ohne Autorbeiträge.",
-                        )
-                        st.markdown(f"**{title}**")
-                        st.caption(caption)
-
                         try:
-                            sure_label = _summary_text("confidence_label_sure", default="Sicher")
-                            unsure_label = _summary_text("confidence_label_unsure", default="Unsicher")
-                            correct_label = _summary_text("confidence_label_correct", default="Richtig")
-                            wrong_label = _summary_text("confidence_label_wrong", default="Falsch")
-                            sc = int(counts.get("sure_correct", 0))
-                            sw = int(counts.get("sure_wrong", 0))
-                            uc = int(counts.get("unsure_correct", 0))
-                            uw = int(counts.get("unsure_wrong", 0))
-                            total_conf = sc + sw + uc + uw
-                            counts_matrix = [[sc, sw], [uc, uw]]
-                            # Positive = calibrated, negative = miscalibrated
-                            z = [[sc, -sw], [-uc, uw]]
-                            pct_vals = [[(v / total_conf * 100.0) for v in row] for row in counts_matrix]
-                            text_vals = [[str(v) for v in row] for row in counts_matrix]
-                            max_abs = max(abs(v) for row in z for v in row) or 1
-
-                            import plotly.graph_objects as go
-
-                            heatmap = go.Heatmap(
-                                z=z,
-                                x=[correct_label, wrong_label],
-                                y=[sure_label, unsure_label],
-                                text=text_vals,
-                                customdata=pct_vals,
-                                texttemplate="%{text}",
-                                textfont={"color": "white"},
-                                colorscale=[
-                                    [0.0, "#dc2626"],
-                                    [0.5, "#9ca3af"],
-                                    [1.0, "#16a34a"],
-                                ],
-                                zmin=-max_abs,
-                                zmax=max_abs,
-                                showscale=False,
-                                hovertemplate="%{y} / %{x}: %{text} (%{customdata:.0f}%)<extra></extra>",
+                            matrix_df = pd.DataFrame(
+                                {
+                                    correct_label: [counts.get("sure_correct", 0), counts.get("unsure_correct", 0)],
+                                    wrong_label: [counts.get("sure_wrong", 0), counts.get("unsure_wrong", 0)],
+                                },
+                                index=[sure_label, unsure_label],
                             )
-                            fig = go.Figure(data=[heatmap])
-                            fig.update_layout(
-                                height=220,
-                                margin=dict(l=10, r=10, t=10, b=10),
-                                font=dict(color=CHART_AXIS_TEXT),
-                                xaxis=dict(title="", side="top", tickfont=dict(color=CHART_AXIS_TEXT)),
-                                yaxis=dict(title="", tickfont=dict(color=CHART_AXIS_TEXT)),
-                            )
-                            st.plotly_chart(fig, width="stretch")
+                            st.table(matrix_df)
                         except Exception:
+                            pass
+
+                    try:
+                        sure_total = counts.get("sure_correct", 0) + counts.get("sure_wrong", 0)
+                        unsure_total = counts.get("unsure_correct", 0) + counts.get("unsure_wrong", 0)
+                        correct_total = counts.get("sure_correct", 0) + counts.get("unsure_correct", 0)
+                        wrong_total = counts.get("sure_wrong", 0) + counts.get("unsure_wrong", 0)
+                        st.caption(
+                            _summary_text(
+                                "confidence_totals_caption",
+                                default="Summen: Sicher {sure} | Unsicher {unsure} | Richtig {correct} | Falsch {wrong}",
+                            ).format(
+                                sure=sure_total,
+                                unsure=unsure_total,
+                                correct=correct_total,
+                                wrong=wrong_total,
+                            )
+                        )
+                    except Exception:
+                        pass
+                else:
+                    st.caption(
+                        _test_view_text(
+                            "confidence_matrix_empty",
+                            default="Noch keine Einschätzungen vorhanden.",
+                        )
+                    )
+        except Exception:
+            pass
+
+        # --- Logik für den Fall, dass zu einer bereits beantworteten Frage gesprungen wird ---
+        # Bei übersprungenen Fragen (die unbeantwortet sein müssen) darf hier nichts blockieren.
+        is_answered = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
+        is_bookmarked = frage_idx in st.session_state.get("bookmarked_questions", [])
+        is_skipped = frage_idx in st.session_state.get("skipped_questions", [])
+
+        if is_answered and st.session_state.get("jump_to_idx_active") and (is_bookmarked or is_skipped):
+            # Bookmark-Review hat eigene Navigation; keine doppelten Resume-/Summary-Buttons zeigen.
+            if not (is_bookmarked and not is_skipped):
+                if is_bookmarked:
+                    st.info(_test_view_text("already_answered_info", default="Diese Frage wurde bereits beantwortet."))
+                _, col2, _ = st.columns([1, 1, 1])
+                with col2:
+                    # Decide whether a resume makes sense: only when the test is not finished
+                    # and there is a next unanswered question. Otherwise offer 'Zur Testauswertung'.
+                    try:
+                        next_idx = logic.get_current_question_index()
+                        test_finished = logic.is_test_finished(questions) or st.session_state.get("test_time_expired", False)
+                    except Exception:
+                        next_idx = None
+                        test_finished = False
+
+                    if not test_finished and next_idx is not None:
+                        # Show resume button
+                        if st.button(
+                            _test_view_text("resume_button", default="Test fortsetzen"),
+                            key=f"resume_from_answered_bm_{frage_idx}",
+                            type="primary",
+                            width="stretch",
+                        ):
+                            _dismiss_user_qset_dialog_from_test()
+                            # Resume to next unanswered question
+                            st.session_state["jump_to_idx"] = next_idx
+                            st.session_state.jump_to_idx_active = False
+                            st.session_state.pop("jump_source", None)
                             try:
-                                matrix_df = pd.DataFrame(
-                                    {
-                                        correct_label: [counts.get("sure_correct", 0), counts.get("unsure_correct", 0)],
-                                        wrong_label: [counts.get("sure_wrong", 0), counts.get("unsure_wrong", 0)],
-                                    },
-                                    index=[sure_label, unsure_label],
-                                )
-                                st.table(matrix_df)
+                                st.session_state.pop(f"show_explanation_{next_idx}", None)
                             except Exception:
                                 pass
-
-                        try:
-                            sure_total = counts.get("sure_correct", 0) + counts.get("sure_wrong", 0)
-                            unsure_total = counts.get("unsure_correct", 0) + counts.get("unsure_wrong", 0)
-                            correct_total = counts.get("sure_correct", 0) + counts.get("unsure_correct", 0)
-                            wrong_total = counts.get("sure_wrong", 0) + counts.get("unsure_wrong", 0)
-                            st.caption(
-                                _summary_text(
-                                    "confidence_totals_caption",
-                                    default="Summen: Sicher {sure} | Unsicher {unsure} | Richtig {correct} | Falsch {wrong}",
-                                ).format(
-                                    sure=sure_total,
-                                    unsure=unsure_total,
-                                    correct=correct_total,
-                                    wrong=wrong_total,
-                                )
-                            )
-                        except Exception:
-                            pass
+                            if "last_answered_idx" in st.session_state:
+                                del st.session_state.last_answered_idx
+                            st.rerun()
                     else:
-                        st.caption(
-                            _test_view_text(
-                                "confidence_matrix_empty",
-                                default="Noch keine Einschätzungen vorhanden.",
-                            )
-                        )
-            except Exception:
-                pass
-        except Exception:
-            remaining_answer_cooldown = 0
-        
-        else:
-            # --- Logik für den Fall, dass zu einer bereits beantworteten Frage gesprungen wird ---
-            # Bei übersprungenen Fragen (die unbeantwortet sein müssen) darf hier nichts blockieren.
-            is_answered = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
-            is_bookmarked = frage_idx in st.session_state.get("bookmarked_questions", [])
-            is_skipped = frage_idx in st.session_state.get("skipped_questions", [])
-
-            if is_answered and st.session_state.get("jump_to_idx_active") and (is_bookmarked or is_skipped):
-                # Bookmark-Review hat eigene Navigation; keine doppelten Resume-/Summary-Buttons zeigen.
-                if not (is_bookmarked and not is_skipped):
-                    if is_bookmarked:
-                        st.info(_test_view_text("already_answered_info", default="Diese Frage wurde bereits beantwortet."))
-                    _, col2, _ = st.columns([1, 1, 1])
-                    with col2:
-                        # Decide whether a resume makes sense: only when the test is not finished
-                        # and there is a next unanswered question. Otherwise offer 'Zur Testauswertung'.
-                        try:
-                            next_idx = logic.get_current_question_index()
-                            test_finished = logic.is_test_finished(questions) or st.session_state.get("test_time_expired", False)
-                        except Exception:
-                            next_idx = None
-                            test_finished = False
-
-                        if not test_finished and next_idx is not None:
-                            # Show resume button
-                            if st.button(
-                                _test_view_text("resume_button", default="Test fortsetzen"),
-                                key=f"resume_from_answered_bm_{frage_idx}",
-                                type="primary",
-                                width="stretch",
-                            ):
-                                _dismiss_user_qset_dialog_from_test()
-                                # Resume to next unanswered question
-                                st.session_state["jump_to_idx"] = next_idx
+                        # No unanswered questions left or test is over: offer final summary
+                        if st.button(
+                            _test_view_text("summary_button", default="Zur Testauswertung 🏁"),
+                            key=f"to_summary_from_answered_{frage_idx}",
+                            type="primary",
+                            width="stretch",
+                        ):
+                            _dismiss_user_qset_dialog_from_test()
+                            # Clear overlays and jump flags so app shows final summary
+                            try:
                                 st.session_state.jump_to_idx_active = False
+                                st.session_state.pop("jump_to_idx", None)
                                 st.session_state.pop("jump_source", None)
-                                try:
-                                    st.session_state.pop(f"show_explanation_{next_idx}", None)
-                                except Exception:
-                                    pass
-                                if "last_answered_idx" in st.session_state:
-                                    del st.session_state.last_answered_idx
-                                st.rerun()
-                        else:
-                            # No unanswered questions left or test is over: offer final summary
-                            if st.button(
-                                _test_view_text("summary_button", default="Zur Testauswertung 🏁"),
-                                key=f"to_summary_from_answered_{frage_idx}",
-                                type="primary",
-                                width="stretch",
-                            ):
-                                _dismiss_user_qset_dialog_from_test()
-                                # Clear overlays and jump flags so app shows final summary
-                                try:
-                                    st.session_state.jump_to_idx_active = False
-                                    st.session_state.pop("jump_to_idx", None)
-                                    st.session_state.pop("jump_source", None)
-                                except Exception:
-                                    pass
-                                try:
-                                    st.session_state.pop(f"show_explanation_{frage_idx}", None)
-                                except Exception:
-                                    pass
-                                if "last_answered_idx" in st.session_state:
-                                    del st.session_state.last_answered_idx
-                                st.rerun()
+                            except Exception:
+                                pass
+                            try:
+                                st.session_state.pop(f"show_explanation_{frage_idx}", None)
+                            except Exception:
+                                pass
+                            if "last_answered_idx" in st.session_state:
+                                del st.session_state.last_answered_idx
+                            st.rerun()
 
         # Spezielle Navigation für den Skip-Review-Modus: zurück zur aktuellen Frage
         # oder weiter zur nächsten übersprungenen Frage.
