@@ -9,6 +9,8 @@ import plotly.graph_objects as go
 from i18n.context import t as translate_ui
 import streamlit as st
 
+from helpers.chart_theme import CHART_AXIS_TEXT, CHART_GRID_COLOR
+
 def _ellipsize(label: str, max_chars: int = 28) -> str:
     if not label:
         return ""
@@ -246,6 +248,7 @@ def create_difficulty_heatmap(questions):
             ),
             tickvals=[0, 25, 50, 75, 100],
             ticktext=['0%', '25%', '50%', '75%', '100%'],
+            tickfont=dict(color=CHART_AXIS_TEXT),
             len=0.6,
             y=0.5,
             yanchor='middle',
@@ -261,31 +264,32 @@ def create_difficulty_heatmap(questions):
 
     fig.update_layout(
         title='',
+        font=dict(color=CHART_AXIS_TEXT, family='Arial, sans-serif'),
         xaxis=dict(
             title=translate_ui('heatmap.xaxis_title', default='Kognitive Stufe'),
             side='bottom',
-            tickfont=dict(size=14),
+            tickfont=dict(size=14, color=CHART_AXIS_TEXT),
             tickvals=list(range(len(cognitive_levels))),
             ticktext=cognitive_level_labels,
             showgrid=True,
-            gridcolor='#cccccc',
+            gridcolor=CHART_GRID_COLOR,
             gridwidth=1,
             zeroline=False,
             range=[-0.5, len(cognitive_levels) - 0.5],
-            title_font=dict(size=18, family='Arial, sans-serif', color='black')
+            title_font=dict(size=18, family='Arial, sans-serif', color=CHART_AXIS_TEXT)
         ),
         yaxis=dict(
             title=translate_ui('heatmap.yaxis_title', default='Thema'),
-            tickfont=dict(size=13),
+            tickfont=dict(size=13, color=CHART_AXIS_TEXT),
             autorange='reversed',  # Topics von oben nach unten
             tickvals=list(range(len(topics_sorted))),
             ticktext=topics_display,
             showgrid=True,
-            gridcolor='#cccccc',
+            gridcolor=CHART_GRID_COLOR,
             gridwidth=1,
             zeroline=False,
             range=[len(topics_sorted) - 0.5, -0.5],
-            title_font=dict(size=18, family='Arial, sans-serif', color='black'),
+            title_font=dict(size=18, family='Arial, sans-serif', color=CHART_AXIS_TEXT),
             title_standoff=120
         ),
         height=max(400, len(topics_sorted) * 80),

@@ -9,6 +9,8 @@ import plotly.graph_objects as go
 from i18n.context import t as translate_ui
 import streamlit as st
 
+from helpers.chart_theme import CHART_AXIS_TEXT
+
 def _format_label_for_display(label: str, max_chars: int = 24) -> str:
     """Truncate long labels with an ellipsis for compact chart display."""
     if not label:
@@ -148,7 +150,7 @@ def create_performance_column(questions):
                 ),
                 text=display_labels,
                 textposition="top center",
-                textfont=dict(size=12, color='black'),
+                textfont=dict(size=12, color=CHART_AXIS_TEXT),
                 hovertemplate='<b>%{customdata[3]}</b><br>' +
                               'Status: %{customdata[0]}<br>' +
                               'Antworten: %{customdata[1]}/%{customdata[2]}<br>' +
@@ -166,6 +168,7 @@ def create_performance_column(questions):
     # Layout für drei separate Säulen
     fig.update_layout(
         title='',
+        font=dict(color=CHART_AXIS_TEXT, family='Arial, sans-serif'),
         xaxis=dict(
             showgrid=False,
             showticklabels=True,
@@ -179,7 +182,7 @@ def create_performance_column(questions):
                 translate_ui('app.status.not_attempted'),
                 translate_ui('app.status.not_understood')
             ],
-            tickfont=dict(size=14, weight='bold')  # Größer und fett
+            tickfont=dict(size=14, weight='bold', color=CHART_AXIS_TEXT),
         ),
         yaxis=dict(
             showgrid=False,

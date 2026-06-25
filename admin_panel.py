@@ -22,6 +22,7 @@ from config import (
     USER_QUESTION_PREFIX,
 )
 from i18n.context import t as translate_ui
+from helpers.chart_theme import CHART_AXIS_TEXT
 from pdf_export import generate_mini_glossary_pdf
 from user_question_sets import (
     pretty_label_from_identifier_string,
@@ -874,6 +875,22 @@ def render_analysis_tab(df: pd.DataFrame, questions: QuestionSet):
                         color="Korrekt",
                         color_discrete_map={"": "grey", "✅": "green"}
                     )
+                    fig.update_layout(
+                        font=dict(color=CHART_AXIS_TEXT),
+                        paper_bgcolor="rgba(0,0,0,0)",
+                        plot_bgcolor="rgba(0,0,0,0)",
+                        xaxis=dict(
+                            title=x_label,
+                            tickfont=dict(color=CHART_AXIS_TEXT),
+                            title_font=dict(color=CHART_AXIS_TEXT),
+                        ),
+                        yaxis=dict(
+                            title=y_label,
+                            tickfont=dict(color=CHART_AXIS_TEXT),
+                            title_font=dict(color=CHART_AXIS_TEXT),
+                        ),
+                        title_font=dict(color=CHART_AXIS_TEXT),
+                    )
                     st.plotly_chart(fig, config={"responsive": True})
 
 def render_feedback_tab():
@@ -1708,15 +1725,28 @@ def render_system_tab(app_config: AppConfig, df: pd.DataFrame):
                     "admin.system.avg_chart.title",
                     default="Durchschnittliche Punktzahl nach Fragenset",
                 ),
-                xaxis_title=translate_ui(
-                    "admin.system.avg_chart.xaxis", default="Fragenset"
+                font=dict(color=CHART_AXIS_TEXT),
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="rgba(0,0,0,0)",
+                xaxis=dict(
+                    title=translate_ui(
+                        "admin.system.avg_chart.xaxis", default="Fragenset"
+                    ),
+                    tickfont=dict(color=CHART_AXIS_TEXT),
+                    title_font=dict(color=CHART_AXIS_TEXT),
                 ),
-                yaxis_title=translate_ui(
-                    "admin.system.avg_chart.yaxis",
-                    default="Durchschnittliche Punktzahl",
+                yaxis=dict(
+                    title=translate_ui(
+                        "admin.system.avg_chart.yaxis",
+                        default="Durchschnittliche Punktzahl",
+                    ),
+                    tickfont=dict(color=CHART_AXIS_TEXT),
+                    title_font=dict(color=CHART_AXIS_TEXT),
                 ),
+                title_font=dict(color=CHART_AXIS_TEXT),
                 height=400,
                 showlegend=True,
+                legend=dict(font=dict(color=CHART_AXIS_TEXT)),
                 legend_title_text=translate_ui("admin.system.avg_chart.legend", default="Average score"),
             )
             

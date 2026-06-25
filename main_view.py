@@ -17,6 +17,7 @@ import logic
 import logging
 logger = logging.getLogger(__name__)
 GLOBAL_DARK_BACKGROUND = "#181818"
+from helpers.chart_theme import CHART_AXIS_TEXT
 import datetime as _dt
 from typing import Any
 from pathlib import Path
@@ -8298,8 +8299,9 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                             fig.update_layout(
                                 height=220,
                                 margin=dict(l=10, r=10, t=10, b=10),
-                                xaxis=dict(title="", side="top"),
-                                yaxis=dict(title=""),
+                                font=dict(color=CHART_AXIS_TEXT),
+                                xaxis=dict(title="", side="top", tickfont=dict(color=CHART_AXIS_TEXT)),
+                                yaxis=dict(title="", tickfont=dict(color=CHART_AXIS_TEXT)),
                             )
                             st.plotly_chart(fig, width="stretch")
                         except Exception:
@@ -9734,8 +9736,9 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
             fig.update_layout(
                 height=220,
                 margin=dict(l=10, r=10, t=10, b=10),
-                xaxis=dict(title="", side="top"),
-                yaxis=dict(title=""),
+                font=dict(color=CHART_AXIS_TEXT),
+                xaxis=dict(title="", side="top", tickfont=dict(color=CHART_AXIS_TEXT)),
+                yaxis=dict(title="", tickfont=dict(color=CHART_AXIS_TEXT)),
             )
             st.plotly_chart(fig, width="stretch")
         except Exception:
@@ -9938,10 +9941,26 @@ def render_final_summary(questions: QuestionSet, app_config: AppConfig):
 
             fig.update_layout(
                 barmode='stack',
-                xaxis_tickangle=-30,
-                xaxis_title=_summary_text('performance_chart.xaxis', default='Thema (beantwortet/gesamt)'),
-                yaxis_title=_summary_text('performance_chart.yaxis', default='Anteil (%)'),
-                legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='right', x=1),
+                font=dict(color=CHART_AXIS_TEXT),
+                xaxis=dict(
+                    tickangle=-30,
+                    title=_summary_text('performance_chart.xaxis', default='Thema (beantwortet/gesamt)'),
+                    tickfont=dict(color=CHART_AXIS_TEXT),
+                    title_font=dict(color=CHART_AXIS_TEXT),
+                ),
+                yaxis=dict(
+                    title=_summary_text('performance_chart.yaxis', default='Anteil (%)'),
+                    tickfont=dict(color=CHART_AXIS_TEXT),
+                    title_font=dict(color=CHART_AXIS_TEXT),
+                ),
+                legend=dict(
+                    orientation='h',
+                    yanchor='bottom',
+                    y=1.02,
+                    xanchor='right',
+                    x=1,
+                    font=dict(color=CHART_AXIS_TEXT),
+                ),
                 margin=dict(t=40, b=140, l=40, r=10),
                 height=420,
             )
