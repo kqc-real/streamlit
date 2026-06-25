@@ -701,31 +701,34 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             _dialog_text(
                 "intro",
                 default=(
-                    "Arbeite in vier Schritten mit einem externen LLM (z. B. ChatGPT, Claude oder Gemini):\n\n"
-                    "1) **Fragenset erzeugen** – Prompt kopieren, JSON im LLM erstellen lassen und hier speichern.\n"
-                    "2) **Lernziele erzeugen** – gespeichertes JSON an das LLM geben und Markdown hier speichern.\n"
-                    "3) **Fragenset prüfen** – JSON mit dem Prüf-Prompt verbessern und erneut speichern.\n"
-                    "4) **Lernziele prüfen** – Lernziele an das geprüfte Set angleichen und speichern."
+                    "Ein Chat mit deinem externen LLM (z. B. ChatGPT, Claude, Gemini) für **alle vier Stufen**. "
+                    "Hier speicherst du jedes Ergebnis:\n\n"
+                    "1) **Fragenset** – Prompt Stufe 1, Rückfragen beantworten, JSON speichern.\n"
+                    "2) **Lernziele** – Prompt Stufe 2 im **selben Chat**, Markdown speichern.\n"
+                    "3) **Fragenset prüfen** – Prompt Stufe 3 im **selben Chat**, JSON speichern.\n"
+                    "4) **Lernziele prüfen** – Prompt Stufe 4 im **selben Chat**, Markdown speichern."
                 ),
             )
         )
         st.markdown(
             _dialog_text(
                 "intro_info",
-                default="Die App erzeugt selbst keine Inhalte. Du kopierst Prompt und Daten in dein externes LLM und fügst hier nur JSON oder Markdown zurück ein.",
+                default=(
+                    "MC-Test erzeugt keine Inhalte. Ein Chat für alle Stufen: Prompts ins externe LLM kopieren, "
+                    "zurück nur **JSON oder Markdown** – ohne Zusatztext."
+                ),
             )
         )
         with st.expander(
-            _dialog_text("ai_bias_title", default="Warum Schritt 3 und 4?"),
+            _dialog_text("ai_bias_title", default="Wozu Stufe 3 und 4?"),
             expanded=False,
         ):
             st.markdown(
                 _dialog_text(
                     "ai_bias_explanation",
                     default=(
-                        "LLMs liefern oft brauchbare, aber ungleichmäßige Ergebnisse: richtige Antworten sind "
-                        "manchmal länger, Distraktoren schwächer und Lernziele zu vage. Die Prüfschritte helfen, "
-                        "Fragenset und Lernziele vor dem Einsatz zu glätten."
+                        "LLM-Ausgaben sind oft ungleichmäßig – z. B. längere Musterlösungen oder vage Lernziele. "
+                        "Stufe 3 und 4 glätten Fragenset und Lernziele vor dem Einsatz."
                     ),
                 )
             )
@@ -893,7 +896,7 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
         st.markdown(
             _dialog_text(
                 "tab_selector_hint",
-                default="Wähle den Schritt (1–4), den du jetzt bearbeiten möchtest.",
+                default="Tabs 1–4 = Stufen im externen LLM-Chat. Wähle, was du jetzt speichern willst.",
             )
         )
         pending_tab = st.session_state.pop("user_qset_tab_pending", None)
@@ -926,11 +929,14 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             tab_index = 0
 
         if tab_index == 0:
-            st.subheader(_dialog_text("questionset_heading", default="Schritt 1: Fragenset erzeugen"))
+            st.subheader(_dialog_text("questionset_heading", default="Stufe 1: Fragenset erzeugen"))
             st.caption(
                 _dialog_text(
                     "questionset_caption",
-                    default="Kopiere den MC-Test-Prompt in dein externes LLM. Beantworte dort die Rückfragen und füge das erzeugte JSON anschließend hier ein oder lade es hoch.",
+                    default=(
+                        "Neuen Chat mit deinem externen LLM öffnen, Prompt Stufe 1 einfügen, Rückfragen beantworten, "
+                        "JSON hier speichern. Stufen 2–4 im **selben Chat**."
+                    ),
                 )
             )
             qset_prompt = next(
@@ -1205,11 +1211,14 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
         elif tab_index == 1:
             # status is already loaded at top scope
             lo_status = st.session_state.get("user_qset_lo_result")
-            st.subheader(_dialog_text("learning_objectives_heading", default="Schritt 2: Lernziele erzeugen"))
+            st.subheader(_dialog_text("learning_objectives_heading", default="Stufe 2: Lernziele erzeugen"))
             st.caption(
                 _dialog_text(
                     "learning_objectives_caption",
-                    default="Gib das gespeicherte JSON mit dem Lernziele-Prompt an dein externes LLM. Speichere hier das Markdown-Ergebnis.",
+                    default=(
+                        "Im **selben Chat mit deinem externen LLM**: Prompt Stufe 2 kopieren. JSON liegt im Verlauf. "
+                        "Nur Markdown hier speichern."
+                    ),
                 )
             )
 
@@ -1452,11 +1461,14 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                     st.rerun()
 
         elif tab_index == 2:
-            st.subheader(_dialog_text("postproduction_heading", default="Schritt 3: Fragenset prüfen"))
+            st.subheader(_dialog_text("postproduction_heading", default="Stufe 3: Fragenset prüfen"))
             st.caption(
                 _dialog_text(
                     "postproduction_caption",
-                    default="Lade dein gespeichertes JSON herunter, gib es mit dem Prüf-Prompt an das externe LLM und speichere das bereinigte JSON hier.",
+                    default=(
+                        "Im **selben Chat mit deinem externen LLM**: Prompt Stufe 3 kopieren. "
+                        "Nur bereinigtes JSON speichern."
+                    ),
                 )
             )
 
@@ -1535,7 +1547,9 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             st.caption(
                 _dialog_text(
                     "postproduction_set_for_ai_caption",
-                    default="Nutze genau dieses JSON als Datenbasis im externen LLM.",
+                    default=(
+                        "Nur falls der Chatverlauf nicht reicht: dieses JSON im externen LLM verwenden."
+                    ),
                 )
             )
             original_set_json = ""
@@ -1712,11 +1726,14 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
                         st.rerun()
 
         elif tab_index == 3:
-            st.subheader(_dialog_text("postproduction_lo_heading", default="Schritt 4: Lernziele prüfen"))
+            st.subheader(_dialog_text("postproduction_lo_heading", default="Stufe 4: Lernziele prüfen"))
             st.caption(
                 _dialog_text(
                     "postproduction_lo_caption",
-                    default="Gib geprüftes JSON und aktuelle Lernziele mit dem Lernziel-Prüf-Prompt an das externe LLM. Speichere hier das bereinigte Markdown.",
+                    default=(
+                        "Im **selben Chat mit deinem externen LLM**: Prompt Stufe 4 kopieren. "
+                        "Nur bereinigtes Markdown speichern."
+                    ),
                 )
             )
 
@@ -1802,7 +1819,9 @@ def _render_user_qset_dialog(app_config: AppConfig) -> None:
             st.caption(
                 _dialog_text(
                     "postproduction_lo_inputs_caption",
-                    default="Lade beide Dateien herunter und gib sie zusammen mit dem Prompt an das externe LLM.",
+                    default=(
+                        "Nur falls der Chatverlauf nicht reicht: beide Dateien mit dem Prompt ans externe LLM senden."
+                    ),
                 )
             )
             optimized_set_json = st.session_state.get("user_qset_postprod_json", "")
