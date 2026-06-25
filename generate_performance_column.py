@@ -11,6 +11,9 @@ import streamlit as st
 
 from helpers.chart_theme import CHART_AXIS_TEXT
 
+# Default concept-mastery heuristic (EDULEARN26 paper, Section 4.3).
+CONCEPT_MASTERY_THRESHOLD = 0.7
+
 def _format_label_for_display(label: str, max_chars: int = 24) -> str:
     """Truncate long labels with an ellipsis for compact chart display."""
     if not label:
@@ -55,8 +58,7 @@ def create_performance_column(questions):
             status = 'not_attempted'
             color = 'gray'
             status_text = translate_ui('app.status.not_attempted')
-        elif correct_count / answered_count >= 0.8:
-            # Höherer Schwellenwert, damit weniger als "understood" gelten
+        elif correct_count / answered_count >= CONCEPT_MASTERY_THRESHOLD:
             status = 'correct'
             color = 'green'
             status_text = translate_ui('app.status.understood')

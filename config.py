@@ -727,7 +727,7 @@ def list_question_files() -> List[str]:
             normalized = unicodedata.normalize("NFC", f)
             files.append(normalized)
     
-    return sorted(files)
+    return sorted(files, key=str.casefold)
 
 @st.cache_data
 def get_question_counts() -> Dict[str, int]:
