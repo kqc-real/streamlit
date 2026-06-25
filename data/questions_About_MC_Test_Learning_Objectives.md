@@ -73,20 +73,19 @@ In the context of **About MC Test: Understanding the EDULEARN26 Paper**, this qu
 4. select the Topic × Cognitive Heatmap for topic-by-level performance patterns.
 5. distinguish broad topics from fine-grained concepts in MC Test analytics.
 6. interpret unanswered items as evidence for remediation or avoidance patterns.
-7. use dashboard metadata to guide targeted study decisions.
-8. describe the Pre-Answer Cooldown as reading support against rapid guessing.
-9. describe the Time-Critical Override under critical time pressure.
-10. describe the mini-glossary as item-level vocabulary support.
-11. explain why explicit confirmation is used in finite-state item generation.
-12. select schema-driven validation with repair for malformed LLM item output.
-13. identify option harmonization as a cue-reduction step for generated items.
-14. explain why instructor review remains necessary after LLM-assisted generation.
-15. describe pseudonymous access as a privacy-aware participation mechanism.
-16. select local MathJax rendering for privacy-compliant notation display.
-17. identify PostgreSQL as the persistence layer in the on-premises architecture described in the EDULEARN26 paper.
-18. select Cohen's kappa for cognitive-label reliability checks.
-19. interpret a mean SUS score as preliminary perceived-usability evidence.
-20. select system logs with response times for rapid-guessing evaluation.
+7. explain how linking results to topics, concepts, cognitive levels, and explanations supports targeted study advice.
+8. describe the Time-Critical Override under critical time pressure.
+9. describe the mini-glossary as item-level vocabulary support.
+10. explain why explicit confirmation is used in finite-state item generation.
+11. select schema-driven validation with repair for malformed LLM item output.
+12. identify option harmonization as a cue-reduction step for generated items.
+13. explain why instructor review remains necessary after LLM-assisted generation.
+14. describe pseudonymous access as a privacy-aware participation mechanism.
+15. select local MathJax rendering for privacy-compliant notation display.
+16. identify PostgreSQL as the persistence layer in the on-premises architecture described in the EDULEARN26 paper.
+17. select Cohen's kappa for cognitive-label reliability checks.
+18. interpret a mean SUS score as preliminary perceived-usability evidence.
+19. select system logs with response times for rapid-guessing evaluation.
 
 ### Analysis
 

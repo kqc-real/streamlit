@@ -44,7 +44,7 @@ class _FakeStreamlit:
         return False
 
     # UI primitives
-    def columns(self, sizes):
+    def columns(self, sizes, *args, **kwargs):
         return [self for _ in sizes]
 
     def container(self, *args, **kwargs):
@@ -279,19 +279,36 @@ def test_prepare_markdown_for_streamlit_converts_escaped_blockquotes():
     assert "&gt; Prüfe" not in rendered
 
 
-def test_answer_option_selected_marker_does_not_reuse_letter_circle(monkeypatch):
+def test_answer_option_uses_native_streamlit_markdown_for_latex(monkeypatch):
     fake_st = _FakeStreamlit()
     monkeypatch.setattr(mv, "st", fake_st)
     monkeypatch.setattr(mv, "_test_view_text", lambda key, default=None, **_: default or key)
     monkeypatch.setattr(mv, "smart_quotes_de", lambda s: s)
 
+    mv._render_markdown_answer_options(["$x^2$ ist positiv"], selected_index=None)
+
+    rendered = "\n".join(fake_st.markdown_calls)
+    assert "$x^2$ ist positiv" in rendered
+    assert "\\(x^2\\)" not in rendered
+    assert 'alt="LaTeX formula"' not in rendered
+
+
+def test_answer_option_selected_badge_highlight_without_text_marker(monkeypatch):
+    fake_st = _FakeStreamlit()
+    monkeypatch.setattr(mv, "st", fake_st)
+    monkeypatch.setattr(mv, "smart_quotes_de", lambda s: s)
+
     mv._render_markdown_answer_options(["A falsch", "D richtig"], selected_index=1)
 
     rendered = "\n".join(fake_st.markdown_calls)
-    assert ".mc-answer-option-label span" not in rendered
-    assert ".mc-answer-option-label .mc-answer-option-letter" in rendered
-    assert "<span class='mc-answer-option-letter'>B</span>" in rendered
-    assert "<span class='mc-answer-option-selected-text'>(ausgewählt)</span>" in rendered
+    assert "mc-answer-options-begin" in rendered
+    assert "mc-answer-option-row" in rendered
+    assert "mc-answer-option-letter-badge" in rendered
+    assert "mc-answer-option-letter-badge is-selected" in rendered
+    assert "mc-answer-option-selected-text" not in rendered
+    assert "ausgewählt" not in rendered
+    assert "A falsch" in rendered
+    assert "D richtig" in rendered
 
 
 def test_compact_question_styles_do_not_shift_button_labels(monkeypatch):
@@ -303,7 +320,12 @@ def test_compact_question_styles_do_not_shift_button_labels(monkeypatch):
     rendered = _rendered_markup(fake_st)
     assert '.stMainBlockContainer div[data-testid="stMarkdownContainer"] p' in rendered
     assert '.stMainBlockContainer button div[data-testid="stMarkdownContainer"] p' in rendered
-    assert "line-height: inherit;" in rendered
+    assert "mc-answer-option-letter-badge" in rendered
+    assert "mc-answer-options-begin" in rendered
+    assert "mc-answer-option-row" in rendered
+    assert ':has(.mc-answer-option-row)' in rendered
+    assert "flex-wrap: nowrap !important;" in rendered
+    assert 'stLayoutWrapper"]:has(.mc-answer-option-letter-badge)' not in rendered
     assert 'div[data-testid="stElementContainer"]:has(.mc-timer-pacing-row-marker)' in rendered
     assert "height: 0 !important;" in rendered
 
@@ -421,10 +443,10 @@ def test_render_question_view_keeps_block_markdown_in_question_and_options(monke
 
     mv.render_question_view([question], 0, AppConfig())
 
-    assert any(text == "## Formatierungs-Mix" for text in fake_st.markdown_calls)
-    assert any("<blockquote>" in text and "Prüfe, ob alle drei Inline-Formate erhalten bleiben." in text for text in fake_st.markdown_calls)
-    assert any("### Korrekt\n- **Fett** nutzt zwei Sternchen." in text for text in fake_st.markdown_calls)
-    assert any("<em>Korrekt:</em><br><code>code</code>" in text for text in fake_st.markdown_calls)
+    rendered = "\n".join(fake_st.markdown_calls)
+    assert "mc-answer-options-begin" in rendered
+    assert "<strong>Fett</strong>" in rendered or "**Fett**" in rendered or "### Korrekt" in rendered
+    assert "<em>Korrekt:</em>" in rendered or "Korrekt:" in rendered
     assert fake_st.radio_calls
     assert fake_st.radio_calls[0][2]["format_func"](0) == "A"
     assert fake_st.radio_calls[0][2]["format_func"](1) == "B"

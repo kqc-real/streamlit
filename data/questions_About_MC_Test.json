@@ -5,10 +5,10 @@
     "updated": "2026-06-25",
     "language": "en",
     "target_audience": "Participants in the EDULEARN26 session on student performance and predictive analytics",
-    "question_count": 30,
+    "question_count": 29,
     "difficulty_profile": {
       "easy": 5,
-      "medium": 20,
+      "medium": 19,
       "hard": 5
     },
     "time_per_weight_minutes": {
@@ -25,8 +25,7 @@
       "options": [
         "To deliver high-stakes summative exams at institutional scale",
         "To support formative MC practice with feedback and analytics",
-        "To replace instructor review in multiple-choice assessment workflows",
-        "To serve as a generic course-evaluation or opinion survey tool"
+        "To replace instructor review in multiple-choice assessment workflows"
       ],
       "answer": 1,
       "explanation": "MC Test is built for formative multiple-choice practice, not to replace instructors. Its core value is linking practice items to feedback, learner-facing analytics, and pacing.",
@@ -44,12 +43,11 @@
     {
       "question": "2. Which three cognitive levels does MC Test use for item weights?",
       "options": [
-        "Scoring, timing, and ranking",
-        "Memorization, collaboration, and presentation",
+        "Knowledge, comprehension, and application",
         "Remembering, evaluating, and creating",
         "Reproduction, application, and analysis"
       ],
-      "answer": 3,
+      "answer": 2,
       "explanation": "MC Test uses a restricted three-level taxonomy inspired by Bloom: reproduction, application, and analysis.",
       "weight": 1,
       "topic": "Cognitive Levels",
@@ -65,12 +63,11 @@
     {
       "question": "3. Which framework is used to build the MC Test web application?",
       "options": [
-        "Static HTML pages without interactive backend logic",
         "Moodle as the sole application and hosting layer",
         "Streamlit as the Python web application framework",
-        "A spreadsheet-based macro authoring system"
+        "Django as the primary Python web application framework"
       ],
-      "answer": 2,
+      "answer": 1,
       "explanation": "MC Test is implemented as a Streamlit web application. That choice supports rapid development of interactive Python-based learning tools.",
       "weight": 1,
       "topic": "System Architecture",
@@ -86,12 +83,11 @@
     {
       "question": "4. What three statuses does the Concept Mastery Columns view use?",
       "options": [
-        "Fast, medium, and slow response pacing bands",
-        "Public, private, and anonymous access classifications",
+        "Correct, incorrect, and skipped item outcomes",
         "Easy, medium, and hard item difficulty tiers",
         "Understood, not attempted, and not understood"
       ],
-      "answer": 3,
+      "answer": 2,
       "explanation": "Concept Mastery Columns group fine-grained concepts by learner performance. The three statuses are understood, not attempted, and not understood.",
       "weight": 1,
       "topic": "Concept Mastery",
@@ -108,12 +104,10 @@
       "question": "5. Which deployment goal best motivates an on-premises local LLM backend in MC Test?",
       "options": [
         "Removing the need for instructor review",
-        "Guaranteeing perfect item quality",
         "Reducing institutional data transfer risk",
-        "Hiding learner analytics from students",
-        "Eliminating the need for validation"
+        "Routing all generation prompts through a public cloud API"
       ],
-      "answer": 2,
+      "answer": 1,
       "explanation": "A local backend supports privacy-sensitive deployment by keeping prompts and learner data inside institutional infrastructure. It does not remove validation or instructor review.",
       "weight": 1,
       "topic": "Privacy and Deployment",
@@ -130,11 +124,10 @@
       "question": "6. A learner scores well on reproduction items but poorly on application and analysis. Which MC Test view best reveals this cognitive profile?",
       "options": [
         "Topic Performance Chart",
-        "Post-test glossary",
         "Cognitive Radar Chart",
-        "System audit log"
+        "Topic × Cognitive Heatmap"
       ],
-      "answer": 2,
+      "answer": 1,
       "explanation": "The Cognitive Radar Chart summarizes performance across reproduction, application, and analysis. It shows whether a learner mainly recalls facts or can also apply and analyze ideas.",
       "weight": 2,
       "topic": "Learner Analytics",
@@ -158,10 +151,9 @@
     {
       "question": "7. An instructor wants to generate multiple-choice items with an LLM without importing malformed output. Which MC Test design choice addresses this most directly?",
       "options": [
-        "Longer answer explanations attached to each answer option",
-        "A lower default threshold for concept mastery rules",
-        "Schema-driven JSON output with validation and repair",
-        "A larger catalog of unanswered response category labels"
+        "Automated duplicate-question detection across uploaded sets",
+        "Mandatory double-coding of every generated cognitive label",
+        "Schema-driven JSON output with validation and repair"
       ],
       "answer": 2,
       "explanation": "Schema-driven JSON output makes generated items machine-checkable. Validation and repair loops catch structural problems before import and review.",
@@ -188,11 +180,10 @@
     {
       "question": "8. A generated item makes the correct option obvious because it is much longer than the distractors. Which MC Test mechanism is intended to reduce this cueing problem?",
       "options": [
-        "Time-Critical Override",
-        "Cohen's kappa calculation",
-        "Pseudonymous access",
-        "Option harmonization",
-        "Concept mastery thresholding"
+        "Automated JSON schema validation and repair",
+        "Semantic checks on the requested difficulty profile",
+        "Post-generation cognitive-level relabeling",
+        "Option harmonization across answer choices"
       ],
       "answer": 3,
       "explanation": "Option harmonization revises answer choices so the keyed option is not obvious from length, syntax, or specificity. It preserves the answer key while improving item quality.",
@@ -221,8 +212,7 @@
       "options": [
         "Concept Mastery Columns dashboard view",
         "Topic × Cognitive Heatmap dashboard view",
-        "Single total score summary display",
-        "Item-level mini-glossary reference panel"
+        "Cognitive Radar Chart dashboard view"
       ],
       "answer": 1,
       "explanation": "The Topic × Cognitive Heatmap crosses topics with cognitive levels. It helps show whether a difficulty is tied to one topic, one cognitive level, or their combination.",
@@ -248,10 +238,9 @@
     {
       "question": "10. Why does MC Test limit operational item labels to Bloom levels 1–3?",
       "options": [
-        "Because dashboards cannot display more than three colors",
+        "Because evaluation and creation are hard to assess reliably in closed MC items",
         "Because higher-order generation and validation are harder to keep reliable",
-        "Because learners should focus mainly on memorizing facts in STEM courses",
-        "Because formative assessment cannot use cognitive taxonomies"
+        "Because the full six-level Bloom taxonomy requires open-ended responses"
       ],
       "answer": 1,
       "explanation": "MC Test focuses on Bloom-inspired levels 1–3 to improve verifiability and reduce semantic risk. Evaluation and creation tasks are harder to generate and validate reliably in closed multiple-choice formats.",
@@ -281,9 +270,7 @@
       "options": [
         "To confirm generation settings before final output",
         "To let the system skip validation after generation",
-        "To remove the need for learning objectives",
-        "To require every learner to author a question set",
-        "To prevent instructors from changing topics later"
+        "To remove the need for learning objectives"
       ],
       "answer": 0,
       "explanation": "The finite-state workflow collects parameters step by step. Explicit confirmation ensures that topic, audience, item count, difficulty profile, option format, and context are clear before output is generated.",
@@ -311,11 +298,10 @@
       "question": "12. A course team wants learners to receive targeted study advice instead of only a score. Which MC Test design principle best supports this goal?",
       "options": [
         "To hide unanswered items completely on the learner dashboard",
-        "To disable all feedback until the course has fully ended",
         "To report learner results only as one final percentage",
         "To link results to topics, concepts, levels, and explanations"
       ],
-      "answer": 3,
+      "answer": 2,
       "explanation": "MC Test is designed to move beyond a single total score. It links results to topics, concepts, cognitive levels, explanations, and study resources.",
       "weight": 2,
       "topic": "Formative Assessment",
@@ -338,45 +324,13 @@
       }
     },
     {
-      "question": "13. Which situation best illustrates the purpose of the Pre-Answer Cooldown?",
+      "question": "13. What is the main purpose of the Time-Critical Override?",
       "options": [
-        "The learner must wait briefly before submitting an answer",
-        "The instructor cannot review any generated item drafts",
-        "The system deletes all old responses after the test ends",
-        "The dashboard hides incorrect answers from the learner"
-      ],
-      "answer": 0,
-      "explanation": "The Pre-Answer Cooldown disables the Submit button for a short item-specific time. It is meant as reading support and a nudge against impulsive rapid guessing.",
-      "weight": 2,
-      "topic": "Pacing Mechanisms",
-      "concept": "Reading support through cooldowns",
-      "cognitive_level": "Application",
-      "mini_glossary": {
-        "Pre-Answer Cooldown": "A short delay before submission becomes possible.",
-        "Rapid guessing": "Answering unusually quickly with reduced test-taking effort.",
-        "Reading support": "A design nudge that encourages attention to the item stem and options."
-      },
-      "extended_explanation": {
-        "title": "Function of the pre-answer delay",
-        "content": "The Pre-Answer Cooldown does not prove that learners read deeply. It creates a small structural barrier against immediate, low-effort responses.",
-        "steps": [
-          "Identify the timing point before answer submission.",
-          "Connect the delay to reading and reflection before choosing.",
-          "Distinguish it from post-answer feedback review.",
-          "Treat the mechanism as a hypothesis to be evaluated empirically."
-        ]
-      }
-    },
-    {
-      "question": "14. What is the main purpose of the Time-Critical Override?",
-      "options": [
-        "To block learners with accommodations from finishing attempts",
-        "To replace learner analytics with instructor-only reports",
+        "To extend cooldown duration when remaining time is critically low",
         "To disable cooldowns when time per remaining item is critical",
-        "To increase the scoring weight of unanswered items",
         "To remove pacing mechanisms permanently from a course"
       ],
-      "answer": 2,
+      "answer": 1,
       "explanation": "The Time-Critical Override relaxes cooldowns under strong time pressure. It prioritizes completion when fixed pacing would otherwise become a disadvantage.",
       "weight": 2,
       "topic": "Pacing Mechanisms",
@@ -399,12 +353,11 @@
       }
     },
     {
-      "question": "15. A concept has 10 associated items, and the learner answered all 10 with 7 correct. Under the default MC Test mastery rule described in the EDULEARN26 paper, how is the concept classified?",
+      "question": "14. A concept has 10 associated items, and the learner answered all 10 with 7 correct. Under the default MC Test mastery rule described in the EDULEARN26 paper, how is the concept classified?",
       "options": [
         "Classified as understood for the concept",
         "Classified as not attempted for the concept",
-        "Classified as not understood for the concept",
-        "Excluded entirely from concept analytics"
+        "Classified as not understood for the concept"
       ],
       "answer": 0,
       "explanation": "The EDULEARN26 paper uses a 70% default heuristic: a concept counts as understood when at least 70% of its items are correct. Seven correct out of ten meets that threshold.",
@@ -429,14 +382,13 @@
       }
     },
     {
-      "question": "16. Why does MC Test include a mini-glossary for individual items?",
+      "question": "15. Why does MC Test include a mini-glossary for individual items?",
       "options": [
-        "To store personally identifiable learner profile data",
-        "To rank learners publicly by terminology knowledge",
+        "To centralize all course vocabulary in one shared glossary file",
         "To replace answer explanations with glossary entries",
         "To provide vocabulary help at the point of feedback"
       ],
-      "answer": 3,
+      "answer": 2,
       "explanation": "The mini-glossary gives learners short definitions of terms that matter for the item. It supports understanding directly at the point of feedback.",
       "weight": 2,
       "topic": "Formative Assessment",
@@ -459,13 +411,11 @@
       }
     },
     {
-      "question": "17. Which pair best describes the difference between topics and concepts in MC Test analytics?",
+      "question": "16. Which pair best describes the difference between topics and concepts in MC Test analytics?",
       "options": [
-        "Topics are learner names; concepts are test dates",
-        "Topics are response times; concepts are cooldown durations",
-        "Topics are broad units; concepts are fine-grained targets",
-        "Topics are incorrect options; concepts are correct options",
-        "Topics are privacy settings; concepts are database tables"
+        "Topics are course modules; concepts are individual practice sessions",
+        "Topics are cognitive levels; concepts are topic labels",
+        "Topics are broad units; concepts are fine-grained targets"
       ],
       "answer": 2,
       "explanation": "MC Test uses topics as broader curriculum units and concepts as finer-grained learning targets. That distinction supports both overview-level and remediation-level analytics.",
@@ -490,14 +440,13 @@
       }
     },
     {
-      "question": "18. An instructor wants to know whether two reviewers assign the same cognitive-level labels to items. Which measure is appropriate for this purpose?",
+      "question": "17. An instructor wants to know whether two reviewers assign the same cognitive-level labels to items. Which measure is appropriate for this purpose?",
       "options": [
         "Concept mastery percentage by topic area",
-        "Mean System Usability Scale composite score",
-        "Total database storage size in megabytes",
+        "Percent agreement on cognitive labels without chance correction",
         "Cohen's kappa for inter-rater label agreement"
       ],
-      "answer": 3,
+      "answer": 2,
       "explanation": "Cohen's kappa is planned to assess agreement between double coders of cognitive-level labels. It helps show whether the labels are reliable enough to interpret.",
       "weight": 2,
       "topic": "Evaluation Design",
@@ -520,15 +469,13 @@
       }
     },
     {
-      "question": "19. What does a mean SUS score of 70.38 primarily indicate in the MC Test evaluation context?",
+      "question": "18. What does a mean SUS score of 70.38 primarily indicate in the MC Test evaluation context?",
       "options": [
         "Perfect reliability of cognitive-level item labels",
-        "Validated reduction of rapid-guessing item behavior",
         "Preliminary evidence of acceptable perceived usability",
-        "Definitive proof of measurable learner learning gains",
-        "Complete elimination of all accessibility concerns"
+        "Definitive proof of measurable learner learning gains"
       ],
-      "answer": 2,
+      "answer": 1,
       "explanation": "The SUS result provides preliminary evidence about perceived usability. It does not establish learning gains, reduced rapid guessing, or label reliability.",
       "weight": 2,
       "topic": "Evaluation Design",
@@ -551,12 +498,11 @@
       }
     },
     {
-      "question": "20. Why is human instructor review still necessary after LLM-assisted item generation in MC Test?",
+      "question": "19. Why is human instructor review still necessary after LLM-assisted item generation in MC Test?",
       "options": [
         "Because validation alone cannot ensure educational quality",
-        "Because generated explanations cannot be learner-facing",
-        "Because JSON output makes instructor review impossible",
-        "Because local LLMs cannot produce any structured text"
+        "Because schema validation guarantees subject-matter correctness",
+        "Because harmonization removes all item flaws without review"
       ],
       "answer": 0,
       "explanation": "Validation can check structure and some semantic constraints, but it cannot guarantee full educational quality. Human review remains necessary for correctness, alignment, and item quality.",
@@ -581,11 +527,10 @@
       }
     },
     {
-      "question": "21. A learner sees many unanswered items and a low percentage correct in one topic. Which interpretation is most appropriate?",
+      "question": "20. A learner sees many unanswered items and a low percentage correct in one topic. Which interpretation is most appropriate?",
       "options": [
         "The topic may need remediation, and unanswered items matter",
         "The learner has mastered the topic because skipped items are neutral",
-        "The dashboard is useless because unanswered items are included",
         "The learner clearly lacks all knowledge in that topic"
       ],
       "answer": 0,
@@ -611,13 +556,11 @@
       }
     },
     {
-      "question": "22. Which design choice best supports pseudonymous participation in MC Test?",
+      "question": "21. Which design choice best supports pseudonymous participation in MC Test?",
       "options": [
         "Publishing individual learner performance dashboards publicly",
-        "Sending generation prompts to external social platforms",
-        "Supporting progress tracking without personal accounts",
-        "Requiring public learner profiles for every session",
-        "Replacing session timestamps with learner full names"
+        "Requiring institutional SSO with legal-name accounts for every session",
+        "Supporting progress tracking without personal accounts"
       ],
       "answer": 2,
       "explanation": "Pseudonymous participation supports progress tracking while reducing the need for personal accounts. That fits privacy-aware use in institutional teaching contexts.",
@@ -642,12 +585,11 @@
       }
     },
     {
-      "question": "23. Why does MC Test use local MathJax rendering instead of an external content delivery network?",
+      "question": "22. Why does MC Test use local MathJax rendering instead of an external content delivery network?",
       "options": [
-        "To prevent learners from seeing mathematical notation",
+        "To load formulas faster from geographically closer CDN nodes",
         "To reduce leakage of usage data to external hosts",
-        "To make displayed formulas impossible for learners to copy",
-        "To replace the need for any database persistence layer"
+        "To render mathematics only in instructor review mode"
       ],
       "answer": 1,
       "explanation": "Self-hosted MathJax helps avoid leaking usage data to external CDNs. That supports privacy-compliant rendering in institutional deployments.",
@@ -672,12 +614,10 @@
       }
     },
     {
-      "question": "24. In the on-premises architecture described in the EDULEARN26 paper, which database supports concurrent sessions and relational data?",
+      "question": "23. In the on-premises architecture described in the EDULEARN26 paper, which database supports concurrent sessions and relational data?",
       "options": [
-        "A browser cookie without persistent server-side storage",
+        "SQLite in a single-file deployment for all session records",
         "PostgreSQL as the relational database persistence layer",
-        "A spreadsheet exported manually after each practice session",
-        "A slide deck embedded directly inside the application UI",
         "A single static JSON file used for all session data"
       ],
       "answer": 1,
@@ -703,14 +643,13 @@
       }
     },
     {
-      "question": "25. A course team wants to evaluate whether cooldowns reduce rapid guessing. Which data source is most relevant?",
+      "question": "24. A course team wants to evaluate whether cooldowns reduce rapid guessing. Which data source is most relevant?",
       "options": [
-        "The metadata title of the question set only",
-        "The total number of mini-glossary terms only",
+        "Aggregated concept-mastery percentages by topic area only",
         "The learner's final percentage score summary only",
         "System logs of response times and learner behavior"
       ],
-      "answer": 3,
+      "answer": 2,
       "explanation": "Rapid guessing is inferred from response-time and behavior patterns. System logs are therefore more relevant than final scores alone.",
       "weight": 2,
       "topic": "Evaluation Design",
@@ -733,14 +672,13 @@
       }
     },
     {
-      "question": "26. A learner performs well in most topics but weakly on analysis across nearly all topics. What is the most defensible interpretation?",
+      "question": "25. A learner performs well in most topics but weakly on analysis across nearly all topics. What is the most defensible interpretation?",
       "options": [
         "The dashboard proves the analysis items are psychometrically invalid",
-        "The learner should ignore all cognitive-level dashboard information",
         "The learner likely has a broad analysis gap rather than one topic gap",
         "The learner has no problem because overall topic scores remain strong"
       ],
-      "answer": 2,
+      "answer": 1,
       "explanation": "Weak analysis scores across topics suggest a pattern tied to cognitive demand, not just one topic. Still check evidence volume and item quality before drawing strong conclusions.",
       "weight": 3,
       "topic": "Learner Analytics",
@@ -765,15 +703,13 @@
       }
     },
     {
-      "question": "27. Which combination best represents the MC Test quality-assurance logic for LLM-generated items?",
+      "question": "26. Which combination best represents the MC Test quality-assurance logic for LLM-generated items?",
       "options": [
-        "Random generation, no metadata, and post-hoc score aggregation",
         "Free-form prompting, immediate publication, and learner ranking",
-        "External API dependence, hidden prompts, and no repair strategy",
         "Schema-constrained generation, validation, harmonization, and review",
         "Single-score feedback, no explanations, and no cognitive labels"
       ],
-      "answer": 3,
+      "answer": 1,
       "explanation": "MC Test combines technical constraints with human review. The pipeline aims to produce parseable items, fix structural problems, reduce option cues, and preserve instructor control.",
       "weight": 3,
       "topic": "Schema Validation",
@@ -798,12 +734,11 @@
       }
     },
     {
-      "question": "28. A local LLM backend produces syntactically valid JSON but sometimes changes the intended difficulty distribution. Which response best fits the MC Test design philosophy?",
+      "question": "27. A local LLM backend produces syntactically valid JSON but sometimes changes the intended difficulty distribution. Which response best fits the MC Test design philosophy?",
       "options": [
         "Remove cognitive levels from the item model to simplify generation",
         "Accept the output because valid JSON is sufficient",
-        "Add semantic validation for the requested difficulty profile",
-        "Reject local models as unusable for education"
+        "Add semantic validation for the requested difficulty profile"
       ],
       "answer": 2,
       "explanation": "Valid syntax alone is not enough. MC Test also needs semantic checks, such as whether generated weights match the requested difficulty profile.",
@@ -829,13 +764,11 @@
       }
     },
     {
-      "question": "29. A learner answers quickly and incorrectly, then wants to move on without reading the explanation. Which combination of MC Test mechanisms most directly addresses this behavior?",
+      "question": "28. A learner answers quickly and incorrectly, then wants to move on without reading the explanation. Which combination of MC Test mechanisms most directly addresses this behavior?",
       "options": [
-        "Topic labels paired with public source-code release",
-        "PostgreSQL storage paired with Docker Compose deployment",
-        "Post-Answer Cooldown paired with extended feedback review",
-        "Pseudonymous login paired with locally hosted MathJax",
-        "SUS scoring paired with MIT open-source licensing"
+        "Pre-Answer Cooldown paired with option harmonization checks",
+        "Time-Critical Override paired with topic performance summaries",
+        "Post-Answer Cooldown paired with extended feedback review"
       ],
       "answer": 2,
       "explanation": "The Post-Answer Cooldown creates a short review window after submission. Extended feedback can support reflection by explaining the reasoning behind the item.",
@@ -861,11 +794,10 @@
       }
     },
     {
-      "question": "30. Which statement best captures the current evidence status of MC Test?",
+      "question": "29. Which statement best captures the current evidence status of MC Test?",
       "options": [
         "It has proven large learning gains across STEM disciplines",
         "It offers design contribution with preliminary usability evidence",
-        "It has eliminated the need for psychometric item analysis",
         "It is validated as a high-stakes examination platform"
       ],
       "answer": 1,

@@ -147,6 +147,18 @@ def _inject_main_container_padding(*, compact_mobile: bool = False) -> None:
         pass
 
 
+def _emit_script_html(html: str) -> None:
+    """Inject HTML/JS snippets that need to run in the Streamlit page."""
+    try:
+        html_fn = getattr(st, "html", None)
+        if callable(html_fn):
+            html_fn(html, width="content", unsafe_allow_javascript=True)
+        else:
+            st.markdown(html, unsafe_allow_html=True)
+    except Exception:
+        pass
+
+
 def _emit_style_html(style_html: str) -> None:
     """Inject pure CSS without adding visible Streamlit layout height."""
     html_fn = getattr(st, "html", None)
@@ -238,8 +250,100 @@ def _inject_question_view_compact_styles() -> None:
             .stMainBlockContainer div[data-testid="stMarkdownContainer"]:has(.mc-question-meta-group),
             .stMainBlockContainer div[data-testid="stMarkdownContainer"]:has(.mc-question-meta-line),
             .stMainBlockContainer div[data-testid="stMarkdownContainer"]:has(.mc-question-weight-line),
-            .stMainBlockContainer div[data-testid="stMarkdownContainer"]:has(.mc-answer-option-label) {
+            .stMainBlockContainer div[data-testid="stMarkdownContainer"]:has(.mc-answer-options-begin),
+            .stMainBlockContainer div[data-testid="stMarkdownContainer"]:has(.mc-answer-option-letter-badge) {
               margin-bottom: 0;
+            }
+            .stMainBlockContainer div[data-testid="stElementContainer"]:has(.mc-answer-options-begin) {
+              margin-bottom: 0.05rem;
+            }
+            .stMainBlockContainer div[data-testid="stElementContainer"]:has(.mc-answer-option-row)
+              + div[data-testid="stElementContainer"],
+            .stMainBlockContainer div[data-testid="stElementContainer"]:has(.mc-answer-option-row)
+              + div[data-testid="stLayoutWrapper"] {
+              margin-top: 0;
+              margin-bottom: 0.14rem;
+            }
+            .stMainBlockContainer div[data-testid="stElementContainer"]:has(.mc-answer-options-end) {
+              margin-bottom: 0.3rem;
+            }
+            .stMainBlockContainer div[data-testid="stElementContainer"]:has(.mc-answer-option-row)
+              + div[data-testid="stElementContainer"] div[data-testid="stHorizontalBlock"],
+            .stMainBlockContainer div[data-testid="stElementContainer"]:has(.mc-answer-option-row)
+              + div[data-testid="stLayoutWrapper"] div[data-testid="stHorizontalBlock"] {
+              align-items: flex-start !important;
+              display: flex !important;
+              flex-direction: row !important;
+              flex-wrap: nowrap !important;
+              gap: 0.4rem !important;
+            }
+            .stMainBlockContainer div[data-testid="stElementContainer"]:has(.mc-answer-option-row)
+              + div[data-testid="stElementContainer"] div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:first-of-type,
+            .stMainBlockContainer div[data-testid="stElementContainer"]:has(.mc-answer-option-row)
+              + div[data-testid="stLayoutWrapper"] div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:first-of-type {
+              flex: 0 0 1.75rem !important;
+              width: 1.75rem !important;
+              min-width: 1.75rem !important;
+              max-width: 1.75rem !important;
+            }
+            .stMainBlockContainer div[data-testid="stElementContainer"]:has(.mc-answer-option-row)
+              + div[data-testid="stElementContainer"] div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:last-of-type,
+            .stMainBlockContainer div[data-testid="stElementContainer"]:has(.mc-answer-option-row)
+              + div[data-testid="stLayoutWrapper"] div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:last-of-type {
+              flex: 1 1 0 !important;
+              min-width: 0 !important;
+              width: auto !important;
+            }
+            .stMainBlockContainer div[data-testid="stElementContainer"]:has(.mc-answer-option-row)
+              + div[data-testid="stElementContainer"] div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:last-of-type div[data-testid="stMarkdownContainer"],
+            .stMainBlockContainer div[data-testid="stElementContainer"]:has(.mc-answer-option-row)
+              + div[data-testid="stElementContainer"] div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:last-of-type div[data-testid="stMarkdownContainer"] p,
+            .stMainBlockContainer div[data-testid="stElementContainer"]:has(.mc-answer-option-row)
+              + div[data-testid="stLayoutWrapper"] div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:last-of-type div[data-testid="stMarkdownContainer"],
+            .stMainBlockContainer div[data-testid="stElementContainer"]:has(.mc-answer-option-row)
+              + div[data-testid="stLayoutWrapper"] div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:last-of-type div[data-testid="stMarkdownContainer"] p {
+              overflow-wrap: anywhere;
+              word-break: break-word;
+            }
+            .mc-answer-option-letter-badge {
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              width: 1.55rem;
+              height: 1.55rem;
+              margin-top: 0.1rem;
+              border-radius: 999px;
+              background: rgba(147, 197, 253, 0.18);
+              color: #93c5fd;
+              font-weight: 700;
+              line-height: 1;
+            }
+            .mc-answer-option-letter-badge.is-selected {
+              background: #2563eb;
+              color: #fff;
+            }
+            @media (max-width: 640px) {
+              .stMainBlockContainer div[data-testid="stElementContainer"]:has(.mc-answer-option-row)
+                + div[data-testid="stElementContainer"] div[data-testid="stHorizontalBlock"],
+              .stMainBlockContainer div[data-testid="stElementContainer"]:has(.mc-answer-option-row)
+                + div[data-testid="stLayoutWrapper"] div[data-testid="stHorizontalBlock"] {
+                gap: 0.3rem !important;
+              }
+              .stMainBlockContainer div[data-testid="stElementContainer"]:has(.mc-answer-option-row)
+                + div[data-testid="stElementContainer"] div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:first-of-type,
+              .stMainBlockContainer div[data-testid="stElementContainer"]:has(.mc-answer-option-row)
+                + div[data-testid="stLayoutWrapper"] div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:first-of-type {
+                flex-basis: 1.65rem !important;
+                width: 1.65rem !important;
+                min-width: 1.65rem !important;
+                max-width: 1.65rem !important;
+              }
+              .mc-answer-option-letter-badge {
+                width: 1.45rem;
+                height: 1.45rem;
+                margin-top: 0.08rem;
+                font-size: 0.92rem;
+              }
             }
             .stMainBlockContainer div[data-testid="stMarkdownContainer"] p {
               margin-bottom: 0.4rem;
@@ -333,6 +437,54 @@ def _inject_question_view_compact_styles() -> None:
             }
             .stMainBlockContainer div[data-testid="stRadio"] div[role="radiogroup"] > label > div {
               flex: 0 0 auto !important;
+            }
+            .stMainBlockContainer div[data-testid="stVerticalBlock"]:has(.mc-answer-radio-marker)
+              div[data-testid="stRadio"] div[role="radiogroup"] > label {
+              position: relative;
+              cursor: pointer;
+              gap: 0 !important;
+            }
+            .stMainBlockContainer div[data-testid="stVerticalBlock"]:has(.mc-answer-radio-marker)
+              div[data-testid="stRadio"] div[role="radiogroup"] > label > div:first-child {
+              position: absolute !important;
+              width: 1.55rem !important;
+              height: 1.55rem !important;
+              margin: 0 !important;
+              opacity: 0 !important;
+              z-index: 2;
+            }
+            .stMainBlockContainer div[data-testid="stVerticalBlock"]:has(.mc-answer-radio-marker)
+              div[data-testid="stRadio"] div[role="radiogroup"] > label > div:first-child input[type="radio"] {
+              width: 1.55rem !important;
+              height: 1.55rem !important;
+              margin: 0 !important;
+              cursor: pointer;
+            }
+            .stMainBlockContainer div[data-testid="stVerticalBlock"]:has(.mc-answer-radio-marker)
+              div[data-testid="stRadio"] div[role="radiogroup"] > label div[data-testid="stMarkdownContainer"] {
+              width: auto !important;
+              margin: 0 !important;
+            }
+            .stMainBlockContainer div[data-testid="stVerticalBlock"]:has(.mc-answer-radio-marker)
+              div[data-testid="stRadio"] div[role="radiogroup"] > label div[data-testid="stMarkdownContainer"] p {
+              display: inline-flex !important;
+              align-items: center !important;
+              justify-content: center !important;
+              width: 1.55rem !important;
+              height: 1.55rem !important;
+              margin: 0 !important;
+              border-radius: 999px;
+              background: rgba(147, 197, 253, 0.18);
+              color: #93c5fd !important;
+              font-weight: 700 !important;
+              line-height: 1 !important;
+              text-align: center !important;
+            }
+            .stMainBlockContainer div[data-testid="stVerticalBlock"]:has(.mc-answer-radio-marker)
+              div[data-testid="stRadio"] div[role="radiogroup"] > label:has(input:checked)
+              div[data-testid="stMarkdownContainer"] p {
+              background: #2563eb !important;
+              color: #fff !important;
             }
             .mc-question-choice-divider {
               border-top: 1px solid rgba(148, 163, 184, 0.32);
@@ -2970,69 +3122,33 @@ def _prepare_markdown_for_streamlit(text: str) -> str:
 
 
 def _render_markdown_answer_options(optionen: list, selected_index: int | None = None) -> None:
-    """Rendert Antwortoptionen als Markdown-Blöcke statt als Radio-Labels."""
+    """Render answer options with native Streamlit markdown for vector LaTeX."""
     if not optionen:
         return
 
-    st.markdown(
-        """
-<style>
-.mc-answer-option-label {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.25rem;
-  margin: 0.55rem 0 0.08rem 0;
-  font-weight: 700;
-  line-height: 1.18;
-}
-.mc-answer-option-label .mc-answer-option-letter {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.65rem;
-  height: 1.65rem;
-  margin-right: 0.1rem;
-  border-radius: 999px;
-  background: rgba(37, 99, 235, 0.12);
-  color: #1d4ed8;
-  flex: 0 0 auto;
-}
-.mc-answer-option-label.is-selected .mc-answer-option-letter {
-  background: #1d4ed8;
-  color: #fff;
-}
-.mc-answer-option-selected-text {
-  display: inline-block;
-  margin-left: 0.1rem;
-  color: #1d4ed8;
-  font-weight: 600;
-  white-space: nowrap;
-}
-</style>
-""",
-        unsafe_allow_html=True,
-    )
+    st.markdown('<div class="mc-answer-options-begin" aria-hidden="true"></div>', unsafe_allow_html=True)
 
-    selected_text = _test_view_text("answer_option_selected", default="ausgewählt")
     for opt_idx, raw_option in enumerate(optionen):
         option_label = _answer_option_label(opt_idx)
         is_selected = selected_index == opt_idx
-        selected_marker = (
-            f" <span class='mc-answer-option-selected-text'>({selected_text})</span>"
-            if is_selected
-            else ""
-        )
         selected_class = " is-selected" if is_selected else ""
-        st.markdown(
-            f"<div class='mc-answer-option-label{selected_class}'><span class='mc-answer-option-letter'>{option_label}</span>{selected_marker}</div>",
-            unsafe_allow_html=True,
-        )
-        option_text = smart_quotes_de(str(raw_option or ""))
-        if option_text.strip():
-            st.markdown(_prepare_markdown_for_streamlit(option_text), unsafe_allow_html=True)
-        else:
-            st.markdown("_Leere Antwortoption_")
+        st.markdown('<div class="mc-answer-option-row" aria-hidden="true"></div>', unsafe_allow_html=True)
+        letter_col, text_col = st.columns([1, 17], gap="small", vertical_alignment="top")
+
+        with letter_col:
+            st.markdown(
+                f"<div class='mc-answer-option-letter-badge{selected_class}'>"
+                f"{_html.escape(option_label)}</div>",
+                unsafe_allow_html=True,
+            )
+        with text_col:
+            option_text = _prepare_markdown_for_streamlit(smart_quotes_de(str(raw_option or "")))
+            if option_text.strip():
+                st.markdown(option_text)
+            else:
+                st.markdown("_Leere Antwortoption_")
+
+    st.markdown('<div class="mc-answer-options-end" aria-hidden="true"></div>', unsafe_allow_html=True)
 
 
 def _sync_questions_query_param(selected_file: str):
@@ -7991,6 +8107,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
 
         st.markdown("<div class='mc-question-choice-divider' aria-hidden='true'></div>", unsafe_allow_html=True)
         with st.container(width="stretch", horizontal_alignment="center"):
+            st.markdown('<div class="mc-answer-radio-marker" aria-hidden="true"></div>', unsafe_allow_html=True)
             selected_index = st.radio(
                 _test_view_text("question_prompt", default="Wähle deine Antwort:"),
                 options=range(len(optionen)),
@@ -7998,7 +8115,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                 index=optionen.index(gespeicherte_antwort) if gespeicherte_antwort in optionen else None,
                 disabled=is_answered and (not panic_mode),
                 horizontal=True,
-                format_func=lambda x: _answer_option_label(x),
+                format_func=_answer_option_label,
                 on_change=_radio_on_change,
                 width="content",
             )
