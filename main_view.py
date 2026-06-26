@@ -322,6 +322,15 @@ def _inject_question_view_compact_styles() -> None:
               background: #2563eb;
               color: #fff;
             }
+            .stMainBlockContainer div[data-testid="stHorizontalBlock"]:has(.mc-answer-option-letter-badge.is-selected)
+              > div[data-testid="stColumn"]:last-of-type div[data-testid="stMarkdownContainer"],
+            .stMainBlockContainer div[data-testid="stHorizontalBlock"]:has(.mc-answer-option-letter-badge.is-selected)
+              > div[data-testid="stColumn"]:last-of-type div[data-testid="stMarkdownContainer"] p,
+            .stMainBlockContainer div[data-testid="stHorizontalBlock"]:has(.mc-answer-option-letter-badge.is-selected)
+              > div[data-testid="stColumn"]:last-of-type div[data-testid="stMarkdownContainer"] li {
+              color: #bfdbfe;
+              font-weight: 650;
+            }
             @media (max-width: 640px) {
               .stMainBlockContainer div[data-testid="stElementContainer"]:has(.mc-answer-option-row)
                 + div[data-testid="stElementContainer"] div[data-testid="stHorizontalBlock"],
@@ -979,15 +988,16 @@ def _scroll_question_view_to_top(frage_idx: int) -> None:
 
 
 def _sync_answer_option_badge_highlight() -> None:
-    """Mirror radio selection into option letter badges without a server rerun."""
+    """Mirror radio selection into rendered answer options without a server rerun."""
     html = """
     <script>
     (() => {
+        const version = 2;
         const install = (win) => {
-            if (!win || !win.document || win.__mcAnswerBadgeSyncInstalled) {
+            if (!win || !win.document || win.__mcAnswerBadgeSyncInstalled === version) {
                 return;
             }
-            win.__mcAnswerBadgeSyncInstalled = true;
+            win.__mcAnswerBadgeSyncInstalled = version;
 
             const sync = () => {
                 try {
@@ -996,10 +1006,7 @@ def _sync_answer_option_badge_highlight() -> None:
                     if (!marker) {
                         return;
                     }
-                    const scope =
-                        marker.closest('[data-testid="stVerticalBlock"]') ||
-                        marker.closest('[data-testid="stMainBlockContainer"]') ||
-                        doc;
+                    const scope = marker.closest('[data-testid="stMainBlockContainer"]') || doc;
                     const radioGroup = scope.querySelector('[data-testid="stRadio"] [role="radiogroup"]');
                     if (!radioGroup) {
                         return;
@@ -1055,13 +1062,7 @@ def _sync_answer_option_badge_highlight() -> None:
 
 
 def _ensure_answer_option_badge_highlight() -> None:
-    """Install badge sync once per session to avoid top-of-page layout churn."""
-    try:
-        if st.session_state.get("_mc_answer_badge_highlight_ready"):
-            return
-        st.session_state["_mc_answer_badge_highlight_ready"] = True
-    except Exception:
-        pass
+    """Install badge sync for the current render."""
     _sync_answer_option_badge_highlight()
 
 
@@ -3548,8 +3549,11 @@ def _render_question_answer_interaction(
         answer_label_sure = _test_view_text("answer_button_sure", default="✅ Sicher antworten")
         answered_already = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
         answer_disabled = False if panic_mode else (answered_already and not panic_mode)
+        pending_answer_toast: tuple[str, str | None] | None = None
+        pending_answer_submission: tuple[str, str | None] | None = None
 
         def _handle_answer_click(confidence: str | None) -> None:
+            nonlocal pending_answer_submission, pending_answer_toast
             _dismiss_user_qset_dialog_from_test()
             selected_answer = _resolve_selected_answer()
             if selected_answer is None:
@@ -3557,27 +3561,20 @@ def _render_question_answer_interaction(
                     "test_view.select_answer",
                     default="Bitte wähle zuerst eine Antwort aus.",
                 )
-                show_ephemeral_message(select_hint, icon="👉")
+                pending_answer_toast = (select_hint, "👉")
             elif remaining_answer_cooldown > 0 and not panic_mode:
                 hint = translate_ui(
                     "test_view.answer_read_hint",
                     default="Lies die Frage aufmerksam durch und alle Antwortoptionen.",
                 )
-                show_ephemeral_message(
+                pending_answer_toast = (
                     f"{hint} {translate_ui('test_view.countdown.cooldown_remaining', default='(still {seconds}s)').format(seconds=remaining_answer_cooldown)}",
-                    icon="⏳",
+                    "⏳",
                 )
             else:
-                handle_answer_submission(
-                    frage_idx,
-                    selected_answer,
-                    frage_obj,
-                    app_config,
-                    questions,
-                    confidence=confidence,
-                )
+                pending_answer_submission = (selected_answer, confidence)
 
-        with st.form(key=f"answer_form_{frage_idx}", border=False, enter_to_submit=False):
+        def _render_answer_radio() -> None:
             with st.container(width="stretch", horizontal_alignment="center"):
                 st.markdown('<div class="mc-answer-radio-marker" aria-hidden="true"></div>', unsafe_allow_html=True)
                 st.radio(
@@ -3591,33 +3588,7 @@ def _render_question_answer_interaction(
                     width="content",
                 )
 
-            antwort = _resolve_selected_answer()
-            answer_button_type = "primary" if antwort is not None else "secondary"
-
-            if not answer_disabled:
-                if current_mode == "exam":
-                    if st.form_submit_button(
-                        translate_ui("test_view.submit_button", default="Antworten"),
-                        type="primary",
-                        width="stretch",
-                    ):
-                        _handle_answer_click(None)
-                else:
-                    answer_cols = st.columns([1, 1])
-                    with answer_cols[0]:
-                        if st.form_submit_button(
-                            answer_label_unsure,
-                            type=answer_button_type,
-                            width="stretch",
-                        ):
-                            _handle_answer_click("unsure")
-                    with answer_cols[1]:
-                        if st.form_submit_button(
-                            answer_label_sure,
-                            type=answer_button_type,
-                            width="stretch",
-                        ):
-                            _handle_answer_click("sure")
+        _render_answer_radio()
 
         meta_col1, meta_col2 = st.columns([1, 1])
         with meta_col1:
@@ -3667,6 +3638,50 @@ def _render_question_answer_interaction(
                             pass
                     st.toast(_test_view_text("skip_toast", default="Frage übersprungen. Sie wird später erneut gestellt."))
                     st.rerun()
+
+        if not answer_disabled:
+            with st.form(key=f"answer_form_{frage_idx}", border=False, enter_to_submit=False):
+                antwort = _resolve_selected_answer()
+                answer_button_type = "primary" if antwort is not None else "secondary"
+
+                if current_mode == "exam":
+                    if st.form_submit_button(
+                        translate_ui("test_view.submit_button", default="Antworten"),
+                        type="primary",
+                        width="stretch",
+                    ):
+                        _handle_answer_click(None)
+                else:
+                    answer_cols = st.columns([1, 1])
+                    with answer_cols[0]:
+                        if st.form_submit_button(
+                            answer_label_unsure,
+                            type=answer_button_type,
+                            width="stretch",
+                        ):
+                            _handle_answer_click("unsure")
+                    with answer_cols[1]:
+                        if st.form_submit_button(
+                            answer_label_sure,
+                            type=answer_button_type,
+                            width="stretch",
+                        ):
+                            _handle_answer_click("sure")
+
+        if pending_answer_submission is not None:
+            submitted_answer, submitted_confidence = pending_answer_submission
+            handle_answer_submission(
+                frage_idx,
+                submitted_answer,
+                frage_obj,
+                app_config,
+                questions,
+                confidence=submitted_confidence,
+            )
+
+        if pending_answer_toast is not None:
+            toast_message, toast_icon = pending_answer_toast
+            show_ephemeral_message(toast_message, icon=toast_icon)
     except Exception:
         pass
 
