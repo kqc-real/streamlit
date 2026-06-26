@@ -47,17 +47,6 @@ class _FakeStreamlit:
     def columns(self, sizes, *args, **kwargs):
         return [self for _ in sizes]
 
-    def fragment(self, fn=None, **kwargs):
-        def _decorator(func):
-            def _wrapped(*wrapped_args, **wrapped_kwargs):
-                return func(*wrapped_args, **wrapped_kwargs)
-
-            return _wrapped
-
-        if fn is not None:
-            return _decorator(fn)
-        return _decorator
-
     def container(self, *args, **kwargs):
         return _FakeCtx()
 

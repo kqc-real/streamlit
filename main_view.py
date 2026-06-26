@@ -3155,22 +3155,6 @@ def _render_markdown_answer_options(optionen: list, selected_index: int | None =
     st.markdown('<div class="mc-answer-options-end" aria-hidden="true"></div>', unsafe_allow_html=True)
 
 
-def _with_optional_streamlit_fragment(func):
-    """Wrap a render function in ``st.fragment`` when the runtime supports it."""
-    cached_fragment = None
-
-    def _invoke(**kwargs):
-        nonlocal cached_fragment
-        fragment_fn = getattr(st, "fragment", None)
-        if not callable(fragment_fn):
-            return func(**kwargs)
-        if cached_fragment is None:
-            cached_fragment = fragment_fn(func)
-        return cached_fragment(**kwargs)
-
-    return _invoke
-
-
 def _render_question_answer_interaction(
     *,
     frage_idx: int,
@@ -3408,11 +3392,6 @@ def _render_question_answer_interaction(
                         _handle_answer_click("sure")
     except Exception:
         pass
-
-
-_render_question_answer_interaction_fragment = _with_optional_streamlit_fragment(
-    _render_question_answer_interaction
-)
 
 
 def _sync_questions_query_param(selected_file: str):
@@ -8329,7 +8308,7 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             pass
         
         gespeicherte_antwort = get_answer_for_question(frage_idx)
-        _render_question_answer_interaction_fragment(
+        _render_question_answer_interaction(
             frage_idx=frage_idx,
             optionen=optionen,
             shuffled_optionen=shuffled_optionen,
