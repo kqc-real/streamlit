@@ -77,13 +77,13 @@ def compute_visibility(
     else:
         mode = "Normal"
 
-    # Options/Lock In
-    options_enabled = not answered or panic_mode
+    # Panic mode skips waiting periods, but answered questions stay locked.
+    options_enabled = not answered
     lock_in_enabled = options_enabled
 
     # Skip visibility
-    skip_visible = panic_mode or ((not answered) and not (is_skipped and jump_active))
-    skip_enabled = not answered or panic_mode
+    skip_visible = (not answered) and not (is_skipped and jump_active)
+    skip_enabled = not answered
 
     # Next navigation (generic)
     is_current_skipped_unanswered = is_skipped and jump_active and not answered

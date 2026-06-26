@@ -1,7 +1,7 @@
 # Public legal and privacy pages
 
 - The public Streamlit deployment must expose both a legal notice/imprint and a privacy policy from the start page. German UI labels should be `Impressum` and `Datenschutzerklärung`; English labels should be `Legal Notice` and `Privacy Policy`. Other locales should still expose both concepts, with an English fallback if no locale-specific wording exists.
-- Keep legal entry points visually grouped under `Legal`, separate from `Language & project info`. Legal buttons should fit side-by-side on mobile where possible.
+- Keep legal entry points visible from the start page, but the start-page design intentionally omits the visible `Legal`/`Rechtliches` heading above the legal buttons as of 2026-06-26. Legal buttons should still fit side-by-side on mobile where possible.
 - The legal notice content was seeded from the arsnova.eu imprint. Before future updates, re-check the authoritative imprint/source for institution, contact, and responsible-party details.
 - The privacy policy should be fact-based for this app: Streamlit frontend/runtime, SQLite session/statistics storage, question-set uploads/content, pseudonym usage, reserved-pseudonym recovery secrets stored as hashes, and feedback/statistics workflows. Do not phrase pseudonyms as a user-created free-text data-entry field when the app manages them; privacy warnings about user-entered personal data should target free-text fields and uploaded/pasted question sets. Avoid claiming analytics, ads, or marketing tracking unless actually implemented.
 - Current app wording should state that MC-Test does not set app-owned tracking/marketing cookies. Technically necessary Streamlit/session cookies or browser storage may be used by the hosting/runtime layer.

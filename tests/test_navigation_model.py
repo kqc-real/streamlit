@@ -40,6 +40,17 @@ def test_panic_mode_always_allows_actions():
     assert not vis.next_nav_visible
 
 
+def test_panic_mode_keeps_answered_questions_locked():
+    state = base_state()
+    state["frage_0_beantwortet"] = 1
+    vis = compute_visibility(state, frage_idx=0, remaining_time=5, remaining_questions=3)
+    assert vis.mode == "Panic"
+    assert not vis.options_enabled
+    assert not vis.lock_in_enabled
+    assert not vis.skip_visible
+    assert vis.next_nav_visible
+
+
 def test_skip_review_navigation():
     state = base_state()
     state.update(

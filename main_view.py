@@ -3563,7 +3563,7 @@ def _render_question_answer_interaction(
         answer_label_unsure = _test_view_text("answer_button_unsure", default="🤔 Unsicher antworten")
         answer_label_sure = _test_view_text("answer_button_sure", default="✅ Sicher antworten")
         answered_already = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
-        answer_disabled = False if panic_mode else (answered_already and not panic_mode)
+        answer_disabled = answered_already
 
         def _queue_answer_click(confidence: str | None) -> None:
             _dismiss_user_qset_dialog_from_test()
@@ -3599,7 +3599,7 @@ def _render_question_answer_interaction(
                     options=range(len(optionen)),
                     key=widget_key,
                     index=optionen.index(gespeicherte_antwort) if gespeicherte_antwort in optionen else None,
-                    disabled=is_answered and (not panic_mode),
+                    disabled=is_answered,
                     horizontal=True,
                     format_func=_answer_option_label,
                     width="content",
@@ -3621,11 +3621,10 @@ def _render_question_answer_interaction(
                 answered_current = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
                 skipped_list = st.session_state.get("skipped_questions", [])
                 is_current_skipped = frage_idx in skipped_list
-                render_skip = panic_mode or (
-                    (not answered_current)
-                    and not (is_current_skipped and st.session_state.get("jump_to_idx_active"))
+                render_skip = (not answered_current) and not (
+                    is_current_skipped and st.session_state.get("jump_to_idx_active")
                 )
-                skip_disabled = False if panic_mode else (answered_current and (not panic_mode))
+                skip_disabled = answered_current
                 skip_label = _test_view_text("skip_button", default="↪️ Überspringen")
                 if render_skip and st.button(
                     skip_label,
