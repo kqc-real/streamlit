@@ -3464,6 +3464,7 @@ def _render_question_answer_interaction(
 ) -> None:
     """Render options, radio, meta actions, and submit controls for one question."""
     widget_key = f"radio_{frage_idx}"
+    answer_action_key = f"_queued_answer_action_{frage_idx}"
 
     def _dismiss_user_qset_dialog_from_test() -> None:
         if st.session_state.get("user_qset_dialog_open"):
@@ -3472,6 +3473,34 @@ def _render_question_answer_interaction(
     def _dismiss_user_qset_dialog_from_test() -> None:
         if st.session_state.get("user_qset_dialog_open"):
             close_user_qset_dialog(clear_results=False)
+
+    def _resolve_selected_answer() -> str | None:
+        idx = None
+        try:
+            idx = st.session_state.get(widget_key)
+        except Exception:
+            idx = None
+        try:
+            idx = int(idx) if idx is not None else None
+        except Exception:
+            idx = None
+        if idx is not None and 0 <= idx < len(shuffled_optionen):
+            return shuffled_optionen[idx]
+        return None
+
+    queued_answer_action = st.session_state.pop(answer_action_key, None)
+    if isinstance(queued_answer_action, dict) and "answer" in queued_answer_action:
+        handle_answer_submission(
+            frage_idx,
+            queued_answer_action["answer"],
+            frage_obj,
+            app_config,
+            questions,
+            confidence=queued_answer_action.get("confidence"),
+        )
+    if isinstance(queued_answer_action, dict) and "toast" in queued_answer_action:
+        toast_message, toast_icon = queued_answer_action["toast"]
+        show_ephemeral_message(toast_message, icon=toast_icon)
 
     selected_index_for_display = None
     try:
@@ -3488,20 +3517,6 @@ def _render_question_answer_interaction(
     _ensure_answer_option_badge_highlight()
 
     st.markdown("<div class='mc-question-choice-divider' aria-hidden='true'></div>", unsafe_allow_html=True)
-
-    def _resolve_selected_answer() -> str | None:
-        idx = None
-        try:
-            idx = st.session_state.get(widget_key)
-        except Exception:
-            idx = None
-        try:
-            idx = int(idx) if idx is not None else None
-        except Exception:
-            idx = None
-        if idx is not None and 0 <= idx < len(shuffled_optionen):
-            return shuffled_optionen[idx]
-        return None
 
     try:
         now_mon = time.monotonic()
@@ -3549,11 +3564,8 @@ def _render_question_answer_interaction(
         answer_label_sure = _test_view_text("answer_button_sure", default="✅ Sicher antworten")
         answered_already = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
         answer_disabled = False if panic_mode else (answered_already and not panic_mode)
-        pending_answer_toast: tuple[str, str | None] | None = None
-        pending_answer_submission: tuple[str, str | None] | None = None
 
-        def _handle_answer_click(confidence: str | None) -> None:
-            nonlocal pending_answer_submission, pending_answer_toast
+        def _queue_answer_click(confidence: str | None) -> None:
             _dismiss_user_qset_dialog_from_test()
             selected_answer = _resolve_selected_answer()
             if selected_answer is None:
@@ -3561,18 +3573,23 @@ def _render_question_answer_interaction(
                     "test_view.select_answer",
                     default="Bitte wähle zuerst eine Antwort aus.",
                 )
-                pending_answer_toast = (select_hint, "👉")
+                st.session_state[answer_action_key] = {"toast": (select_hint, "👉")}
             elif remaining_answer_cooldown > 0 and not panic_mode:
                 hint = translate_ui(
                     "test_view.answer_read_hint",
                     default="Lies die Frage aufmerksam durch und alle Antwortoptionen.",
                 )
-                pending_answer_toast = (
-                    f"{hint} {translate_ui('test_view.countdown.cooldown_remaining', default='(still {seconds}s)').format(seconds=remaining_answer_cooldown)}",
-                    "⏳",
-                )
+                st.session_state[answer_action_key] = {
+                    "toast": (
+                        f"{hint} {translate_ui('test_view.countdown.cooldown_remaining', default='(still {seconds}s)').format(seconds=remaining_answer_cooldown)}",
+                        "⏳",
+                    )
+                }
             else:
-                pending_answer_submission = (selected_answer, confidence)
+                st.session_state[answer_action_key] = {
+                    "answer": selected_answer,
+                    "confidence": confidence,
+                }
 
         def _render_answer_radio() -> None:
             with st.container(width="stretch", horizontal_alignment="center"):
@@ -3590,54 +3607,55 @@ def _render_question_answer_interaction(
 
         _render_answer_radio()
 
-        meta_col1, meta_col2 = st.columns([1, 1])
-        with meta_col1:
-            is_bookmarked = frage_idx in st.session_state.get("bookmarked_questions", [])
-            bookmark_label = _test_view_text("bookmark_toggle", default="🔖 Merken")
-            new_bookmark_state = st.toggle(bookmark_label, value=is_bookmarked, key=f"bm_toggle_{frage_idx}")
-            if new_bookmark_state != is_bookmarked:
-                _dismiss_user_qset_dialog_from_test()
-                handle_bookmark_toggle(frage_idx, new_bookmark_state, questions)
-                st.rerun()
-        with meta_col2:
-            answered_current = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
-            skipped_list = st.session_state.get("skipped_questions", [])
-            is_current_skipped = frage_idx in skipped_list
-            render_skip = panic_mode or (
-                (not answered_current)
-                and not (is_current_skipped and st.session_state.get("jump_to_idx_active"))
-            )
-            skip_disabled = False if panic_mode else (answered_current and (not panic_mode))
-            skip_label = _test_view_text("skip_button", default="↪️ Überspringen")
-            if render_skip and st.button(
-                skip_label,
-                key=f"skip_{frage_idx}",
-                width="stretch",
-                disabled=skip_disabled,
-            ):
-                _dismiss_user_qset_dialog_from_test()
-                frage_indices = st.session_state.get("frage_indices", [])
-                if frage_idx in frage_indices:
-                    frage_indices.remove(frage_idx)
-                    frage_indices.append(frage_idx)
-                    st.session_state.frage_indices = frage_indices
-                    if "skipped_questions" not in st.session_state:
-                        st.session_state.skipped_questions = []
-                    if frage_idx not in st.session_state.skipped_questions:
-                        st.session_state.skipped_questions.append(frage_idx)
-                    for key in (
-                        f"radio_{frage_idx}",
-                        f"frage_{frage_idx}_antwort",
-                        f"radio_prev_{frage_idx}",
-                        f"frage_{frage_idx}_shown_time_monotonic",
-                        f"frage_{frage_idx}_explanation_shown_time_monotonic",
-                    ):
-                        try:
-                            st.session_state.pop(key, None)
-                        except Exception:
-                            pass
-                    st.toast(_test_view_text("skip_toast", default="Frage übersprungen. Sie wird später erneut gestellt."))
+        if not st.session_state.get(f"show_explanation_{frage_idx}", False):
+            meta_col1, meta_col2 = st.columns([1, 1])
+            with meta_col1:
+                is_bookmarked = frage_idx in st.session_state.get("bookmarked_questions", [])
+                bookmark_label = _test_view_text("bookmark_toggle", default="🔖 Merken")
+                new_bookmark_state = st.toggle(bookmark_label, value=is_bookmarked, key=f"bm_toggle_{frage_idx}")
+                if new_bookmark_state != is_bookmarked:
+                    _dismiss_user_qset_dialog_from_test()
+                    handle_bookmark_toggle(frage_idx, new_bookmark_state, questions)
                     st.rerun()
+            with meta_col2:
+                answered_current = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
+                skipped_list = st.session_state.get("skipped_questions", [])
+                is_current_skipped = frage_idx in skipped_list
+                render_skip = panic_mode or (
+                    (not answered_current)
+                    and not (is_current_skipped and st.session_state.get("jump_to_idx_active"))
+                )
+                skip_disabled = False if panic_mode else (answered_current and (not panic_mode))
+                skip_label = _test_view_text("skip_button", default="↪️ Überspringen")
+                if render_skip and st.button(
+                    skip_label,
+                    key=f"skip_{frage_idx}",
+                    width="stretch",
+                    disabled=skip_disabled,
+                ):
+                    _dismiss_user_qset_dialog_from_test()
+                    frage_indices = st.session_state.get("frage_indices", [])
+                    if frage_idx in frage_indices:
+                        frage_indices.remove(frage_idx)
+                        frage_indices.append(frage_idx)
+                        st.session_state.frage_indices = frage_indices
+                        if "skipped_questions" not in st.session_state:
+                            st.session_state.skipped_questions = []
+                        if frage_idx not in st.session_state.skipped_questions:
+                            st.session_state.skipped_questions.append(frage_idx)
+                        for key in (
+                            f"radio_{frage_idx}",
+                            f"frage_{frage_idx}_antwort",
+                            f"radio_prev_{frage_idx}",
+                            f"frage_{frage_idx}_shown_time_monotonic",
+                            f"frage_{frage_idx}_explanation_shown_time_monotonic",
+                        ):
+                            try:
+                                st.session_state.pop(key, None)
+                            except Exception:
+                                pass
+                        st.toast(_test_view_text("skip_toast", default="Frage übersprungen. Sie wird später erneut gestellt."))
+                        st.rerun()
 
         if not answer_disabled:
             with st.form(key=f"answer_form_{frage_idx}", border=False, enter_to_submit=False):
@@ -3645,43 +3663,31 @@ def _render_question_answer_interaction(
                 answer_button_type = "primary" if antwort is not None else "secondary"
 
                 if current_mode == "exam":
-                    if st.form_submit_button(
+                    st.form_submit_button(
                         translate_ui("test_view.submit_button", default="Antworten"),
                         type="primary",
                         width="stretch",
-                    ):
-                        _handle_answer_click(None)
+                        on_click=_queue_answer_click,
+                        args=(None,),
+                    )
                 else:
                     answer_cols = st.columns([1, 1])
                     with answer_cols[0]:
-                        if st.form_submit_button(
+                        st.form_submit_button(
                             answer_label_unsure,
                             type=answer_button_type,
                             width="stretch",
-                        ):
-                            _handle_answer_click("unsure")
+                            on_click=_queue_answer_click,
+                            args=("unsure",),
+                        )
                     with answer_cols[1]:
-                        if st.form_submit_button(
+                        st.form_submit_button(
                             answer_label_sure,
                             type=answer_button_type,
                             width="stretch",
-                        ):
-                            _handle_answer_click("sure")
-
-        if pending_answer_submission is not None:
-            submitted_answer, submitted_confidence = pending_answer_submission
-            handle_answer_submission(
-                frage_idx,
-                submitted_answer,
-                frage_obj,
-                app_config,
-                questions,
-                confidence=submitted_confidence,
-            )
-
-        if pending_answer_toast is not None:
-            toast_message, toast_icon = pending_answer_toast
-            show_ephemeral_message(toast_message, icon=toast_icon)
+                            on_click=_queue_answer_click,
+                            args=("sure",),
+                        )
     except Exception:
         pass
 
@@ -8861,13 +8867,21 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             if (
                 st.session_state.get("jump_to_idx_active")
                 and st.session_state.get("jump_source") == "bookmark"
-                and frage_idx in st.session_state.get("bookmarked_questions", [])
             ):
                 # Für Bookmark-Review: zurück zur eigentlichen aktuellen Frage (vor dem Sprung)
                 resume_target = (
                     st.session_state.get("bookmark_return_idx")
+                    or st.session_state.get("resume_next_idx")
+                    or st.session_state.get("pre_jump_idx")
                     or st.session_state.get("_current_question_idx")
                 )
+                if resume_target == frage_idx:
+                    try:
+                        next_unanswered_idx = logic.get_current_question_index()
+                        if next_unanswered_idx is not None:
+                            resume_target = next_unanswered_idx
+                    except Exception:
+                        pass
                 if resume_target is None:
                     try:
                         resume_target = logic.get_current_question_index()

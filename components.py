@@ -20,7 +20,7 @@ from datetime import datetime
 from pathlib import Path
 
 from config import AppConfig, QuestionSet, USER_QUESTION_PREFIX, get_package_dir
-from logic import calculate_score, is_test_finished
+from logic import calculate_score, get_current_question_index, is_test_finished
 from database import update_bookmarks
 from pdf_export import (
     _extract_glossary_terms,
@@ -4010,11 +4010,16 @@ def render_bookmarks(questions: QuestionSet):
                     # Merke die aktuelle Frage als Rückkehrpunkt, bevor wir springen.
                     try:
                         current_idx = st.session_state.get("_current_question_idx")
+                        try:
+                            active_idx = get_current_question_index()
+                        except Exception:
+                            active_idx = None
+                        return_idx = active_idx if active_idx is not None and active_idx != q_idx else current_idx
                         st.session_state["resume_next_idx"] = current_idx
                         st.session_state["pre_jump_idx"] = current_idx
                         st.session_state["jump_source"] = "bookmark"
                         # Immer den aktuellen Laufpunkt als Rücksprungziel setzen.
-                        st.session_state["bookmark_return_idx"] = current_idx
+                        st.session_state["bookmark_return_idx"] = return_idx
                     except Exception:
                         pass
                     st.session_state["jump_to_idx"] = q_idx
