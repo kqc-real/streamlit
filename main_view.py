@@ -523,6 +523,63 @@ def _inject_question_view_compact_styles() -> None:
               min-height: 62px;
               width: 100%;
             }
+            .mc-mode-info-slot {
+              min-height: 4.75rem;
+              margin: 0 0 0.75rem;
+              width: 100%;
+            }
+            .stMainBlockContainer div[data-testid="stElementContainer"]:has(> div[data-testid="stAlert"]) {
+              min-height: 4.75rem;
+              margin-bottom: 0.75rem;
+            }
+            [data-testid="stAppViewContainer"],
+            [data-testid="stMain"],
+            .stMainBlockContainer,
+            [data-testid="stMainBlockContainer"] {
+              overflow-anchor: none;
+            }
+            .mc-exam-mode-marker,
+            .mc-scroll-top-request {
+              display: none;
+            }
+            div[data-testid="stElementContainer"]:has(.mc-timer-pacing-row-marker)
+              + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:first-child
+              div[data-testid="stElementContainer"],
+            div[data-testid="stElementContainer"]:has(.mc-timer-pacing-row-marker)
+              + div[data-testid="stLayoutWrapper"] div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:first-child
+              div[data-testid="stElementContainer"] {
+              min-height: 124px;
+            }
+            div[data-testid="stElementContainer"]:has(.mc-timer-pacing-row-marker)
+              + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:first-child iframe,
+            div[data-testid="stElementContainer"]:has(.mc-timer-pacing-row-marker)
+              + div[data-testid="stLayoutWrapper"] div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:first-child iframe {
+              display: block;
+              min-height: 124px;
+              width: 100%;
+            }
+            div[data-testid="stElementContainer"]:has(.mc-timer-pacing-row-marker)
+              + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:last-child
+              div[data-testid="stElementContainer"],
+            div[data-testid="stElementContainer"]:has(.mc-timer-pacing-row-marker)
+              + div[data-testid="stLayoutWrapper"] div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:last-child
+              div[data-testid="stElementContainer"] {
+              min-height: 62px;
+            }
+            div[data-testid="stElementContainer"]:has(.mc-timer-pacing-row-marker)
+              + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:last-child iframe,
+            div[data-testid="stElementContainer"]:has(.mc-timer-pacing-row-marker)
+              + div[data-testid="stLayoutWrapper"] div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:last-child iframe {
+              display: block;
+              min-height: 62px;
+              width: 100%;
+            }
+            div[data-testid="stElementContainer"]:has(.mc-timer-pacing-row-marker)
+              + div[data-testid="stHorizontalBlock"],
+            div[data-testid="stElementContainer"]:has(.mc-timer-pacing-row-marker)
+              + div[data-testid="stLayoutWrapper"] div[data-testid="stHorizontalBlock"] {
+              min-height: 124px;
+            }
             div[data-testid="stElementContainer"]:has(.mc-timer-pacing-row-marker),
             div[data-testid="stMarkdownContainer"]:has(.mc-timer-pacing-row-marker) {
               height: 0 !important;
@@ -666,10 +723,6 @@ def _sync_fixed_next_button_center() -> None:
                     doc.documentElement.style.setProperty('--mc-fixed-next-width', `${usableWidth}px`);
                 } catch (_) {}
             };
-            update();
-            win.requestAnimationFrame(update);
-            win.setTimeout(update, 120);
-            win.setTimeout(update, 450);
             if (!win.__mcFixedNextCenterInstalled) {
                 win.__mcFixedNextCenterInstalled = true;
                 win.addEventListener('resize', update, { passive: true });
@@ -679,7 +732,9 @@ def _sync_fixed_next_button_center() -> None:
                     }
                 } catch (_) {}
                 try {
-                    const observer = new MutationObserver(update);
+                    const observer = new MutationObserver(() => {
+                        win.requestAnimationFrame(update);
+                    });
                     observer.observe(win.document.body || win.document.documentElement, {
                         attributes: true,
                         childList: true,
@@ -688,6 +743,7 @@ def _sync_fixed_next_button_center() -> None:
                     win.__mcFixedNextCenterObserver = observer;
                 } catch (_) {}
             }
+            update();
         };
 
         install(window);
@@ -705,6 +761,308 @@ def _sync_fixed_next_button_center() -> None:
             html_fn(html, width="content", unsafe_allow_javascript=True)
     except Exception:
         pass
+
+
+def _ensure_fixed_next_button_center() -> None:
+    """Install fixed-next centering once per session to reduce submit-time layout churn."""
+    try:
+        if st.session_state.get("_mc_fixed_next_center_ready"):
+            return
+        st.session_state["_mc_fixed_next_center_ready"] = True
+    except Exception:
+        pass
+    _sync_fixed_next_button_center()
+
+
+def _ensure_question_view_scroll_manager() -> None:
+    """Handle scroll-to-top on question changes and scroll restore on exam submits."""
+    html = """
+    <script>
+    (() => {
+        const install = (win) => {
+            if (!win || !win.document || win.__mcQuestionScrollManagerInstalled) {
+                return;
+            }
+            win.__mcQuestionScrollManagerInstalled = true;
+            const storageKey = "mcQuestionScrollRestore";
+            let handledScrollTopIdx = null;
+            let handledRestoreToken = null;
+
+            const collectScrollTargets = (doc) => [
+                doc.scrollingElement,
+                doc.documentElement,
+                doc.body,
+                doc.querySelector('[data-testid="stAppViewContainer"]'),
+                doc.querySelector('[data-testid="stMain"]'),
+                doc.querySelector('.stMainBlockContainer'),
+                doc.querySelector('[data-testid="stMainBlockContainer"]'),
+            ].filter(Boolean);
+
+            const scrollAllToTop = () => {
+                try {
+                    const doc = win.document;
+                    const scrollElement = (element) => {
+                        if (!element) {
+                            return;
+                        }
+                        try {
+                            if (typeof element.scrollTo === "function") {
+                                element.scrollTo({ top: 0, left: 0, behavior: "auto" });
+                            }
+                            if ("scrollTop" in element) {
+                                element.scrollTop = 0;
+                            }
+                        } catch (_) {}
+                    };
+                    win.scrollTo({ top: 0, left: 0, behavior: "auto" });
+                    try {
+                        if (win.parent && win.parent !== win) {
+                            win.parent.scrollTo({ top: 0, left: 0, behavior: "auto" });
+                        }
+                    } catch (_) {}
+                    collectScrollTargets(doc).forEach(scrollElement);
+                } catch (_) {}
+            };
+
+            const saveScroll = () => {
+                try {
+                    const doc = win.document;
+                    const targets = collectScrollTargets(doc);
+                    const positions = targets.map((target) => target.scrollTop || 0);
+                    win.sessionStorage.setItem(
+                        storageKey,
+                        JSON.stringify({
+                            ts: Date.now(),
+                            windowY: win.scrollY || 0,
+                            positions,
+                        }),
+                    );
+                } catch (_) {}
+            };
+
+            const restoreScroll = () => {
+                try {
+                    const raw = win.sessionStorage.getItem(storageKey);
+                    if (!raw) {
+                        return;
+                    }
+                    const payload = JSON.parse(raw);
+                    if (!payload || Date.now() - Number(payload.ts || 0) > 8000) {
+                        win.sessionStorage.removeItem(storageKey);
+                        return;
+                    }
+                    win.sessionStorage.removeItem(storageKey);
+                    const doc = win.document;
+                    const targets = collectScrollTargets(doc);
+                    const positions = Array.isArray(payload.positions) ? payload.positions : [];
+                    targets.forEach((target, idx) => {
+                        if (typeof positions[idx] === "number") {
+                            target.scrollTop = positions[idx];
+                        }
+                    });
+                    if (typeof payload.windowY === "number") {
+                        win.scrollTo({ top: payload.windowY, left: 0, behavior: "auto" });
+                    }
+                } catch (_) {}
+            };
+
+            const applyScrollPlan = () => {
+                const doc = win.document;
+                const topMarker = doc.querySelector(".mc-scroll-top-request");
+                if (topMarker) {
+                    const frageIdx = topMarker.getAttribute("data-frage-idx") || "";
+                    if (handledScrollTopIdx === frageIdx) {
+                        return;
+                    }
+                    handledScrollTopIdx = frageIdx;
+                    handledRestoreToken = null;
+                    try {
+                        win.sessionStorage.removeItem(storageKey);
+                    } catch (_) {}
+                    scrollAllToTop();
+                    return;
+                }
+                handledScrollTopIdx = null;
+
+                let raw = null;
+                try {
+                    raw = win.sessionStorage.getItem(storageKey);
+                } catch (_) {
+                    raw = null;
+                }
+                if (!raw) {
+                    handledRestoreToken = null;
+                    return;
+                }
+                if (handledRestoreToken === raw) {
+                    return;
+                }
+                handledRestoreToken = raw;
+                restoreScroll();
+            };
+
+            win.document.addEventListener("click", (event) => {
+                const target = event.target;
+                if (!target || !target.closest) {
+                    return;
+                }
+                if (!win.document.querySelector(".mc-exam-mode-marker")) {
+                    return;
+                }
+                const submitButton = target.closest('button[data-testid="stFormSubmitButton"]');
+                if (!submitButton) {
+                    return;
+                }
+                const form = submitButton.closest("form");
+                if (!form || !form.querySelector(".mc-answer-radio-marker")) {
+                    return;
+                }
+                saveScroll();
+            }, true);
+
+            let scrollTimer = null;
+            const scheduleScrollPlan = () => {
+                clearTimeout(scrollTimer);
+                scrollTimer = win.setTimeout(applyScrollPlan, 520);
+            };
+
+            try {
+                const observer = new MutationObserver(scheduleScrollPlan);
+                observer.observe(win.document.body || win.document.documentElement, {
+                    childList: true,
+                    subtree: true,
+                });
+                win.__mcQuestionScrollManagerObserver = observer;
+            } catch (_) {}
+
+            scheduleScrollPlan();
+        };
+
+        install(window);
+        try {
+            if (window.parent && window.parent !== window) {
+                install(window.parent);
+            }
+        } catch (_) {}
+    })();
+    </script>
+    """
+    try:
+        html_fn = getattr(st, "html", None)
+        if callable(html_fn):
+            html_fn(html, width="content", unsafe_allow_javascript=True)
+    except Exception:
+        pass
+
+
+def _ensure_question_view_scroll_manager_installed() -> None:
+    try:
+        if st.session_state.get("_mc_question_scroll_manager_ready"):
+            return
+        st.session_state["_mc_question_scroll_manager_ready"] = True
+    except Exception:
+        pass
+    _ensure_question_view_scroll_manager()
+
+
+def _mark_question_view_scroll_to_top(frage_idx: int) -> None:
+    """Signal the scroll manager to return to top after a question change."""
+    st.markdown(
+        f'<span class="mc-scroll-top-request" data-frage-idx="{int(frage_idx)}" aria-hidden="true"></span>',
+        unsafe_allow_html=True,
+    )
+
+
+def _scroll_question_view_to_top(frage_idx: int) -> None:
+    """Scroll the Streamlit question page back to the top after navigation."""
+    _mark_question_view_scroll_to_top(frage_idx)
+
+
+def _sync_answer_option_badge_highlight() -> None:
+    """Mirror radio selection into option letter badges without a server rerun."""
+    html = """
+    <script>
+    (() => {
+        const install = (win) => {
+            if (!win || !win.document || win.__mcAnswerBadgeSyncInstalled) {
+                return;
+            }
+            win.__mcAnswerBadgeSyncInstalled = true;
+
+            const sync = () => {
+                try {
+                    const doc = win.document;
+                    const marker = doc.querySelector('.mc-answer-radio-marker');
+                    if (!marker) {
+                        return;
+                    }
+                    const scope =
+                        marker.closest('[data-testid="stVerticalBlock"]') ||
+                        marker.closest('[data-testid="stMainBlockContainer"]') ||
+                        doc;
+                    const radioGroup = scope.querySelector('[data-testid="stRadio"] [role="radiogroup"]');
+                    if (!radioGroup) {
+                        return;
+                    }
+                    const inputs = Array.from(radioGroup.querySelectorAll('input[type="radio"]'));
+                    const badges = Array.from(scope.querySelectorAll('.mc-answer-option-letter-badge'));
+                    if (!badges.length || !inputs.length) {
+                        return;
+                    }
+                    inputs.forEach((input, idx) => {
+                        const badge = badges[idx];
+                        if (!badge) {
+                            return;
+                        }
+                        const selected = Boolean(input.checked);
+                        if (badge.classList.contains('is-selected') !== selected) {
+                            badge.classList.toggle('is-selected', selected);
+                        }
+                    });
+                } catch (_) {}
+            };
+
+            win.document.addEventListener('change', (event) => {
+                const target = event.target;
+                if (
+                    target &&
+                    target.matches &&
+                    target.matches('input[type="radio"]') &&
+                    target.closest('[data-testid="stRadio"]')
+                ) {
+                    sync();
+                }
+            }, true);
+
+            win.requestAnimationFrame(sync);
+        };
+
+        install(window);
+        try {
+            if (window.parent && window.parent !== window) {
+                install(window.parent);
+            }
+        } catch (_) {}
+    })();
+    </script>
+    """
+    try:
+        html_fn = getattr(st, "html", None)
+        if callable(html_fn):
+            html_fn(html, width="content", unsafe_allow_javascript=True)
+    except Exception:
+        pass
+
+
+def _ensure_answer_option_badge_highlight() -> None:
+    """Install badge sync once per session to avoid top-of-page layout churn."""
+    try:
+        if st.session_state.get("_mc_answer_badge_highlight_ready"):
+            return
+        st.session_state["_mc_answer_badge_highlight_ready"] = True
+    except Exception:
+        pass
+    _sync_answer_option_badge_highlight()
 
 
 def _strip_markdown_heading_marker(text: str) -> str:
@@ -736,71 +1094,6 @@ def _render_question_feedback_bottom_spacer() -> None:
         "<div class='mc-question-feedback-bottom-spacer' aria-hidden='true'></div>",
         unsafe_allow_html=True,
     )
-
-
-def _scroll_question_view_to_top() -> None:
-    """Scroll the Streamlit question page back to the top after navigation."""
-    html = """
-    <div id="mc-question-scroll-top-sentinel" style="display:none"></div>
-    <script>
-    (() => {
-        const scrollTop = () => {
-            const scrollElement = (element) => {
-                if (!element) {
-                    return;
-                }
-                try {
-                    if (typeof element.scrollTo === "function") {
-                        element.scrollTo({ top: 0, left: 0, behavior: "auto" });
-                    }
-                    if ("scrollTop" in element) {
-                        element.scrollTop = 0;
-                    }
-                } catch (_) {}
-            };
-
-            const scrollWindow = (win) => {
-                if (!win) {
-                    return;
-                }
-                try {
-                    win.scrollTo({ top: 0, left: 0, behavior: "auto" });
-                } catch (_) {}
-            };
-
-            const documents = [document];
-            try {
-                if (window.parent && window.parent !== window && window.parent.document) {
-                    documents.push(window.parent.document);
-                    scrollWindow(window.parent);
-                }
-            } catch (_) {}
-
-            scrollWindow(window);
-            documents.forEach((doc) => {
-                [
-                    doc.scrollingElement,
-                    doc.documentElement,
-                    doc.body,
-                    doc.querySelector('[data-testid="stAppViewContainer"]'),
-                    doc.querySelector('[data-testid="stMain"]'),
-                    doc.querySelector('.stMainBlockContainer')
-                ].forEach(scrollElement);
-            });
-        };
-
-        requestAnimationFrame(scrollTop);
-        setTimeout(scrollTop, 80);
-        setTimeout(scrollTop, 240);
-    })();
-    </script>
-    """
-    try:
-        html_fn = getattr(st, "html", None)
-        if callable(html_fn):
-            html_fn(html, width="content", unsafe_allow_javascript=True)
-    except Exception:
-        pass
 
 
 def _scroll_question_view_to_anchor(anchor_id: str, offset_px: int = 24) -> None:
@@ -2440,8 +2733,6 @@ def _clear_previous_test_run_state_for_start() -> None:
         "aborted_user_on_leaderboard",
         "_current_question_idx",
         "_question_view_last_scroll_idx",
-        "_next_question_notice_idx",
-        "_next_question_notice_shown",
         "_scroll_to_next_button_after_answer_idx",
         "_scroll_to_extended_expander_after_open_idx",
         "_active_dialog",
@@ -3177,11 +3468,9 @@ def _render_question_answer_interaction(
         if st.session_state.get("user_qset_dialog_open"):
             close_user_qset_dialog(clear_results=False)
 
-    def _radio_on_change() -> None:
-        try:
-            _dismiss_user_qset_dialog_from_test()
-        except Exception:
-            pass
+    def _dismiss_user_qset_dialog_from_test() -> None:
+        if st.session_state.get("user_qset_dialog_open"):
+            close_user_qset_dialog(clear_results=False)
 
     selected_index_for_display = None
     try:
@@ -3195,37 +3484,16 @@ def _render_question_answer_interaction(
         selected_index_for_display = None
 
     _render_markdown_answer_options(optionen, selected_index_for_display)
+    _ensure_answer_option_badge_highlight()
 
     st.markdown("<div class='mc-question-choice-divider' aria-hidden='true'></div>", unsafe_allow_html=True)
-    with st.container(width="stretch", horizontal_alignment="center"):
-        st.markdown('<div class="mc-answer-radio-marker" aria-hidden="true"></div>', unsafe_allow_html=True)
-        selected_index = st.radio(
-            _test_view_text("question_prompt", default="Wähle deine Antwort:"),
-            options=range(len(optionen)),
-            key=widget_key,
-            index=optionen.index(gespeicherte_antwort) if gespeicherte_antwort in optionen else None,
-            disabled=is_answered and (not panic_mode),
-            horizontal=True,
-            format_func=_answer_option_label,
-            on_change=_radio_on_change,
-            width="content",
-        )
-
-    if selected_index is None:
-        try:
-            state_idx = st.session_state.get(widget_key)
-            if isinstance(state_idx, int):
-                selected_index = state_idx
-        except Exception:
-            pass
 
     def _resolve_selected_answer() -> str | None:
-        idx = selected_index
-        if idx is None:
-            try:
-                idx = st.session_state.get(widget_key)
-            except Exception:
-                idx = None
+        idx = None
+        try:
+            idx = st.session_state.get(widget_key)
+        except Exception:
+            idx = None
         try:
             idx = int(idx) if idx is not None else None
         except Exception:
@@ -3233,8 +3501,6 @@ def _render_question_answer_interaction(
         if idx is not None and 0 <= idx < len(shuffled_optionen):
             return shuffled_optionen[idx]
         return None
-
-    antwort = _resolve_selected_answer()
 
     try:
         now_mon = time.monotonic()
@@ -3277,6 +3543,82 @@ def _render_question_answer_interaction(
                     default="⚡ **Panic Mode:** Cooldowns deaktiviert wegen Zeitdruck.",
                 )
             )
+
+        answer_label_unsure = _test_view_text("answer_button_unsure", default="🤔 Unsicher antworten")
+        answer_label_sure = _test_view_text("answer_button_sure", default="✅ Sicher antworten")
+        answered_already = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
+        answer_disabled = False if panic_mode else (answered_already and not panic_mode)
+
+        def _handle_answer_click(confidence: str | None) -> None:
+            _dismiss_user_qset_dialog_from_test()
+            selected_answer = _resolve_selected_answer()
+            if selected_answer is None:
+                select_hint = translate_ui(
+                    "test_view.select_answer",
+                    default="Bitte wähle zuerst eine Antwort aus.",
+                )
+                show_ephemeral_message(select_hint, icon="👉")
+            elif remaining_answer_cooldown > 0 and not panic_mode:
+                hint = translate_ui(
+                    "test_view.answer_read_hint",
+                    default="Lies die Frage aufmerksam durch und alle Antwortoptionen.",
+                )
+                show_ephemeral_message(
+                    f"{hint} {translate_ui('test_view.countdown.cooldown_remaining', default='(still {seconds}s)').format(seconds=remaining_answer_cooldown)}",
+                    icon="⏳",
+                )
+            else:
+                handle_answer_submission(
+                    frage_idx,
+                    selected_answer,
+                    frage_obj,
+                    app_config,
+                    questions,
+                    confidence=confidence,
+                )
+
+        with st.form(key=f"answer_form_{frage_idx}", border=False, enter_to_submit=False):
+            with st.container(width="stretch", horizontal_alignment="center"):
+                st.markdown('<div class="mc-answer-radio-marker" aria-hidden="true"></div>', unsafe_allow_html=True)
+                st.radio(
+                    _test_view_text("question_prompt", default="Wähle deine Antwort:"),
+                    options=range(len(optionen)),
+                    key=widget_key,
+                    index=optionen.index(gespeicherte_antwort) if gespeicherte_antwort in optionen else None,
+                    disabled=is_answered and (not panic_mode),
+                    horizontal=True,
+                    format_func=_answer_option_label,
+                    width="content",
+                )
+
+            antwort = _resolve_selected_answer()
+            answer_button_type = "primary" if antwort is not None else "secondary"
+
+            if not answer_disabled:
+                if current_mode == "exam":
+                    if st.form_submit_button(
+                        translate_ui("test_view.submit_button", default="Antworten"),
+                        type="primary",
+                        width="stretch",
+                    ):
+                        _handle_answer_click(None)
+                else:
+                    answer_cols = st.columns([1, 1])
+                    with answer_cols[0]:
+                        if st.form_submit_button(
+                            answer_label_unsure,
+                            type=answer_button_type,
+                            width="stretch",
+                        ):
+                            _handle_answer_click("unsure")
+                    with answer_cols[1]:
+                        if st.form_submit_button(
+                            answer_label_sure,
+                            type=answer_button_type,
+                            width="stretch",
+                        ):
+                            _handle_answer_click("sure")
+
         meta_col1, meta_col2 = st.columns([1, 1])
         with meta_col1:
             is_bookmarked = frage_idx in st.session_state.get("bookmarked_questions", [])
@@ -3325,71 +3667,6 @@ def _render_question_answer_interaction(
                             pass
                     st.toast(_test_view_text("skip_toast", default="Frage übersprungen. Sie wird später erneut gestellt."))
                     st.rerun()
-
-        answer_label_unsure = _test_view_text("answer_button_unsure", default="🤔 Unsicher antworten")
-        answer_label_sure = _test_view_text("answer_button_sure", default="✅ Sicher antworten")
-        answered_already = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
-        answer_disabled = False if panic_mode else (answered_already and not panic_mode)
-        answer_button_type = "primary" if antwort is not None else "secondary"
-
-        def _handle_answer_click(confidence: str | None) -> None:
-            _dismiss_user_qset_dialog_from_test()
-            selected_answer = _resolve_selected_answer()
-            if selected_answer is None:
-                select_hint = translate_ui(
-                    "test_view.select_answer",
-                    default="Bitte wähle zuerst eine Antwort aus.",
-                )
-                show_ephemeral_message(select_hint, icon="👉")
-            elif remaining_answer_cooldown > 0 and not panic_mode:
-                hint = translate_ui(
-                    "test_view.answer_read_hint",
-                    default="Lies die Frage aufmerksam durch und alle Antwortoptionen.",
-                )
-                show_ephemeral_message(
-                    f"{hint} {translate_ui('test_view.countdown.cooldown_remaining', default='(still {seconds}s)').format(seconds=remaining_answer_cooldown)}",
-                    icon="⏳",
-                )
-            else:
-                handle_answer_submission(
-                    frage_idx,
-                    selected_answer,
-                    frage_obj,
-                    app_config,
-                    questions,
-                    confidence=confidence,
-                )
-
-        if not answer_disabled:
-            if current_mode == "exam":
-                if st.button(
-                    translate_ui("test_view.submit_button", default="Antworten"),
-                    key=f"submit_exam_{frage_idx}",
-                    type="primary",
-                    width="stretch",
-                    disabled=False,
-                ):
-                    _handle_answer_click(None)
-            else:
-                answer_cols = st.columns([1, 1])
-                with answer_cols[0]:
-                    if st.button(
-                        answer_label_unsure,
-                        key=f"submit_unsure_{frage_idx}",
-                        type=answer_button_type,
-                        width="stretch",
-                        disabled=False,
-                    ):
-                        _handle_answer_click("unsure")
-                with answer_cols[1]:
-                    if st.button(
-                        answer_label_sure,
-                        key=f"submit_sure_{frage_idx}",
-                        type=answer_button_type,
-                        width="stretch",
-                        disabled=False,
-                    ):
-                        _handle_answer_click("sure")
     except Exception:
         pass
 
@@ -6856,13 +7133,14 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
     _inject_main_container_padding(compact_mobile=True)
     _inject_toast_contrast_styles()
     _inject_question_view_compact_styles()
-    _sync_fixed_next_button_center()
+    _ensure_fixed_next_button_center()
+    _ensure_question_view_scroll_manager_installed()
     _set_page_reload_guard(True)
     _enable_question_expander_open_scroll()
+    scroll_top_pending = False
     try:
         last_scroll_idx = st.session_state.get("_question_view_last_scroll_idx")
-        if last_scroll_idx is not None and last_scroll_idx != frage_idx:
-            _scroll_question_view_to_top()
+        scroll_top_pending = last_scroll_idx is not None and last_scroll_idx != frage_idx
         st.session_state["_question_view_last_scroll_idx"] = frage_idx
     except Exception:
         pass
@@ -6883,14 +7161,6 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             st.session_state["_current_question_idx"] = frage_idx
             st.session_state[f"frage_{frage_idx}_shown_time_monotonic"] = time.monotonic()
             st.session_state.pop(f"frage_{frage_idx}_explanation_shown_time_monotonic", None)
-            # Progress cue in timed mode when switching to the next question
-            try:
-                current_mode = st.session_state.get("selected_mode", "exam")
-                if prev_idx is not None and current_mode == "exam" and not st.session_state.get("jump_to_idx_active"):
-                    st.session_state["_next_question_notice_idx"] = frage_idx
-                    st.session_state["_next_question_notice_shown"] = False
-            except Exception:
-                pass
     except Exception:
         pass
 
@@ -7858,6 +8128,11 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
             st.info(translate_ui("test_view.mode_info.exam", default="⏱️ **Zeitmodus:** Timer und Pace-Hinweise laufen. Feedback gibt es am Ende."))
         else:
             st.success(translate_ui("test_view.mode_info.practice", default="🧘 **Lernmodus:** Kein Timer. Du bekommst nach jeder Antwort Sofortfeedback."))
+    else:
+        st.markdown('<div class="mc-mode-info-slot" aria-hidden="true"></div>', unsafe_allow_html=True)
+
+    if current_mode == 'exam':
+        st.markdown('<span class="mc-exam-mode-marker" aria-hidden="true"></span>', unsafe_allow_html=True)
 
     with st.container():
 
@@ -8032,58 +8307,6 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                             pass
                 except Exception:
                     # Do not disrupt the test UI if pacing UI fails
-                    pass
-
-                # Brief inline notice when the next question is displayed (timed mode).
-                try:
-                    if current_mode == "exam":
-                        notice_idx = st.session_state.get("_next_question_notice_idx")
-                        notice_shown = st.session_state.get("_next_question_notice_shown", True)
-                        flash_now = (notice_idx == frage_idx and not notice_shown)
-                        if flash_now:
-                            st.session_state["_next_question_notice_shown"] = True
-                        notice_text = translate_ui("test_view.next_question_notice", default="Nächste Frage wird angezeigt.") if flash_now else ""
-                        notice_class = "flash" if flash_now else "silent"
-                        st.markdown(
-                            f"""
-<div class="q-next-overlay">
-  <div class="q-next-toast {notice_class}">{notice_text}</div>
-</div>
-<style>
-.q-next-overlay {{
-  position: relative;
-  height: 0;
-  overflow: visible;
-}}
-.q-next-toast {{
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  margin-top: 6px;
-  font-size: 0.9rem;
-  padding: 6px 10px;
-  border-radius: 6px;
-  pointer-events: none;
-}}
-.q-next-toast.flash {{
-  color: inherit;
-  background: rgba(59, 130, 246, 0.18);
-  border: 1px solid rgba(59, 130, 246, 0.35);
-  animation: qNextFade 3.0s ease-out forwards;
-}}
-.q-next-toast.silent {{
-  opacity: 0;
-}}
-@keyframes qNextFade {{
-  0%   {{ opacity: 1; transform: translateY(0); }}
-  100% {{ opacity: 0; transform: translateY(-4px); }}
-}}
-</style>
-""",
-                            unsafe_allow_html=True,
-                        )
-                except Exception:
                     pass
 
         # Logik für die Fortschrittsanzeige
@@ -9364,6 +9587,9 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int, remainin
                     pass
                 # Popover-based glossary is stateless; no flag update required here.
                 st.rerun()
+
+    if scroll_top_pending:
+        _mark_question_view_scroll_to_top(frage_idx)
 
 
 def render_final_summary(questions: QuestionSet, app_config: AppConfig):

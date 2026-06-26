@@ -24,6 +24,7 @@ class _FakeStreamlit:
         self.warning_calls = []
         self.error_calls = []
         self.iframe_calls = []
+        self.html_calls = []
         self.rerun_called = False
 
     def fragment(self, *args, **kwargs):
@@ -51,6 +52,9 @@ class _FakeStreamlit:
 
     def iframe(self, *args, **kwargs):
         self.iframe_calls.append((args, kwargs))
+
+    def html(self, *args, **kwargs):
+        self.html_calls.append((args, kwargs))
 
     def rerun(self):
         self.rerun_called = True
@@ -152,7 +156,6 @@ def test_countdown_renders_client_side_timer(monkeypatch):
     assert "Math.floor(totalSeconds / 60)" in rendered_html[0]
     assert "Math.ceil(totalSeconds / 60)" not in rendered_html[0]
     assert "background: transparent" in rendered_html[0]
-    assert "--mc-countdown-panel-bg" not in rendered_html[0]
     assert "body.mc-light" in rendered_html[0]
     assert not fake_st.fragment_calls
     assert not fake_st.metric_calls
