@@ -116,14 +116,16 @@ def render_legal_links(
     *,
     container=None,
     compact: bool = False,
+    show_label: bool = True,
 ) -> None:
     """Render Impressum and Datenschutz links as Streamlit buttons."""
 
     target = container or st
-    try:
-        target.caption(_legal_t("legal.section_label", default="Rechtliches"))
-    except Exception:
-        pass
+    if show_label:
+        try:
+            target.caption(_legal_t("legal.section_label", default="Rechtliches"))
+        except Exception:
+            pass
 
     kinds: tuple[LegalKind, LegalKind] = ("impressum", "datenschutz")
     if compact:

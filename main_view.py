@@ -4608,7 +4608,7 @@ def _render_welcome_splash_service_row(
                     key=f"{key_prefix}_about_paper_download",
                 )
 
-    render_legal_links(key_prefix)
+    render_legal_links(key_prefix, show_label=False)
 
 
 def _render_refined_welcome_splash() -> None:
@@ -4679,7 +4679,6 @@ def _render_refined_welcome_splash() -> None:
     _render_welcome_splash_service_row(
         paper_path,
         key_prefix="splash_refined",
-        show_service_caption=True,
         show_divider=False,
     )
 
@@ -5060,7 +5059,7 @@ def render_welcome_page(app_config: AppConfig):
         st.session_state["_pseudonym_dialog_open"] = False
     if not user_has_pseudonym:
         st.divider()
-        render_legal_links("welcome_pseudonym")
+        render_legal_links("welcome_pseudonym", show_label=False)
         return
 
     # Nach Pseudonymwahl den gewünschten Flow starten.
@@ -5208,7 +5207,7 @@ def render_welcome_page(app_config: AppConfig):
         except Exception:
             pass
         st.divider()
-        render_legal_links("welcome_create_ai")
+        render_legal_links("welcome_create_ai", show_label=False)
         st.stop()
 
     last_flow = st.session_state.get("_last_welcome_flow")
@@ -7073,7 +7072,7 @@ def render_welcome_page(app_config: AppConfig):
         # Debug expander removed after verification.
 
     st.divider()
-    render_legal_links("welcome_main")
+    render_legal_links("welcome_main", show_label=False)
 
     # --- Meine Sessions (sichtbar für wiederhergestellte oder eingeloggte Pseudonyme) ---
 
