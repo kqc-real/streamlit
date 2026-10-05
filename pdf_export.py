@@ -12,6 +12,20 @@ import io
 import streamlit as st
 import requests
 from weasyprint import HTML
+import gc as _gc
+import threading as _threading
+
+# fontconfig/pango (cffi finalizers) are not thread-safe: concurrent renders or
+# GC finalization in another thread can abort the process on macOS/conda.
+_WEASY_LOCK = _threading.RLock()
+
+
+def _render_pdf(full_html: str, **kwargs) -> bytes:
+    with _WEASY_LOCK:
+        try:
+            return HTML(string=full_html, base_url=__file__).write_pdf(**kwargs)
+        finally:
+            _gc.collect()
 import urllib.parse as _urlparse
 import html as _html
 from markdown_it import MarkdownIt
@@ -3987,9 +4001,7 @@ def generate_pdf_report(questions: List[Dict[str, Any]], app_config: AppConfig) 
 
     # Konvertiere HTML zu PDF mit WeasyPrint (mit Optimierungen)
     # optimize_images=True reduziert Dateigröße ohne Qualitätsverlust
-    pdf_bytes = HTML(string=full_html, base_url=__file__).write_pdf(
-        optimize_images=True
-    )
+    pdf_bytes = _render_pdf(full_html, optimize_images=True)
     
     # Cache-Statistiken ausgeben (für Debugging/Monitoring)
     cache_size = len(_formula_cache)
@@ -4199,7 +4211,7 @@ def generate_mini_glossary_pdf(q_file: str, questions: List[Dict[str, Any]]) -> 
     </html>
     '''
 
-    return HTML(string=full_html, base_url=__file__).write_pdf(optimize_images=True)
+    return _render_pdf(full_html, optimize_images=True)
 
 
 def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app_config: AppConfig, total_timeout: float | None = None, progress_callback: Optional[Callable] = None) -> bytes:
@@ -4623,7 +4635,7 @@ def generate_musterloesung_pdf(q_file: str, questions: List[Dict[str, Any]], app
         pass
 
     _report(80, "Konvertiere HTML zu PDF")
-    pdf_bytes = HTML(string=full_html, base_url=__file__).write_pdf(optimize_images=True)
+    pdf_bytes = _render_pdf(full_html, optimize_images=True)
 
     # Final progress update
     _report(100, "Fertig")
