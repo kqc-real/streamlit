@@ -1,92 +1,87 @@
-# Übergeordnete Lernziele: Cloud Computing – Themenblock TB01
+# Übergeordnete Lernziele: Cloud Computing – MC-Test Themenblock TB01: Merkmale, Modelle und sicherer Agentenauftrag
 
 ## **Cloud-Merkmale**
-**Die zentralen Merkmale von Cloud Computing erkennen und voneinander abgrenzen.**
+**Zentrale Cloud-Merkmale anhand beobachtbarer Betriebsweisen erkennen.**
 
-Du erkennst Rapid Elasticity, Resource Pooling, Measured Service, Broad Network Access und On-Demand Self-Service an konkreten Beobachtungen und unterscheidest sie von klassischem Hosting oder manueller Bereitstellung.
+Du unterscheidest bedarfsgerechte Bereitstellung, gemeinsame Ressourcennutzung, Messbarkeit, Netzzugang und Self-Service von herkömmlichem Hosting. Dabei zählt der nachweisbare Betrieb und nicht allein die Bezeichnung eines Angebots.
 
 ---
 
 ## **Service-Modelle**
-**IaaS, PaaS und SaaS anhand der Verantwortungsgrenzen einordnen.**
+**Service-Modelle anhand der Verantwortungsgrenzen zwischen Anbieter und Kunde einordnen.**
 
-Du leitest aus der Aufgabenverteilung zwischen Anbieter und Kunde ab, um welches Service-Modell es sich handelt, und beurteilst die Vor- und Nachteile von Plattformdiensten.
+Du ordnest IaaS und PaaS anhand der betriebenen technischen Schichten ein und erkennst typische Kundenaufgaben bei SaaS. Auch verwaltete Datenbanken lassen sich so von fertigen Anwendungen unterscheiden.
 
 ---
 
 ## **Deployment-Modelle**
-**Public, Private, Community und Hybrid Cloud unterscheiden.**
+**Cloud-Infrastrukturen nach Nutzerkreis und Verbindung eigenständiger Umgebungen unterscheiden.**
 
-Du ordnest Szenarien dem passenden Deployment-Modell zu – anhand von Zugänglichkeit, Betreiber und Nutzerkreis – und erklärst, was eine Hybrid Cloud von einer Multi-Cloud-Strategie unterscheidet.
+Du grenzt Public, Private und Community Cloud voneinander ab. Außerdem unterscheidest du eine gekoppelte Hybrid Cloud von der anbieterübergreifenden Multi-Cloud-Strategie.
 
 ---
 
-## **Shared Responsibility**
-**Die geteilte Verantwortung zwischen Anbieter und Kunde klar benennen.**
+## **Geteilte Verantwortung**
+**Sicherheits- und Betriebsaufgaben der jeweils verantwortlichen Schicht zuordnen.**
 
-Du erkennst, welche Sicherheits- und Betriebsaufgaben beim Kunden bleiben, etwa Konfiguration, Rechtevergabe, Verschlüsselung und Patches in der eigenen Schicht, und bewertest, wie weit Compliance-Nachweise reichen.
+Du beurteilst kundenseitige Konfiguration, Rechtevergabe, Datenverarbeitung und Patch-Verantwortung ebenso wie Anbieterpflichten. Zertifikate und automatische Schutzmaßnahmen ersetzen dabei keine Prüfung des konkreten Einsatzes.
 
 ---
 
 ## **Cloud-Einordnung**
-**Systeme anhand überprüfbarer Merkmale als Cloud-Dienst einordnen.**
+**Cloud-Behauptungen anhand einzelner überprüfbarer Merkmale bewerten.**
 
-Du trennst Fakten von Annahmen, wendest die Cloud-Merkmale einzeln auf ein Beispielsystem an und unterscheidest Outsourcing von echter Cloud-Fähigkeit.
+Du trennst belegte Tatsachen von Annahmen und prüfst, ob Outsourcing oder Virtualisierung tatsächlich Cloud-Fähigkeiten nachweist. Für einen fairen Modellvergleich legst du eine gemeinsame System- und Leistungsgrenze zugrunde.
 
 ---
 
 ## **Sicherer Agentenauftrag**
-**KI-Agenten für Cloud-Aufgaben sicher und überprüfbar beauftragen.**
+**Agentenaufträge vor der Ausführung mit überprüfbaren Grenzen versehen.**
 
-Du formulierst Aufträge mit Planungs-Gate, Minimalrechten, Kostenlimit und prüfbaren Akzeptanzkriterien und stellst sicher, dass Ergebnisse unabhängig verifiziert werden.
+Du planst menschliche Freigaben, Minimalrechte, ein Kostenlimit, Tests und Abbruchbedingungen ein. Ergebnisse und Nebenwirkungen prüfst du unabhängig anhand nachvollziehbarer Evidenz.
 
 ---
 
 # Detaillierte Lernziele
 
-Im Kontext des Themas **Cloud Computing (TB01)** soll dir dieses Fragenset helfen, die folgenden detaillierten Lernziele zu erreichen:
-
-### Reproduktion
-
-**Du kannst …**
-
-1. Rapid Elasticity als zusätzliches Merkmal gegenüber festem Hosting identifizieren.
-2. Resource Pooling und Mandantenfähigkeit an einer Beobachtung beim Anbieter erkennen.
-3. Measured Service an einer konkreten Betriebsinformation erkennen.
-4. Broad Network Access auch bei einem nur per VPN erreichbaren Dienst erkennen.
+Im Kontext von **Cloud Computing – MC-Test Themenblock TB01: Merkmale, Modelle und sicherer Agentenauftrag** unterstützt dich dieses Fragenset dabei, die folgenden detaillierten Lernziele zu erreichen:
 
 ### Anwendung
 
 **Du kannst …**
 
-1. On-Demand Self-Service von manuellem Provisioning per Ticket unterscheiden.
-2. die Verantwortungsgrenze bei IaaS auf ein konkretes Team anwenden.
-3. den Kompromiss zwischen geringerem Betriebsaufwand und stärkerer Anbieterbindung bei PaaS benennen.
-4. die Aufgabe bestimmen, die bei SaaS typischerweise beim Kunden bleibt.
-5. eine verwaltete Datenbank als Plattformdienst einordnen.
-6. IaaS und PaaS anhand der Verantwortungsverteilung zuverlässig unterscheiden.
-7. eine Public Cloud an der Zugänglichkeit der Ressourcen erkennen.
-8. eine extern betriebene Private Cloud von einer Public Cloud abgrenzen.
+1. Rapid Elasticity anhand bedarfsgerechter Kapazitätsanpassung bei festem Hosting erkennen.
+2. Resource Pooling an der dynamischen Zuweisung gemeinsamer Ressourcen identifizieren.
+3. Measured Service anhand automatisch erfasster und transparenter Nutzungsdaten erkennen.
+4. Broad Network Access bei standardisiertem Zugriff verschiedener Clientklassen über ein VPN einordnen.
+5. On-demand Self-service von einer ticketvermittelten Bereitstellung unterscheiden.
+6. IaaS anhand der Verantwortung für Gastbetriebssystem und Anwendung einordnen.
+7. den Abwägung bei PaaS zwischen geringerem Betriebsaufwand und möglicher Plattformbindung benennen.
+8. kundenseitige Aufgaben bei der Konfiguration eines SaaS-Mandanten bestimmen.
+9. eine verwaltete Datenbank als Plattformdienst zuordnen.
+10. IaaS und PaaS anhand der Verantwortung für Betriebssystem und Laufzeit voneinander abgrenzen.
+11. eine Public Cloud anhand des Angebots für eine breite Kundengruppe einordnen.
+12. eine extern betriebene, exklusiv genutzte Infrastruktur als Private Cloud einordnen.
 
 ### Strukturelle Analyse
 
 **Du kannst …**
 
-1. eine Kopplung eigenständiger Clouds als Hybrid Cloud begründen.
-2. Multi-Cloud als anbieterübergreifende Strategie von Hybrid Cloud abgrenzen.
-3. eine Community Cloud anhand gemeinsamer Anliegen mehrerer Organisationen begründen.
-4. eine Fehlkonfiguration in der Kundenschicht als Verantwortung des Kunden begründen.
-5. die Vergabe globaler Administratorrechte in SaaS als Pflicht des Kunden begründen.
-6. begründen, warum eine automatische Verschlüsselung den Kunden nicht aus der Verantwortung entlässt.
-7. die Geltungsgrenze eines Compliance-Zertifikats beurteilen.
-8. ein Versäumnis beim Patchen der eigenen Schicht der Kundenverantwortung zuordnen.
-9. den aktuellen Produktionspfad von arsnova.eu als selbst betriebenes IaaS einordnen.
-10. die Cloud-Merkmale an einem Mietangebot auf fester VM einzeln überprüfen.
-11. Fakten und Annahmen bei einer Cloud-Einordnung voneinander trennen.
-12. Outsourcing von echter Cloud-Fähigkeit abgrenzen.
-13. eine vergleichbare System- und Leistungsgrenze für den Vergleich von IaaS und Managed Platform festlegen.
-14. einen Agentenauftrag mit Planungs-Gate vor der Ausführung als sicherste Variante begründen.
-15. begründen, warum ein Agent nur zweckgebundene Minimalrechte erhalten darf.
-16. eine Kostenprognose oberhalb des Budgets als Abbruchsignal bewerten.
-17. ein prüfbares Akzeptanzkriterium für einen agentisch bereitgestellten Webdienst auswählen.
-18. begründen, warum Ergebnisse eines Agenten unabhängig zu verifizieren sind.
+1. die Einordnung einer gekoppelten Private und Public Cloud als Hybrid Cloud begründen.
+2. Multi-Cloud und Hybrid Cloud anhand ihrer Anbieter- und Infrastrukturbezüge unterscheiden.
+3. eine Community Cloud anhand gemeinsamer Anforderungen mehrerer Organisationen einordnen.
+4. eine fehlerhafte virtuelle Firewallfreigabe der kundenseitigen Verantwortung zuordnen.
+5. die Vergabe globaler Administrationsrechte in SaaS als Kundenverantwortung analysieren.
+6. verbleibende Kundenpflichten trotz automatischer Datenträgerverschlüsselung bewerten.
+7. den Geltungsbereich eines Cloud-Compliance-Zertifikats beurteilen.
+8. eine ungepatchte Bibliothek im Gastbetriebssystem der Kundenverantwortung zuordnen.
+9. die Einordnung eines selbst betriebenen Compose-Stacks auf gemieteter Basisinfrastruktur als selbst verwaltetes IaaS begründen.
+10. die Cloud-Eigenschaften eines Angebots mit fester VM anhand einzelner Kriterien überprüfen.
+11. unbelegte Cloud-Aussagen als Annahmen von nachprüfbaren Fakten unterscheiden.
+12. ausgelagerten Betrieb von nachgewiesenen Cloud-Fähigkeiten abgrenzen.
+13. eine vergleichbare System- und Leistungsgrenze für selbst verwaltetes IaaS und verwaltete Plattform festlegen.
+14. ein Freigabeverfahren vor der Ausführung eines Agentenauftrags begründen.
+15. überzogene Agentenrechte anhand des Auftragszwecks bewerten.
+16. eine Budgetüberschreitung als Grund für einen Ausführungsstopp beurteilen.
+17. ein Akzeptanzkriterium für einen agentisch bereitgestellten Webdienst anhand prüfbarer Tests bewerten.
+18. den Erfolg eines Agentenauftrags anhand unabhängiger Evidenz verifizieren.

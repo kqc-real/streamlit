@@ -2,48 +2,56 @@
 
 ## Fragestellung und Untersuchungsplan
 **Du kannst Untersuchungsfragen in messbare und nachvollziehbare Regeln überführen.**
+
 Du legst Bezugsgruppe, Zeitraum, Messung und Ausschlussregeln vor einer Auswertung fest. So werden Vergleiche nachvollziehbar und nachträgliche Anpassungen erkennbar.
 
 ---
 
 ## Datenqualität und transparente Auswertung
 **Du kannst Datenauffälligkeiten sorgfältig behandeln und Auswertungsschritte transparent machen.**
+
 Du prüfst Auffälligkeiten anhand der Quelle und hältst begründete Entscheidungen fest. Fehlende Werte, Nullwerte und mögliche Dubletten behandelst du nicht ohne Prüfung als gleichbedeutend.
 
 ---
 
 ## Grundgesamtheit und Auswahl
 **Du kannst die Zielgruppe einer Untersuchung von den tatsächlich erreichbaren und beobachteten Fällen unterscheiden.**
+
 Du ordnest Grundgesamtheit, Auswahlrahmen und Stichprobe korrekt zu. Unterabdeckung und Antwortausfälle helfen dir einzuschätzen, welche Gruppen in einer Auswertung fehlen oder überrepräsentiert sein können.
 
 ---
 
 ## Beobachtungseinheiten und Datenstruktur
 **Du kannst Datenzeilen auf die passende Beobachtungseinheit und deren Merkmale beziehen.**
+
 Du unterscheidest einzelne Ereignisse, Personen-Zeit-Kombinationen und zusammengefasste Gruppenwerte. Dadurch vermeidest du Schlussfolgerungen über einzelne Fälle, die eine aggregierte Tabelle nicht trägt.
 
 ---
 
 ## Kategoriale Merkmale und Skalenniveaus
 **Du kannst Kategorien, Rangfolgen und numerische Identifikatoren nach ihrer inhaltlichen Bedeutung einordnen.**
+
 Du trennst nominale Codes von Messwerten und erkennst, wann Rangvergleiche sinnvoll sind, aber gleiche Abstände nicht vorausgesetzt werden dürfen. Auch ein Mittelwert aus Identifikationsnummern erhält dadurch keine inhaltliche Bedeutung.
 
 ---
 
 ## Zählwerte, Messauflösung und Rundung
 **Du kannst Merkmalsart und Genauigkeit gespeicherter Messwerte auseinanderhalten.**
+
 Du unterscheidest diskrete Zählwerte von stetigen Größen, auch wenn letztere gerundet gespeichert werden. Kennzahlen aus gerundeten Werten erlauben nicht automatisch exakte Aussagen über die zugrunde liegenden Einzelmessungen.
 
 ---
 
 ## Antwortausfälle und Aussagegrenzen
 **Du kannst Anteilswerte mit dem passenden Nenner berichten und unbeobachtete Antworten berücksichtigen.**
+
 Du unterscheidest Ergebnisse für Antwortende von Aussagen über alle Eingeladenen. Bei ungleichen Antwortquoten, Selbstselektion oder offenen Teilnahmewegen prüfst du, ob die Zusammensetzung der Daten die Aussage verzerren kann.
 
 ---
 
 ## Zusammenhang, Ursache und Übertragbarkeit
 **Du kannst beobachtete Unterschiede und Zusammenhänge von kausalen oder verallgemeinerten Aussagen abgrenzen.**
+
 Du berücksichtigst Selbstselektion, mögliche Störfaktoren und Unterschiede in der Messung. Dadurch bleiben Schlussfolgerungen auf das beschränkt, was das jeweilige Untersuchungsdesign tatsächlich trägt.
 
 ---
