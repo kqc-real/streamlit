@@ -65,7 +65,7 @@ Im Kontext von **Angewandte Statistik – MC-Test Woche 2: Häufigkeiten, Diagra
 ### Strukturelle Analyse
 **Du kannst …**
 
-1. die Quoten zweier Filialen einschließlich Prozentpunktdifferenz und Quotientenverhältnis vergleichen.
+1. die Quoten zweier Filialen einschließlich Differenz in Prozentpunkten und Quotenverhältnis vergleichen.
 2. die Verzerrungsgefahr einer abgeschnittenen Achse und die Aussagegrenze fehlender Fallzahlen beurteilen.
 3. die kombinierte Wirkung von Nennerwechsel und 3D-Perspektive auf Anteile bewerten.
 4. gleiche Mittelwerte bei unterschiedlich stark streuenden Gruppen vergleichen.
@@ -79,7 +79,7 @@ Im Kontext von **Angewandte Statistik – MC-Test Woche 2: Häufigkeiten, Diagra
 12. zusammengefasste Anteile nominaler Kategorien mit sichtbaren Einzelkategorien vergleichen.
 13. die Aussagekraft gleicher Mittelwerte bei verschiedenen Verteilungen analysieren.
 14. die Häufigkeitsdichten ungleich breiter Histogrammklassen für gerundete stetige Latenzen herleiten.
-15. die Aussagegrenze eines Kaufabschluss-Surveyanteils für alle Websitebesuchenden beurteilen.
+15. die Aussagegrenze eines Befragungsanteils unter Personen mit Kaufabschluss für alle Websitebesuchenden beurteilen.
 16. die Veränderung von Mittelwert und Median durch eine Nullimputation bewerten.
 17. das mögliche Intervall eines Anteils bei unbekanntem Antwortverhalten herleiten.
 18. beobachtete Fehlerquoten von einer kausalen Aussage zur Trainingswirkung abgrenzen.

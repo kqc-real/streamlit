@@ -5258,10 +5258,13 @@ def render_welcome_page(app_config: AppConfig):
                 default="Kein Fragenset aktiv. Du kannst ein bestehendes Set wählen oder ein eigenes Fragenset erzeugen.",
             )
         )
+        def _open_question_select_dialog():
+            st.session_state["_question_select_dialog_open"] = True
+
         st.button(
             translate_ui("welcome.empty_state_select", default="Vorhandenes Fragenset wählen"),
             key="welcome_empty_select_btn",
-            on_click=lambda: None,
+            on_click=_open_question_select_dialog,
         )
         # Continue to render selection below so user can choose or create.
 

@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Angewandte Statistik – MC-Test Woche 1: Daten und Messung",
-    "target_audience": "Bachelorstudierende aus BWL, Management, Wirtschaftsinformatik und Informatik ohne vorausgesetzte Statistikkenntnisse",
+    "target_audience": "Bachelorstudierende aus BWL, Management, Wirtschaftsinformatik und Informatik ohne statistische Vorkenntnisse",
     "question_count": 30,
     "difficulty_profile": { "leicht": 0, "mittel": 12, "schwer": 18 },
     "time_per_weight_minutes": { "1": 0.5, "2": 0.75, "3": 1.0 },
@@ -24,7 +24,7 @@
       "weight": 2,
       "topic": "Statistikprozess",
       "concept": "Vorab festgelegter Untersuchungsplan",
-      "cognitive_level": "Application",
+      "cognitive_level": "Anwendung",
       "mini_glossary": {
         "Beobachtungseinheit": "Einheit, auf die sich eine Datenzeile und die gemessenen Merkmale beziehen.",
         "Operationalisierung": "Übersetzung einer Untersuchungsfrage in beobachtbare Merkmale und eindeutige Messregeln.",
@@ -32,7 +32,7 @@
       }
     },
     {
-      "question": "2. Ein Onlinehändler behauptet: »Unsere Rücksendungen sind zu hoch.« Welche Formulierung operationalisiert die Aussage so, dass Zeitraum, Zähler und Nenner eindeutig bestimmbar sind?",
+      "question": "2. Ein Onlinehändler behauptet: „Unsere Rücksendungen sind zu hoch.“ Welche Formulierung operationalisiert die Aussage so, dass Zeitraum, Zähler und Nenner eindeutig bestimmbar sind?",
       "options": [
         "Welcher Anteil der Kundschaft hält Rücksendungen im Allgemeinen für ein wichtiges Problem?",
         "Welcher Anteil der Rücksendungen des nächsten Quartals lässt sich durch bessere Produkttexte vermeiden?",
@@ -44,7 +44,7 @@
       "weight": 2,
       "topic": "Statistikprozess",
       "concept": "Operationalisierte Untersuchungsfrage",
-      "cognitive_level": "Application",
+      "cognitive_level": "Anwendung",
       "mini_glossary": {
         "Untersuchungsfrage": "Präzise Frage, die Bezugsgruppe, Merkmal und angestrebte Aussage erkennen lässt.",
         "Nenner": "Bezugszahl, auf die sich ein Anteil bezieht.",
@@ -64,7 +64,7 @@
       "weight": 2,
       "topic": "Statistikprozess",
       "concept": "Dokumentierte Datenprüfung",
-      "cognitive_level": "Application",
+      "cognitive_level": "Anwendung",
       "mini_glossary": {
         "Datenprüfung": "Systematische Kontrolle auf fehlende, unplausible, widersprüchliche oder doppelte Werte.",
         "Quelldaten": "Ursprüngliche Datenquelle, gegen die eine auffällige Erfassung geprüft werden kann.",
@@ -84,7 +84,7 @@
       "weight": 3,
       "topic": "Statistikprozess",
       "concept": "Beschreibung versus Kausalaussage",
-      "cognitive_level": "Analysis",
+      "cognitive_level": "Strukturelle Analyse",
       "mini_glossary": {
         "Deskriptive Aussage": "Aussage, die ein beobachtetes Muster in den vorliegenden Daten beschreibt.",
         "Kausalität": "Ursache-Wirkungs-Beziehung, die durch einen bloßen beobachteten Unterschied nicht belegt ist.",
@@ -104,7 +104,7 @@
       "weight": 2,
       "topic": "Statistikprozess",
       "concept": "Transparente Ergebnisberichterstattung",
-      "cognitive_level": "Application",
+      "cognitive_level": "Anwendung",
       "mini_glossary": {
         "Sensitivitätsanalyse": "Vergleich von Ergebnissen unter plausiblen alternativen Auswertungsentscheidungen.",
         "Transparenz": "Nachvollziehbare Offenlegung von Datenbasis, Regeln, Ergebnissen und Grenzen.",
@@ -124,7 +124,7 @@
       "weight": 2,
       "topic": "Grundgesamtheit und Stichprobe",
       "concept": "Grundgesamtheit und Stichprobe im Servicefall",
-      "cognitive_level": "Application",
+      "cognitive_level": "Anwendung",
       "mini_glossary": {
         "Grundgesamtheit": "Gesamtheit aller Beobachtungseinheiten, über die eine Aussage angestrebt wird.",
         "Stichprobe": "Tatsächlich untersuchte Teilmenge der Grundgesamtheit.",
@@ -144,7 +144,7 @@
       "weight": 2,
       "topic": "Grundgesamtheit und Stichprobe",
       "concept": "Auswahlrahmen und Unterabdeckung",
-      "cognitive_level": "Analysis",
+      "cognitive_level": "Strukturelle Analyse",
       "mini_glossary": {
         "Zielpopulation": "Festgelegte Grundgesamtheit, für die eine Schlussfolgerung gelten soll.",
         "Auswahlrahmen": "Praktisch verfügbare Liste oder Menge, aus der eine Stichprobe gezogen wird.",
@@ -152,7 +152,7 @@
       }
     },
     {
-      "question": "8. In einer Vorlesung sind 90 Personen anwesend. 54 beantworten freiwillig eine Live-Frage; 34 Antwortende wählen »stimme zu«. Welche Aussage ist am besten begründet?",
+      "question": "8. In einer Vorlesung sind 90 Personen anwesend. 54 beantworten freiwillig eine Live-Frage; 34 Antwortende wählen „stimme zu“. Welche Aussage ist am besten begründet?",
       "options": [
         "Rund 63 % der Anwesenden stimmen zu; die 36 Nichtantwortenden verändern den Nenner der Aussage nicht.",
         "Rund 38 % der Antwortenden stimmen zu; der Nenner soll aus den 90 Anwesenden bestehen.",
@@ -164,10 +164,10 @@
       "weight": 3,
       "topic": "Grundgesamtheit und Stichprobe",
       "concept": "Bezugsgruppe bei freiwilligen Live-Antworten",
-      "cognitive_level": "Analysis",
+      "cognitive_level": "Strukturelle Analyse",
       "mini_glossary": {
         "Bezugsgruppe": "Gruppe von Einheiten, auf die sich eine Zahl oder Aussage ausdrücklich bezieht.",
-        "Nonresponse": "Ausbleibende Antwort einer ausgewählten oder angesprochenen Einheit.",
+        "Antwortausfall": "Ausbleibende Antwort einer ausgewählten oder angesprochenen Einheit.",
         "Antwortquote": "Anteil der Antwortenden an allen angesprochenen Einheiten."
       }
     },
@@ -184,7 +184,7 @@
       "weight": 3,
       "topic": "Grundgesamtheit und Stichprobe",
       "concept": "Auswahlverzerrung durch Unterabdeckung",
-      "cognitive_level": "Analysis",
+      "cognitive_level": "Strukturelle Analyse",
       "mini_glossary": {
         "Auswahlverzerrung": "Systematische Abweichung, weil bestimmte Einheiten eine andere Auswahlchance haben.",
         "Unterabdeckung": "Fehlen von Teilen der Zielpopulation im Auswahlrahmen.",
@@ -197,17 +197,17 @@
         "Das Design ist eine Stichprobenerhebung, weil 210 gültige Fragebögen vorliegen.",
         "Das Design ist eine Vollerhebung ohne Einschränkung; die 30 fehlenden Angaben zählen als neutrale Antworten.",
         "Das Design ist eine Vollerhebung der 210 Antwortenden, weil diese die auswertbare Grundgesamtheit bilden.",
-        "Das Design ist eine Vollerhebung mit Nonresponse; unmittelbar ausgewertet werden 210 Antworten."
+        "Das Design ist eine Vollerhebung mit Antwortausfall; unmittelbar ausgewertet werden 210 Antworten."
       ],
       "answer": 3,
-      "explanation": "Das Design spricht jede Einheit der definierten Grundgesamtheit an und bleibt daher eine Vollerhebung; Nonresponse verkleinert die beobachtete Datenbasis auf 210. Die Bezeichnung als Stichprobenerhebung wirkt plausibel, verwechselt aber den ursprünglichen Auswahlplan mit dem späteren Antwortausfall.",
+      "explanation": "Das Design spricht jede Einheit der definierten Grundgesamtheit an und bleibt daher eine Vollerhebung; der Antwortausfall verkleinert die beobachtete Datenbasis auf 210. Die Bezeichnung als Stichprobenerhebung wirkt plausibel, verwechselt aber den ursprünglichen Auswahlplan mit dem späteren Antwortausfall.",
       "weight": 3,
       "topic": "Grundgesamtheit und Stichprobe",
-      "concept": "Vollerhebung mit Nonresponse",
-      "cognitive_level": "Analysis",
+      "concept": "Vollerhebung mit Antwortausfall",
+      "cognitive_level": "Strukturelle Analyse",
       "mini_glossary": {
         "Vollerhebung": "Erhebungsdesign, das jede Einheit der definierten Grundgesamtheit einbezieht.",
-        "Nonresponse": "Ausbleibende Antwort einer ausgewählten oder angesprochenen Einheit.",
+        "Antwortausfall": "Ausbleibende Antwort einer ausgewählten oder angesprochenen Einheit.",
         "Erhebungsdesign": "Geplanter Rahmen für Auswahl, Messung und zeitlichen Ablauf einer Untersuchung."
       }
     },
@@ -215,7 +215,7 @@
       "question": "11. Drei von 40 Filialen melden sich freiwillig für einen Vorher-nachher-Prozessvergleich. Alle drei weisen danach kürzere Wartezeiten auf. Welche Schlussfolgerung berücksichtigt Auswahl und Zeitvergleich angemessen?",
       "options": [
         "Der Prozess dürfte die Wartezeit auch in den übrigen Filialen verkürzen, weil die drei beobachteten Veränderungen übereinstimmen.",
-        "Die drei Filialen verbesserten sich im Beobachtungszeitraum; Übertragbarkeit und Prozessursache bleiben ungeklärt.",
+        "In den drei Filialen sanken die Wartezeiten im Beobachtungszeitraum; Übertragbarkeit und Ursache bleiben ungeklärt.",
         "Freiwillige Teilnahme macht die Filialen vergleichbar, weil vorwiegend engagierte Standorte belastbare Daten liefern.",
         "Der beobachtete Rückgang bleibt nicht interpretierbar, solange ein zeitgleicher Kontrollvergleich fehlt."
       ],
@@ -224,7 +224,7 @@
       "weight": 3,
       "topic": "Grundgesamtheit und Stichprobe",
       "concept": "Grenzen freiwilliger Vorher-nachher-Daten",
-      "cognitive_level": "Analysis",
+      "cognitive_level": "Strukturelle Analyse",
       "mini_glossary": {
         "Selbstselektion": "Teilnahmeentscheidung durch die Einheiten selbst, wodurch systematische Gruppenunterschiede entstehen können.",
         "Übertragbarkeit": "Ausmaß, in dem Ergebnisse über die untersuchte Stichprobe hinaus gelten können.",
@@ -244,7 +244,7 @@
       "weight": 2,
       "topic": "Beobachtungseinheit und Merkmale",
       "concept": "Beobachtungseinheit in Ereignisdaten",
-      "cognitive_level": "Application",
+      "cognitive_level": "Anwendung",
       "mini_glossary": {
         "Beobachtungseinheit": "Einheit, auf die sich eine Datenzeile und die gemessenen Merkmale beziehen.",
         "Ereignisdaten": "Daten, bei denen jede Zeile ein zeitlich bestimmtes Ereignis beschreibt.",
@@ -252,7 +252,7 @@
       }
     },
     {
-      "question": "13. In einer Tabelle mit einer Zeile je Ticket steht in der Spalte »Bearbeitungsdauer in Minuten« für Ticket T17 der Wert 42. Welche Zuordnung von Begriff und Fall ist korrekt?",
+      "question": "13. In einer Tabelle mit einer Zeile je Ticket steht in der Spalte „Bearbeitungsdauer in Minuten“ für Ticket T17 der Wert 42. Welche Zuordnung von Begriff und Fall ist korrekt?",
       "options": [
         "Merkmal ist Ticket T17; Merkmalsausprägung ist die Spaltenüberschrift.",
         "Merkmal ist der Wert 42; Merkmalsausprägung ist die gesamte Tickettabelle.",
@@ -264,7 +264,7 @@
       "weight": 2,
       "topic": "Beobachtungseinheit und Merkmale",
       "concept": "Merkmal und Merkmalsausprägung",
-      "cognitive_level": "Application",
+      "cognitive_level": "Anwendung",
       "mini_glossary": {
         "Merkmal": "Eigenschaft, die an einer Beobachtungseinheit erhoben wird.",
         "Merkmalsausprägung": "Konkreter beobachteter Wert eines Merkmals bei einer Einheit.",
@@ -280,11 +280,11 @@
         "Die Beobachtungseinheit ist die Tabellenzelle; Abteilung und Fehlzeit bilden getrennte Analyseeinheiten."
       ],
       "answer": 0,
-      "explanation": "Eine Zeile bezeichnet eine Person-Monat-Kombination; dieselbe Person liefert wiederholt Daten, die miteinander zusammenhängen können. Nur »Person« zu wählen klingt naheliegend, ignoriert aber die zusätzliche Zeitebene und würde die Monatszeilen fälschlich als unabhängige Personen behandeln.",
+      "explanation": "Eine Zeile bezeichnet eine Person-Monat-Kombination; dieselbe Person liefert wiederholt Daten, die miteinander zusammenhängen können. Nur „Person“ zu wählen klingt naheliegend, ignoriert aber die zusätzliche Zeitebene und würde die Monatszeilen fälschlich als unabhängige Personen behandeln.",
       "weight": 3,
       "topic": "Beobachtungseinheit und Merkmale",
       "concept": "Person-Zeit-Beobachtung",
-      "cognitive_level": "Analysis",
+      "cognitive_level": "Strukturelle Analyse",
       "mini_glossary": {
         "Person-Zeit-Einheit": "Beobachtung, die eine Person mit einem bestimmten Zeitraum verbindet.",
         "Wiederholungsmessung": "Mehrfache Messung derselben Einheit zu verschiedenen Zeitpunkten.",
@@ -300,11 +300,11 @@
         "Er kann Kaufbeträge rekonstruieren, weil die 120 Filialsummen genügend Einzelinformation enthalten."
       ],
       "answer": 2,
-      "explanation": "Die Daten liegen auf Filialebene vor und fassen unbekannt viele Käufe zusammen; Aussagen über einzelne Kaufvorgänge sind daraus nicht ableitbar. Die Annahme »eine Zeile gleich ein Kauf« ist gerade der plausible, aber falsche Schluss aus der sichtbaren Zeilenzahl.",
+      "explanation": "Die Daten liegen auf Filialebene vor und fassen unbekannt viele Käufe zusammen; Aussagen über einzelne Kaufvorgänge sind daraus nicht ableitbar. Die Annahme „eine Zeile gleich ein Kauf“ ist gerade der plausible, aber falsche Schluss aus der sichtbaren Zeilenzahl.",
       "weight": 3,
       "topic": "Beobachtungseinheit und Merkmale",
       "concept": "Fehlschluss durch Aggregationsebene",
-      "cognitive_level": "Analysis",
+      "cognitive_level": "Strukturelle Analyse",
       "mini_glossary": {
         "Aggregation": "Zusammenfassung mehrerer Einzelbeobachtungen zu einem übergeordneten Wert.",
         "Aggregationsebene": "Ebene, auf der Beobachtungen in einer Tabelle dargestellt und ausgewertet werden.",
@@ -312,19 +312,19 @@
       }
     },
     {
-      "question": "16. Der Vertriebskanal eines Auftrags wird als »Filiale«, »Telefon« oder »Online« erhoben und im System mit 1, 2 oder 3 gespeichert. Welche Interpretation ist korrekt?",
+      "question": "16. Der Vertriebskanal eines Auftrags wird als „Filiale“, „Telefon“ oder „Online“ erhoben und im System mit 1, 2 oder 3 gespeichert. Welche Interpretation ist korrekt?",
       "options": [
         "Der Vertriebskanal ist metrisch, weil die Differenz zwischen den Codes einen Kanalabstand misst.",
-        "Der Vertriebskanal ist nominal; »Online« ist eine Ausprägung und der Code dient nur der Kennzeichnung.",
+        "Der Vertriebskanal ist nominal; „Online“ ist eine Ausprägung und der Code dient nur der Kennzeichnung.",
         "Der Vertriebskanal ist ordinal, weil Code 3 einen höherwertigen Kanal als Code 1 bezeichnet.",
         "Der Vertriebskanal ist stetig, weil zwischen den gespeicherten Codes weitere Dezimalzahlen liegen können."
       ],
       "answer": 1,
-      "explanation": "Die Kanäle unterscheiden Kategorien ohne sachliche Rangfolge; »Online« ist eine konkrete Merkmalsausprägung. Die numerische Speicherung verleitet zur metrischen Interpretation, doch Rechenabstände zwischen 1, 2 und 3 tragen hier keine fachliche Bedeutung.",
+      "explanation": "Die Kanäle unterscheiden Kategorien ohne sachliche Rangfolge; „Online“ ist eine konkrete Merkmalsausprägung. Die numerische Speicherung verleitet zur metrischen Interpretation, doch Rechenabstände zwischen 1, 2 und 3 tragen hier keine fachliche Bedeutung.",
       "weight": 3,
       "topic": "Beobachtungseinheit und Merkmale",
       "concept": "Kategoriale Merkmalsausprägung mit Code",
-      "cognitive_level": "Analysis",
+      "cognitive_level": "Strukturelle Analyse",
       "mini_glossary": {
         "Nominalskala": "Kategorien ohne sachliche Rangordnung.",
         "Merkmalsausprägung": "Konkreter beobachteter Wert eines Merkmals bei einer Einheit.",
@@ -340,11 +340,11 @@
         "Die häufigste Zahlungsart über die Häufigkeiten der drei Codes bestimmen"
       ],
       "answer": 3,
-      "explanation": "Für nominale Kategorien sind Häufigkeiten und der Modus sinnvoll. Der Mittelwert der Codes ist der plausibelste Rechenweg, hängt aber vollständig von der willkürlichen Zuordnung 1, 2 und 3 ab und beschreibt keine »mittlere« Zahlungsart.",
+      "explanation": "Für nominale Kategorien sind Häufigkeiten und der Modus sinnvoll. Der Mittelwert der Codes ist der plausibelste Rechenweg, hängt aber vollständig von der willkürlichen Zuordnung 1, 2 und 3 ab und beschreibt keine „mittlere“ Zahlungsart.",
       "weight": 2,
       "topic": "Skalenniveaus und Merkmalsarten",
       "concept": "Zulässige Operationen bei Nominaldaten",
-      "cognitive_level": "Application",
+      "cognitive_level": "Anwendung",
       "mini_glossary": {
         "Nominalskala": "Kategorien ohne sachliche Rangordnung.",
         "Modus": "Am häufigsten vorkommende Ausprägung.",
@@ -352,19 +352,19 @@
       }
     },
     {
-      "question": "18. Ein Ticketsystem verwendet die Prioritäten »niedrig«, »mittel«, »hoch« und »kritisch«. Welche Aussage zum Skalenniveau ist fachlich angemessen?",
+      "question": "18. Ein Ticketsystem verwendet die Prioritäten „niedrig“, „mittel“, „hoch“ und „kritisch“. Welche Aussage zum Skalenniveau ist fachlich angemessen?",
       "options": [
         "Rangvergleiche sind sinnvoll, gleiche Abstände zwischen benachbarten Stufen sind aber nicht gesichert.",
         "Rangvergleiche sind nicht vorgesehen, weil ausgeschriebene Stufen als nominale Kategorien behandelt werden.",
         "Abstandsvergleiche sind sinnvoll, weil die vier codierten Stufen als gleich weit interpretiert werden.",
-        "Verhältnisvergleiche sind sinnvoll, weil »kritisch« doppelt so dringend wie »mittel« interpretiert wird."
+        "Verhältnisvergleiche sind sinnvoll, weil „kritisch“ doppelt so dringend wie „mittel“ interpretiert wird."
       ],
       "answer": 0,
       "explanation": "Die Prioritäten besitzen eine sachliche Reihenfolge und sind ordinal, ohne definierte gleiche Abstände. Eine metrische Deutung aufgrund von vier codierbaren Stufen ist plausibel, verwechselt aber Zahlencodes mit einer begründeten Abstandsskala.",
       "weight": 2,
       "topic": "Skalenniveaus und Merkmalsarten",
       "concept": "Ordinalskala und Abstandsgrenze",
-      "cognitive_level": "Application",
+      "cognitive_level": "Anwendung",
       "mini_glossary": {
         "Ordinalskala": "Geordnete Kategorien, deren Abstände nicht als gleich vorausgesetzt werden.",
         "Rangvergleich": "Vergleich danach, welche Ausprägung höher oder niedriger geordnet ist.",
@@ -384,7 +384,7 @@
       "weight": 2,
       "topic": "Skalenniveaus und Merkmalsarten",
       "concept": "Metrische Differenz- und Verhältnisinterpretation",
-      "cognitive_level": "Application",
+      "cognitive_level": "Anwendung",
       "mini_glossary": {
         "Metrische Skala": "Numerische Werte, bei denen Abstände sinnvoll interpretiert werden.",
         "Differenz": "Ergebnis der Subtraktion zweier Messwerte in ihrer Einheit.",
@@ -404,7 +404,7 @@
       "weight": 3,
       "topic": "Skalenniveaus und Merkmalsarten",
       "concept": "Numerischer Identifikator",
-      "cognitive_level": "Analysis",
+      "cognitive_level": "Strukturelle Analyse",
       "mini_glossary": {
         "Identifikator": "Kennung zur eindeutigen Unterscheidung von Einheiten ohne eigene Messbedeutung.",
         "Nominalskala": "Kategorien ohne sachliche Rangordnung.",
@@ -412,7 +412,7 @@
       }
     },
     {
-      "question": "21. Ein Dashboard enthält die »Anzahl eingegangener Tickets« und die auf ganze Sekunden gerundete »Bearbeitungsdauer«. Welche Zuordnung trennt Merkmal und Messauflösung korrekt?",
+      "question": "21. Ein Dashboard enthält die „Anzahl eingegangener Tickets“ und die auf ganze Sekunden gerundete „Bearbeitungsdauer“. Welche Zuordnung trennt Merkmal und Messauflösung korrekt?",
       "options": [
         "Die Ticketanzahl ist stetig; die zugrunde liegende Dauer ist diskret, weil die Speicherung ganze Sekunden ausweist.",
         "Beide Merkmale sind diskret; die ganzzahlige Speicherung wird als Eigenschaft der Größen interpretiert.",
@@ -424,7 +424,7 @@
       "weight": 3,
       "topic": "Skalenniveaus und Merkmalsarten",
       "concept": "Diskretheit und Messauflösung",
-      "cognitive_level": "Analysis",
+      "cognitive_level": "Strukturelle Analyse",
       "mini_glossary": {
         "Diskretes Merkmal": "Merkmal mit abzählbaren möglichen Werten, häufig Zählwerte.",
         "Stetiges Merkmal": "Merkmal, das innerhalb eines Bereichs grundsätzlich jeden Wert annehmen kann.",
@@ -440,11 +440,11 @@
         "Das ursprüngliche Merkmal ist nominal, weil Reklamationen nach einzelnen Vorgangscodes erfasst werden."
       ],
       "answer": 2,
-      "explanation": "Die täglichen Einzelwerte bleiben diskrete Zählwerte, auch wenn ihr arithmetisches Mittel 2,4 beträgt. Die Dezimalzahl des Mittels ist der typische Fehlhinweis: Das Skalenniveau des Ausgangsmerkmals wird nicht durch das Format einer Kennzahl geändert.",
+      "explanation": "Die täglichen Einzelwerte bleiben diskrete Zählwerte, auch wenn ihr arithmetisches Mittel 2,4 beträgt. Die Dezimalzahl des Mittelwerts ist ein naheliegender, aber irreführender Hinweis: Das Skalenniveau des Ausgangsmerkmals wird nicht durch das Format einer Kennzahl geändert.",
       "weight": 3,
       "topic": "Skalenniveaus und Merkmalsarten",
       "concept": "Diskretes Merkmal und nichtganzzahliger Mittelwert",
-      "cognitive_level": "Analysis",
+      "cognitive_level": "Strukturelle Analyse",
       "mini_glossary": {
         "Zählwert": "Durch Abzählen von Ereignissen oder Einheiten entstehender ganzzahliger Wert.",
         "Diskretes Merkmal": "Merkmal mit abzählbaren möglichen Werten.",
@@ -464,7 +464,7 @@
       "weight": 3,
       "topic": "Skalenniveaus und Merkmalsarten",
       "concept": "Kennzahl und Aussagegrenze gerundeter Messwerte",
-      "cognitive_level": "Analysis",
+      "cognitive_level": "Strukturelle Analyse",
       "mini_glossary": {
         "Rundung": "Abbildung eines Messwerts auf eine gröbere vorgegebene Genauigkeit.",
         "Messauflösung": "Kleinste Abstufung, die ein Messinstrument oder Speichersystem ausgibt.",
@@ -472,7 +472,7 @@
       }
     },
     {
-      "question": "24. In der Spalte »Anzahl Beschwerden« steht bei Auftrag A17 kein Wert, bei Auftrag A18 dagegen ausdrücklich 0. Welche Behandlung erhält die vorhandene Information?",
+      "question": "24. In der Spalte „Anzahl Beschwerden“ steht bei Auftrag A17 kein Wert, bei Auftrag A18 dagegen ausdrücklich 0. Welche Behandlung erhält die vorhandene Information?",
       "options": [
         "A17 als fehlend kennzeichnen und prüfen, A18 als beobachtete Null beibehalten.",
         "Beide Einträge als 0 werten, weil ein leeres Zahlenfeld dieselbe Ausprägung bezeichnet.",
@@ -484,29 +484,29 @@
       "weight": 2,
       "topic": "Datenqualität und Aussagegrenzen",
       "concept": "Fehlender Wert versus beobachtete Null",
-      "cognitive_level": "Application",
+      "cognitive_level": "Anwendung",
       "mini_glossary": {
         "Fehlender Wert": "Nicht beobachtete oder nicht dokumentierte Merkmalsausprägung; nicht automatisch null.",
         "Nullwert": "Beobachtete Ausprägung mit dem numerischen Wert null.",
-        "Missingness": "Muster und Ursachen fehlender Werte in einem Datensatz."
+        "Muster fehlender Werte": "Art und Ursache des Fehlens von Angaben in einem Datensatz."
       }
     },
     {
       "question": "25. Von 100 Premiumkunden antworten 60 auf eine Befragung, von 200 Basiskunden nur 15. Warum kann die Zufriedenheit der 75 Antwortenden die Zufriedenheit aller 300 Eingeladenen verzerrt darstellen?",
       "options": [
-        "Basiskunden sind unter den Antwortenden stark überrepräsentiert, weil ihre absolute Einladungzahl größer ist.",
+        "Basiskunden sind unter den Antwortenden stark überrepräsentiert, weil mehr Basiskunden eingeladen wurden.",
         "Premiumkunden sind unter den Antwortenden stark überrepräsentiert, und Zufriedenheit kann sich zwischen Segmenten unterscheiden.",
         "Die Antwortquote ist ohne Bedeutung, sobald aus beiden Kundensegmenten mindestens eine Antwort vorliegt.",
         "Die Segmentverteilung kann vernachlässigt werden, wenn die 75 Antworten innerhalb der Datenbasis prozentuiert werden."
       ],
       "answer": 1,
-      "explanation": "Premiumkunden stellen 80 % der Antwortenden, aber nur ein Drittel der Eingeladenen; bei segmentabhängiger Zufriedenheit verschiebt das den Gesamtwert. Die größere Einladungzahl der Basiskunden macht sie nicht überrepräsentiert, denn entscheidend ist ihr Anteil in Datenbasis gegenüber Zielpopulation.",
+      "explanation": "Premiumkunden stellen 80 % der Antwortenden, aber nur ein Drittel der Eingeladenen; bei segmentabhängiger Zufriedenheit verschiebt das den Gesamtwert. Die größere Zahl eingeladener Basiskundinnen und -kunden macht sie nicht überrepräsentiert, denn entscheidend ist ihr Anteil in der Datenbasis im Vergleich zur Zielpopulation.",
       "weight": 3,
       "topic": "Datenqualität und Aussagegrenzen",
-      "concept": "Differenzieller Nonresponse",
-      "cognitive_level": "Analysis",
+      "concept": "Differenzieller Antwortausfall",
+      "cognitive_level": "Strukturelle Analyse",
       "mini_glossary": {
-        "Differenzieller Nonresponse": "Unterschiedliche Antwortausfälle zwischen Gruppen, die die Zusammensetzung der Daten verändern.",
+        "Differenzieller Antwortausfall": "Unterschiedliche Antwortausfälle zwischen Gruppen, die die Zusammensetzung der Daten verändern.",
         "Überrepräsentation": "Zu hoher Anteil einer Gruppe in der Stichprobe gegenüber der Zielpopulation.",
         "Antwortquote": "Anteil der Antwortenden an allen angesprochenen Einheiten."
       }
@@ -524,7 +524,7 @@
       "weight": 3,
       "topic": "Datenqualität und Aussagegrenzen",
       "concept": "Große selbstselektierte Stichprobe",
-      "cognitive_level": "Analysis",
+      "cognitive_level": "Strukturelle Analyse",
       "mini_glossary": {
         "Selbstselektion": "Teilnahmeentscheidung durch die Einheiten selbst, wodurch systematische Gruppenunterschiede entstehen können.",
         "Repräsentativität": "Angemessene Abbildung der für die Fragestellung relevanten Struktur einer Zielpopulation.",
@@ -532,7 +532,7 @@
       }
     },
     {
-      "question": "27. Team A erhält die Frage »Wie hilfreich war die hervorragende neue Software?«, Team B die Frage »Wie hilfreich war die neue Software?«. Team A bewertet positiver. Welche Analyse ist am besten begründet?",
+      "question": "27. Team A erhält die Frage „Wie hilfreich war die hervorragende neue Software?“, Team B die Frage „Wie hilfreich war die neue Software?“. Team A bewertet positiver. Welche Analyse ist am besten begründet?",
       "options": [
         "Der Gruppenunterschied misst die Produktivität, wenn positivere Bewertungen als Leistungsindikator verwendet werden.",
         "Der Gruppenunterschied ist kausal der Software zuzuschreiben, weil beide Teams dieselbe Antwortskala verwenden.",
@@ -544,7 +544,7 @@
       "weight": 3,
       "topic": "Datenqualität und Aussagegrenzen",
       "concept": "Konfundierte Frageformulierung",
-      "cognitive_level": "Analysis",
+      "cognitive_level": "Strukturelle Analyse",
       "mini_glossary": {
         "Suggestivfrage": "Frageformulierung, die eine bestimmte Antwort nahelegt.",
         "Konfundierung": "Vermischung von Einflüssen, sodass ihre Wirkungen nicht getrennt zugerechnet werden können.",
@@ -564,7 +564,7 @@
       "weight": 3,
       "topic": "Datenqualität und Aussagegrenzen",
       "concept": "Kontextabhängige Dublettenkontrolle",
-      "cognitive_level": "Analysis",
+      "cognitive_level": "Strukturelle Analyse",
       "mini_glossary": {
         "Dublette": "Mehrfach erfasster Datensatz, der möglicherweise dieselbe Beobachtung wiederholt.",
         "Datenmodell": "Festlegung, welche Einheiten, Merkmale und Beziehungen in Daten abgebildet werden.",
@@ -580,15 +580,15 @@
         "77,5 % der Antwortenden unterstützen die Maßnahme; 51,7 % der Eingeladenen sind nachweislich Unterstützende; bei 40 Nichtantwortenden bleibt Unterstützung offen."
       ],
       "answer": 3,
-      "explanation": "62 geteilt durch 80 ergibt 77,5 % unter den Antwortenden; 62 geteilt durch 120 ergibt 51,7 % nachweislich Zustimmende unter den Eingeladenen, aber nicht deren vollständigen Zustimmungsanteil. Die 77,5 % auf alle Eingeladenen zu übertragen ist der plausible Nennerfehler und setzt unbeobachtete Antworten stillschweigend gleich.",
+      "explanation": "62 geteilt durch 80 ergibt 77,5 % unter den Antwortenden; 62 geteilt durch 120 ergibt 51,7 % nachweislich Zustimmende unter den Eingeladenen, aber nicht deren vollständigen Zustimmungsanteil. Die 77,5 % auf alle Eingeladenen zu übertragen ist der plausible Nennerfehler und unterstellt den Nichtantwortenden ohne Beleg das gleiche Antwortverhalten.",
       "weight": 3,
       "topic": "Datenqualität und Aussagegrenzen",
       "concept": "Nenner und beobachtete Untergrenze",
-      "cognitive_level": "Analysis",
+      "cognitive_level": "Strukturelle Analyse",
       "mini_glossary": {
         "Nenner": "Bezugszahl, auf die sich ein Anteil bezieht.",
         "Beobachtete Untergrenze": "Mindestens belegter Anteil, wenn weitere nicht beobachtete Fälle das Ereignis ebenfalls aufweisen könnten.",
-        "Nonresponse": "Ausbleibende Antwort einer ausgewählten oder angesprochenen Einheit."
+        "Antwortausfall": "Ausbleibende Antwort einer ausgewählten oder angesprochenen Einheit."
       }
     },
     {
@@ -604,7 +604,7 @@
       "weight": 3,
       "topic": "Datenqualität und Aussagegrenzen",
       "concept": "Kausalität und Übertragbarkeit",
-      "cognitive_level": "Analysis",
+      "cognitive_level": "Strukturelle Analyse",
       "mini_glossary": {
         "Zusammenhang": "Gemeinsame Veränderung oder unterschiedliches Auftreten zweier Merkmale in beobachteten Daten.",
         "Kausalität": "Ursache-Wirkungs-Beziehung, die durch einen beobachteten Zusammenhang nicht belegt ist.",

@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Angewandte Statistik – MC-Test Woche 2: Häufigkeiten, Diagramme und Lage",
-    "target_audience": "Bachelorstudierende aus BWL, Management, Wirtschaftsinformatik und Informatik ohne vorausgesetzte Statistikkenntnisse",
+    "target_audience": "Bachelorstudierende aus BWL, Management, Wirtschaftsinformatik und Informatik ohne statistische Vorkenntnisse",
     "question_count": 30,
     "difficulty_profile": { "leicht": 0, "mittel": 12, "schwer": 18 },
     "time_per_weight_minutes": { "1": 0.5, "2": 0.75, "3": 1.0 },
@@ -16,7 +16,7 @@
       "options": [
         "Absolute Häufigkeit 18 verspätete Tickets bei 72 gültigen Tickets",
         "Absolute Häufigkeit 72 verspätete Tickets bei 80 importierten Tickets",
-        "Relative Häufigkeit 18 verspätete Tickets bei 72 gültigen Tickets",
+        "Relative Häufigkeit 18 verspätete Tickets bei 18 gültigen Tickets",
         "Relative Häufigkeit 72 verspätete Tickets bei 18 gültigen Tickets"
       ],
       "answer": 0,
@@ -52,7 +52,7 @@
       }
     },
     {
-      "question": "3. Von 50 zurückgesendeten Fragebögen enthalten 45 eine gültige Angabe zur Weiterempfehlung; 27 dieser Angaben lauten »ja«. Welcher Bericht gibt den Ja-Anteil unter den gültigen Angaben korrekt wieder?",
+      "question": "3. Von 50 zurückgesendeten Fragebögen enthalten 45 eine gültige Angabe zur Weiterempfehlung; 27 dieser Angaben lauten „ja“. Welcher Bericht gibt den Ja-Anteil unter den gültigen Angaben korrekt wieder?",
       "options": [
         "54 % Ja-Anteil mit 27 Zustimmungen und 50 Rückläufen als Nenner",
         "90 % Ja-Anteil mit 45 Zustimmungen und 50 Rückläufen als Nenner",
@@ -60,13 +60,13 @@
         "40 % Ja-Anteil mit 18 Zustimmungen und 45 gültigen Angaben als Nenner"
       ],
       "answer": 2,
-      "explanation": "Gefragt ist die bedingte Bezugsgruppe der 45 gültigen Angaben: 27 geteilt durch 45 sind 60 %. Die 54 % verwenden zwar einen realen Nenner, beantworten aber den Anteil unter allen Rückläufen und behandeln fünf fehlende Angaben implizit wie »nein«.",
+      "explanation": "Gefragt ist die bedingte Bezugsgruppe der 45 gültigen Angaben: 27 geteilt durch 45 sind 60 %. Die 54 % verwenden zwar einen realen Nenner, beantworten aber den Anteil unter allen Rückläufen und behandeln fünf fehlende Angaben implizit wie „nein“.",
       "weight": 2,
       "topic": "Häufigkeiten und Nenner",
-      "concept": "Gültiger Nenner bei Item-Nonresponse",
+      "concept": "Gültiger Nenner bei fehlender Einzelangabe",
       "cognitive_level": "Anwendung",
       "mini_glossary": {
-        "Item-Nonresponse": "Fehlende Angabe zu einem einzelnen Merkmal in einem ansonsten zurückgesendeten Fragebogen.",
+        "Fehlende Angabe bei einer Frage": "Fehlende Angabe zu einer Frage in einem ansonsten zurückgesendeten Fragebogen.",
         "Gültige Antwort": "Für das betrachtete Merkmal verwertbare, nicht fehlende Angabe.",
         "Bedingter Anteil": "Anteil innerhalb einer ausdrücklich eingeschränkten Bezugsgruppe."
       }
@@ -100,7 +100,7 @@
         "Im Mittel entfallen 1,45 Nennungen auf eine befragte Person; eine Summe von 145 % kann daher gültig sein."
       ],
       "answer": 3,
-      "explanation": "145 Nennungen geteilt durch 100 Personen ergeben 1,45 Nennungen pro Person; entsprechend dürfen Optionsanteile zusammen 145 % ergeben. »Genau 45 Personen mit zwei Gründen« ist plausibel, folgt aber nicht, weil einige Personen drei oder mehr Gründe genannt haben könnten.",
+      "explanation": "145 Nennungen geteilt durch 100 Personen ergeben 1,45 Nennungen pro Person; entsprechend dürfen Optionsanteile zusammen 145 % ergeben. „Genau 45 Personen mit zwei Gründen“ ist plausibel, folgt aber nicht, weil einige Personen drei oder mehr Gründe genannt haben könnten.",
       "weight": 2,
       "topic": "Häufigkeiten und Nenner",
       "concept": "Mehrfachnennungen und mittlere Nennungszahl",
@@ -132,7 +132,7 @@
       }
     },
     {
-      "question": "7. Die Fallzahlen der nominalen Beschwerdekanäle »E-Mail«, »Telefon«, »Chat« und »Filiale« sollen fair verglichen werden. Welche Gestaltung passt am besten?",
+      "question": "7. Die Fallzahlen der nominalen Beschwerdekanäle „E-Mail“, „Telefon“, „Chat“ und „Filiale“ sollen fair verglichen werden. Welche Gestaltung passt am besten?",
       "options": [
         "Aneinandergrenzende Klassenbalken mit Kanalbreiten proportional zur alphabetischen Reihenfolge verwenden",
         "Getrennte Balken mit gemeinsamer Nullbasis, klarer Achsenbeschriftung und derselben Einheit verwenden",
@@ -180,7 +180,7 @@
         "Die Achse kann zwei Prozentpunkte optisch übertreiben; ohne Fallzahlen lässt sich die Unsicherheit des Vergleichs nicht beurteilen."
       ],
       "answer": 3,
-      "explanation": "Der enge Achsenausschnitt vergrößert den visuellen Längenunterschied, während unbekannte Nenner jede Beurteilung der statistischen Stabilität verhindern. Nur auf die zwei Prozentpunkte zu verweisen ist unvollständig: Dieselbe Differenz kann bei 20 oder 20.000 Fällen sehr unterschiedlich unsicher sein.",
+      "explanation": "Der enge Achsenausschnitt vergrößert den visuellen Längenunterschied, während unbekannte Nenner jede Beurteilung der statistischen Unsicherheit verhindern. Nur auf die zwei Prozentpunkte zu verweisen ist unvollständig: Dieselbe Differenz kann bei 20 oder 20.000 Fällen sehr unterschiedlich unsicher sein.",
       "weight": 3,
       "topic": "Diagramme und Manipulation",
       "concept": "Achsenmanipulation und fehlende Nenner",
@@ -192,11 +192,11 @@
       }
     },
     {
-      "question": "10. Ein Histogramm verwendet gleich breite Zeitklassen; die y-Achse heißt »Absolute Häufigkeit«. Der Balken für 90 bis unter 120 Sekunden hat die Höhe 14. Welche Interpretation ist gedeckt?",
+      "question": "10. Ein Histogramm verwendet gleich breite Zeitklassen; die y-Achse heißt „Absolute Häufigkeit“. Der Balken für 90 bis unter 120 Sekunden hat die Höhe 14. Welche Interpretation ist gedeckt?",
       "options": [
         "Die 14 Fälle werden mit einer gemeinsamen Dauer von 105 Sekunden gespeichert.",
         "Der Mittelwert aller Fälle beträgt 14 Sekunden bei einer Klassenbreite von 30 Sekunden.",
-        "Vierzehn Fälle liegen zwischen einschließlich 90 und ausschließlich 120 Sekunden.",
+        "Vierzehn Fälle liegen zwischen 90 Sekunden (einschließlich) und 120 Sekunden (ausschließlich).",
         "Vierzehn Prozent der Fälle liegen im Intervall, weil die Balkenhöhe als Anteil gelesen wird."
       ],
       "answer": 2,
@@ -212,7 +212,7 @@
       }
     },
     {
-      "question": "11. Ein dreidimensionales Kreisdiagramm zeigt die Kontaktkanäle, lässt die Kategorie »Sonstige« mit 12 % weg und berechnet die übrigen Sektoren neu auf 100 %. Welche Aussage benennt beide Verzerrungen korrekt?",
+      "question": "11. Ein dreidimensionales Kreisdiagramm zeigt die Kontaktkanäle, lässt die Kategorie „Sonstige“ mit 12 % weg und berechnet die übrigen Sektoren neu auf 100 %. Welche Aussage benennt beide Verzerrungen korrekt?",
       "options": [
         "Das Weglassen verändert die visuelle Vollständigkeit, lässt die Anteile aber vergleichbar, weil die sichtbaren Sektoren 100 % ergeben.",
         "Die Perspektive verändert die Flächenwirkung, während das Weglassen die ursprünglichen Prozentanteile der sichtbaren Kategorien bewahrt.",
@@ -316,7 +316,7 @@
       "options": [
         "10 Minuten als fünfter Wert aller gültigen Beobachtungen",
         "11 Minuten als Mittel der beiden mittleren gültigen Beobachtungen",
-        "12 Minuten als sechster Wert aller zwölf Datensätze einschließlich Missingness",
+        "12 Minuten als sechster Wert aller zwölf Datensätze trotz zweier fehlender Werte",
         "15 Minuten als Mittel aus kleinster und größter gültiger Beobachtung"
       ],
       "answer": 1,
@@ -328,16 +328,16 @@
       "mini_glossary": {
         "Median": "Zentraler Lagewert geordneter Daten; bei geradem n metrischer Werte das Mittel der beiden mittleren Werte.",
         "Gültige Beobachtung": "Für die konkrete Kennzahl verwendbarer, nicht fehlender Wert.",
-        "Missingness": "Muster und Ursachen fehlender Werte in einem Datensatz."
+        "Muster fehlender Werte": "Art und Ursache des Fehlens von Angaben in einem Datensatz."
       }
     },
     {
-      "question": "17. Von 30 Servicekontakten entfallen 12 auf »E-Mail«, 12 auf »Chat« und 6 auf »Telefon«. Wie ist der Modus anzugeben?",
+      "question": "17. Von 30 Servicekontakten entfallen 12 auf „E-Mail“, 12 auf „Chat“ und 6 auf „Telefon“. Wie ist der Modus anzugeben?",
       "options": [
-        "»E-Mail« ist der einzige Modus, weil die Kategorie zuerst genannt wird.",
-        "»Chat« ist als zuletzt ausgewertete Kategorie der einzige Modus.",
-        "»Telefon« ist der Modus, weil sechs die mittlere absolute Häufigkeit ist.",
-        "»E-Mail« und »Chat« sind beide Modi; ein eindeutiger Modus existiert nicht."
+        "„E-Mail“ ist der einzige Modus, weil die Kategorie zuerst genannt wird.",
+        "„Chat“ ist als zuletzt ausgewertete Kategorie der einzige Modus.",
+        "„Telefon“ ist der Modus, weil sechs die mittlere absolute Häufigkeit ist.",
+        "„E-Mail“ und „Chat“ sind beide Modi; ein eindeutiger Modus existiert nicht."
       ],
       "answer": 3,
       "explanation": "E-Mail und Chat teilen mit jeweils zwölf die größte Häufigkeit; die Verteilung ist bimodal und besitzt keinen eindeutigen Modus. Nur die zuerst genannte Kategorie zu wählen ist ein plausibler Darstellungsfehler, hat aber keine statistische Begründung.",
@@ -473,7 +473,7 @@
       }
     },
     {
-      "question": "24. In einem Systeminventar entfallen von 100 Geräten 48 auf Linux, 32 auf Windows, 16 auf macOS und 4 auf »anderes«. Linux und macOS sollen Windows und »anderes« gegenübergestellt werden, während die Einzelkategorien sichtbar bleiben. Welcher Bericht ist korrekt?",
+      "question": "24. In einem Systeminventar entfallen von 100 Geräten 48 auf Linux, 32 auf Windows, 16 auf macOS und 4 auf „anderes“. Linux und macOS sollen Windows und „anderes“ gegenübergestellt werden, während die Einzelkategorien sichtbar bleiben. Welcher Bericht ist korrekt?",
       "options": [
         "Ein Histogramm zeigt die Einzelkategorien; die zusammengefassten Anteile betragen 64 % und 36 %, also 28 Prozentpunkte Differenz.",
         "Ein Balkendiagramm zeigt die Einzelkategorien; die zusammengefassten Anteile betragen 48 % und 52 %, also 4 Prozentpunkte Differenz.",
@@ -481,7 +481,7 @@
         "Ein Liniendiagramm zeigt die Einzelkategorien; die zusammengefassten Anteile betragen 80 % und 20 %, also 60 Prozentpunkte Differenz."
       ],
       "answer": 2,
-      "explanation": "Linux und macOS ergeben 48 + 16 = 64 Geräte, Windows und »anderes« 32 + 4 = 36 Geräte. Bei 100 Geräten sind das 64 % und 36 % mit 28 Prozentpunkten Differenz; getrennte Balken erhalten den Vergleich der nominalen Einzelkategorien.",
+      "explanation": "Linux und macOS ergeben 48 + 16 = 64 Geräte, Windows und „anderes“ 32 + 4 = 36 Geräte. Bei 100 Geräten sind das 64 % und 36 % mit 28 Prozentpunkten Differenz; getrennte Balken erhalten den Vergleich der nominalen Einzelkategorien.",
       "weight": 3,
       "topic": "Kumulative Wiederholung Woche 1",
       "concept": "Nominale Häufigkeiten gruppieren und darstellen",
@@ -585,16 +585,16 @@
       "explanation": "Mindestens die 35 bekannten positiven Antworten zählen: 35/200 = 17,5 %. Höchstens könnten zusätzlich alle 150 Nichtantwortenden positiv sein: 185/200 = 92,5 %. Die 70 % der Antwortenden sind kein unterer Populationswert, sondern beruhen auf dem kleineren Nenner 50.",
       "weight": 3,
       "topic": "Kumulative Wiederholung Woche 1",
-      "concept": "Anteilsschranken bei Nonresponse",
+      "concept": "Anteilsschranken bei Antwortausfall",
       "cognitive_level": "Strukturelle Analyse",
       "mini_glossary": {
         "Anteilsschranke": "Kleinster oder größter mit den beobachteten Angaben vereinbarer Anteil.",
-        "Nonresponse": "Ausbleibende Antwort einer ausgewählten oder angesprochenen Einheit.",
+        "Antwortausfall": "Ausbleibende Antwort einer ausgewählten oder angesprochenen Einheit.",
         "Worst-Case-Intervall": "Wertebereich unter extremen, aber mit den Daten vereinbaren Annahmen über fehlende Fälle."
       }
     },
     {
-      "question": "30. Nach einem freiwilligen Dashboard-Training melden Teilnehmende 20 Bedienfehler bei 400 Aufgaben, Nichtteilnehmende 60 Fehler bei 600 Aufgaben. Welche Formulierung verbindet korrekten Nenner und zulässige Aussage?",
+      "question": "30. Nach einer freiwilligen Schulung zur Nutzung des Dashboards melden Teilnehmende 20 Bedienfehler bei 400 Aufgaben, Nichtteilnehmende 60 Fehler bei 600 Aufgaben. Welche Formulierung verbindet korrekten Nenner und zulässige Aussage?",
       "options": [
         "Teilnehmende weisen 20 % und Nichtteilnehmende 60 % Fehler pro Person auf; die Trainingswirkung beträgt 40 Prozentpunkte.",
         "Teilnehmende weisen 50 % und Nichtteilnehmende 50 % Fehler auf; unterschiedliche Aufgabenzahlen gelten dabei als ausgleichender Faktor.",

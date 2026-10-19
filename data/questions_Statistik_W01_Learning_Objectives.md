@@ -74,7 +74,7 @@ Im Fragenset **Angewandte Statistik – MC-Test Woche 1: Daten und Messung** err
 2. die Folgen eines fehlerhaften Auswahlrahmens anhand von Zielpopulation, Auswahlrahmen und Stichprobe analysieren.
 3. den Zustimmungsanteil unter den Antwortenden und seine Aussagegrenze für alle Anwesenden aus den Bezugszahlen herleiten.
 4. die Verzerrungsgefahr einer Befragung nur aktueller Beschwerdefälle für die Zufriedenheit aller Kunden diagnostizieren.
-5. das Verhältnis von Vollerhebungsdesign, Nonresponse und auswertbarer Datenbasis analysieren.
+5. das Verhältnis von Vollerhebungsdesign, Antwortausfall und auswertbarer Datenbasis analysieren.
 6. die Aussagegrenzen freiwilliger Vorher-nachher-Vergleiche für Ursache und Übertragbarkeit bewerten.
 7. Abhängigkeiten in wiederholten Person-Monat-Daten aus der Zeilenstruktur ableiten.
 8. die Grenzen aggregierter Filialumsätze für Aussagen über einzelne Käufe analysieren.
