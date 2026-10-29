@@ -12,7 +12,7 @@ def setup_function(func):
         try:
             components.st.session_state.clear()
         except Exception:
-            components.st.session_state = {}
+            pass
 
 
 def test_preserve_sets_for_reserved_pseudonym(monkeypatch):

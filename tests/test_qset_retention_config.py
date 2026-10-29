@@ -1,9 +1,32 @@
 import importlib
 
+_MISSING = object()
+_previous_locale = _MISSING
+
 
 def setup_function(func):
     import components
+    import streamlit as st
+
+    global _previous_locale
     importlib.reload(components)
+    try:
+        _previous_locale = st.session_state.get("active_locale", _MISSING)
+        st.session_state["active_locale"] = "de"
+    except Exception:
+        _previous_locale = _MISSING
+
+
+def teardown_function(func):
+    import streamlit as st
+
+    try:
+        if _previous_locale is _MISSING:
+            st.session_state.pop("active_locale", None)
+        else:
+            st.session_state["active_locale"] = _previous_locale
+    except Exception:
+        pass
 
 
 def test_retention_caption_uses_configured_reserved_days(monkeypatch):

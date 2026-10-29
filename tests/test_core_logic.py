@@ -43,11 +43,10 @@ def mock_cache_data(func=None, **kwargs):
 
 mock_st.cache_data = mock_cache_data
 
-# Füge den Mock temporär zum sys.modules-Cache hinzu, damit die folgenden
-# Imports `from streamlit import ...` diesen Mock anstelle des echten Moduls
-# verwenden. Wichtig: Stelle sicher, dass wir den Original-Eintrag wieder
-# herstellen, damit andere Testmodule (die z. B. `streamlit.components`
-# importieren) nicht von unserem Mock beeinflusst werden.
+# Der Mock gilt nur, während dieses Modul importiert und seine Tests laufen.
+# Danach muss das echte Streamlit-Modul wieder in sys.modules stehen, sonst
+# sehen später gesammelte Testdateien keinen echten session_state.
+_REAL_STREAMLIT = sys.modules.get("streamlit")
 sys.modules["streamlit"] = mock_st
 
 # --- Echte Modul-Imports (nach dem Mocking) ---
@@ -55,8 +54,24 @@ sys.modules["streamlit"] = mock_st
 import config
 import logic
 
+if _REAL_STREAMLIT is None:
+    sys.modules.pop("streamlit", None)
+else:
+    sys.modules["streamlit"] = _REAL_STREAMLIT
+
 
 # --- Test-Setup ---
+
+@pytest.fixture(autouse=True)
+def _use_streamlit_mock_for_core_tests():
+    previous = sys.modules.get("streamlit")
+    sys.modules["streamlit"] = mock_st
+    yield
+    if previous is None:
+        sys.modules.pop("streamlit", None)
+    else:
+        sys.modules["streamlit"] = previous
+
 
 @pytest.fixture(autouse=True)
 def mock_session_state():

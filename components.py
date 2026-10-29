@@ -671,7 +671,11 @@ def _start_test_with_user_set(identifier: str, app_config: AppConfig) -> None:
     except Exception:
         # Best-effort: if the DB helper fails, do not set the reminder to avoid false positives.
         pass
-    st.query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
+    try:
+        from main_view import _publish_active_session_marker
+        _publish_active_session_marker(session_id)
+    except Exception:
+        st.query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
 
     initialize_session_state(questions, app_config)
     try:

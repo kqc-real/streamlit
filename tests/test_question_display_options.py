@@ -482,3 +482,49 @@ def test_render_question_view_keeps_block_markdown_in_question_and_options(monke
     assert fake_st.radio_calls
     assert fake_st.radio_calls[0][2]["format_func"](0) == "A"
     assert fake_st.radio_calls[0][2]["format_func"](1) == "B"
+
+
+def test_submit_uses_displayed_options_not_stale_shuffle(monkeypatch):
+    fake_st = _FakeStreamlit()
+    monkeypatch.setattr(mv, "st", fake_st)
+    monkeypatch.setattr(mv, "smart_quotes_de", lambda s: s)
+    monkeypatch.setattr(mv, "_test_view_text", lambda key, default=None, **_: default or key)
+    monkeypatch.setattr(mv, "translate_ui", lambda key, default=None, **_: default or key)
+    monkeypatch.setattr(mv, "show_ephemeral_message", lambda *args, **kwargs: None)
+    monkeypatch.setattr(mv, "close_user_qset_dialog", lambda *args, **kwargs: None)
+    monkeypatch.setattr(mv, "handle_bookmark_toggle", lambda *args, **kwargs: None)
+
+    submitted = {}
+
+    def _capture(frage_idx, answer, *args, **kwargs):
+        submitted["answer"] = answer
+
+    monkeypatch.setattr(mv, "handle_answer_submission", _capture)
+
+    def _form_submit_button(*args, **kwargs):
+        callback = kwargs.get("on_click")
+        if callback:
+            callback(*(kwargs.get("args") or ()))
+        return False
+
+    fake_st.form_submit_button = _form_submit_button
+    fake_st.session_state["radio_0"] = 0
+
+    common = dict(
+        frage_idx=0,
+        optionen=["sichtbare Option"],
+        shuffled_optionen=["Text aus einer anderen Frage"],
+        gespeicherte_antwort=None,
+        is_answered=False,
+        panic_mode=True,
+        frage_obj={"optionen": ["sichtbare Option"], "gewichtung": 1},
+        questions=[{"optionen": ["sichtbare Option"]}],
+        app_config=AppConfig(),
+        current_mode="exam",
+        remaining_time=0,
+        remaining=1,
+    )
+    mv._render_question_answer_interaction(**common)
+    mv._render_question_answer_interaction(**common)
+
+    assert submitted["answer"] == "sichtbare Option"

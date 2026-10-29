@@ -1,9 +1,26 @@
 import types
+from contextlib import contextmanager
 from types import SimpleNamespace
 
 import pytest
 
 import pdf_export
+
+
+@contextmanager
+def _temporary_session_state():
+    previous = getattr(pdf_export.st, "session_state", None)
+    pdf_export.st.session_state = {}
+    try:
+        yield pdf_export.st.session_state
+    finally:
+        if previous is None:
+            try:
+                del pdf_export.st.session_state
+            except Exception:
+                pass
+        else:
+            pdf_export.st.session_state = previous
 
 
 def test_get_options_variants():
@@ -79,12 +96,6 @@ def test_generate_pdf_report_applies_normalization(monkeypatch, tmp_path):
     monkeypatch.setattr(pdf_export, 'get_answer_for_question', lambda i: None)
     monkeypatch.setattr(pdf_export, 'calculate_score', lambda answered, qs, mode: (0, 1))
 
-    # Ensure a minimal session_state exists
-    try:
-        pdf_export.st.session_state = {}
-    except Exception:
-        pdf_export.st.session_state = {}
-
     # Minimal AppConfig substitute
     app_config = SimpleNamespace(scoring_mode='default')
 
@@ -99,7 +110,8 @@ def test_generate_pdf_report_applies_normalization(monkeypatch, tmp_path):
     monkeypatch.setattr(pdf_export, 'HTML', factory)
 
     # Call the generator (should produce PDF bytes)
-    res = pdf_export.generate_pdf_report(questions, app_config)
+    with _temporary_session_state():
+        res = pdf_export.generate_pdf_report(questions, app_config)
     assert isinstance(res, (bytes, bytearray))
 
     # Inspect the produced HTML to ensure concept and options are present
@@ -162,13 +174,9 @@ def test_generate_pdf_report_renders_block_markdown_in_questions_and_options(mon
     monkeypatch.setattr(pdf_export, "get_answer_for_question", lambda i: None)
     monkeypatch.setattr(pdf_export, "calculate_score", lambda answered, qs, mode: (0, 1))
 
-    try:
-        pdf_export.st.session_state = {}
-    except Exception:
-        pdf_export.st.session_state = {}
-    pdf_export.st.session_state["selected_questions_file"] = "questions_Markdown_Stress.json"
-
-    result = pdf_export.generate_pdf_report(questions, SimpleNamespace(scoring_mode="default"))
+    with _temporary_session_state() as session_state:
+        session_state["selected_questions_file"] = "questions_Markdown_Stress.json"
+        result = pdf_export.generate_pdf_report(questions, SimpleNamespace(scoring_mode="default"))
     assert result == b"%PDF-TEST%"
 
     html = container["inst"].string

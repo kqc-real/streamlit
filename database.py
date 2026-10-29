@@ -501,6 +501,8 @@ def create_tables():
                 if 'tempo' not in cols_ts:
                     # Add tempo with a sensible default for existing rows
                     conn.execute("ALTER TABLE test_sessions ADD COLUMN tempo TEXT DEFAULT 'normal'")
+                if 'resume_token' not in cols_ts:
+                    conn.execute("ALTER TABLE test_sessions ADD COLUMN resume_token TEXT")
             except sqlite3.Error:
                 # Best-effort migration; ignore failures on locked/readonly DBs
                 pass
@@ -625,11 +627,13 @@ def start_test_session(user_id: str, questions_file: str, tempo: str = 'normal',
                 start_dt = datetime.now() + timedelta(hours=2)
                 start_time_str = start_dt.strftime('%Y-%m-%d %H:%M:%S')
 
+            resume_token = secrets.token_urlsafe(18)
             cursor.execute(
-                "INSERT INTO test_sessions (user_id, questions_file, start_time, tempo, mode) VALUES (?, ?, ?, ?, ?)",
-                (user_id, questions_file, start_time_str, tempo, mode)
+                "INSERT INTO test_sessions (user_id, questions_file, start_time, tempo, mode, resume_token) VALUES (?, ?, ?, ?, ?, ?)",
+                (user_id, questions_file, start_time_str, tempo, mode, resume_token)
             )
             session_id = cursor.lastrowid
+            _remember_resume_token(session_id, resume_token)
             # Ensure we persist a mapping in `users` when the human-readable
             # pseudonym is available in the current Streamlit session. Some
             # flows start a session after the pseudonym is chosen but before
@@ -649,6 +653,98 @@ def start_test_session(user_id: str, questions_file: str, tempo: str = 'normal',
             return session_id
     except sqlite3.Error as e:
         return _handle_db_error("start_test_session", e, None)
+
+def _remember_resume_token(session_id: int | None, token: str) -> None:
+    """Keep the resume token on the current Streamlit session for the URL marker."""
+    if not session_id or not token:
+        return
+    try:
+        st.session_state["_session_resume_token"] = token
+        st.session_state["_session_resume_token_for"] = int(session_id)
+    except Exception:
+        pass
+
+
+def get_test_session(session_id: int) -> dict | None:
+    """Load one test session, including the pseudonym and resume token."""
+    conn = get_db_connection()
+    if conn is None:
+        return None
+    try:
+        cursor = conn.cursor()
+        cursor.execute(
+            """
+            SELECT s.session_id, s.user_id, s.questions_file, s.start_time, s.tempo, s.mode,
+                   s.resume_token, u.user_pseudonym
+            FROM test_sessions s
+            LEFT JOIN users u ON u.user_id = s.user_id
+            WHERE s.session_id = ?
+            """,
+            (int(session_id),),
+        )
+        row = cursor.fetchone()
+        return dict(row) if row else None
+    except sqlite3.Error as e:
+        print(f"Datenbankfehler in get_test_session: {e}")
+        return None
+
+
+def ensure_session_resume_token(session_id: int) -> str | None:
+    """Return the session resume token, creating one for older rows that lack it."""
+    row = get_test_session(session_id)
+    if not row:
+        return None
+    existing = row.get("resume_token")
+    if existing:
+        token = str(existing)
+        _remember_resume_token(session_id, token)
+        return token
+
+    conn = get_db_connection()
+    if conn is None:
+        return None
+    token = secrets.token_urlsafe(18)
+    try:
+        with db_write_transaction(conn):
+            conn.execute(
+                """
+                UPDATE test_sessions
+                SET resume_token = ?
+                WHERE session_id = ? AND (resume_token IS NULL OR resume_token = '')
+                """,
+                (token, int(session_id)),
+            )
+    except sqlite3.Error as e:
+        print(f"Datenbankfehler in ensure_session_resume_token: {e}")
+        return None
+    refreshed = get_test_session(session_id)
+    stored = (refreshed or {}).get("resume_token") or token
+    _remember_resume_token(session_id, str(stored))
+    return str(stored)
+
+
+def get_bookmarked_question_nrs(session_id: int) -> list[int]:
+    """Return bookmarked question numbers for one session."""
+    conn = get_db_connection()
+    if conn is None:
+        return []
+    try:
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT question_nr FROM bookmarks WHERE session_id = ? ORDER BY question_nr",
+            (int(session_id),),
+        )
+        numbers: list[int] = []
+        for row in cursor.fetchall():
+            try:
+                numbers.append(int(row["question_nr"]))
+            except (TypeError, ValueError, KeyError):
+                continue
+        return numbers
+    except sqlite3.Error as e:
+        print(f"Datenbankfehler in get_bookmarked_question_nrs: {e}")
+        return []
+
 
 @with_db_retry
 def save_answer(session_id: int, question_nr: int, answer_text: str, points: int, is_correct: bool, confidence: str | None = None):

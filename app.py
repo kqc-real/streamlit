@@ -43,6 +43,7 @@ from main_view import (
     render_question_view,
     render_final_summary,
     render_welcome_page,
+    restore_interrupted_session,
     _render_history_table,
 )
 from admin_panel import render_admin_panel
@@ -185,6 +186,10 @@ def main():
     # --- 1. Lade Konfiguration und Fragen (wird für Login benötigt) ---
     app_config = AppConfig()
     st.session_state["app_config"] = app_config
+    try:
+        restore_interrupted_session(app_config)
+    except Exception:
+        pass
     
     # Initialisiere das Fragenset nur, wenn eine Auswahl in der Session existiert.
     # Früher wurde beim Start automatisch das erste Fragenset gesetzt, wodurch

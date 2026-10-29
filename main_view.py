@@ -9,6 +9,7 @@ import streamlit as st
 import pandas as pd
 import json
 import base64
+import hmac
 import time
 import re
 import locale
@@ -2852,8 +2853,197 @@ def _start_selected_questions_session(
     initialize_session_state(questions, app_config)
     st.session_state["test_started"] = True
     _set_countdown_start_time()
+    _publish_active_session_marker(session_id)
+    return True
+
+
+def _publish_active_session_marker(session_id: int) -> None:
+    """Write the session id and resume token into the URL."""
+    token = None
     try:
-        st.query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
+        if int(st.session_state.get("_session_resume_token_for") or -1) == int(session_id):
+            token = st.session_state.get("_session_resume_token") or None
+    except Exception:
+        token = None
+    marker = f"{int(session_id)}.{token}" if token else str(session_id)
+    try:
+        st.query_params[ACTIVE_SESSION_QUERY_PARAM] = marker
+    except Exception:
+        pass
+
+
+def _parse_active_session_marker(raw: Any) -> tuple[int | None, str | None]:
+    if isinstance(raw, list):
+        raw = raw[0] if raw else None
+    if raw is None:
+        return None, None
+    text = str(raw).strip()
+    if not text:
+        return None, None
+    session_part, dot, token = text.partition(".")
+    if not session_part.isdigit():
+        return None, None
+    if not dot or not token:
+        return int(session_part), None
+    return int(session_part), token
+
+
+def _resume_token_matches(stored: Any, provided: str | None) -> bool:
+    if not stored:
+        return provided is None
+    if not provided:
+        return False
+    try:
+        return hmac.compare_digest(str(stored), str(provided))
+    except Exception:
+        return False
+
+
+def _question_index_by_number(questions: list) -> dict[int, int]:
+    mapping: dict[int, int] = {}
+    for idx, frage in enumerate(questions):
+        number = _extract_question_number(frage)
+        if number is None:
+            number = idx + 1
+        mapping.setdefault(int(number), idx)
+    return mapping
+
+
+def _apply_saved_answers(questions: list, answers: list[dict]) -> int:
+    index_by_nr = _question_index_by_number(questions)
+    answered: list[int] = []
+    for row in answers or []:
+        try:
+            number = int(row.get("question_nr"))
+        except (TypeError, ValueError, AttributeError):
+            continue
+        idx = index_by_nr.get(number)
+        if idx is None:
+            continue
+        text = row.get("answer_text")
+        if text is None:
+            continue
+        try:
+            points = int(row.get("points") or 0)
+        except (TypeError, ValueError):
+            points = 0
+        set_question_as_answered(idx, points, str(text))
+        confidence = row.get("confidence")
+        if confidence:
+            try:
+                st.session_state[f"frage_{idx}_confidence"] = confidence
+            except Exception:
+                pass
+        answered.append(idx)
+    try:
+        st.session_state["answered_indices"] = answered
+    except Exception:
+        pass
+    return len(answered)
+
+
+def _restore_countdown_anchor(start_raw: Any) -> None:
+    try:
+        parsed = pd.Timestamp(start_raw) if start_raw else pd.Timestamp.now()
+        if parsed.tzinfo is not None:
+            parsed = parsed.tz_convert("UTC").tz_localize(None)
+    except Exception:
+        parsed = pd.Timestamp.now()
+    st.session_state.start_zeit = parsed
+    try:
+        st.session_state.test_start_time = parsed.to_pydatetime()
+    except Exception:
+        st.session_state.test_start_time = parsed
+    st.session_state.test_started = True
+    st.session_state.test_time_expired = False
+
+
+def restore_interrupted_session(app_config: AppConfig | None) -> bool:
+    """Rebuild an in-progress test after the browser session was lost.
+
+    Answers already stored in SQLite are applied again. The URL marker must
+    carry the resume token. Older sessions without a token can still resume
+    from the plain session id; a token is then added.
+    """
+    try:
+        if st.session_state.get("session_id"):
+            return False
+    except Exception:
+        return False
+
+    try:
+        raw_marker = st.query_params.get(ACTIVE_SESSION_QUERY_PARAM)
+    except Exception:
+        return False
+    session_id, marker_token = _parse_active_session_marker(raw_marker)
+    if session_id is None:
+        return False
+
+    from database import (
+        ensure_session_resume_token,
+        get_answers_for_session,
+        get_bookmarked_question_nrs,
+        get_test_session,
+    )
+
+    row = get_test_session(session_id)
+    if not row or not _resume_token_matches(row.get("resume_token"), marker_token):
+        return False
+
+    questions_file = row.get("questions_file")
+    if not questions_file:
+        return False
+    try:
+        questions = load_questions(str(questions_file), silent=True)
+    except Exception:
+        return False
+    if not questions:
+        return False
+
+    pseudonym = row.get("user_pseudonym") or ""
+    user_hash = row.get("user_id") or ""
+    if pseudonym:
+        st.session_state["user_id"] = str(pseudonym)
+        st.session_state["selected_pseudonym"] = str(pseudonym)
+    elif user_hash:
+        st.session_state["user_id"] = str(user_hash)
+    if user_hash:
+        st.session_state["user_id_hash"] = str(user_hash)
+
+    st.session_state["selected_questions_file"] = str(questions_file)
+    try:
+        st.session_state["main_view_question_file_selector"] = str(questions_file)
+    except Exception:
+        pass
+    st.session_state["selected_tempo"] = row.get("tempo") or "normal"
+    st.session_state["selected_mode"] = row.get("mode") or "exam"
+
+    initialize_session_state(questions, app_config)
+    answers = get_answers_for_session(int(session_id))
+    _apply_saved_answers(questions, answers)
+
+    index_by_nr = _question_index_by_number(questions)
+    bookmarks: list[int] = []
+    for number in get_bookmarked_question_nrs(int(session_id)):
+        idx = index_by_nr.get(int(number))
+        if idx is not None:
+            bookmarks.append(idx)
+    st.session_state["bookmarked_questions"] = bookmarks
+
+    st.session_state["session_id"] = int(session_id)
+    _restore_countdown_anchor(row.get("start_time"))
+    token = ensure_session_resume_token(int(session_id))
+    if token:
+        st.session_state["_session_resume_token"] = token
+        st.session_state["_session_resume_token_for"] = int(session_id)
+    _publish_active_session_marker(int(session_id))
+    try:
+        st.toast(
+            translate_ui(
+                "welcome.session_resumed",
+                default="Dein bisheriger Fortschritt wurde wiederhergestellt.",
+            )
+        )
     except Exception:
         pass
     return True
@@ -3368,6 +3558,27 @@ def _line_starts_block_markdown(line: str) -> bool:
     return bool(re.match(r"(#{1,6}\s+|(?:>|&gt;|&amp;gt;)\s+|```|[-*+]\s+|\d+[\.\)]\s+|\|.*\|)", stripped))
 
 
+def _answer_text_for_radio_index(options: list, index) -> str | None:
+    """Map a radio index to the option text the user currently sees."""
+    try:
+        idx = int(index) if index is not None else None
+    except (TypeError, ValueError):
+        return None
+    if idx is None or idx < 0 or idx >= len(options):
+        return None
+    try:
+        return str(options[idx])
+    except Exception:
+        return None
+
+
+def _question_option_texts(frage_obj: dict) -> list[str]:
+    raw = frage_obj.get("optionen") or frage_obj.get("options") or []
+    if not isinstance(raw, list):
+        return []
+    return [str(opt) for opt in raw]
+
+
 def _answer_option_label(index: int) -> str:
     """Gibt stabile Kurzlabels für Antwortoptionen zurück: A, B, C, ..."""
     alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -3470,23 +3681,12 @@ def _render_question_answer_interaction(
         if st.session_state.get("user_qset_dialog_open"):
             close_user_qset_dialog(clear_results=False)
 
-    def _dismiss_user_qset_dialog_from_test() -> None:
-        if st.session_state.get("user_qset_dialog_open"):
-            close_user_qset_dialog(clear_results=False)
-
     def _resolve_selected_answer() -> str | None:
-        idx = None
         try:
             idx = st.session_state.get(widget_key)
         except Exception:
             idx = None
-        try:
-            idx = int(idx) if idx is not None else None
-        except Exception:
-            idx = None
-        if idx is not None and 0 <= idx < len(shuffled_optionen):
-            return shuffled_optionen[idx]
-        return None
+        return _answer_text_for_radio_index(optionen, idx)
 
     queued_answer_action = st.session_state.pop(answer_action_key, None)
     if isinstance(queued_answer_action, dict) and "answer" in queued_answer_action:
@@ -6669,11 +6869,7 @@ def render_welcome_page(app_config: AppConfig):
                                     if session_id:
                                         # Record session and mark that we started immediately
                                         st.session_state['session_id'] = session_id
-                                        try:
-                                            query_params = st.query_params
-                                            query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
-                                        except Exception:
-                                            pass
+                                        _publish_active_session_marker(session_id)
                                         try:
                                             initialize_session_state(questions, app_config)
                                         except Exception:
@@ -6838,7 +7034,7 @@ def render_welcome_page(app_config: AppConfig):
                                         pass # non-critical
                                     st.session_state.login_via_recovery = True
                                     st.session_state.session_id = session_id
-                                    query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
+                                    _publish_active_session_marker(session_id)
                                     initialize_session_state(questions, app_config)
                                     st.session_state.test_started = True
                                     _set_countdown_start_time()
@@ -6972,7 +7168,7 @@ def render_welcome_page(app_config: AppConfig):
                             # Normal start: ensure the recovery flag is not set
                             st.session_state.login_via_recovery = False
                             st.session_state.session_id = session_id
-                            query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
+                            _publish_active_session_marker(session_id)
                             initialize_session_state(questions, app_config)
                             try:
                                 st.session_state.test_started = True
@@ -7036,11 +7232,7 @@ def render_welcome_page(app_config: AppConfig):
                                             if session_id:
                                                 st.session_state['session_id'] = session_id
                                                 st.session_state['show_pseudonym_reminder'] = True
-                                                try:
-                                                    query_params = st.query_params
-                                                    query_params[ACTIVE_SESSION_QUERY_PARAM] = str(session_id)
-                                                except Exception:
-                                                    pass
+                                                _publish_active_session_marker(session_id)
                                                 try:
                                                     initialize_session_state(questions, app_config)
                                                 except Exception:
@@ -7165,7 +7357,10 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         scroll_top_pending = last_scroll_idx is not None and last_scroll_idx != frage_idx
         st.session_state["_question_view_last_scroll_idx"] = frage_idx
     except Exception:
-        pass
+        scroll_top_pending = False
+
+    if scroll_top_pending:
+        _mark_question_view_scroll_to_top(frage_idx)
 
     if st.session_state.get("_delete_success_msg"):
         st.success(st.session_state.pop("_delete_success_msg"))
@@ -8521,7 +8716,6 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
         # --- Optionen und Antwort-Logik ---
         is_answered = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
         optionen = st.session_state.optionen_shuffled[frage_idx]
-        shuffled_optionen = optionen if isinstance(optionen, list) else []
         # Safety: if shuffled options no longer match the current question,
         # rebuild them to avoid mismatched options after runtime changes.
         try:
@@ -8551,6 +8745,8 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
                             del st.session_state[key]
         except Exception:
             pass
+
+        shuffled_optionen = optionen if isinstance(optionen, list) else []
         
         gespeicherte_antwort = get_answer_for_question(frage_idx)
         _render_question_answer_interaction(
@@ -9009,6 +9205,17 @@ def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_
     if st.session_state.start_zeit is None:
         _ensure_countdown_start_time()
 
+    option_texts = _question_option_texts(frage_obj)
+    if option_texts and str(antwort) not in option_texts:
+        show_ephemeral_message(
+            _test_view_text(
+                "answer_mismatch",
+                default="Die Auswahl konnte nicht zugeordnet werden. Bitte wähle die Antwort erneut.",
+            ),
+            icon="👉",
+        )
+        return
+
     try:
         st.session_state[f"frage_{frage_idx}_confidence"] = confidence
     except Exception:
@@ -9050,14 +9257,10 @@ def handle_answer_submission(frage_idx: int, antwort: str, frage_obj: dict, app_
             pass
 
 
-    # Extrahiere die Frage-Nummer aus dem Fragetext (bevorzuge 'question', fallback 'frage')
-    try:
-        q_num_src = frage_obj.get("question", frage_obj.get("frage", ""))
-        frage_nr_str = str(q_num_src).split(".", 1)[0]
-        frage_nr = int(frage_nr_str)
-    except (ValueError, IndexError):
-        st.error(_test_view_text("question_number_error", default="Fehler: Die Frage-Nummer konnte nicht extrahiert werden."))
-        return
+    # Frage-Nummer aus dem normalisierten Fragetext. Fehlt sie, zählt die Position.
+    frage_nr = _extract_question_number(frage_obj)
+    if frage_nr is None:
+        frage_nr = int(frage_idx) + 1
 
     # Speichere die Antwort in der neuen Datenbank-Struktur
     from database import save_answer as db_save_answer
@@ -9617,9 +9820,6 @@ def render_next_question_button(questions: QuestionSet, frage_idx: int, remainin
                     pass
                 # Popover-based glossary is stateless; no flag update required here.
                 st.rerun()
-
-    if scroll_top_pending:
-        _mark_question_view_scroll_to_top(frage_idx)
 
 
 def render_final_summary(questions: QuestionSet, app_config: AppConfig):
