@@ -528,3 +528,47 @@ def test_submit_uses_displayed_options_not_stale_shuffle(monkeypatch):
     mv._render_question_answer_interaction(**common)
 
     assert submitted["answer"] == "sichtbare Option"
+
+
+def test_render_question_view_uses_session_options_when_attribute_is_shadowed(monkeypatch):
+    fake_st = _FakeStreamlit()
+    monkeypatch.setattr(mv, "st", fake_st)
+    monkeypatch.setattr(mv, "_process_queued_rerun", lambda: None)
+    monkeypatch.setattr(mv, "_inject_main_container_padding", lambda *args, **kwargs: None)
+    monkeypatch.setattr(mv, "translate_ui", lambda key, default=None, **_: default or key)
+    monkeypatch.setattr(mv, "_test_view_text", lambda key, default=None, **_: default or key)
+    monkeypatch.setattr(mv, "_summary_text", lambda key, default=None, **_: default or key)
+    monkeypatch.setattr(mv, "smart_quotes_de", lambda s: s)
+    monkeypatch.setattr(mv, "_normalize_stage_label", lambda x: x)
+    monkeypatch.setattr(mv, "get_db_connection", lambda: None)
+    monkeypatch.setattr(mv, "_show_welcome_container", lambda cfg: None)
+    monkeypatch.setattr(mv, "initialize_session_state", lambda questions, cfg: None)
+    monkeypatch.setattr(mv, "is_test_finished", lambda qs: False)
+
+    fake_st.session_state.update(
+        {
+            "test_started": True,
+            "optionen_shuffled": [["sichtbare Option", "andere Option"]],
+            "frage_0_beantwortet": None,
+            "answered_indices": [],
+            "skipped_questions": [],
+            "initial_frage_indices": [0],
+            "start_zeit": None,
+            "test_time_limit": 0,
+        }
+    )
+    # Same failure as on Community Cloud: the instance dict hides the real list.
+    fake_st.session_state.__dict__["optionen_shuffled"] = []
+
+    question = {
+        "question": "1. Welche Option ist sichtbar?",
+        "optionen": ["sichtbare Option", "andere Option"],
+        "loesung": 0,
+        "erklaerung": "Kurz",
+        "gewichtung": 1,
+    }
+    mv.render_question_view([question], 0, AppConfig())
+
+    assert fake_st.session_state.optionen_shuffled == [["sichtbare Option", "andere Option"]]
+    assert any("sichtbare Option" in text for text in fake_st.markdown_calls)
+    assert fake_st.radio_calls

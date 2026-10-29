@@ -1416,7 +1416,7 @@ def _has_cognitive_stages(qs: QuestionSet) -> bool:
         if q.get("kognitive_stufe"):
             return True
     return False
-from auth import initialize_session_state, is_admin_user
+from auth import drop_shadowed_session_keys, initialize_session_state, is_admin_user
 
 
 EXPORT_FEATURE_UNAVAILABLE_DEFAULT = "Dieses Export-Feature steht demnächst zur Verfügung."
@@ -7342,6 +7342,10 @@ def _show_welcome_container(app_config: AppConfig):
 
 def render_question_view(questions: QuestionSet, frage_idx: int, app_config: AppConfig):
     """Rendert die Ansicht für eine einzelne Frage."""
+    # Attribute reads must see the same values as session_state.get. A copied
+    # key on the instance dict hides later updates and can make the option
+    # list look shorter than the question set.
+    drop_shadowed_session_keys(st.session_state)
     # Ensure any queued rerun is processed early in the interactive render path.
     _process_queued_rerun()
     _inject_main_container_padding(compact_mobile=True)
@@ -8715,7 +8719,12 @@ def render_question_view(questions: QuestionSet, frage_idx: int, app_config: App
 
         # --- Optionen und Antwort-Logik ---
         is_answered = st.session_state.get(f"frage_{frage_idx}_beantwortet") is not None
-        optionen = st.session_state.optionen_shuffled[frage_idx]
+        shuffled_all = st.session_state.get("optionen_shuffled", [])
+        if isinstance(shuffled_all, list) and 0 <= int(frage_idx) < len(shuffled_all):
+            optionen = shuffled_all[frage_idx]
+        else:
+            orig_opts = frage_obj.get("optionen") or frage_obj.get("options") or []
+            optionen = [str(item) for item in orig_opts] if isinstance(orig_opts, list) else []
         # Safety: if shuffled options no longer match the current question,
         # rebuild them to avoid mismatched options after runtime changes.
         try:

@@ -32,7 +32,7 @@ if _parent_dir not in sys.path:
 
 from config import AppConfig, load_questions
 from database import init_database
-from auth import handle_user_session, is_admin_user, initialize_session_state
+from auth import drop_shadowed_session_keys, handle_user_session, is_admin_user, initialize_session_state
 from logic import (
     get_current_question_index,
     is_test_finished,
@@ -141,6 +141,7 @@ def main():
         initial_sidebar_state="expanded"  # "collapsed" oder "expanded"
     )
     _inject_soft_dark_theme_styles()
+    drop_shadowed_session_keys()
     
     # Setze das Locale, um eine korrekte alphabetische Sortierung von Namen
     # mit Akzenten und Umlauten zu gewährleisten (z.B. 'Erwin' bei 'E').

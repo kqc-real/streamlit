@@ -17,6 +17,37 @@ from config import AppConfig, load_scientists, QuestionSet
 from i18n.context import t
 from helpers.text import get_user_id_hash
 
+def _drop_shadowed_session_key(state, key: str) -> None:
+    """Remove an instance-dict copy so attribute reads use the real session value."""
+    try:
+        inst_dict = object.__getattribute__(state, "__dict__")
+    except Exception:
+        return
+    if isinstance(inst_dict, dict) and key in inst_dict:
+        try:
+            del inst_dict[key]
+        except Exception:
+            pass
+
+
+def drop_shadowed_session_keys(state=None) -> None:
+    """Drop session keys that were copied onto the state object's instance dict."""
+    if state is None:
+        state = st.session_state
+    try:
+        inst_dict = object.__getattribute__(state, "__dict__")
+    except Exception:
+        return
+    if not isinstance(inst_dict, dict):
+        return
+    for key in list(inst_dict):
+        try:
+            if key in state:
+                del inst_dict[key]
+        except Exception:
+            continue
+
+
 def log_state(event: str):
     """Schreibt den aktuellen Session State zur Fehlersuche in eine Log-Datei."""
     with open("debug.log", "a", encoding="utf-8") as f:
@@ -36,18 +67,27 @@ def initialize_session_state(question_set: QuestionSet, app_config: AppConfig | 
     state = getattr(streamlit_mod, "session_state", st.session_state)
 
     def _state_set(key: str, value):
+        stored = False
         try:
             state[key] = value
+            stored = True
         except Exception:
             pass
-        try:
-            setattr(state, key, value)
-        except Exception:
-            pass
-        try:
-            state.__dict__[key] = value
-        except Exception:
-            pass
+        if not stored:
+            try:
+                setattr(state, key, value)
+                stored = True
+            except Exception:
+                pass
+        if stored:
+            # A previous write into the instance dict shadows Streamlit's
+            # session proxy: attribute reads then ignore later item updates.
+            _drop_shadowed_session_key(state, key)
+        else:
+            try:
+                state.__dict__[key] = value
+            except Exception:
+                pass
     # Lösche alte Test-spezifische Schlüssel, falls vorhanden
     # Dies ist wichtig, wenn ein Nutzer einen neuen Test startet, ohne die Session komplett zu beenden.
     try:
